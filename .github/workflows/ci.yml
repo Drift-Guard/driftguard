@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  drift-check:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check for API response fixture drift
+        run: |
+          BEFORE='{"status":"ok","data":{"id":1,"name":"test"}}'
+          AFTER='{"status":"ok","data":{"id":1}}'
+          npm ci && npm run build
+          RESULT=$(node dist/cli/check.js diff "$BEFORE" "$AFTER" 2>/dev/null || true)
+          echo "$RESULT"
+          echo "$RESULT" | grep -q '"breakingCount": 1' && echo "Drift detection working"
