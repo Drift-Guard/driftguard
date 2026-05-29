@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { diffSchemas, inferSchema } from "../core/diff.js";
-import { captureSnapshot } from "../core/snapshot.js";
 
 const [,, command, ...args] = process.argv;
 
@@ -13,17 +12,13 @@ async function main(): Promise<void> {
     process.exit(result.breakingCount > 0 ? 1 : 0);
   }
 
-  if (command === "snapshot") {
-    const url = args[0];
-    const watchType = (args[1] ?? "api") as "api" | "mcp";
-    const snapshot = await captureSnapshot(url, watchType);
-    console.log(JSON.stringify(snapshot, null, 2));
-    return;
-  }
+  console.log(`DriftGuard CLI — local JSON schema diff
 
-  console.log(`Usage:
+Usage:
   driftguard diff '<before-json>' '<after-json>'
-  driftguard snapshot <url> [api|mcp]
+
+Continuous monitoring requires hosted DriftGuard Pro:
+  https://driftguard.org/pricing
 `);
 }
 
