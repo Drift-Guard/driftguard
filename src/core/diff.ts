@@ -19,23 +19,31 @@ export interface DiffResult {
 
 export type JsonSchema = Record<string, unknown>;
 
-export function inferSchema(value: unknown, path = "$"): JsonSchema {
+export function inferSchema(
+  value: unknown,
+  path = "$",
+  options: { markAllFieldsRequired?: boolean } = {},
+): JsonSchema {
+  const markAllFieldsRequired = options.markAllFieldsRequired ?? true;
   if (value === null) return { type: "null", path };
   if (Array.isArray(value)) {
     const items =
       value.length > 0
-        ? inferSchema(value[0], `${path}[]`)
+        ? inferSchema(value[0], `${path}[]`, options)
         : { type: "unknown", path: `${path}[]` };
     return { type: "array", items, path };
   }
   if (typeof value === "object") {
     const properties: Record<string, JsonSchema> = {};
-    const required: string[] = [];
-    for (const [key, val] of Object.entries(value as Record<string, unknown>)) {
-      properties[key] = inferSchema(val, `${path}.${key}`);
-      required.push(key);
+    const keys = Object.keys(value as Record<string, unknown>);
+    for (const key of keys) {
+      properties[key] = inferSchema((value as Record<string, unknown>)[key], `${path}.${key}`, options);
     }
-    return { type: "object", properties, required, path };
+    const schema: JsonSchema = { type: "object", properties, path };
+    if (markAllFieldsRequired && keys.length > 0) {
+      schema.required = keys;
+    }
+    return schema;
   }
   return { type: typeof value, path };
 }

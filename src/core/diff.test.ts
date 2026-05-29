@@ -3,10 +3,15 @@ import { describe, it } from "node:test";
 import { diffSchemas, inferSchema } from "./diff.js";
 
 describe("inferSchema", () => {
-  it("infers object schemas", () => {
+  it("infers object schemas with required fields by default for CLI compare", () => {
     const schema = inferSchema({ id: 1, name: "test" });
     assert.equal(schema.type, "object");
     assert.deepEqual(schema.required, ["id", "name"]);
+  });
+
+  it("supports optional-field mode for monitoring snapshots", () => {
+    const schema = inferSchema({ id: 1, name: "test" }, "$", { markAllFieldsRequired: false });
+    assert.equal(schema.required, undefined);
   });
 });
 
