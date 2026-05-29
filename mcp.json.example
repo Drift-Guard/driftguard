@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "driftguard": {
+      "command": "node",
+      "args": ["./dist/mcp/server.js"],
+      "env": {
+        "DRIFTGUARD_DB": "./driftguard.db"
+      }
+    }
+  }
+}
