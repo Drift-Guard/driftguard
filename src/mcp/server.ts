@@ -45,7 +45,21 @@ server.tool(
     after: z.string().describe("JSON string of the new payload"),
   },
   async ({ before, after }) => {
-    const result = diffSchemas(inferSchema(JSON.parse(before)), inferSchema(JSON.parse(after)));
+    let parsedBefore: unknown;
+    let parsedAfter: unknown;
+    try {
+      parsedBefore = JSON.parse(before);
+      parsedAfter = JSON.parse(after);
+    } catch {
+      return {
+        content: [{ type: "text", text: "Invalid JSON in before or after payload." }],
+        isError: true,
+      };
+    }
+    const result = diffSchemas(
+      inferSchema(parsedBefore, "$", { markAllFieldsRequired: true }),
+      inferSchema(parsedAfter, "$", { markAllFieldsRequired: true }),
+    );
     return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   },
 );
