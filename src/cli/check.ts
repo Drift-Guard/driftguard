@@ -18,7 +18,7 @@ Usage:
   driftguard diff '<before-json>' '<after-json>'
 
 Continuous monitoring requires hosted DriftGuard Pro:
-  https://driftguard.dev/pricing
+  https://driftguard.eddy-d55.workers.dev/pricing
 `);
 }
 

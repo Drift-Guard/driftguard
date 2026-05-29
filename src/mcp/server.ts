@@ -8,7 +8,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { diffSchemas, inferSchema } from "../core/diff.js";
 
-const HOSTED_API = process.env.DRIFTGUARD_API ?? "https://api.driftguard.dev";
+const HOSTED_API = process.env.DRIFTGUARD_API ?? "https://driftguard.eddy-d55.workers.dev";
 const API_KEY = process.env.DRIFTGUARD_API_KEY;
 
 const server = new McpServer({
