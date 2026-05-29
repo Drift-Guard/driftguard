@@ -48,14 +48,14 @@ npm run check -- diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
 }
 ```
 
-Optional: set `DRIFTGUARD_API` if you use a custom domain (default: `https://driftguard.eddy-d55.workers.dev`).
+Optional: set `DRIFTGUARD_API` if you use a custom domain (default: `https://driftguard.dev`).
 
 - **`compare_json`** — works offline, no API key needed
-- **Monitoring tools** — require a Pro/Team API key from [DriftGuard pricing](https://driftguard.eddy-d55.workers.dev/pricing)
+- **Monitoring tools** — require a Pro/Team API key from [DriftGuard pricing](https://driftguard.dev/pricing)
 
 ## Pricing
 
-Hosted plans start at **$19/mo**. See [pricing](https://driftguard.eddy-d55.workers.dev/pricing).
+Hosted plans start at **$19/mo**. See [pricing](https://driftguard.dev/pricing).
 
 ## Open core model
 
