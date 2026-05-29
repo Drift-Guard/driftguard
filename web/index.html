@@ -3,264 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DriftGuard — Catch API & MCP schema changes before they break production</title>
-  <meta name="description" content="Monitor REST APIs and MCP servers for breaking schema changes. Built for the post-Optic era and AI agent developers." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>DriftGuard — Schema drift monitoring for APIs and MCP</title>
+  <meta name="description" content="Catch breaking API and MCP schema changes before production breaks." />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #0a0f14;
-      --surface: #111922;
-      --border: #1e2a38;
-      --text: #e8eef4;
-      --muted: #8fa3b8;
-      --accent: #3dd68c;
-      --accent-dim: #1a4d35;
-      --breaking: #ff6b6b;
-      --warning: #ffb020;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Instrument Sans', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    .hero {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 4rem 1.5rem 3rem;
-    }
-    .badge {
-      display: inline-block;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.75rem;
-      background: var(--accent-dim);
-      color: var(--accent);
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      margin-bottom: 1.5rem;
-    }
-    h1 {
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      max-width: 18ch;
-    }
-    .subtitle {
-      color: var(--muted);
-      font-size: 1.15rem;
-      max-width: 52ch;
-      margin-top: 1.25rem;
-    }
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.85rem 1.4rem;
-      border-radius: 10px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #041008;
-      box-shadow: 0 0 40px rgba(61, 214, 140, 0.25);
-    }
-    .btn-primary:hover { transform: translateY(-2px); }
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-      max-width: 1100px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem;
-    }
-    .card h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
-    .card p { color: var(--muted); font-size: 0.95rem; }
-    .demo {
-      max-width: 1100px;
-      margin: 2rem auto 4rem;
-      padding: 0 1.5rem;
-    }
-    pre {
-      background: #060a0e;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem;
-      overflow-x: auto;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.82rem;
-      line-height: 1.5;
-    }
-    .breaking { color: var(--breaking); }
-    .warning { color: var(--warning); }
-    .ok { color: var(--accent); }
-    .pricing {
-      max-width: 1100px;
-      margin: 0 auto 5rem;
-      padding: 0 1.5rem;
-    }
-    .pricing h2 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    .pricing > p { color: var(--muted); margin-bottom: 2rem; }
-    .price-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
-    .price-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.75rem;
-      position: relative;
-    }
-    .price-card.featured {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px var(--accent-dim);
-    }
-    .price-card .tag {
-      position: absolute;
-      top: -10px;
-      right: 16px;
-      background: var(--accent);
-      color: #041008;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
-    }
-    .price { font-size: 2.5rem; font-weight: 700; }
-    .price span { font-size: 1rem; color: var(--muted); font-weight: 400; }
-    .price-card ul {
-      list-style: none;
-      margin: 1.25rem 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-    .price-card li { padding: 0.35rem 0; }
-    .price-card li::before { content: "✓ "; color: var(--accent); }
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-    code { font-family: 'IBM Plex Mono', monospace; font-size: 0.85em; }
+    :root { --bg:#0a0f14; --text:#e8eef4; --muted:#8fa3b8; --accent:#3dd68c; --surface:#111922; --border:#1e2a38; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Instrument Sans',sans-serif; background:var(--bg); color:var(--text); }
+    .wrap { max-width:720px; margin:0 auto; padding:4rem 1.5rem; }
+    h1 { font-size:2.5rem; letter-spacing:-0.03em; line-height:1.1; }
+    p { color:var(--muted); margin:1rem 0 2rem; }
+    .btn { display:inline-block; padding:0.85rem 1.4rem; border-radius:10px; font-weight:600; text-decoration:none; margin-right:0.75rem; margin-bottom:0.75rem; }
+    .primary { background:var(--accent); color:#041008; }
+    .secondary { background:var(--surface); color:var(--text); border:1px solid var(--border); }
+    pre { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1rem; font-family:'IBM Plex Mono',monospace; font-size:0.85rem; overflow-x:auto; }
+    footer { margin-top:3rem; color:var(--muted); font-size:0.85rem; }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <div class="badge">POST-OPTIC · MCP-NATIVE · OPEN CORE</div>
-    <h1>Catch schema drift before your agents break</h1>
-    <p class="subtitle">
-      DriftGuard monitors REST APIs and MCP server tool schemas for breaking changes.
-      Get alerts when Stripe, GitHub, or your MCP tools change — not when production explodes.
+  <div class="wrap">
+    <h1>Catch schema drift before it breaks your stack</h1>
+    <p>
+      DriftGuard watches APIs and MCP servers for breaking changes.
+      Open-source local diff tool + hosted continuous monitoring.
     </p>
-    <div class="cta-row">
-        <a class="btn btn-primary" href="/pricing">View pricing →</a>
-        <a class="btn btn-secondary" href="https://github.com/kioie/driftguard" target="_blank">GitHub</a>
-    </div>
-  </section>
+    <a class="btn primary" href="https://driftguard.dev/pricing">Start monitoring →</a>
+    <a class="btn secondary" href="https://github.com/kioie/driftguard">Open-source client</a>
 
-  <section class="grid">
-    <div class="card">
-      <h3>🔌 MCP server monitoring</h3>
-      <p>First-class support for Model Context Protocol tool schemas. Know when a tool disappears or its inputs change.</p>
-    </div>
-    <div class="card">
-      <h3>⚡ Breaking change detection</h3>
-      <p>Classifies removed fields, type changes, and new required params as breaking, warning, or info.</p>
-    </div>
-    <div class="card">
-      <h3>🤖 Agent-native</h3>
-      <p>Ships as an MCP server for Cursor, Claude, and any MCP client. Your agent can register watches itself.</p>
-    </div>
-  </section>
+    <pre>npm run check -- diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'</pre>
 
-  <section class="demo">
-    <pre><span class="ok">$</span> npx driftguard diff \
-  '{"user":{"id":1,"email":"a@b.com"}}' \
-  '{"user":{"id":1}}'
-
-{
-  <span class="breaking">"breakingCount": 1</span>,
-  "changes": [{
-    "path": "$.user.email",
-    "severity": "breaking",
-    "message": "Field 'email' was removed"
-  }]
-}</pre>
-  </section>
-
-  <section class="pricing" id="pricing">
-    <h2>Simple pricing</h2>
-    <p>Open-source core. Pay for hosted monitoring, faster checks, and team features.</p>
-    <div class="price-grid">
-      <div class="price-card">
-        <div class="price">$0 <span>/ forever</span></div>
-        <h3>Free</h3>
-        <ul>
-          <li>3 watches</li>
-          <li>Daily checks</li>
-          <li>Email & webhook alerts</li>
-          <li>MCP server (self-hosted)</li>
-          <li>CLI diff tool</li>
-        </ul>
-        <a class="btn btn-secondary" href="https://github.com/kioie/driftguard">Self-host free</a>
-      </div>
-      <div class="price-card featured">
-        <div class="tag">MOST POPULAR</div>
-        <div class="price">$19 <span>/ mo</span></div>
-        <h3>Pro</h3>
-        <ul>
-          <li>25 watches</li>
-          <li>Hourly checks</li>
-          <li>30-day drift history</li>
-          <li>Slack integration</li>
-          <li>Priority support</li>
-        </ul>
-        <a class="btn btn-primary" href="/pricing">Get early access</a>
-      </div>
-      <div class="price-card">
-        <div class="price">$49 <span>/ mo</span></div>
-        <h3>Team</h3>
-        <ul>
-          <li>100 watches</li>
-          <li>15-min checks</li>
-          <li>5 team members</li>
-          <li>Custom webhooks</li>
-          <li>SSO (coming soon)</li>
-        </ul>
-        <a class="btn btn-secondary" href="mailto:hello@driftguard.dev?subject=DriftGuard%20Team">Contact sales</a>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>DriftGuard · Built for developers shipping AI agents · <a href="https://github.com/kioie/driftguard" style="color:var(--accent)">GitHub</a></p>
-  </footer>
+    <footer>
+      Local diff is open source (MIT). Hosted monitoring is a managed service.
+      See <a href="https://github.com/kioie/driftguard/blob/main/OPEN_CORE.md" style="color:var(--accent)">OPEN_CORE.md</a>.
+    </footer>
+  </div>
 </body>
 </html>

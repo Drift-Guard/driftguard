@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { diffMcpTools, diffSchemas, inferSchema } from "./diff.js";
+import { diffSchemas, inferSchema } from "./diff.js";
 
 describe("inferSchema", () => {
   it("infers object schemas", () => {
@@ -25,15 +25,5 @@ describe("diffSchemas", () => {
     const result = diffSchemas(before, after);
     assert.equal(result.breakingCount, 1);
     assert.equal(result.changes[0].changeType, "type_changed");
-  });
-});
-
-describe("diffMcpTools", () => {
-  it("detects removed MCP tools", () => {
-    const before = [{ name: "search", inputSchema: { type: "object", properties: {} } }];
-    const after: typeof before = [];
-    const result = diffMcpTools(before, after);
-    assert.equal(result.breakingCount, 1);
-    assert.match(result.changes[0].message, /removed/);
   });
 });

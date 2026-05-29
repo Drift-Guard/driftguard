@@ -1,170 +1,110 @@
 #!/usr/bin/env node
+/**
+ * Public MCP client — local JSON diff only.
+ * Continuous monitoring, MCP tool tracking, and alerts run on hosted DriftGuard.
+ */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { diffSchemas, inferSchema } from "../core/diff.js";
-import { captureSnapshot } from "../core/snapshot.js";
-import {
-  checkWatchById,
-  listDriftEvents,
-  listWatches,
-  registerWatch,
-} from "../services/watcher.js";
 
-const API_BASE = process.env.DRIFTGUARD_API ?? "http://localhost:3000";
+const HOSTED_API = process.env.DRIFTGUARD_API ?? "https://api.driftguard.dev";
+const API_KEY = process.env.DRIFTGUARD_API_KEY;
 
 const server = new McpServer({
   name: "driftguard",
-  version: "0.1.0",
+  version: "0.2.0",
 });
+
+async function hostedRequest(path: string, init: RequestInit = {}): Promise<unknown> {
+  if (!API_KEY) {
+    throw new Error(
+      "Hosted features require DRIFTGUARD_API_KEY. Get Pro at the DriftGuard pricing page.",
+    );
+  }
+  const response = await fetch(`${HOSTED_API}${path}`, {
+    ...init,
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${API_KEY}`,
+      ...(init.headers as Record<string, string>),
+    },
+  });
+  const body = await response.json();
+  if (!response.ok) {
+    throw new Error((body as { error?: string }).error ?? `HTTP ${response.status}`);
+  }
+  return body;
+}
 
 server.tool(
   "compare_json",
-  "Compare two JSON payloads and detect breaking schema changes",
+  "Compare two JSON payloads locally for breaking schema changes",
   {
     before: z.string().describe("JSON string of the previous payload"),
     after: z.string().describe("JSON string of the new payload"),
   },
   async ({ before, after }) => {
-    const beforeSchema = inferSchema(JSON.parse(before));
-    const afterSchema = inferSchema(JSON.parse(after));
-    const result = diffSchemas(beforeSchema, afterSchema);
-    return {
-      content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
-    };
-  },
-);
-
-server.tool(
-  "snapshot_url",
-  "Capture a schema snapshot from an API endpoint or MCP server URL",
-  {
-    url: z.string().url(),
-    watchType: z.enum(["api", "mcp"]).default("api"),
-  },
-  async ({ url, watchType }) => {
-    const snapshot = await captureSnapshot(url, watchType);
-    return {
-      content: [{ type: "text", text: JSON.stringify(snapshot, null, 2) }],
-    };
+    const result = diffSchemas(inferSchema(JSON.parse(before)), inferSchema(JSON.parse(after)));
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   },
 );
 
 server.tool(
   "register_watch",
-  "Register a URL for continuous drift monitoring (free: 3 watches, daily checks)",
+  "Register a URL for continuous drift monitoring (hosted Pro/Team)",
   {
     name: z.string(),
     url: z.string().url(),
     watchType: z.enum(["api", "mcp"]),
     webhookUrl: z.string().url().optional(),
-    email: z.string().email().optional(),
   },
-  async ({ name, url, watchType, webhookUrl, email }) => {
-    const watch = registerWatch({ name, url, watchType, webhookUrl, email });
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(
-            {
-              message: "Watch registered. First snapshot captured on next check.",
-              watch: {
-                id: watch.id,
-                name: watch.name,
-                url: watch.url,
-                watchType: watch.watch_type,
-                plan: watch.plan,
-                intervalMinutes: watch.interval_minutes,
-              },
-              upgrade: "Pro ($19/mo): 25 watches, hourly checks → https://driftguard.dev/pricing",
-            },
-            null,
-            2,
-          ),
-        },
-      ],
-    };
+  async (input) => {
+    const result = await hostedRequest("/api/watches", {
+      method: "POST",
+      body: JSON.stringify(input),
+    });
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   },
 );
 
 server.tool(
   "check_watch",
-  "Run an immediate drift check on a registered watch",
+  "Run an immediate drift check on a registered watch (hosted)",
   { watchId: z.string().uuid() },
   async ({ watchId }) => {
-    const result = await checkWatchById(watchId);
-    return {
-      content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
-    };
+    const result = await hostedRequest(`/api/watches/${watchId}/check`, { method: "POST" });
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   },
 );
 
 server.tool(
   "list_watches",
-  "List all registered drift watches",
+  "List your hosted drift watches",
   {},
   async () => {
-    const watches = listWatches();
-    return {
-      content: [{ type: "text", text: JSON.stringify(watches, null, 2) }],
-    };
+    const result = await hostedRequest("/api/watches");
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   },
 );
 
 server.tool(
   "list_drift_events",
-  "List recent schema drift events",
+  "List recent drift events from hosted monitoring",
   {
     watchId: z.string().uuid().optional(),
     limit: z.number().int().min(1).max(50).default(10),
   },
   async ({ watchId, limit }) => {
-    const events = listDriftEvents(watchId, limit);
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(
-            events.map((e) => ({
-              ...e,
-              changes: JSON.parse(e.changes_json),
-            })),
-            null,
-            2,
-          ),
-        },
-      ],
-    };
-  },
-);
-
-server.tool(
-  "hosted_diff",
-  "Call the hosted DriftGuard API to diff two payloads (uses cloud if local DB empty)",
-  {
-    before: z.string(),
-    after: z.string(),
-  },
-  async ({ before, after }) => {
-    const response = await fetch(`${API_BASE}/api/diff`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        before: JSON.parse(before),
-        after: JSON.parse(after),
-      }),
-    });
-    const result = await response.json();
-    return {
-      content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
-    };
+    const qs = new URLSearchParams({ limit: String(limit) });
+    if (watchId) qs.set("watchId", watchId);
+    const result = await hostedRequest(`/api/drift?${qs}`);
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   },
 );
 
 async function main(): Promise<void> {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
+  await server.connect(new StdioServerTransport());
 }
 
 main().catch((err) => {

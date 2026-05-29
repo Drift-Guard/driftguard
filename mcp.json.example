@@ -4,7 +4,7 @@
       "command": "node",
       "args": ["./dist/mcp/server.js"],
       "env": {
-        "DRIFTGUARD_DB": "./driftguard.db"
+        "DRIFTGUARD_API_KEY": "your-pro-api-key-from-driftguard.dev"
       }
     }
   }
