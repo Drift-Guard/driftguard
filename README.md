@@ -48,14 +48,14 @@ npm run check -- diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
 }
 ```
 
-Optional: set `DRIFTGUARD_API` if you use a custom domain (default: `https://driftguard.org`).
+Optional: set `DRIFTGUARD_API` to override (default: workers.dev; `https://driftguard.org` once custom domain is live).
 
 - **`compare_json`** — works offline, no API key needed
 - **Monitoring tools** — require a Pro/Team API key from [DriftGuard pricing](https://driftguard.org/pricing)
 
 ## Pricing
 
-Hosted plans start at **$19/mo**. See [pricing](https://driftguard.org/pricing).
+Hosted plans start at **$19/mo**. See [pricing](https://driftguard.org/pricing) (also at [driftguard.org](https://driftguard.org) when domain is live).
 
 ## Open core model
 
