@@ -10,6 +10,11 @@ import {
   saveSnapshot,
   type WatchRow,
 } from "../db/index.js";
+import {
+  countFreeWatchesWithoutCustomer,
+  countWatchesForCustomer,
+  type CustomerRow,
+} from "../db/customers.js";
 import { compareSnapshots, captureSnapshot } from "../core/snapshot.js";
 import type { DiffResult } from "../core/diff.js";
 
@@ -94,6 +99,12 @@ async function sendWebhook(webhookUrl: string, watch: WatchRow, diff: DiffResult
   });
 }
 
+function watchCountForPlan(plan: Plan, customer?: CustomerRow): number {
+  if (customer) return countWatchesForCustomer(customer.id);
+  if (plan === "free") return countFreeWatchesWithoutCustomer();
+  return listWatches().filter((w) => w.plan === plan).length;
+}
+
 export function registerWatch(input: {
   name: string;
   url: string;
@@ -103,15 +114,22 @@ export function registerWatch(input: {
   email?: string;
   plan?: Plan;
   intervalMinutes?: number;
+  customer?: CustomerRow;
 }): WatchRow {
-  const plan = input.plan ?? "free";
+  const plan = input.customer?.plan ?? input.plan ?? "free";
   const limits = getPlanLimits(plan);
-  const existing = listWatches().filter((w) => w.plan === plan);
-  if (existing.length >= limits.maxWatches) {
-    throw new Error(`Plan '${plan}' allows max ${limits.maxWatches} watches. Upgrade at https://driftguard.dev/pricing`);
+  const count = watchCountForPlan(plan, input.customer);
+
+  if (count >= limits.maxWatches) {
+    throw new Error(
+      `Plan '${plan}' allows max ${limits.maxWatches} watches. Upgrade at /pricing`,
+    );
   }
 
-  const interval = Math.max(input.intervalMinutes ?? limits.minIntervalMinutes, limits.minIntervalMinutes);
+  const interval = Math.max(
+    input.intervalMinutes ?? limits.minIntervalMinutes,
+    limits.minIntervalMinutes,
+  );
 
   return createWatch({
     id: randomUUID(),
@@ -120,9 +138,10 @@ export function registerWatch(input: {
     watchType: input.watchType,
     headers: input.headers,
     webhookUrl: input.webhookUrl,
-    email: input.email,
+    email: input.email ?? input.customer?.email,
     plan,
     intervalMinutes: interval,
+    customerId: input.customer?.id,
   });
 }
 

@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import path from "node:path";
 import fs from "node:fs";
+import { migrateCustomers } from "./customers.js";
 
 const DB_PATH = process.env.DRIFTGUARD_DB ?? path.join(process.cwd(), "driftguard.db");
 
@@ -54,6 +55,7 @@ function migrate(database: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_snapshots_watch ON snapshots(watch_id, captured_at DESC);
     CREATE INDEX IF NOT EXISTS idx_events_watch ON drift_events(watch_id, detected_at DESC);
   `);
+  migrateCustomers(database);
 }
 
 export interface WatchRow {
@@ -68,6 +70,7 @@ export interface WatchRow {
   interval_minutes: number;
   created_at: string;
   last_checked_at: string | null;
+  customer_id: string | null;
 }
 
 export function createWatch(input: {
@@ -80,6 +83,7 @@ export function createWatch(input: {
   email?: string;
   plan?: string;
   intervalMinutes?: number;
+  customerId?: string;
 }): WatchRow {
   const database = getDb();
   const row: WatchRow = {
@@ -94,11 +98,12 @@ export function createWatch(input: {
     interval_minutes: input.intervalMinutes ?? 1440,
     created_at: new Date().toISOString(),
     last_checked_at: null,
+    customer_id: input.customerId ?? null,
   };
   database
     .prepare(
-      `INSERT INTO watches (id, name, url, watch_type, headers_json, webhook_url, email, plan, interval_minutes, created_at)
-       VALUES (@id, @name, @url, @watch_type, @headers_json, @webhook_url, @email, @plan, @interval_minutes, @created_at)`,
+      `INSERT INTO watches (id, name, url, watch_type, headers_json, webhook_url, email, plan, interval_minutes, created_at, customer_id)
+       VALUES (@id, @name, @url, @watch_type, @headers_json, @webhook_url, @email, @plan, @interval_minutes, @created_at, @customer_id)`,
     )
     .run(row);
   return row;

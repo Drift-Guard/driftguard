@@ -43,9 +43,9 @@ curl -X POST http://localhost:3000/api/diff \
 ```
 
 ### Blocked — needs your help
-- **Fly.io deploy:** Trial ended. Add card at https://fly.io/trial OR use Render/Railway
-- **Payments:** Lemon Squeezy or Stripe setup (Day 7 in playbook)
-- **Show HN:** Need your approval before submitting
+- **Fly.io deploy:** Trial ended. Add card at https://fly.io/trial OR deploy via Render (`render.yaml` ready)
+- **Lemon Squeezy account:** ~15 min setup — see `PAYMENTS_KENYA.md` + `LAUNCH/lemonsqueezy-setup.md`
+- **Show HN:** Need your approval before submitting (`LAUNCH/show-hn-draft.md`)
 
 ### Next autonomous actions (Day 2)
 - [ ] GitHub Action for OpenAPI spec diff in PRs

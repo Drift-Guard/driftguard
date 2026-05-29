@@ -14,6 +14,10 @@ import {
   runWatchCheck,
 } from "../services/watcher.js";
 import { watchesDueForCheck } from "../db/index.js";
+import { optionalApiKey, requireApiKey } from "./auth.js";
+import { billingConfig } from "../billing/lemonsqueezy.js";
+import { handleLemonSqueezyWebhook } from "../billing/webhook.js";
+import { claimApiKey } from "../billing/claim.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = new Hono();
@@ -21,6 +25,36 @@ const app = new Hono();
 app.use("*", cors());
 
 app.get("/health", (c) => c.json({ ok: true, service: "driftguard", version: "0.1.0" }));
+
+app.get("/api/billing/config", (c) => {
+  try {
+    return c.json(billingConfig());
+  } catch {
+    return c.json({
+      provider: "lemonsqueezy",
+      currency: "USD",
+      pro: { priceUsd: 19, checkoutUrl: null, variantId: null },
+      team: { priceUsd: 49, checkoutUrl: null, variantId: null },
+      foundingPriceUsd: 15,
+      setupRequired: true,
+    });
+  }
+});
+
+app.post("/api/webhooks/lemonsqueezy", handleLemonSqueezyWebhook);
+app.post("/api/billing/claim", claimApiKey);
+
+app.get("/api/me", requireApiKey, (c) => {
+  const customer = c.get("customer");
+  return c.json({
+    email: customer.email,
+    plan: customer.plan,
+    apiKey: customer.api_key,
+    status: customer.status,
+  });
+});
+
+app.use("/api/watches", optionalApiKey);
 
 app.get("/api/watches", (c) => {
   const watches = listWatches().map((w) => ({
@@ -49,7 +83,8 @@ app.post("/api/watches", async (c) => {
   }>();
 
   try {
-    const watch = registerWatch(body);
+    const customer = c.get("customer");
+    const watch = registerWatch({ ...body, customer });
     return c.json({ watch }, 201);
   } catch (err) {
     return c.json({ error: err instanceof Error ? err.message : "Failed to create watch" }, 400);
@@ -127,6 +162,8 @@ app.post("/internal/cron", async (c) => {
 const webRoot = path.join(__dirname, "../../web");
 app.use("/*", serveStatic({ root: webRoot }));
 app.get("/", serveStatic({ path: "index.html", root: webRoot }));
+app.get("/pricing", serveStatic({ path: "pricing.html", root: webRoot }));
+app.get("/activate", serveStatic({ path: "activate.html", root: webRoot }));
 
 const port = Number(process.env.PORT ?? 3000);
 

@@ -67,23 +67,33 @@
 
 ---
 
-## Payment setup (manual steps for you)
+## Payment setup — Kenya (recommended)
 
-### Option A: Lemon Squeezy (fastest, ~30 min)
-1. Create account at https://lemonsqueezy.com
-2. Create product "DriftGuard Pro" at $19/mo
-3. Add checkout URL to landing page `pricing` section
-4. Webhook → `/api/webhooks/lemonsqueezy` to upgrade plan
+**Use Lemon Squeezy only.** See [PAYMENTS_KENYA.md](./PAYMENTS_KENYA.md) for the full guide.
 
-### Option B: Stripe (more control)
-1. Create Stripe account + product
-2. Use Stripe Checkout for subscription
-3. Webhook handler upgrades `plan` field in DB
+Why Lemon Squeezy from Kenya:
+- Bank payouts to Kenyan accounts (USD → KES conversion)
+- Merchant of Record — they handle global VAT/GST (you don't register in 200 countries)
+- No US LLC or Stripe Atlas needed
+- ~30 min setup
 
-### Option C: MCPize marketplace (MCP-specific)
+Quick steps:
+1. Sign up at https://lemonsqueezy.com with Kenyan address
+2. Add Kenyan bank under Settings → Payouts (select KES)
+3. Create Pro ($19) and Team ($49) subscription products
+4. Set webhook → `/api/webhooks/lemonsqueezy`
+5. Copy env vars from [LAUNCH/lemonsqueezy-setup.md](./LAUNCH/lemonsqueezy-setup.md)
+
+### ~~Option A: Lemon Squeezy~~ ✅ Implemented
+Webhook handler + API keys + `/pricing` + `/activate` pages are live in code.
+
+### ~~Option B: Stripe (direct)~~ ❌ Skip from Kenya
+Requires US LLC. Not worth it for solo founder.
+
+### Option C: MCPize marketplace (optional add-on)
 1. Sign up at https://mcpize.com before **June 10, 2026** for 85% founding member rate
 2. List DriftGuard MCP server as paid add-on for hosted watches
-3. Zero payment infrastructure needed
+3. Zero payment infrastructure — runs alongside Lemon Squeezy
 
 ---
 

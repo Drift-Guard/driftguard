@@ -11,7 +11,7 @@
     "start": "node dist/api/server.js",
     "mcp": "node dist/mcp/server.js",
     "check": "tsx src/cli/check.ts",
-    "test": "node --import tsx --test src/core/*.test.ts"
+    "test": "node --import tsx --test 'src/**/*.test.ts'"
   },
   "engines": {
     "node": ">=20"
