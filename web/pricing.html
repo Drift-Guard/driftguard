@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing — DriftGuard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0f14; --surface: #111922; --border: #1e2a38;
+      --text: #e8eef4; --muted: #8fa3b8; --accent: #3dd68c; --accent-dim: #1a4d35;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Instrument Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    h1 { font-size: 2.5rem; letter-spacing: -0.03em; }
+    .sub { color: var(--muted); margin: 0.75rem 0 2rem; max-width: 50ch; }
+    .notice { background: var(--accent-dim); color: var(--accent); padding: 1rem 1.25rem; border-radius: 10px; font-size: 0.9rem; margin-bottom: 2rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem; position: relative; }
+    .card.featured { border-color: var(--accent); }
+    .tag { position: absolute; top: -10px; right: 16px; background: var(--accent); color: #041008; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; }
+    .price { font-size: 2.5rem; font-weight: 700; }
+    .price span { font-size: 1rem; color: var(--muted); font-weight: 400; }
+    ul { list-style: none; margin: 1.25rem 0; color: var(--muted); font-size: 0.92rem; }
+    li { padding: 0.35rem 0; }
+    li::before { content: "✓ "; color: var(--accent); }
+    .btn { display: inline-block; padding: 0.85rem 1.4rem; border-radius: 10px; font-weight: 600; text-decoration: none; margin-top: 0.5rem; border: none; cursor: pointer; font-size: 1rem; }
+    .btn-primary { background: var(--accent); color: #041008; }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .back { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+    .back:hover { color: var(--accent); }
+    #setup-notice { display: none; background: #2a1a1a; color: #ffb020; padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="/" class="back">← Back to DriftGuard</a>
+    <h1>Pricing</h1>
+    <p class="sub">Open-source core. Pay for hosted monitoring. Billed securely via Lemon Squeezy — VAT handled for you.</p>
+
+    <div class="notice" id="founding-notice">
+      🎉 <strong>Founding member:</strong> First 50 customers get Pro at <strong>$15/mo locked forever</strong> (normally $19).
+    </div>
+
+    <div id="setup-notice">
+      Checkout is being configured. Self-host free via <a href="https://github.com/kioie/driftguard" style="color:#ffb020">GitHub</a> or email hello@driftguard.org for early access.
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="price">$0 <span>/ forever</span></div>
+        <h3>Free</h3>
+        <ul>
+          <li>3 watches</li>
+          <li>Daily checks</li>
+          <li>Webhook alerts</li>
+          <li>Self-hosted MCP server</li>
+          <li>CLI diff tool</li>
+        </ul>
+        <a class="btn btn-secondary" href="https://github.com/kioie/driftguard">Self-host on GitHub</a>
+      </div>
+
+      <div class="card featured">
+        <div class="tag">MOST POPULAR</div>
+        <div class="price">$19 <span>/ mo</span></div>
+        <h3>Pro</h3>
+        <ul>
+          <li>25 watches</li>
+          <li>Hourly checks</li>
+          <li>30-day drift history</li>
+          <li>API key access</li>
+          <li>Email support</li>
+        </ul>
+        <button class="btn btn-primary" id="pro-checkout" disabled>Loading checkout…</button>
+      </div>
+
+      <div class="card">
+        <div class="price">$49 <span>/ mo</span></div>
+        <h3>Team</h3>
+        <ul>
+          <li>100 watches</li>
+          <li>15-min checks</li>
+          <li>Shared API keys</li>
+          <li>Priority support</li>
+          <li>Custom webhooks</li>
+        </ul>
+        <button class="btn btn-secondary" id="team-checkout" disabled>Loading checkout…</button>
+      </div>
+    </div>
+
+    <p style="margin-top:2rem;color:var(--muted);font-size:0.85rem;">
+      Payments processed by Lemon Squeezy. Cancel anytime. After checkout, retrieve your API key via
+      <code style="font-family:'IBM Plex Mono',monospace">GET /api/me</code> with your subscription email.
+    </p>
+  </div>
+
+  <script>
+    fetch('/api/billing/config')
+      .then(r => r.json())
+      .then(cfg => {
+        const proBtn = document.getElementById('pro-checkout');
+        const teamBtn = document.getElementById('team-checkout');
+        const setupNotice = document.getElementById('setup-notice');
+
+        if (cfg.pro.checkoutUrl) {
+          proBtn.disabled = false;
+          proBtn.textContent = 'Upgrade to Pro →';
+          proBtn.onclick = () => window.location.href = cfg.pro.checkoutUrl;
+        } else {
+          proBtn.textContent = 'Coming soon';
+          setupNotice.style.display = 'block';
+        }
+
+        if (cfg.team.checkoutUrl) {
+          teamBtn.disabled = false;
+          teamBtn.textContent = 'Upgrade to Team →';
+          teamBtn.onclick = () => window.location.href = cfg.team.checkoutUrl;
+        } else {
+          teamBtn.textContent = 'Contact us';
+          teamBtn.onclick = () => window.location.href = 'mailto:hello@driftguard.org?subject=DriftGuard%20Team';
+        }
+      })
+      .catch(() => {
+        document.getElementById('setup-notice').style.display = 'block';
+      });
+  </script>
+</body>
+</html>

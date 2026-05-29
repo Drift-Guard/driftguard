@@ -1,0 +1,38 @@
+name: OpenAPI Drift Check
+description: Detect breaking changes in OpenAPI specs on pull requests
+
+inputs:
+  spec-path:
+    description: Path to OpenAPI spec file (yaml or json)
+    required: true
+  base-ref:
+    description: Git ref to compare against
+    required: false
+    default: ${{ github.event.pull_request.base.sha }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout base spec
+      shell: bash
+      run: |
+        git show "${{ inputs.base-ref }}:${{ inputs.spec-path }}" > /tmp/openapi-base.yaml 2>/dev/null || \
+        git show "${{ inputs.base-ref }}:${{ inputs.spec-path }}" > /tmp/openapi-base.json
+
+    - name: Install oasdiff
+      shell: bash
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/oasdiff/oasdiff/main/install.sh | sh -s -- -b /usr/local/bin
+
+    - name: Compare specs
+      shell: bash
+      run: |
+        oasdiff breaking /tmp/openapi-base.yaml "${{ inputs.spec-path }}" -f githubactions
+      continue-on-error: true
+
+    - name: Breaking change summary
+      shell: bash
+      run: |
+        echo "## OpenAPI Drift Report" >> $GITHUB_STEP_SUMMARY
+        oasdiff changelog /tmp/openapi-base.yaml "${{ inputs.spec-path }}" >> $GITHUB_STEP_SUMMARY 2>/dev/null || \
+        echo "No changes detected or spec format issue." >> $GITHUB_STEP_SUMMARY
