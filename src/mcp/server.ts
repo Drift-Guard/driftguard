@@ -13,7 +13,7 @@ const API_KEY = process.env.DRIFTGUARD_API_KEY;
 
 const server = new McpServer({
   name: "driftguard",
-  version: "0.2.0",
+  version: "0.3.0",
 });
 
 async function hostedRequest(path: string, init: RequestInit = {}): Promise<unknown> {
@@ -113,6 +113,70 @@ server.tool(
     const qs = new URLSearchParams({ limit: String(limit) });
     if (watchId) qs.set("watchId", watchId);
     const result = await hostedRequest(`/api/drift?${qs}`);
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+  },
+);
+
+server.tool(
+  "suggest_watches",
+  "Parse HTTPS URLs or mcp.json into watch suggestions (hosted)",
+  {
+    text: z.string().optional(),
+    urls: z.array(z.string()).optional(),
+    mcpJson: z.string().optional().describe("JSON string of mcp.json"),
+    create: z.boolean().optional(),
+  },
+  async ({ text, urls, mcpJson, create }) => {
+    const body: Record<string, unknown> = { text, urls, create };
+    if (mcpJson) body.mcpJson = JSON.parse(mcpJson);
+    const result = await hostedRequest("/api/watches/suggest", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+  },
+);
+
+server.tool(
+  "explain_drift",
+  "Explain drift changes with agentAction remediation hints",
+  { changesJson: z.string().describe("JSON array of SchemaChange objects") },
+  async ({ changesJson }) => {
+    const changes = JSON.parse(changesJson);
+    const result = await fetch(`${HOSTED_API}/api/drift/explain`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ changes }),
+    }).then((r) => r.json());
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+  },
+);
+
+server.tool(
+  "assert_coverage",
+  "Fail if suggested dependencies are not yet watched (hosted Pro/Team)",
+  {
+    text: z.string().optional(),
+    mcpJson: z.string().optional(),
+  },
+  async ({ text, mcpJson }) => {
+    const body: Record<string, unknown> = { text };
+    if (mcpJson) body.mcpJson = JSON.parse(mcpJson);
+    const response = await fetch(`${HOSTED_API}/api/coverage/assert`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify(body),
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        isError: true,
+      };
+    }
     return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   },
 );
