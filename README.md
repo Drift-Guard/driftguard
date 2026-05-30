@@ -53,10 +53,6 @@ Optional: set `DRIFTGUARD_API` to override (default: workers.dev; `https://drift
 - **`compare_json`** — works offline, no API key needed
 - **Monitoring tools** — require a Pro/Team API key from [DriftGuard pricing](https://driftguard.org/pricing)
 
-## Branding
-
-Logo, colors, and typography: [docs/BRANDING.md](docs/BRANDING.md)
-
 ## Pricing
 
 Hosted plans start at **$39/mo** (founding Pro **$29/mo**). See [pricing](https://driftguard.org/pricing) (also at [driftguard.org](https://driftguard.org) when domain is live).
