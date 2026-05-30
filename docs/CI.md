@@ -76,25 +76,35 @@ Scans `mcp.json`, OpenAPI specs, and URLs in repo files. **Does not block** your
     # fail-on-missing: true   # optional — turn on after upgrading
 ```
 
-Console link (from Step Summary): `/console?from=ci&import=…` — opens with CI import banner.
+Console link (from Step Summary): `/console?from=ci&import=…` — bulk import panel + upgrade nudges.
+
+**One-click CI trial:** Step Summary includes `DRIFTGUARD_TRIAL_SESSION` (auto-minted) and a link to `/ci/setup?from=ci&import=…` to copy the GitHub secret and workflow snippet.
 
 ---
 
 ## Layer 3 — Trial (console, 1 endpoint)
 
-After preview, click **Start free trial** in the Step Summary or open:
+After preview, open **CI trial setup** in the Step Summary or visit:
 
-`https://driftguard.org/start?from=ci`
+`https://driftguard.org/ci/setup?from=ci&import=…`
 
-The wizard pre-fills the first endpoint your CI discovered. Trial includes full Pro features on **one** watch (30-min checks, webhooks, export).
+That page mints a trial session, shows the secret to paste into GitHub, and links to the console to import discovered endpoints. The start wizard (`/start?from=ci`) still pre-fills the first missing watch.
 
 For CI gate with trial (1 endpoint only):
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.2
+- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
   with:
     trial-session: ${{ secrets.DRIFTGUARD_TRIAL_SESSION }}
     files-json: ${{ steps.scan.outputs.files-json }}
+```
+
+Mint a session manually:
+
+```bash
+curl -sX POST https://driftguard.org/api/trial/session \
+  -H 'content-type: application/json' \
+  -d '{"repo":"org/repo"}' | jq -r '.trialGate.envVar'
 ```
 
 If CI finds **multiple** endpoints, the gate fails with an upgrade message — that is intentional.

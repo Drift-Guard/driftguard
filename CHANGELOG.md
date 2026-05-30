@@ -8,6 +8,15 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-05-30
+
+### Added
+
+- Auto-mint `DRIFTGUARD_TRIAL_SESSION` in coverage-preview Step Summary (via `POST /api/trial/session`).
+- `/ci/setup` page and `upgrade.ciSetup` deep link for copy-paste GitHub secrets.
+- Console bulk **Import from CI** panel (`POST /api/watches/import-ci`) — trial adds first endpoint; Pro adds all.
+- Plan-limit nudges in console sidebar and banner when nearing watch caps.
+
 ## [0.3.2] - 2026-05-30
 
 ### Added

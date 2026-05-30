@@ -16,6 +16,22 @@ function ciHeaders(extra: Record<string, string> = {}) {
   };
 }
 
+export async function mintTrialSession(opts: {
+  api?: string;
+  repo?: string;
+  importToken?: string;
+}): Promise<CoverageResult> {
+  const api = opts.api ?? HOSTED_API;
+  const res = await fetch(`${api}/api/trial/session`, {
+    method: "POST",
+    headers: ciHeaders({
+      ...(opts.repo ? { "x-driftguard-ci-repo": opts.repo } : {}),
+    }),
+    body: JSON.stringify({ repo: opts.repo, import: opts.importToken }),
+  });
+  return { ok: res.ok, status: res.status, body: await res.json() };
+}
+
 export async function coveragePreview(opts: {
   files: CoverageFile[];
   api?: string;
@@ -77,11 +93,16 @@ export function formatCiUpgradeSummary(body: Record<string, unknown>): string {
     lines.push(
       "**Upgrade (one click):**",
       "",
+      `- [CI trial setup — copy DRIFTGUARD_TRIAL_SESSION](${upgrade.ciSetup || upgrade.start})`,
       `- [Open console & import watches](${upgrade.console})`,
       `- [Start free trial (1 endpoint, Pro features)](${upgrade.start})`,
       `- [View pricing](${upgrade.pricing})`,
       "",
     );
+  }
+  const trialGate = body.trialGate as Record<string, string> | undefined;
+  if (trialGate?.envVar) {
+    lines.push("**Trial CI secret:**", "", "```", trialGate.envVar, "```", "");
   }
   return lines.join("\n");
 }
