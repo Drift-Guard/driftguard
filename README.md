@@ -55,7 +55,7 @@ Optional: set `DRIFTGUARD_API` to override (default: workers.dev; `https://drift
 
 ## Pricing
 
-Hosted plans start at **$19/mo**. See [pricing](https://driftguard.eddy-d55.workers.dev/pricing) (also at [driftguard.dev](https://driftguard.dev) when domain is live).
+Hosted plans start at **$39/mo** (founding Pro **$29/mo**). See [pricing](https://driftguard.eddy-d55.workers.dev/pricing) (also at [driftguard.dev](https://driftguard.dev) when domain is live).
 
 ## Open core model
 
