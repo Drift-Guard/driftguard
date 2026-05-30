@@ -1,0 +1,36 @@
+# Example: hosted watch coverage gate (Pro/Team API key)
+# Requires secret: DRIFTGUARD_API_KEY
+
+name: DriftGuard coverage
+
+on:
+  pull_request:
+    paths:
+      - "mcp.json"
+      - ".cursor/mcp.json"
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build files payload
+        id: scan
+        shell: bash
+        run: |
+          node <<'NODE'
+          import fs from 'node:fs';
+          const paths = ['mcp.json', '.cursor/mcp.json'].filter((p) => fs.existsSync(p));
+          if (!paths.length) {
+            console.log('No MCP config files found — skipping.');
+            process.exit(0);
+          }
+          const files = paths.map((path) => ({ path, content: fs.readFileSync(path, 'utf8') }));
+          const out = process.env.GITHUB_OUTPUT;
+          fs.appendFileSync(out, `files-json=${JSON.stringify(files)}\n`);
+          NODE
+      - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.1
+        if: steps.scan.outputs.files-json != ''
+        with:
+          api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
+          files-json: ${{ steps.scan.outputs.files-json }}

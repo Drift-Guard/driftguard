@@ -1,0 +1,20 @@
+name: Setup DriftGuard
+description: Install a pinned DriftGuard CLI for CI (npm or GitHub Release fallback)
+inputs:
+  version:
+    description: Semver without v prefix (e.g. 0.3.1). Defaults from action ref tag or package.json.
+    required: false
+    default: ""
+outputs:
+  version:
+    description: Installed DriftGuard client version
+    value: ${{ steps.setup.outputs.version }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+    - id: setup
+      shell: bash
+      run: bash "${{ github.action_path }}/install.sh" "${{ inputs.version }}"

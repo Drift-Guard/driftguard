@@ -70,10 +70,22 @@ Template: [examples/mcp-client-config.json](examples/mcp-client-config.json)
 ```bash
 npm run build
 npm run check -- diff '{"a":1}' '{"a":1,"b":2}'
+npm run check -- version --json
+npm run check -- assert-coverage   # DRIFTGUARD_API_KEY + DRIFTGUARD_FILES_JSON
 node dist/cli/check.js mcp   # or: npm run mcp
 ```
 
 Exit code: `driftguard diff` exits **1** when `breakingCount > 0`.
+
+## CI embed paths
+
+| Pin | Example |
+|-----|---------|
+| GitHub Action | `uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1` |
+| npx | `npx driftguard@0.3.1 diff '…' '…'` |
+| Coverage action | `uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.1` |
+
+See [docs/CI.md](docs/CI.md).
 
 ## Do / Don't
 

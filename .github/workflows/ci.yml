@@ -83,3 +83,21 @@ jobs:
           RESULT=$(node dist/cli/check.js diff "$BEFORE" "$AFTER" 2>/dev/null || true)
           echo "$RESULT"
           echo "$RESULT" | grep -q '"breakingCount": 1' && echo "Drift detection working"
+
+  action-smoke:
+    name: CI action smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci && npm run build
+      - uses: ./.github/actions/setup-driftguard
+        id: dg
+      - run: test "$(driftguard version)" = "0.3.1"
+      - name: drift-diff action fails on breaking change
+        uses: ./.github/actions/drift-diff
+        with:
+          before: '{"a":1}'
+          after: '{"a":1,"b":2}'
+        continue-on-error: true
+        id: breaking
+      - run: test "${{ steps.breaking.outcome }}" = "failure"
