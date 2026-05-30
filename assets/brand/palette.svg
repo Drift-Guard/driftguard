@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" fill="none">
+  <text x="0" y="16" fill="#8fa3b8" font-family="system-ui,sans-serif" font-size="12" font-weight="600" letter-spacing="0.08em">DRIFTGUARD TOKENS</text>
+  <rect x="0" y="28" width="72" height="72" rx="8" fill="#0a0f14" stroke="#1e2a38"/>
+  <text x="0" y="116" fill="#8fa3b8" font-size="10" font-family="monospace">#0a0f14 bg</text>
+  <rect x="88" y="28" width="72" height="72" rx="8" fill="#111922" stroke="#1e2a38"/>
+  <text x="88" y="116" fill="#8fa3b8" font-size="10" font-family="monospace">#111922 surface</text>
+  <rect x="176" y="28" width="72" height="72" rx="8" fill="#1e2a38"/>
+  <text x="176" y="116" fill="#8fa3b8" font-size="10" font-family="monospace">#1e2a38 border</text>
+  <rect x="264" y="28" width="72" height="72" rx="8" fill="#3dd68c"/>
+  <text x="264" y="116" fill="#8fa3b8" font-size="10" font-family="monospace">#3dd68c accent</text>
+  <rect x="352" y="28" width="72" height="72" rx="8" fill="#8fa3b8"/>
+  <text x="352" y="116" fill="#8fa3b8" font-size="10" font-family="monospace">#8fa3b8 muted</text>
+  <rect x="440" y="28" width="72" height="72" rx="8" fill="#e8eef4"/>
+  <text x="440" y="116" fill="#8fa3b8" font-size="10" font-family="monospace">#e8eef4 text</text>
+</svg>
