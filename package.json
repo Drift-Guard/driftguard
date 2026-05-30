@@ -1,6 +1,6 @@
 {
   "name": "driftguard",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Local JSON schema diff CLI and MCP client for DriftGuard — offline diff + hosted monitoring connector",
   "type": "module",
   "license": "MIT",

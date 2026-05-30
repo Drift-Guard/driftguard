@@ -8,6 +8,16 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-05-30
+
+### Added
+
+- CI funnel: free `coverage-preview` + `drift-coverage-preview` action (hook mode, console upgrade links).
+- Trial-limited `assert-coverage` (1 endpoint) and Pro gate via `DRIFTGUARD_API_KEY`.
+- Hosted `POST /api/coverage/preview` with rate limits and `upgrade.*` deep links.
+- Console/start `?from=ci&import=` prefill from CI scan results.
+- [docs/CI.md](docs/CI.md) funnel documentation.
+
 ## [0.3.1] - 2026-05-30
 
 ### Added
@@ -50,7 +60,8 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 - MCP `compare_json` (offline) and hosted monitoring tool proxies.
 - Core diff engine with breaking / warning / info classification.
 
-[Unreleased]: https://github.com/kioie/driftguard/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/kioie/driftguard/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/kioie/driftguard/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/kioie/driftguard/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/kioie/driftguard/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/kioie/driftguard/compare/v0.2.0...v0.2.1

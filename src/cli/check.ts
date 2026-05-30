@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { startMcpServer } from "../mcp/server.js";
 import { diffSchemas, inferSchema } from "../core/diff.js";
-import { assertCoverage } from "./assert-coverage.js";
+import { runAssertCoverage, runCoveragePreview } from "./coverage-run.js";
 import { printVersionJson, printVersionPlain } from "./version.js";
 import { HOSTED_PRICING, HOSTED_TRIAL } from "../mcp/constants.js";
 
@@ -20,29 +20,34 @@ async function main(): Promise<void> {
     process.exit(result.breakingCount > 0 ? 1 : 0);
   }
 
-  if (command === "assert-coverage") {
-    const key = process.env.DRIFTGUARD_API_KEY;
-    if (!key) {
-      console.error("DRIFTGUARD_API_KEY required (Pro/Team). Trial: " + HOSTED_TRIAL);
+  if (command === "coverage-preview") {
+    const raw = readFilesJson();
+    if (!raw) {
+      console.error("Usage: driftguard coverage-preview '<files-json>'");
       process.exit(1);
     }
+    const code = await runCoveragePreview({
+      filesJson: raw,
+      failOnMissing: process.env.DRIFTGUARD_FAIL_ON_MISSING === "1",
+    });
+    process.exit(code);
+  }
+
+  if (command === "assert-coverage") {
     const raw = readFilesJson();
     if (!raw) {
       console.error("Usage: driftguard assert-coverage '<files-json>'");
-      console.error("  or set DRIFTGUARD_FILES_JSON");
       process.exit(1);
     }
-    const files = JSON.parse(raw) as Array<{ path: string; content: string }>;
-    const result = await assertCoverage({ apiKey: key, files });
-    console.log(JSON.stringify(result.body, null, 2));
-    if (!result.ok) {
-      console.error(
-        `Coverage assert failed (${result.status}): ${result.missingCount} missing of ${result.suggestionCount ?? "?"} suggestions`,
-      );
+    const apiKey = process.env.DRIFTGUARD_API_KEY;
+    const trialSession = process.env.DRIFTGUARD_TRIAL_SESSION;
+    if (!apiKey && !trialSession) {
+      console.error(`CI gate requires DRIFTGUARD_API_KEY (Pro) or DRIFTGUARD_TRIAL_SESSION (1 endpoint trial).`);
+      console.error(`Free hook: driftguard coverage-preview — ${HOSTED_TRIAL}`);
       process.exit(1);
     }
-    console.error(`Coverage assert passed (${result.suggestionCount ?? 0} suggestions)`);
-    return;
+    const code = await runAssertCoverage({ filesJson: raw, apiKey, trialSession });
+    process.exit(code);
   }
 
   if (command === "version") {
@@ -59,16 +64,13 @@ async function main(): Promise<void> {
   console.log(`DriftGuard — open-source local schema diff + MCP client
 
 Usage:
-  driftguard diff '<before-json>' '<after-json>'
-  driftguard assert-coverage '<files-json>'   Hosted Pro/Team CI gate
+  driftguard diff '<before-json>' '<after-json>'          Free — hook (unlimited in CI)
+  driftguard coverage-preview '<files-json>'             Free — scan + console upgrade links
+  driftguard assert-coverage '<files-json>'              Gate — Pro key or trial (1 endpoint)
   driftguard version [--json]
-  driftguard mcp                              MCP server (stdio)
+  driftguard mcp
 
-CI (pin version):
-  uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1
-  npx driftguard@0.3.1 diff '...' '...'
-
-Docs: https://github.com/kioie/driftguard/blob/main/docs/CI.md
+CI funnel: https://github.com/kioie/driftguard/blob/main/docs/CI.md
 Trial: ${HOSTED_TRIAL}
 Pricing: ${HOSTED_PRICING}
 `);

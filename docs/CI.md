@@ -1,148 +1,166 @@
 # CI distribution model
 
-DriftGuard embeds **version pins** at every CI integration layer so pipelines stay reproducible and upgrades are explicit.
+DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a version pin in your pipeline, get value immediately, then upgrade when you need full coverage gates.
 
-## Distribution layers
+**Pin policy:** `uses: kioie/driftguard/...@v0.3.2` or `npx driftguard@0.3.2` — never `@main`.
 
-| Layer | Pin example | Use case |
-|-------|-------------|----------|
-| **GitHub Action ref** | `uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1` | Primary CI path — version in git tag |
-| **Action `version` input** | `version: '0.3.1'` | Override client semver inside composite steps |
-| **npx / npm** | `npx driftguard@0.3.1 diff '…' '…'` | Shell scripts, custom runners |
-| **GitHub Release tarball** | `driftguard-0.3.1.tgz` | Fallback when npm is unavailable (setup action uses this automatically) |
-| **Client header** | `X-DriftGuard-Client-Version: 0.3.1` | Hosted API requests from CLI/MCP |
+---
 
-**Hosted service** (`driftguard-cloud`) uses an independent semver (e.g. `0.9.x`). The OSS client sends `X-DriftGuard-Client-Version` on Pro API calls; `/health` reports the service version.
+## The funnel
 
-## Pinning policy
-
-- **Production CI:** pin the Action ref (`@v0.3.1`) or `npx driftguard@0.3.1` — never `@main` or `@latest`.
-- **Renovate/Dependabot:** bump the tag when adopting a new client release.
-- **Floating `@0` npm range:** acceptable for local dev only.
-
-Print embed paths from a installed CLI:
-
-```bash
-driftguard version --json
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ 1. HOOK (free, unlimited)                                       │
+│    drift-diff / compare_json                                    │
+│    → Teams see breaking schema changes in CI                     │
+├─────────────────────────────────────────────────────────────────┤
+│ 2. PREVIEW (free, non-blocking by default)                      │
+│    drift-coverage-preview / coverage-preview                    │
+│    → Discovers N endpoints, 0–1 covered on trial                │
+│    → Prints console + trial links in GitHub Step Summary          │
+├─────────────────────────────────────────────────────────────────┤
+│ 3. TRIAL (1 endpoint, full Pro in console)                      │
+│    /start?from=ci&import=…                                      │
+│    → CI deep link pre-fills first missing watch                 │
+├─────────────────────────────────────────────────────────────────┤
+│ 4. GATE (paid or trial-limited)                                 │
+│    drift-coverage + DRIFTGUARD_API_KEY                          │
+│    → Fails CI until all discovered deps are watched             │
+│    → Trial: only 1 endpoint — multi-deps forces Pro upgrade     │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-## Offline JSON diff (no API key)
+| Tier | Action / command | API key | Blocks CI? | Endpoint limit |
+|------|------------------|---------|------------|----------------|
+| **Hook** | `drift-diff` | No | On breaking diff only | Unlimited diff |
+| **Preview** | `drift-coverage-preview` | No | Optional (`fail-on-missing`) | Shows all; covers 0 |
+| **Trial gate** | `drift-coverage` + trial session | Trial header | Yes | **1 endpoint** |
+| **Pro gate** | `drift-coverage` + API key | `dg_…` | Yes | Plan limit (50 Pro) |
 
-### GitHub Action
+---
+
+## Layer 1 — Hook (free)
 
 ```yaml
-jobs:
-  schema-drift:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1
-        with:
-          before: '{"status":"ok","data":{"id":1,"name":"test"}}'
-          after: '{"status":"ok","data":{"id":1}}'
-```
-
-Exit code **1** when `breakingCount > 0`.
-
-Compare fixtures from files:
-
-```yaml
-      - uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1
-        with:
-          before: ${{ hashFiles('fixtures/api-before.json') && '' }}
-```
-
-Prefer checking in JSON and using `run:` with `driftguard diff` when inputs are large — see [examples/workflows/drift-diff.yml](../examples/workflows/drift-diff.yml).
-
-### npx
-
-```bash
-npx driftguard@0.3.1 diff "$BEFORE_JSON" "$AFTER_JSON"
-```
-
-### Shell (clone + build)
-
-```bash
-npm ci && npm run build
-node dist/cli/check.js diff "$BEFORE" "$AFTER"
-```
-
-## Hosted coverage assert (Pro/Team)
-
-Ensures dependencies found in repo files (e.g. `mcp.json`) are registered as DriftGuard watches.
-
-### GitHub Action
-
-```yaml
-jobs:
-  driftguard-coverage:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Read files to scan
-        id: files
-        run: |
-          node <<'NODE'
-          const fs = require('fs');
-          const files = [
-            { path: 'mcp.json', content: fs.readFileSync('mcp.json', 'utf8') },
-          ];
-          fs.writeFileSync(process.env.GITHUB_OUTPUT, 'json=' + JSON.stringify(files) + '\n', { flag: 'a' });
-          NODE
-      - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.1
-        with:
-          api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
-          files-json: ${{ steps.files.outputs.json }}
-```
-
-See [examples/workflows/drift-coverage.yml](../examples/workflows/drift-coverage.yml).
-
-### npx
-
-```bash
-export DRIFTGUARD_API_KEY=dg_…
-export DRIFTGUARD_FILES_JSON='[{"path":"mcp.json","content":"..."}]'
-npx driftguard@0.3.1 assert-coverage
-```
-
-## Setup action (advanced)
-
-Install the CLI in custom steps:
-
-```yaml
-- uses: kioie/driftguard/.github/actions/setup-driftguard@v0.3.1
-  id: dg
+- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.2
   with:
-    version: "0.3.1"
-- run: driftguard version
+    before: '{"status":"ok","data":{"id":1,"name":"test"}}'
+    after: '{"status":"ok","data":{"id":1}}'
 ```
 
-Resolution order for `version`:
+```bash
+npx driftguard@0.3.2 diff "$BEFORE" "$AFTER"
+```
 
-1. `inputs.version`
-2. Action git ref (`@v0.3.1` → `0.3.1`)
-3. `package.json` in the workspace (same-repo dev)
+---
 
-Install tries **npm** first, then **GitHub Release** `.tgz`.
+## Layer 2 — Preview (free, hooks upgrade)
 
-## MCP in CI (agents)
+Scans `mcp.json`, OpenAPI specs, and URLs in repo files. **Does not block** your pipeline by default — it writes a Step Summary with unmonitored endpoints and one-click console links.
 
-For agent-driven pipelines, point MCP at a pinned release binary or use tools documented in [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md).
+```yaml
+- uses: actions/checkout@v4
+- name: Build scan payload
+  id: scan
+  shell: bash
+  run: |
+    node <<'NODE'
+    const fs = require('fs');
+    const paths = ['mcp.json', '.cursor/mcp.json', 'package.json'].filter((p) => fs.existsSync(p));
+    const files = paths.map((path) => ({ path, content: fs.readFileSync(path, 'utf8') }));
+    require('fs').appendFileSync(process.env.GITHUB_OUTPUT, `files-json=${JSON.stringify(files)}\n`);
+    NODE
+- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.2
+  with:
+    files-json: ${{ steps.scan.outputs.files-json }}
+    # fail-on-missing: true   # optional — turn on after upgrading
+```
 
-## Hosted API (direct)
+Console link (from Step Summary): `/console?from=ci&import=…` — opens with CI import banner.
 
-| Endpoint | Auth | CI use |
-|----------|------|--------|
-| `POST /api/coverage/assert` | API key | Coverage gate (`assert-coverage` CLI wraps this) |
-| `POST /api/diff` | Public (rate-limited) | JSON diff without local install |
-| `POST /api/openapi/diff` | Public (rate-limited) | OpenAPI spec diff |
-| `GET /health` | Public | Deploy smoke — service version |
+---
 
-Override hosted URL: `DRIFTGUARD_API` env or action `api` input.
+## Layer 3 — Trial (console, 1 endpoint)
 
-## Version sync (maintainers)
+After preview, click **Start free trial** in the Step Summary or open:
 
-On release, `scripts/sync-version.mjs` updates `server.json` from `package.json`. Tag `v*` triggers [release.yml](../.github/workflows/release.yml) (npm pack + GitHub Release assets).
+`https://driftguard.eddy-d55.workers.dev/start?from=ci`
 
-## Upgrade funnel
+The wizard pre-fills the first endpoint your CI discovered. Trial includes full Pro features on **one** watch (30-min checks, webhooks, export).
 
-Offline diff and coverage **preview** work without signup. Continuous monitoring, alerts, and MCP polling require [hosted Pro/Team](https://driftguard.eddy-d55.workers.dev/pricing).
+For CI gate with trial (1 endpoint only):
+
+```yaml
+- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.2
+  with:
+    trial-session: ${{ secrets.DRIFTGUARD_TRIAL_SESSION }}
+    files-json: ${{ steps.scan.outputs.files-json }}
+```
+
+If CI finds **multiple** endpoints, the gate fails with an upgrade message — that is intentional.
+
+---
+
+## Layer 4 — Pro gate (paid)
+
+Add `DRIFTGUARD_API_KEY` (from [pricing](https://driftguard.eddy-d55.workers.dev/pricing) → activate):
+
+```yaml
+- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.2
+  with:
+    api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
+    files-json: ${{ steps.scan.outputs.files-json }}
+```
+
+Failures include `upgrade.console` URL to import missing watches without leaving your browser.
+
+---
+
+## Version embedding
+
+| Mechanism | Example |
+|-----------|---------|
+| GitHub Action ref | `@v0.3.2` |
+| npx | `npx driftguard@0.3.2` |
+| CLI | `driftguard version --json` → `ci.actionRef`, `ci.npx` |
+| Client header | `X-DriftGuard-Client-Version` on hosted calls |
+
+Setup action installs from **npm** or **GitHub Release** `.tgz` fallback.
+
+---
+
+## Recommended starter workflow
+
+See [examples/workflows/drift-diff.yml](../examples/workflows/drift-diff.yml) and [examples/workflows/drift-coverage.yml](../examples/workflows/drift-coverage.yml).
+
+Typical progression:
+
+1. Add `drift-diff` on PRs (immediate value).
+2. Add `drift-coverage-preview` (shows gap, links to console).
+3. Start trial from CI link → first watch in console.
+4. Add `DRIFTGUARD_API_KEY` → switch preview to `drift-coverage` gate.
+
+---
+
+## API reference (hosted)
+
+| Route | Auth | Funnel tier |
+|-------|------|-------------|
+| `POST /api/coverage/preview` | None (rate-limited) | Preview |
+| `POST /api/coverage/assert` | API key or trial session | Gate |
+| `GET /health` | None | Deploy smoke |
+
+Headers: `X-DriftGuard-CI-Repo`, `X-DriftGuard-Client-Version` (optional).
+
+---
+
+## Upgrade URLs
+
+All preview/assert responses include:
+
+- `upgrade.start` — trial wizard with CI import
+- `upgrade.console` — import missing watches
+- `upgrade.pricing` — Pro/Team plans
+- `upgrade.activate` — API key after checkout
+
+Hosted monitoring (alerts, MCP polling, history) requires Pro/Team — see [OPEN_CORE.md](../OPEN_CORE.md).

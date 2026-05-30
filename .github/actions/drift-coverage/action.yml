@@ -1,18 +1,27 @@
 name: DriftGuard Coverage Assert
-description: Fail CI if repo dependencies are not covered by hosted DriftGuard watches (Pro/Team)
+description: CI gate — fail when dependencies are not monitored (Pro API key or 1-endpoint trial)
 inputs:
   api-key:
-    description: DriftGuard Pro/Team API key (dg_…)
-    required: true
+    description: DriftGuard Pro/Team API key (dg_…). Omit if using trial-session.
+    required: false
+    default: ""
+  trial-session:
+    description: Console trial session UUID (covers 1 endpoint only — upgrade for full CI gate)
+    required: false
+    default: ""
   files-json:
-    description: JSON array of {path, content} objects to scan (e.g. mcp.json, package.json)
+    description: JSON array of {path, content} objects to scan
     required: true
   api:
     description: Hosted API base URL override
     required: false
     default: ""
   version:
-    description: DriftGuard client semver (optional; defaults from action ref tag v*)
+    description: DriftGuard client semver (optional)
+    required: false
+    default: ""
+  repo:
+    description: Repository slug for console deep link
     required: false
     default: ""
 runs:
@@ -24,6 +33,14 @@ runs:
     - shell: bash
       env:
         DRIFTGUARD_API_KEY: ${{ inputs.api-key }}
+        DRIFTGUARD_TRIAL_SESSION: ${{ inputs.trial-session }}
         DRIFTGUARD_FILES_JSON: ${{ inputs.files-json }}
         DRIFTGUARD_API: ${{ inputs.api }}
-      run: driftguard assert-coverage
+        DRIFTGUARD_CI_REPO: ${{ inputs.repo }}
+      run: |
+        if [ -z "$DRIFTGUARD_API_KEY" ] && [ -z "$DRIFTGUARD_TRIAL_SESSION" ]; then
+          echo "::warning::No API key — run drift-coverage-preview first, then add DRIFTGUARD_API_KEY or start trial."
+          echo "Free preview: uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.2"
+          exit 1
+        fi
+        driftguard assert-coverage
