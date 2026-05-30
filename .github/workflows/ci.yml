@@ -38,8 +38,12 @@ jobs:
       - run: npm run build
       - name: Verify CLI diff exit codes
         run: |
-          node dist/cli/check.js diff '{"a":1}' '{"a":1}' && echo "no breaking OK"
-          node dist/cli/check.js diff '{"a":1}' '{"a":1,"b":2}'; test $? -eq 1 && echo "breaking detected OK"
+          node dist/cli/check.js diff '{"a":1}' '{"a":1}'
+          set +e
+          node dist/cli/check.js diff '{"a":1}' '{"a":1,"b":2}'
+          code=$?
+          set -e
+          test "$code" -eq 1
       - name: Verify MCP bundle loads
         run: node -e "import('./dist/mcp/server.js').then(() => console.log('mcp ok'))"
 
