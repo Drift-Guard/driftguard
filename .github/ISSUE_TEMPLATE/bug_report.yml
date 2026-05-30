@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a problem with the DriftGuard CLI or MCP client
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing, check [docs/QUICKSTART.md](https://github.com/kioie/driftguard/blob/main/docs/QUICKSTART.md) and [SYSTEM_PROMPT.md](https://github.com/kioie/driftguard/blob/main/SYSTEM_PROMPT.md).
+        Hosted monitoring issues (watches, billing, console) are **not** in this repo — use DriftGuard support or the hosted service.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What you expected vs what you saw.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: CLI commands, MCP tool calls, or minimal JSON inputs.
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Component
+      options:
+        - CLI (driftguard diff)
+        - MCP server (stdio)
+        - Local diff engine (src/core)
+        - Hosted API proxy (register_watch, etc.)
+        - Documentation
+        - other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: e.g. v0.3.0 or commit SHA
+      placeholder: v0.3.0
+    validations:
+      required: false

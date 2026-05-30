@@ -5,9 +5,14 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,18 +24,58 @@ jobs:
       - run: npm run build
       - run: npm test
 
+  build:
+    name: Release build
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Verify CLI diff exit codes
+        run: |
+          node dist/cli/check.js diff '{"a":1}' '{"a":1}' && echo "no breaking OK"
+          node dist/cli/check.js diff '{"a":1}' '{"a":1,"b":2}'; test $? -eq 1 && echo "breaking detected OK"
+      - name: Verify MCP bundle loads
+        run: node -e "import('./dist/mcp/server.js').then(() => console.log('mcp ok'))"
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Check coverage threshold (src/core + src/mcp)
+        run: bash .github/scripts/check-coverage.sh 60
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+
   drift-check:
+    name: Drift smoke
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
+          node-version: "22"
+          cache: npm
       - name: Check for API response fixture drift
         run: |
+          npm ci && npm run build
           BEFORE='{"status":"ok","data":{"id":1,"name":"test"}}'
           AFTER='{"status":"ok","data":{"id":1}}'
-          npm ci && npm run build
           RESULT=$(node dist/cli/check.js diff "$BEFORE" "$AFTER" 2>/dev/null || true)
           echo "$RESULT"
           echo "$RESULT" | grep -q '"breakingCount": 1' && echo "Drift detection working"

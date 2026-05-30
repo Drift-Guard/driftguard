@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Quick start guide
+    url: https://github.com/kioie/driftguard/blob/main/docs/QUICKSTART.md
+    about: Install, CLI diff, and Cursor MCP setup
+  - name: SYSTEM_PROMPT (AI agents)
+    url: https://github.com/kioie/driftguard/blob/main/SYSTEM_PROMPT.md
+    about: MCP tool matrix and agent decision flow
+  - name: Hosted DriftGuard (Pro/Team)
+    url: https://driftguard.eddy-d55.workers.dev/start
+    about: Continuous monitoring, alerts, and console — not in this repo

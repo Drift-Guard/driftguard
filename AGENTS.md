@@ -51,9 +51,11 @@ Follow the **when / when-not / siblings** pattern in tool descriptions (see [tin
 - MCP logs go to **stderr** only (stdio is the protocol)
 - Match existing patterns in `src/core/diff.ts` for tests
 
-## CI
+## CI expectations
 
-PRs should pass `npm ci`, `npm run build`, and `npm test`.
+PRs should pass: `npm ci`, `npm run build`, `npm test`, and `bash .github/scripts/check-coverage.sh 60`.
+
+Non-draft PRs may receive an automated OpenRouter code review when `OPENROUTER_API_KEY` is configured (`.github/workflows/openrouter-pr-review.yml`). Comment `/review` to re-run.
 
 ## Publishing
 
