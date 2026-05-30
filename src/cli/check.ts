@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+import { startMcpServer } from "../mcp/server.js";
 import { diffSchemas, inferSchema } from "../core/diff.js";
+import { HOSTED_PRICING, HOSTED_TRIAL } from "../mcp/constants.js";
 
 const [,, command, ...args] = process.argv;
 
@@ -12,13 +14,23 @@ async function main(): Promise<void> {
     process.exit(result.breakingCount > 0 ? 1 : 0);
   }
 
-  console.log(`DriftGuard CLI — local JSON schema diff
+  if (command === "mcp") {
+    await startMcpServer();
+    return;
+  }
+
+  console.log(`DriftGuard — open-source local schema diff + MCP client
 
 Usage:
   driftguard diff '<before-json>' '<after-json>'
+  driftguard mcp                    Start MCP server (stdio)
 
-Continuous monitoring requires hosted DriftGuard Pro:
-  https://driftguard.org/pricing
+Local (no API key):
+  compare_json, parse_mcp_config, hosted_info, explain_drift
+
+Continuous monitoring (hosted Pro/Team):
+  ${HOSTED_TRIAL}
+  ${HOSTED_PRICING}
 `);
 }
 

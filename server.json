@@ -1,0 +1,32 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-11/server.schema.json",
+  "name": "io.github.kioie/driftguard",
+  "description": "Local JSON schema diff and hosted API/MCP drift monitoring connector. Offline tools work without an API key; continuous watches require DriftGuard Pro/Team.",
+  "version": "0.3.0",
+  "repository": {
+    "url": "https://github.com/kioie/driftguard",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "driftguard",
+      "version": "0.3.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "DRIFTGUARD_API_KEY",
+          "description": "Pro/Team API key (dg_…) for hosted monitoring tools",
+          "required": false
+        },
+        {
+          "name": "DRIFTGUARD_API",
+          "description": "Hosted API base URL (default: driftguard.org)",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

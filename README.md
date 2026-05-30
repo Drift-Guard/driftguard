@@ -1,70 +1,129 @@
 # DriftGuard
 
+[![CI](https://github.com/kioie/driftguard/actions/workflows/ci.yml/badge.svg)](https://github.com/kioie/driftguard/actions/workflows/ci.yml)
+
 **Catch schema drift before your integrations break.**
 
-DriftGuard monitors APIs and MCP servers for breaking changes. This repo is the **open-source client** — a local JSON diff tool and MCP connector. Continuous monitoring, MCP tool tracking, and alerts run on **hosted DriftGuard** (Pro/Team).
+Open-source **local JSON schema diff** + **MCP client** for developers and AI agents. Continuous API/MCP monitoring, alerts, and history run on **[hosted DriftGuard Pro/Team](https://driftguard.org/pricing)**.
 
-## What's in this repo (public)
+> **Not full self-host:** this repo is the client layer (diff + MCP connector). The monitoring pipeline is a managed service — see [OPEN_CORE.md](OPEN_CORE.md).
 
-| Component | Description |
-|-----------|-------------|
-| CLI | Diff two JSON payloads locally |
-| MCP server | `compare_json` runs locally; monitoring tools call hosted API |
-| Tests | Core schema diff engine |
+---
 
-## What's hosted (not in this repo)
+## Why this repo?
 
-- Continuous endpoint monitoring
-- MCP server tool schema tracking
-- Alert routing and drift history
-- Billing and team features
+| | **This repo (OSS client)** | **Hosted DriftGuard** |
+|---|---|---|
+| **Goal** | Test locally, integrate with agents | Production monitoring |
+| **Diff JSON schemas** | ✅ CLI + MCP | ✅ + history |
+| **Parse mcp.json preview** | ✅ offline | ✅ + auto-import |
+| **Continuous checks** | ❌ | ✅ cron + queues |
+| **MCP tools/list polling** | ❌ | ✅ |
+| **Alerts & console** | ❌ | ✅ |
+
+Use the OSS client to **try and integrate**. Upgrade when you need **always-on monitoring**.
+
+---
 
 ## Quick start
 
 ```bash
 git clone https://github.com/kioie/driftguard
-cd driftguard && npm install && npm run build
+cd driftguard && npm ci && npm run build
 ```
 
 ### CLI
 
 ```bash
 npm run check -- diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
+# exit 1 if breaking changes
 ```
 
-### MCP server (Cursor)
+### MCP server (Cursor, Claude, Windsurf)
+
+See [docs/QUICKSTART.md](docs/QUICKSTART.md) and [examples/mcp-client-config.json](examples/mcp-client-config.json).
 
 ```json
 {
   "mcpServers": {
     "driftguard": {
       "command": "node",
-      "args": ["/path/to/driftguard/dist/mcp/server.js"],
-      "env": {
-        "DRIFTGUARD_API_KEY": "your-pro-api-key"
-      }
+      "args": ["/absolute/path/to/driftguard/dist/mcp/server.js"]
     }
   }
 }
 ```
 
-Optional: set `DRIFTGUARD_API` to override (default: workers.dev; `https://driftguard.org` once custom domain is live).
+Add `"DRIFTGUARD_API_KEY": "dg_…"` under `env` for monitoring tools.
 
-- **`compare_json`** — works offline, no API key needed
-- **Monitoring tools** — require a Pro/Team API key from [DriftGuard pricing](https://driftguard.org/pricing)
+---
+
+## MCP tools
+
+| Tool | API key | Purpose |
+|------|---------|---------|
+| `compare_json` | No | Local before/after JSON schema diff |
+| `parse_mcp_config` | No | Preview watch URLs from mcp.json (no create) |
+| `hosted_info` | No | Offline vs hosted matrix, trial/pricing links |
+| `explain_drift` | No | Remediation hints for breaking changes |
+| `register_watch` | **Pro** | Continuous monitoring |
+| `check_watch` | **Pro** | Immediate check |
+| `list_watches` | **Pro** | List watches |
+| `list_drift_events` | **Pro** | Drift history |
+| `suggest_watches` | **Pro** | Import mcp.json + optional create |
+| `assert_coverage` | **Pro** | CI gate — deps must be watched |
+
+**Agents:** read [SYSTEM_PROMPT.md](SYSTEM_PROMPT.md) for when-to-use guidance.
+
+---
+
+## Upgrade path
+
+1. **Try offline** — `compare_json`, `parse_mcp_config` in Cursor (no signup)
+2. **Start trial** — [driftguard.org/start](https://driftguard.org/start) (full Pro on one endpoint)
+3. **Add API key** — set `DRIFTGUARD_API_KEY` in MCP env → monitoring tools unlock
+4. **Team** — [pricing](https://driftguard.org/pricing) for more watches, audit export, SSO
+
+Optional: override hosted URL with `DRIFTGUARD_API` (default: workers.dev).
+
+---
+
+## Project structure
+
+```
+src/core/          # Schema inference + diff (MIT)
+src/cli/           # driftguard diff | mcp
+src/mcp/           # MCP server (local + hosted proxy)
+examples/          # MCP client config template
+docs/              # Quick start, discovery
+AGENTS.md          # Agent contribution guide
+SYSTEM_PROMPT.md   # Agent tool reference
+server.json        # MCP Registry metadata
+OPEN_CORE.md       # Public vs hosted boundary
+```
+
+---
+
+## For AI agents
+
+| Doc | Use |
+|-----|-----|
+| [SYSTEM_PROMPT.md](SYSTEM_PROMPT.md) | Tool matrix, decision flow, config |
+| [AGENTS.md](AGENTS.md) | Editing this repo |
+| [docs/QUICKSTART.md](docs/QUICKSTART.md) | Setup steps |
+
+Call MCP tool **`hosted_info`** at runtime for current URLs and capability matrix.
+
+---
 
 ## Design
 
-SVG brand kit and philosophy: [docs/DESIGN.md](docs/DESIGN.md)
+Brand kit: [docs/DESIGN.md](docs/DESIGN.md)
 
-## Pricing
+## Contributing
 
-Hosted plans start at **$39/mo** (founding Pro **$29/mo**). See [pricing](https://driftguard.org/pricing) (also at [driftguard.org](https://driftguard.org) when domain is live).
-
-## Open core model
-
-We open-source the local diff client to build trust and integrate with developer workflows. The hosted monitoring pipeline — especially MCP-native continuous tracking — is proprietary.
+[CONTRIBUTING.md](CONTRIBUTING.md) — public client only.
 
 ## License
 
-MIT — applies to files in this repository only.
+MIT — [LICENSE](LICENSE). Applies to this repository only; hosted service is separate.
