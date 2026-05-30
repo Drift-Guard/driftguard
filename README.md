@@ -79,22 +79,28 @@ Add `"DRIFTGUARD_API_KEY": "dg_…"` under `env` for monitoring tools.
 
 ## CI integration
 
-Pin the client version in your pipeline:
+Pin the client version and follow the **hook → preview → trial → gate** funnel:
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1
+# 1. Hook (free)
+- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.2
   with:
-    before: '{"id":1,"email":"a@b.com"}'
-    after: '{"id":1}'
+    before: '{"id":1}'
+    after: '{"id":1,"name":"x"}'
+
+# 2. Preview (free — links to console, non-blocking)
+- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.2
+  with:
+    files-json: '[{"path":"mcp.json","content":"..."}]'
+
+# 3. Gate (Pro API key — blocks until all deps watched)
+- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.2
+  with:
+    api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
+    files-json: '...'
 ```
 
-```bash
-npx driftguard@0.3.1 diff "$BEFORE" "$AFTER"
-npx driftguard@0.3.1 assert-coverage   # Pro/Team — needs DRIFTGUARD_API_KEY
-driftguard version --json              # prints embed paths for agents
-```
-
-Full model: [docs/CI.md](docs/CI.md) · Examples: [examples/workflows/](examples/workflows/)
+Full model: [docs/CI.md](docs/CI.md)
 
 ---
 
