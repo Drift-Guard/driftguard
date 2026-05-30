@@ -1,6 +1,6 @@
 {
   "name": "driftguard",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Local JSON schema diff CLI and MCP client for DriftGuard — offline diff + hosted monitoring connector",
   "type": "module",
   "license": "MIT",
@@ -35,6 +35,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "sync-version": "node scripts/sync-version.mjs",
     "dev:mcp": "tsx src/mcp/server.ts",
     "mcp": "node dist/mcp/server.js",
     "check": "tsx src/cli/check.ts",

@@ -8,6 +8,16 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-05-30
+
+### Added
+
+- CI distribution model: [docs/CI.md](docs/CI.md) — version pins at Action ref, npx, and Release tarball layers.
+- GitHub Actions: `setup-driftguard`, `drift-diff`, `drift-coverage` (embed `@v0.3.1` in consumer workflows).
+- CLI: `driftguard assert-coverage`, `driftguard version [--json]`.
+- Example workflows under `examples/workflows/`.
+- `scripts/sync-version.mjs` — keeps `server.json` aligned with `package.json` on release.
+
 ## [0.3.0] - 2026-05-30
 
 ### Added
@@ -40,7 +50,8 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 - MCP `compare_json` (offline) and hosted monitoring tool proxies.
 - Core diff engine with breaking / warning / info classification.
 
-[Unreleased]: https://github.com/kioie/driftguard/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/kioie/driftguard/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/kioie/driftguard/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/kioie/driftguard/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/kioie/driftguard/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/kioie/driftguard/releases/tag/v0.2.0

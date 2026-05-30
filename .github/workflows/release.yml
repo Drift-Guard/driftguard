@@ -20,6 +20,7 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci
+      - run: npm run sync-version
       - run: npm run build
       - name: Pack npm tarball
         run: npm pack --pack-destination dist/

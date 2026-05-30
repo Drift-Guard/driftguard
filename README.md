@@ -77,7 +77,26 @@ Add `"DRIFTGUARD_API_KEY": "dg_…"` under `env` for monitoring tools.
 
 ---
 
-## Upgrade path
+## CI integration
+
+Pin the client version in your pipeline:
+
+```yaml
+- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1
+  with:
+    before: '{"id":1,"email":"a@b.com"}'
+    after: '{"id":1}'
+```
+
+```bash
+npx driftguard@0.3.1 diff "$BEFORE" "$AFTER"
+npx driftguard@0.3.1 assert-coverage   # Pro/Team — needs DRIFTGUARD_API_KEY
+driftguard version --json              # prints embed paths for agents
+```
+
+Full model: [docs/CI.md](docs/CI.md) · Examples: [examples/workflows/](examples/workflows/)
+
+---
 
 1. **Try offline** — `compare_json`, `parse_mcp_config` in Cursor (no signup)
 2. **Start trial** — [driftguard.eddy-d55.workers.dev/start](https://driftguard.eddy-d55.workers.dev/start) (full Pro on one endpoint)
@@ -109,6 +128,7 @@ OPEN_CORE.md       # Public vs hosted boundary
 | Doc | Use |
 |-----|-----|
 | [SYSTEM_PROMPT.md](SYSTEM_PROMPT.md) | Tool matrix, decision flow, config |
+| [docs/CI.md](docs/CI.md) | Version-pinned CI paths (Actions, npx, assert) |
 | [AGENTS.md](AGENTS.md) | Editing this repo |
 | [docs/QUICKSTART.md](docs/QUICKSTART.md) | Setup steps |
 

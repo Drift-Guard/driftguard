@@ -1,0 +1,19 @@
+# Example: offline JSON schema drift check (no API key)
+# Copy into .github/workflows/driftguard-diff.yml
+
+name: DriftGuard diff
+
+on:
+  pull_request:
+    paths:
+      - "fixtures/**"
+      - ".github/workflows/driftguard-diff.yml"
+
+jobs:
+  json-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1
+        with:
+          before: '{"user":{"id":1,"email":"a@b.com"}}'
+          after: '{"user":{"id":1}}'
