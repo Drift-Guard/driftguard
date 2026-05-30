@@ -1,0 +1,85 @@
+# Quick start
+
+Get DriftGuard running locally for **schema diff** and **MCP integration**. Continuous monitoring requires [hosted Pro/Team](https://driftguard.eddy-d55.workers.dev/pricing).
+
+**Requirements:** Node.js 20+
+
+## 1. Install
+
+```bash
+git clone https://github.com/kioie/driftguard.git
+cd driftguard
+npm ci
+npm run build
+```
+
+## 2. Try local diff (CLI)
+
+```bash
+npm run check -- diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'
+```
+
+Exit code `1` means breaking changes were detected.
+
+## 3. Connect Cursor (MCP)
+
+Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) and set the **absolute path** to `dist/mcp/server.js`.
+
+**Offline tools work immediately** — no API key:
+
+- `compare_json` — diff two JSON strings
+- `parse_mcp_config` — preview URLs from mcp.json
+- `hosted_info` — tool matrix and upgrade paths
+- `explain_drift` — remediation hints (calls public hosted endpoint)
+
+**Monitoring tools** need `DRIFTGUARD_API_KEY` from [pricing](https://driftguard.eddy-d55.workers.dev/pricing) or start a [free trial](https://driftguard.eddy-d55.workers.dev/start).
+
+### Cursor `.cursor/mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "driftguard": {
+      "command": "node",
+      "args": ["/Users/you/driftguard/dist/mcp/server.js"]
+    }
+  }
+}
+```
+
+Add `"DRIFTGUARD_API_KEY": "dg_…"` under `env` when you upgrade.
+
+## 4. Typical agent workflows
+
+### Pre-commit / CI (offline)
+
+```bash
+npm run build
+node dist/cli/check.js diff "$BEFORE_JSON" "$AFTER_JSON"
+```
+
+### Preview MCP dependencies (offline)
+
+Ask your agent to call `parse_mcp_config` with your project's `mcp.json` contents.
+
+### Continuous monitoring (hosted)
+
+1. Start trial or get Pro API key
+2. Set `DRIFTGUARD_API_KEY` in MCP env
+3. Use `suggest_watches` with `create: true` or `register_watch`
+
+## 5. What you cannot self-host from this repo
+
+This repository does **not** include:
+
+- Scheduled endpoint checks
+- MCP `tools/list` polling
+- Web console, billing, or team features
+
+See [OPEN_CORE.md](../OPEN_CORE.md). For agents: call `hosted_info` for the current capability matrix.
+
+## Next steps
+
+- [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) — tool reference for AI agents
+- [AGENTS.md](../AGENTS.md) — contributing with agents
+- [docs/DISCOVERY.md](./DISCOVERY.md) — MCP registries and listings

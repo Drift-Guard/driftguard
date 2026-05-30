@@ -1,12 +1,38 @@
 {
   "name": "driftguard",
-  "version": "0.2.0",
-  "description": "Local JSON schema diff CLI and MCP client for DriftGuard",
+  "version": "0.3.0",
+  "description": "Local JSON schema diff CLI and MCP client for DriftGuard — offline diff + hosted monitoring connector",
   "type": "module",
   "license": "MIT",
-  "bin": {
-    "driftguard": "./dist/cli/check.js"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kioie/driftguard.git"
   },
+  "homepage": "https://github.com/kioie/driftguard#readme",
+  "bugs": {
+    "url": "https://github.com/kioie/driftguard/issues"
+  },
+  "keywords": [
+    "mcp",
+    "schema",
+    "drift",
+    "api-monitoring",
+    "json-schema",
+    "model-context-protocol"
+  ],
+  "bin": {
+    "driftguard": "./dist/cli/check.js",
+    "driftguard-mcp": "./dist/mcp/server.js"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "AGENTS.md",
+    "SYSTEM_PROMPT.md",
+    "server.json",
+    "examples/mcp-client-config.json"
+  ],
   "scripts": {
     "build": "tsc",
     "dev:mcp": "tsx src/mcp/server.ts",
@@ -14,7 +40,9 @@
     "check": "tsx src/cli/check.ts",
     "test": "node --import tsx --test 'src/**/*.test.ts'"
   },
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.0",
     "zod": "^3.24.2"
