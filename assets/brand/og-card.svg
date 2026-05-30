@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0a0f14"/>
+  <!-- subtle grid -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1e2a38" stroke-width="0.5" opacity="0.6"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.35"/>
+  <!-- mark -->
+  <rect x="80" y="200" width="96" height="96" rx="20" fill="#111922" stroke="#1e2a38" stroke-width="2"/>
+  <path d="M104 248V208" stroke="#8fa3b8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M104 248L148 204" stroke="#3dd68c" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 6"/>
+  <circle cx="104" cy="248" r="7" fill="#3dd68c"/>
+  <!-- copy -->
+  <text x="210" y="240" fill="#e8eef4" font-family="system-ui, sans-serif" font-size="64" font-weight="700" letter-spacing="-0.03em">DriftGuard</text>
+  <text x="210" y="310" fill="#8fa3b8" font-family="system-ui, sans-serif" font-size="32" font-weight="400">Catch schema drift before production breaks</text>
+  <text x="210" y="370" fill="#3dd68c" font-family="system-ui, sans-serif" font-size="24" font-weight="500">API · MCP · Open core</text>
+</svg>

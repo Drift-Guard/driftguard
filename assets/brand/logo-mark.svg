@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="DriftGuard">
+  <rect width="48" height="48" rx="10" fill="#0a0f14"/>
+  <!-- baseline schema trace -->
+  <path d="M14 34V14" stroke="#8fa3b8" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- drift trace diverging -->
+  <path d="M14 34L32 16" stroke="#3dd68c" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 4"/>
+  <!-- sentinel anchor -->
+  <circle cx="14" cy="34" r="4" fill="#3dd68c"/>
+  <!-- guard bracket -->
+  <path d="M8 38h12" stroke="#1e2a38" stroke-width="2" stroke-linecap="round"/>
+</svg>
