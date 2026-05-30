@@ -3,6 +3,7 @@ import {
   assertCoverage,
   coveragePreview,
   formatCiUpgradeSummary,
+  mintTrialSession,
 } from "./coverage-api.js";
 
 export async function runCoveragePreview(opts: {
@@ -20,7 +21,19 @@ export async function runCoveragePreview(opts: {
   const body = result.body as Record<string, unknown>;
   console.log(JSON.stringify(body, null, 2));
 
-  const summary = formatCiUpgradeSummary(body);
+  let summaryBody = body;
+  const upgrade = body.upgrade as { ciSetup?: string } | undefined;
+  if (upgrade?.ciSetup && process.env.DRIFTGUARD_MINT_TRIAL_SESSION !== "0") {
+    const mint = await mintTrialSession({
+      repo: opts.repo ?? process.env.GITHUB_REPOSITORY ?? process.env.DRIFTGUARD_CI_REPO,
+      importToken: new URL(upgrade.ciSetup).searchParams.get("import") ?? undefined,
+    });
+    if (mint.ok) {
+      summaryBody = { ...body, trialGate: (mint.body as Record<string, unknown>).trialGate };
+    }
+  }
+
+  const summary = formatCiUpgradeSummary(summaryBody);
   if (process.env.GITHUB_STEP_SUMMARY) {
     const fs = await import("node:fs/promises");
     await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, summary + "\n");
