@@ -55,7 +55,7 @@ Optional: set `DRIFTGUARD_API` to override (default: workers.dev; `https://drift
 
 ## Pricing
 
-Hosted plans start at **$19/mo**. See [pricing](https://driftguard.org/pricing) (also at [driftguard.org](https://driftguard.org) when domain is live).
+Hosted plans start at **$39/mo** (founding Pro **$29/mo**). See [pricing](https://driftguard.org/pricing) (also at [driftguard.org](https://driftguard.org) when domain is live).
 
 ## Open core model
 
