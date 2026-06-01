@@ -33,7 +33,7 @@ docs/                  # Quick start, discovery
 | MCP proxy to hosted API | Multi-tenant watches, billing, console |
 | `explain_drift` (public endpoint) | Alert routing, drift history export |
 
-Do not document or implement hosted infrastructure in this repo. Funnel continuous monitoring to [hosted trial](https://driftguard.eddy-d55.workers.dev/start) and [pricing](https://driftguard.eddy-d55.workers.dev/pricing).
+Do not document or implement hosted infrastructure in this repo. Funnel continuous monitoring to [hosted trial](https://driftguard.org/start) and [pricing](https://driftguard.org/pricing).
 
 ## MCP tool conventions
 

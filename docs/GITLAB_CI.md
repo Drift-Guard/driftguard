@@ -39,13 +39,13 @@ The CLI writes markdown summaries to `CI_JOB_SUMMARY` when present (same UX as G
 2. Mint a trial session (or use auto-mint in summary when preview runs with network access):
 
 ```bash
-curl -sX POST https://driftguard.eddy-d55.workers.dev/api/trial/session \
+curl -sX POST https://driftguard.org/api/trial/session \
   -H 'content-type: application/json' \
   -d '{"repo":"'"$CI_PROJECT_PATH"'"}' | jq -r '.trialGate.envVar'
 ```
 
 3. Add `DRIFTGUARD_TRIAL_SESSION` as a **masked CI variable** in GitLab → Settings → CI/CD.
-4. Open [CI trial setup](https://driftguard.eddy-d55.workers.dev/ci/setup?from=ci) to import watches in the console.
+4. Open [CI trial setup](https://driftguard.org/ci/setup?from=ci) to import watches in the console.
 5. Enable assert job with `DRIFTGUARD_API_KEY` when you need full multi-endpoint coverage (Pro).
 
 ---

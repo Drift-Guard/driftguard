@@ -28,8 +28,8 @@ Ship [examples/mcp-client-config.json](../examples/mcp-client-config.json) with 
 The open-source client is the **top of funnel**. Listings should link:
 
 - **GitHub** — local diff + MCP client (this repo)
-- **Trial** — https://driftguard.eddy-d55.workers.dev/start
-- **Pricing** — https://driftguard.eddy-d55.workers.dev/pricing
+- **Trial** — https://driftguard.org/start
+- **Pricing** — https://driftguard.org/pricing
 
 Do not imply full monitoring is self-hostable from the public repo.
 

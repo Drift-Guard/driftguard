@@ -6,7 +6,7 @@ const pkg = require("../../package.json") as { version: string };
 export const VERSION = pkg.version;
 
 export const HOSTED_API =
-  process.env.DRIFTGUARD_API ?? "https://driftguard.eddy-d55.workers.dev";
+  process.env.DRIFTGUARD_API ?? "https://driftguard.org";
 
 export const HOSTED_CONSOLE = `${HOSTED_API}/console`;
 export const HOSTED_PRICING = `${HOSTED_API}/pricing`;
