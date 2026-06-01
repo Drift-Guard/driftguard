@@ -23,6 +23,8 @@ Open-source **local JSON schema diff** + **MCP client** for developers and AI ag
 
 Use the OSS client to **try and integrate**. Upgrade when you need **always-on monitoring**.
 
+**Roadmap:** [docs/ROADMAP.md](docs/ROADMAP.md) — next flagship is **semantic drift detection** (value-level changes that pass schema validation). Live page: [driftguard.eddy-d55.workers.dev/roadmap](https://driftguard.eddy-d55.workers.dev/roadmap).
+
 ---
 
 ## Quick start
