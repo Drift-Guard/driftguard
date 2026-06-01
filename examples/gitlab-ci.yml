@@ -1,0 +1,32 @@
+# DriftGuard — GitLab CI example
+# Copy to .gitlab-ci.yml or include from a template.
+
+stages:
+  - test
+
+variables:
+  DRIFTGUARD_VERSION: "0.3.3"
+  DRIFTGUARD_SCAN_PATHS: "mcp.json,.cursor/mcp.json,package.json"
+
+driftguard-preview:
+  stage: test
+  image: node:22-alpine
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - npm install -g driftguard@${DRIFTGUARD_VERSION}
+    - driftguard coverage-preview
+  allow_failure: true
+
+# Uncomment after adding DRIFTGUARD_API_KEY (Pro) or DRIFTGUARD_TRIAL_SESSION (1 endpoint) in CI/CD variables:
+#
+# driftguard-gate:
+#   stage: test
+#   image: node:22-alpine
+#   needs: [driftguard-preview]
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+#   script:
+#     - npm install -g driftguard@${DRIFTGUARD_VERSION}
+#     - driftguard assert-coverage

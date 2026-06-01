@@ -5,6 +5,7 @@ import {
   formatCiUpgradeSummary,
   mintTrialSession,
 } from "./coverage-api.js";
+import { ciRepo, ciRunId, appendCiSummary } from "./ci-platform.js";
 
 export async function runCoveragePreview(opts: {
   filesJson: string;
@@ -15,8 +16,8 @@ export async function runCoveragePreview(opts: {
   const files = JSON.parse(opts.filesJson) as Array<{ path: string; content: string }>;
   const result = await coveragePreview({
     files,
-    repo: opts.repo ?? process.env.GITHUB_REPOSITORY ?? process.env.DRIFTGUARD_CI_REPO,
-    runId: opts.runId ?? process.env.GITHUB_RUN_ID,
+    repo: opts.repo ?? ciRepo(),
+    runId: opts.runId ?? ciRunId(),
   });
   const body = result.body as Record<string, unknown>;
   console.log(JSON.stringify(body, null, 2));
@@ -25,7 +26,7 @@ export async function runCoveragePreview(opts: {
   const upgrade = body.upgrade as { ciSetup?: string } | undefined;
   if (upgrade?.ciSetup && process.env.DRIFTGUARD_MINT_TRIAL_SESSION !== "0") {
     const mint = await mintTrialSession({
-      repo: opts.repo ?? process.env.GITHUB_REPOSITORY ?? process.env.DRIFTGUARD_CI_REPO,
+      repo: opts.repo ?? ciRepo(),
       importToken: new URL(upgrade.ciSetup).searchParams.get("import") ?? undefined,
     });
     if (mint.ok) {
@@ -34,12 +35,7 @@ export async function runCoveragePreview(opts: {
   }
 
   const summary = formatCiUpgradeSummary(summaryBody);
-  if (process.env.GITHUB_STEP_SUMMARY) {
-    const fs = await import("node:fs/promises");
-    await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, summary + "\n");
-  } else {
-    console.error("\n" + summary.replace(/^### /gm, "").replace(/\*\*/g, ""));
-  }
+  await appendCiSummary(summary);
 
   const missingCount = Number((body as { missingCount?: number }).missingCount ?? 0);
   if (opts.failOnMissing && missingCount > 0) return 1;
@@ -57,16 +53,13 @@ export async function runAssertCoverage(opts: {
     apiKey: opts.apiKey,
     trialSession: opts.trialSession,
     files,
-    repo: opts.repo ?? process.env.GITHUB_REPOSITORY ?? process.env.DRIFTGUARD_CI_REPO,
+    repo: opts.repo ?? ciRepo(),
   });
   const body = result.body as Record<string, unknown>;
   console.log(JSON.stringify(body, null, 2));
 
   const summary = formatCiUpgradeSummary(body);
-  if (process.env.GITHUB_STEP_SUMMARY) {
-    const fs = await import("node:fs/promises");
-    await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, summary + "\n");
-  }
+  await appendCiSummary(summary);
 
   if (!result.ok) {
     const upgrade = body.upgrade as { console?: string; start?: string } | undefined;

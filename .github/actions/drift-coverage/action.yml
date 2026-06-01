@@ -1,5 +1,8 @@
 name: DriftGuard Coverage Assert
 description: CI gate — fail when dependencies are not monitored (Pro API key or 1-endpoint trial)
+branding:
+  icon: shield
+  color: green
 inputs:
   api-key:
     description: DriftGuard Pro/Team API key (dg_…). Omit if using trial-session.
@@ -10,8 +13,13 @@ inputs:
     required: false
     default: ""
   files-json:
-    description: JSON array of {path, content} objects to scan
-    required: true
+    description: JSON array of {path, content} — optional if scan-paths finds files
+    required: false
+    default: ""
+  scan-paths:
+    description: Comma-separated repo paths to scan when files-json is empty
+    required: false
+    default: "mcp.json,.cursor/mcp.json,package.json"
   api:
     description: Hosted API base URL override
     required: false
@@ -35,12 +43,13 @@ runs:
         DRIFTGUARD_API_KEY: ${{ inputs.api-key }}
         DRIFTGUARD_TRIAL_SESSION: ${{ inputs.trial-session }}
         DRIFTGUARD_FILES_JSON: ${{ inputs.files-json }}
+        DRIFTGUARD_SCAN_PATHS: ${{ inputs.scan-paths }}
         DRIFTGUARD_API: ${{ inputs.api }}
         DRIFTGUARD_CI_REPO: ${{ inputs.repo }}
       run: |
         if [ -z "$DRIFTGUARD_API_KEY" ] && [ -z "$DRIFTGUARD_TRIAL_SESSION" ]; then
-          echo "::warning::No API key — run drift-coverage-preview first, then add DRIFTGUARD_API_KEY or start trial."
-          echo "Free preview: uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.2"
+          echo "::warning::No API key — run drift-coverage-preview first, then add DRIFTGUARD_API_KEY or DRIFTGUARD_TRIAL_SESSION."
+          echo "Free preview: uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3"
           exit 1
         fi
         driftguard assert-coverage

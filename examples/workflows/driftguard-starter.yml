@@ -1,0 +1,47 @@
+# Add DriftGuard to CI in one workflow
+
+Copy this file to `.github/workflows/driftguard.yml` in your repo.
+
+```yaml
+name: DriftGuard
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  # Layer 1 — free offline diff (optional: pass your own before/after fixtures)
+  schema-hook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
+        with:
+          before: '{"status":"ok","data":{"id":1,"name":"test"}}'
+          after: '{"status":"ok","data":{"id":1}}'
+
+  # Layer 2 — free hosted scan (non-blocking; writes Step Summary + trial secret)
+  coverage-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+        with:
+          scan-paths: mcp.json,.cursor/mcp.json,package.json
+
+  # Layer 3 — Pro gate (uncomment after DRIFTGUARD_API_KEY is set)
+  # coverage-gate:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+  #       with:
+  #         api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
+  #         scan-paths: mcp.json,.cursor/mcp.json,package.json
+```
+
+**No manual `files-json` step** — `scan-paths` reads repo files automatically.
+
+Progression: preview → paste `DRIFTGUARD_TRIAL_SESSION` from Step Summary → `/ci/setup` → upgrade to Pro → enable gate.
+
+Full funnel: [docs/CI.md](../docs/CI.md) · GitLab: [docs/GITLAB_CI.md](../docs/GITLAB_CI.md) · Marketplace: [docs/GITHUB_MARKETPLACE.md](../docs/GITHUB_MARKETPLACE.md)

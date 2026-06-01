@@ -92,7 +92,7 @@ jobs:
       - run: npm ci && npm run build
       - uses: ./.github/actions/setup-driftguard
         id: dg
-      - run: test "$(driftguard version)" = "0.3.1"
+      - run: test "$(driftguard version)" = "0.3.3"
       - name: drift-diff action fails on breaking change
         uses: ./.github/actions/drift-diff
         with:

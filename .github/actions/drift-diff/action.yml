@@ -1,5 +1,8 @@
 name: DriftGuard JSON Diff
 description: Fail the job on breaking JSON schema changes (offline, no API key)
+branding:
+  icon: git-compare
+  color: green
 inputs:
   before:
     description: JSON string — previous payload or fixture

@@ -10,7 +10,12 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 
 ### Added
 
-- Public [roadmap](docs/ROADMAP.md): **semantic drift detection** as next flagship feature (value fingerprints, enum sets, unit-suspect alerts) — shaped by Dev.to community feedback on contract vs meaning-level drift.
+- CI: `scan-paths` on coverage actions — no manual `files-json` build step; starter workflow, GitLab guide, Marketplace checklist.
+- GitLab CI support: `CI_PROJECT_PATH`, `CI_JOB_SUMMARY`, `examples/gitlab-ci.yml`.
+
+### Removed
+
+- Public roadmap page and `docs/ROADMAP.md` — semantic drift remains an upcoming **Pro/Team** feature until launch.
 
 ## [0.3.3] - 2026-05-30
 
