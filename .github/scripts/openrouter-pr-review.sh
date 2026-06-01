@@ -14,7 +14,8 @@ fi
 
 MODEL="${OPENROUTER_MODEL:-anthropic/claude-3.5-haiku}"
 REPO="${GITHUB_REPOSITORY}"
-MAX_DIFF_CHARS="${OPENROUTER_MAX_DIFF_CHARS:-120000}"
+MAX_DIFF_CHARS="${OPENROUTER_MAX_DIFF_CHARS:-60000}"
+EXCLUDE_DIFF_PATHS="${OPENROUTER_EXCLUDE_DIFF_PATHS:-package-lock.json yarn.lock}"
 
 pr_json="$(gh pr view "$PR_NUMBER" --repo "$REPO" --json title,body,author,baseRefName,headRefName,files)"
 title="$(jq -r '.title' <<<"$pr_json")"
@@ -24,10 +25,32 @@ base="$(jq -r '.baseRefName' <<<"$pr_json")"
 head="$(jq -r '.headRefName' <<<"$pr_json")"
 files="$(jq -r '[.files[].path] | join(", ")' <<<"$pr_json")"
 
-diff="$(gh pr diff "$PR_NUMBER" --repo "$REPO" || true)"
-if [[ -z "$diff" ]]; then
+raw_diff="$(gh pr diff "$PR_NUMBER" --repo "$REPO" || true)"
+if [[ -z "$raw_diff" ]]; then
   echo "No diff found for PR #$PR_NUMBER."
   exit 0
+fi
+
+# Drop lockfile hunks — they dominate token usage without review value.
+diff="$(
+  awk -v excludes="$EXCLUDE_DIFF_PATHS" '
+    function is_excluded(path,    i, n, pat) {
+      n = split(excludes, parts, " ")
+      for (i = 1; i <= n; i++) {
+        pat = parts[i]
+        if (pat != "" && path ~ ("(^|/)" pat "$")) return 1
+      }
+      return 0
+    }
+    /^diff --git / {
+      skip = 0
+      if (match($0, / b\/([^ ]+)/, m) && is_excluded(m[1])) skip = 1
+    }
+    !skip { print }
+  ' <<<"$raw_diff"
+)"
+if [[ -z "$diff" ]]; then
+  diff="(No reviewable diff after excluding lockfiles: ${EXCLUDE_DIFF_PATHS})"
 fi
 
 if (( ${#diff} > MAX_DIFF_CHARS )); then
@@ -86,18 +109,33 @@ request_json="$(jq -n \
     ]
   }')"
 
+request_file="$(mktemp)"
 response_file="$(mktemp)"
+trap 'rm -f "$request_file" "$response_file"' EXIT
+printf '%s' "$request_json" >"$request_file"
+
 http_code="$(curl -sS -o "$response_file" -w '%{http_code}' \
   https://openrouter.ai/api/v1/chat/completions \
   -H "Authorization: Bearer ${OPENROUTER_API_KEY}" \
   -H "Content-Type: application/json" \
   -H "HTTP-Referer: https://github.com/${REPO}" \
   -H "X-Title: driftguard PR Review" \
-  -d "$request_json")"
+  -d @"$request_file")"
 
 if [[ "$http_code" != "200" ]]; then
   echo "OpenRouter API failed with HTTP ${http_code}:"
   cat "$response_file"
+  if [[ "$http_code" == "402" || "$http_code" == "413" ]]; then
+    gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$(cat <<EOF
+## OpenRouter PR review skipped
+
+Automated review was skipped because the prompt exceeded OpenRouter limits (HTTP ${http_code}).
+
+Lockfile-only churn is excluded from review diffs; re-run after shortening the PR or upgrading OpenRouter credits. Comment \`/review\` to retry.
+EOF
+)"
+    exit 0
+  fi
   exit 1
 fi
 
