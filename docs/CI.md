@@ -91,7 +91,7 @@ Console link (from Step Summary): `/console?from=ci&import=…` — bulk import 
 
 After preview, open **CI trial setup** in the Step Summary or visit:
 
-`https://driftguard.eddy-d55.workers.dev/ci/setup?from=ci&import=…`
+`https://driftguard.org/ci/setup?from=ci&import=…`
 
 That page mints a trial session, shows the secret to paste into GitHub, and links to the console to import discovered endpoints. The start wizard (`/start?from=ci`) still pre-fills the first missing watch.
 
@@ -108,7 +108,7 @@ For CI gate with trial (1 endpoint only):
 Mint a session manually:
 
 ```bash
-curl -sX POST https://driftguard.eddy-d55.workers.dev/api/trial/session \
+curl -sX POST https://driftguard.org/api/trial/session \
   -H 'content-type: application/json' \
   -d '{"repo":"org/repo"}' | jq -r '.trialGate.envVar'
 ```
@@ -119,7 +119,7 @@ If CI finds **multiple** endpoints, the gate fails with an upgrade message — t
 
 ## Layer 4 — Pro gate (paid)
 
-Add `DRIFTGUARD_API_KEY` (from [pricing](https://driftguard.eddy-d55.workers.dev/pricing) → activate):
+Add `DRIFTGUARD_API_KEY` (from [pricing](https://driftguard.org/pricing) → activate):
 
 ```yaml
 - uses: actions/checkout@v4

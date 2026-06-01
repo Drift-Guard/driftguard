@@ -13,7 +13,7 @@ Token-efficient reference for AI agents using or extending this repo. For repo w
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `DRIFTGUARD_API_KEY` | For hosted tools only | Pro/Team API key (`dg_…`) |
-| `DRIFTGUARD_API` | No | Override hosted base URL (default: `https://driftguard.eddy-d55.workers.dev`) |
+| `DRIFTGUARD_API` | No | Override hosted base URL (default: `https://driftguard.org`) |
 
 ## Tool matrix
 
@@ -98,9 +98,9 @@ See [docs/CI.md](docs/CI.md).
 
 ## Funnel URLs
 
-- Trial: `https://driftguard.eddy-d55.workers.dev/start`
-- Pricing: `https://driftguard.eddy-d55.workers.dev/pricing`
-- Console: `https://driftguard.eddy-d55.workers.dev/console`
+- Trial: `https://driftguard.org/start`
+- Pricing: `https://driftguard.org/pricing`
+- Console: `https://driftguard.org/console`
 
 ## Key files
 

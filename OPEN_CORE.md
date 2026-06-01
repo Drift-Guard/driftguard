@@ -35,7 +35,7 @@ The following are **not published** and constitute the product:
 OSS client (try offline) → free trial → Pro/Team API key → monitoring tools
 ```
 
-Trial: https://driftguard.eddy-d55.workers.dev/start
+Trial: https://driftguard.org/start
 
 ## Contributing
 

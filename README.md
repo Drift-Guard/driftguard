@@ -4,7 +4,7 @@
 
 **Catch schema drift before your integrations break.**
 
-Open-source **local JSON schema diff** + **MCP client** for developers and AI agents. Continuous API/MCP monitoring, alerts, and history run on **[hosted DriftGuard Pro/Team](https://driftguard.eddy-d55.workers.dev/pricing)**.
+Open-source **local JSON schema diff** + **MCP client** for developers and AI agents. Continuous API/MCP monitoring, alerts, and history run on **[hosted DriftGuard Pro/Team](https://driftguard.org/pricing)**.
 
 > **Not full self-host:** this repo is the client layer (diff + MCP connector). The monitoring pipeline is a managed service — see [OPEN_CORE.md](OPEN_CORE.md).
 
@@ -107,9 +107,9 @@ Full model: [docs/CI.md](docs/CI.md)
 ---
 
 1. **Try offline** — `compare_json`, `parse_mcp_config` in Cursor (no signup)
-2. **Start trial** — [driftguard.eddy-d55.workers.dev/start](https://driftguard.eddy-d55.workers.dev/start) (full Pro on one endpoint)
+2. **Start trial** — [driftguard.org/start](https://driftguard.org/start) (full Pro on one endpoint)
 3. **Add API key** — set `DRIFTGUARD_API_KEY` in MCP env → monitoring tools unlock
-4. **Team** — [pricing](https://driftguard.eddy-d55.workers.dev/pricing) for more watches, audit export, SSO
+4. **Team** — [pricing](https://driftguard.org/pricing) for more watches, audit export, SSO
 
 Optional: override hosted URL with `DRIFTGUARD_API` (default: workers.dev).
 

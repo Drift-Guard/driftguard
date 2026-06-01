@@ -1,6 +1,6 @@
 # Quick start
 
-Get DriftGuard running locally for **schema diff** and **MCP integration**. Continuous monitoring requires [hosted Pro/Team](https://driftguard.eddy-d55.workers.dev/pricing).
+Get DriftGuard running locally for **schema diff** and **MCP integration**. Continuous monitoring requires [hosted Pro/Team](https://driftguard.org/pricing).
 
 **Requirements:** Node.js 20+
 
@@ -32,7 +32,7 @@ Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) and s
 - `hosted_info` — tool matrix and upgrade paths
 - `explain_drift` — remediation hints (calls public hosted endpoint)
 
-**Monitoring tools** need `DRIFTGUARD_API_KEY` from [pricing](https://driftguard.eddy-d55.workers.dev/pricing) or start a [free trial](https://driftguard.eddy-d55.workers.dev/start).
+**Monitoring tools** need `DRIFTGUARD_API_KEY` from [pricing](https://driftguard.org/pricing) or start a [free trial](https://driftguard.org/start).
 
 ### Cursor `.cursor/mcp.json`
 

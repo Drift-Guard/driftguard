@@ -23,7 +23,7 @@
         },
         {
           "name": "DRIFTGUARD_API",
-          "description": "Hosted API base URL (default: driftguard.eddy-d55.workers.dev)",
+          "description": "Hosted API base URL (default: driftguard.org)",
           "required": false
         }
       ]

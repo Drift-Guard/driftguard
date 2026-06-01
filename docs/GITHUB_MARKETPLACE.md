@@ -80,5 +80,5 @@ Marketplace is GitHub-only. GitLab users use `npx driftguard@X.Y.Z` — see [GIT
 ## Support links for listing
 
 - Documentation: https://github.com/kioie/driftguard/blob/main/docs/CI.md
-- Pricing (Pro gate): https://driftguard.eddy-d55.workers.dev/pricing
+- Pricing (Pro gate): https://driftguard.org/pricing
 - Issues: https://github.com/kioie/driftguard/issues

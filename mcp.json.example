@@ -4,7 +4,7 @@
       "command": "node",
       "args": ["/absolute/path/to/driftguard/dist/mcp/server.js"],
       "env": {
-        "DRIFTGUARD_API": "https://driftguard.eddy-d55.workers.dev",
+        "DRIFTGUARD_API": "https://driftguard.org",
         "DRIFTGUARD_API_KEY": ""
       }
     }

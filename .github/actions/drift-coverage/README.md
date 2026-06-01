@@ -22,6 +22,6 @@ CI gate — fails the job until all discovered dependencies are monitored on hos
 | `files-json` | No | — | Explicit scan payload |
 | `repo` | No | `GITHUB_REPOSITORY` | Console deep link slug |
 
-Requires [DriftGuard Pro](https://driftguard.eddy-d55.workers.dev/pricing) for multi-endpoint repos.
+Requires [DriftGuard Pro](https://driftguard.org/pricing) for multi-endpoint repos.
 
 Docs: [docs/CI.md](https://github.com/kioie/driftguard/blob/main/docs/CI.md)
