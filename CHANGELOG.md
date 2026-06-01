@@ -8,6 +8,10 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 
 ## [Unreleased]
 
+### Added
+
+- Public [roadmap](docs/ROADMAP.md): **semantic drift detection** as next flagship feature (value fingerprints, enum sets, unit-suspect alerts) — shaped by Dev.to community feedback on contract vs meaning-level drift.
+
 ## [0.3.3] - 2026-05-30
 
 ### Added
