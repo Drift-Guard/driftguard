@@ -65,9 +65,11 @@ gh pr create --fill
 
 ## CI expectations
 
-PRs should pass: `npm ci`, `npm run build`, `npm test`, and `bash .github/scripts/check-coverage.sh 60`.
+PRs should pass: `npm ci`, `npm run build`, `npm test`, coverage threshold, `npm audit`, CodeQL, Gitleaks, and (on PRs) dependency review.
 
-Non-draft PRs may receive an automated OpenRouter code review when `OPENROUTER_API_KEY` is configured (`.github/workflows/openrouter-pr-review.yml`). Comment `/review` to re-run.
+Workflows run in parallel where possible — **Build & test** consolidates build, unit tests, coverage, and audit in one job.
+
+Non-draft PRs with code changes receive an automated OpenRouter review when `OPENROUTER_API_KEY` is configured (`.github/workflows/openrouter-pr-review.yml`). Comment `/review` to re-run.
 
 ## Publishing
 

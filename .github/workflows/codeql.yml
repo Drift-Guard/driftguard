@@ -5,9 +5,19 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    paths:
+      - "src/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/**"
+      - "tsconfig.json"
   schedule:
     - cron: "0 12 * * 1"
   workflow_dispatch:
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   actions: read
