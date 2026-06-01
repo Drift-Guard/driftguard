@@ -51,11 +51,25 @@ Follow the **when / when-not / siblings** pattern in tool descriptions (see [tin
 - MCP logs go to **stderr** only (stdio is the protocol)
 - Match existing patterns in `src/core/diff.ts` for tests
 
+## Git workflow
+
+**Do not push to `main`.** Branch from `main`, open a pull request, and merge after CI passes. `main` is branch-protected (PR required).
+
+```bash
+git checkout main && git pull
+git checkout -b feat/your-change
+# … commits …
+git push -u origin feat/your-change
+gh pr create --fill
+```
+
 ## CI expectations
 
-PRs should pass: `npm ci`, `npm run build`, `npm test`, and `bash .github/scripts/check-coverage.sh 60`.
+PRs should pass: `npm ci`, `npm run build`, `npm test`, coverage threshold, `npm audit`, CodeQL, Gitleaks, and (on PRs) dependency review.
 
-Non-draft PRs may receive an automated OpenRouter code review when `OPENROUTER_API_KEY` is configured (`.github/workflows/openrouter-pr-review.yml`). Comment `/review` to re-run.
+Workflows run in parallel where possible — **Build & test** consolidates build, unit tests, coverage, and audit in one job.
+
+Non-draft PRs with code changes receive an automated OpenRouter review when `OPENROUTER_API_KEY` is configured (`.github/workflows/openrouter-pr-review.yml`). Comment `/review` to re-run.
 
 ## Publishing
 

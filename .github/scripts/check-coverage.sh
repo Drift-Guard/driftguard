@@ -6,7 +6,9 @@ MIN="${1:-60}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "${ROOT}"
 
-npm ci --silent
+if [[ "${SKIP_NPM_CI:-}" != "1" ]]; then
+  npm ci --silent
+fi
 npx c8 --reporter=text --reporter=lcov --include='src/core/**' --include='src/mcp/**' \
   node --import tsx --test 'src/**/*.test.ts'
 
