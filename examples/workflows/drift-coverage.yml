@@ -1,6 +1,5 @@
 # Example: CI funnel — free preview (hook) + optional paid gate
-# Step 1: add drift-diff (see drift-diff.yml)
-# Step 2: add this preview job — does NOT block until you opt in
+# Recommended: examples/workflows/driftguard-starter.yml (all-in-one)
 
 name: DriftGuard coverage preview
 
@@ -16,21 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build scan payload
-        id: scan
-        shell: bash
-        run: |
-          node <<'NODE'
-          const fs = require('fs');
-          const paths = ['mcp.json', '.cursor/mcp.json', 'package.json'].filter((p) => fs.existsSync(p));
-          if (!paths.length) process.exit(0);
-          const files = paths.map((path) => ({ path, content: fs.readFileSync(path, 'utf8') }));
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `files-json=${JSON.stringify(files)}\n`);
-          NODE
-      - uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.2
-        if: steps.scan.outputs.files-json != ''
+      - uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
         with:
-          files-json: ${{ steps.scan.outputs.files-json }}
+          scan-paths: mcp.json,.cursor/mcp.json,package.json
 
   # Uncomment after DRIFTGUARD_API_KEY is configured:
   # gate:
@@ -38,7 +25,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v4
-  #     - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.2
+  #     - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
   #       with:
   #         api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
-  #         files-json: ${{ needs.preview.outputs.files-json }}
+  #         scan-paths: mcp.json,.cursor/mcp.json,package.json

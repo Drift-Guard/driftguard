@@ -2,13 +2,14 @@
 import { startMcpServer } from "../mcp/server.js";
 import { diffSchemas, inferSchema } from "../core/diff.js";
 import { runAssertCoverage, runCoveragePreview } from "./coverage-run.js";
+import { readFilesJsonForCi } from "./ci-files.js";
 import { printVersionJson, printVersionPlain } from "./version.js";
 import { HOSTED_PRICING, HOSTED_TRIAL } from "../mcp/constants.js";
 
 const [,, command, ...args] = process.argv;
 
 function readFilesJson(): string {
-  return process.env.DRIFTGUARD_FILES_JSON ?? args[0] ?? "";
+  return readFilesJsonForCi(args[0]);
 }
 
 async function main(): Promise<void> {
@@ -21,9 +22,12 @@ async function main(): Promise<void> {
   }
 
   if (command === "coverage-preview") {
-    const raw = readFilesJson();
-    if (!raw) {
-      console.error("Usage: driftguard coverage-preview '<files-json>'");
+    let raw: string;
+    try {
+      raw = readFilesJson();
+    } catch (err) {
+      console.error(String(err));
+      console.error("Usage: driftguard coverage-preview  (set DRIFTGUARD_FILES_JSON or DRIFTGUARD_SCAN_PATHS)");
       process.exit(1);
     }
     const code = await runCoveragePreview({
@@ -34,9 +38,11 @@ async function main(): Promise<void> {
   }
 
   if (command === "assert-coverage") {
-    const raw = readFilesJson();
-    if (!raw) {
-      console.error("Usage: driftguard assert-coverage '<files-json>'");
+    let raw: string;
+    try {
+      raw = readFilesJson();
+    } catch (err) {
+      console.error(String(err));
       process.exit(1);
     }
     const apiKey = process.env.DRIFTGUARD_API_KEY;
@@ -65,8 +71,8 @@ async function main(): Promise<void> {
 
 Usage:
   driftguard diff '<before-json>' '<after-json>'          Free — hook (unlimited in CI)
-  driftguard coverage-preview '<files-json>'             Free — scan + console upgrade links
-  driftguard assert-coverage '<files-json>'              Gate — Pro key or trial (1 endpoint)
+  driftguard coverage-preview                              Free — scan repo + console links
+  driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
   driftguard version [--json]
   driftguard mcp
 

@@ -2,7 +2,11 @@
 
 DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a version pin in your pipeline, get value immediately, then upgrade when you need full coverage gates.
 
-**Pin policy:** `uses: kioie/driftguard/...@v0.3.2` or `npx driftguard@0.3.2` — never `@main`.
+**Pin policy:** `uses: kioie/driftguard/...@v0.3.3` or `npx driftguard@0.3.3` — never `@main`.
+
+**Simplest add:** copy [examples/workflows/driftguard-starter.yml](../examples/workflows/driftguard-starter.yml) to `.github/workflows/driftguard.yml` — no manual JSON scan step.
+
+**GitLab:** [docs/GITLAB_CI.md](./GITLAB_CI.md) · **Marketplace:** [docs/GITHUB_MARKETPLACE.md](./GITHUB_MARKETPLACE.md)
 
 ---
 
@@ -42,7 +46,7 @@ DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a versi
 ## Layer 1 — Hook (free)
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.2
+- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
   with:
     before: '{"status":"ok","data":{"id":1,"name":"test"}}'
     after: '{"status":"ok","data":{"id":1}}'
@@ -56,25 +60,26 @@ npx driftguard@0.3.2 diff "$BEFORE" "$AFTER"
 
 ## Layer 2 — Preview (free, hooks upgrade)
 
-Scans `mcp.json`, OpenAPI specs, and URLs in repo files. **Does not block** your pipeline by default — it writes a Step Summary with unmonitored endpoints and one-click console links.
+Scans `mcp.json`, OpenAPI specs, and URLs in repo files via **`scan-paths`** (no custom Node step). **Does not block** your pipeline by default — it writes a Step Summary with unmonitored endpoints and one-click console links.
 
 ```yaml
 - uses: actions/checkout@v4
-- name: Build scan payload
-  id: scan
-  shell: bash
-  run: |
-    node <<'NODE'
-    const fs = require('fs');
-    const paths = ['mcp.json', '.cursor/mcp.json', 'package.json'].filter((p) => fs.existsSync(p));
-    const files = paths.map((path) => ({ path, content: fs.readFileSync(path, 'utf8') }));
-    require('fs').appendFileSync(process.env.GITHUB_OUTPUT, `files-json=${JSON.stringify(files)}\n`);
-    NODE
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.2
+- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
-    files-json: ${{ steps.scan.outputs.files-json }}
+    scan-paths: mcp.json,.cursor/mcp.json,package.json
     # fail-on-missing: true   # optional — turn on after upgrading
 ```
+
+<details>
+<summary>Advanced: explicit files-json</summary>
+
+```yaml
+- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+  with:
+    files-json: ${{ steps.scan.outputs.files-json }}
+```
+
+</details>
 
 Console link (from Step Summary): `/console?from=ci&import=…` — bulk import panel + upgrade nudges.
 
@@ -93,10 +98,11 @@ That page mints a trial session, shows the secret to paste into GitHub, and link
 For CI gate with trial (1 endpoint only):
 
 ```yaml
+- uses: actions/checkout@v4
 - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
   with:
     trial-session: ${{ secrets.DRIFTGUARD_TRIAL_SESSION }}
-    files-json: ${{ steps.scan.outputs.files-json }}
+    scan-paths: mcp.json,.cursor/mcp.json,package.json
 ```
 
 Mint a session manually:
@@ -116,10 +122,11 @@ If CI finds **multiple** endpoints, the gate fails with an upgrade message — t
 Add `DRIFTGUARD_API_KEY` (from [pricing](https://driftguard.org/pricing) → activate):
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.2
+- uses: actions/checkout@v4
+- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
   with:
     api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
-    files-json: ${{ steps.scan.outputs.files-json }}
+    scan-paths: mcp.json,.cursor/mcp.json,package.json
 ```
 
 Failures include `upgrade.console` URL to import missing watches without leaving your browser.
@@ -130,8 +137,8 @@ Failures include `upgrade.console` URL to import missing watches without leaving
 
 | Mechanism | Example |
 |-----------|---------|
-| GitHub Action ref | `@v0.3.2` |
-| npx | `npx driftguard@0.3.2` |
+| GitHub Action ref | `@v0.3.3` |
+| npx | `npx driftguard@0.3.3` |
 | CLI | `driftguard version --json` → `ci.actionRef`, `ci.npx` |
 | Client header | `X-DriftGuard-Client-Version` on hosted calls |
 
@@ -141,7 +148,7 @@ Setup action installs from **npm** or **GitHub Release** `.tgz` fallback.
 
 ## Recommended starter workflow
 
-See [examples/workflows/drift-diff.yml](../examples/workflows/drift-diff.yml) and [examples/workflows/drift-coverage.yml](../examples/workflows/drift-coverage.yml).
+See [examples/workflows/driftguard-starter.yml](../examples/workflows/driftguard-starter.yml) (recommended), [drift-diff.yml](../examples/workflows/drift-diff.yml), and [drift-coverage.yml](../examples/workflows/drift-coverage.yml).
 
 Typical progression:
 

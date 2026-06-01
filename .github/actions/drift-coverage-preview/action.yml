@@ -1,9 +1,17 @@
 name: DriftGuard Coverage Preview
-description: Free CI scan — discover unmonitored endpoints, print console upgrade links (does not block by default)
+description: Free CI scan — discover unmonitored API/MCP endpoints and print upgrade links (non-blocking by default)
+branding:
+  icon: radar
+  color: green
 inputs:
   files-json:
-    description: JSON array of {path, content} objects to scan
-    required: true
+    description: JSON array of {path, content} — optional if scan-paths finds files
+    required: false
+    default: ""
+  scan-paths:
+    description: Comma-separated repo paths to scan when files-json is empty
+    required: false
+    default: "mcp.json,.cursor/mcp.json,package.json"
   version:
     description: DriftGuard client semver (optional)
     required: false
@@ -13,7 +21,7 @@ inputs:
     required: false
     default: "false"
   repo:
-    description: Repository slug for console deep link (defaults to GITHUB_REPOSITORY)
+    description: Repository slug for console deep link (defaults to GITHUB_REPOSITORY or CI_PROJECT_PATH)
     required: false
     default: ""
 runs:
@@ -25,6 +33,7 @@ runs:
     - shell: bash
       env:
         DRIFTGUARD_FILES_JSON: ${{ inputs.files-json }}
+        DRIFTGUARD_SCAN_PATHS: ${{ inputs.scan-paths }}
         DRIFTGUARD_FAIL_ON_MISSING: ${{ inputs.fail-on-missing == 'true' && '1' || '0' }}
         DRIFTGUARD_CI_REPO: ${{ inputs.repo }}
       run: driftguard coverage-preview
