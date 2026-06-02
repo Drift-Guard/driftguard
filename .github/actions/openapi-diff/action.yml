@@ -1,0 +1,34 @@
+name: OpenAPI Diff
+description: Detect breaking OpenAPI changes with driftguard openapi-diff (offline, no API key)
+branding:
+  icon: git-compare
+  color: blue
+inputs:
+  base:
+    description: Path to base OpenAPI spec (JSON or YAML)
+    required: true
+  target:
+    description: Path to target OpenAPI spec (JSON or YAML)
+    required: true
+  fail-on-breaking:
+    description: Exit non-zero when breaking changes are found
+    required: false
+    default: "true"
+  version:
+    description: DriftGuard client semver (optional; defaults from action ref tag v*)
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup-driftguard
+      with:
+        version: ${{ inputs.version }}
+    - shell: bash
+      run: |
+        set -euo pipefail
+        ARGS=("${{ inputs.base }}" "${{ inputs.target }}")
+        if [ "${{ inputs.fail-on-breaking }}" = "true" ]; then
+          ARGS+=(--fail-on-breaking)
+        fi
+        driftguard openapi-diff "${ARGS[@]}"

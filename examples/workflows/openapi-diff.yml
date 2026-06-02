@@ -1,0 +1,19 @@
+name: OpenAPI drift
+on:
+  pull_request:
+    paths:
+      - "openapi/**"
+      - ".github/workflows/openapi-diff.yml"
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Compare OpenAPI against base branch
+        uses: ./.github/actions/openapi-diff
+        with:
+          base: openapi/base.json
+          target: openapi/openapi.json
