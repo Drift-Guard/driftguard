@@ -39,6 +39,8 @@ If you are an agent editing this repo, read [AGENTS.md](AGENTS.md) first.
 
 Report vulnerabilities in the **public client** via GitHub issues. Do not disclose hosted infrastructure details publicly.
 
+Maintainers: see [docs/security/PUBLIC-REPO-AUDIT.md](docs/security/PUBLIC-REPO-AUDIT.md) for repository hygiene and history scrub instructions.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
