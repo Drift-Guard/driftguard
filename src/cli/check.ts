@@ -4,6 +4,8 @@ import { diffSchemas, inferSchema } from "../core/diff.js";
 import { runAssertCoverage, runCoveragePreview } from "./coverage-run.js";
 import { readFilesJsonForCi } from "./ci-files.js";
 import { printVersionJson, printVersionPlain } from "./version.js";
+import { runOpenApiDiff } from "./openapi-diff-run.js";
+import { runOpenApiChangelog } from "./openapi-changelog-run.js";
 import { HOSTED_PRICING, HOSTED_TRIAL } from "../mcp/constants.js";
 
 const [,, command, ...args] = process.argv;
@@ -56,6 +58,14 @@ async function main(): Promise<void> {
     process.exit(code);
   }
 
+  if (command === "openapi-diff") {
+    process.exit(runOpenApiDiff(args));
+  }
+
+  if (command === "openapi-changelog") {
+    process.exit(runOpenApiChangelog(args));
+  }
+
   if (command === "version") {
     if (args[0] === "--json") printVersionJson();
     else printVersionPlain();
@@ -70,7 +80,9 @@ async function main(): Promise<void> {
   console.log(`DriftGuard — open-source local schema diff + MCP client
 
 Usage:
-  driftguard diff '<before-json>' '<after-json>'          Free — hook (unlimited in CI)
+  driftguard diff '<before-json>' '<after-json>'          Free — JSON schema diff
+  driftguard openapi-diff base.yaml target.yaml            Free — OpenAPI breaking changes
+  driftguard openapi-changelog base.yaml target.yaml       Release notes from OpenAPI diff
   driftguard coverage-preview                              Free — scan repo + console links
   driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
   driftguard version [--json]
