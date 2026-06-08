@@ -6,6 +6,8 @@ import urllib.error
 import urllib.request
 from typing import Any
 
+from mockdrift.http_headers import driftguard_request_headers
+
 
 class CloudClientError(Exception):
     """Hosted MockDrift API error."""
@@ -51,9 +53,8 @@ def fetch_fixture_from_watch(
         url,
         data=json.dumps(payload).encode("utf-8"),
         headers={
-            "Authorization": f"Bearer {api_key()}",
+            **driftguard_request_headers(api_key=api_key()),
             "Content-Type": "application/json",
-            "Accept": "application/json",
         },
         method="POST",
     )

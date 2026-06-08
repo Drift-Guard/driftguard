@@ -6,6 +6,8 @@ import urllib.request
 import uuid
 from typing import Any
 
+from mockdrift.http_headers import driftguard_request_headers
+
 
 def telemetry_enabled() -> bool:
     return os.environ.get("MOCKDRIFT_TELEMETRY", "1").strip() != "0"
@@ -32,7 +34,7 @@ def emit_cloud_ci_run(*, framework: str = "pytest", metadata: dict[str, Any] | N
         f"{base}/api/usage/events",
         data=json.dumps(payload).encode("utf-8"),
         headers={
-            "Authorization": f"Bearer {api_key}",
+            **driftguard_request_headers(api_key=api_key),
             "Content-Type": "application/json",
         },
         method="POST",
