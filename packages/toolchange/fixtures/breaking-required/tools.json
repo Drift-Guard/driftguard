@@ -1,0 +1,19 @@
+{
+  "apiVersion": "toolchange.dev/v1",
+  "generated_at": "2026-06-08T00:00:00Z",
+  "tools": [
+    {
+      "name": "stripe_create_refund",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "amount": { "type": "number" },
+          "country": { "type": "string" }
+        },
+        "required": ["amount", "country"]
+      },
+      "scope": "write",
+      "source": "fixtures/breaking-required/refund.py"
+    }
+  ]
+}

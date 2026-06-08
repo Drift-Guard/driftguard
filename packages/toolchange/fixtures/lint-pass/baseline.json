@@ -1,0 +1,18 @@
+{
+  "apiVersion": "toolchange.dev/v1",
+  "generated_at": "2026-06-01T00:00:00Z",
+  "tools": [
+    {
+      "name": "search_docs",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" }
+        },
+        "required": ["query"]
+      },
+      "scope": "read",
+      "source": "fixtures/lint-pass/search_tool.py"
+    }
+  ]
+}
