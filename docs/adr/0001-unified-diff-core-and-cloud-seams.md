@@ -33,4 +33,5 @@ DriftGuard had three forked implementations of schema diff semantics (OSS `diff.
 
 - OSS `npm run build` must compile diff-core to `dist/` before `tsc`; publishing or CI smoke that runs `node dist/cli/check.js` depends on this ordering.
 - Cloud ARCH PR merges after OSS diff-core lands so the file dependency resolves.
+- **Cross-repo CI:** `driftguard-cloud` is a separate repo; `file:../packages/diff-core` only exists when OSS is checked out as a sibling. Cloud CI runs `scripts/setup-diff-core-dep.sh` to sparse-clone the package and build `dist/` before `npm ci`.
 - Second wave (deferred): watch-check pipeline orchestration, console esbuild kernel — see `docs/PRODUCT-BUILD.md`.
