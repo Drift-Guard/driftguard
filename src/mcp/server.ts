@@ -16,6 +16,7 @@ import {
   VERSION,
 } from "./constants.js";
 import { parseLocalWatchPreviews } from "./parse-mcp-json.js";
+import { missingApiKeyMessage, parseJsonString } from "./tool-input.js";
 
 const API_KEY = process.env.DRIFTGUARD_API_KEY;
 
@@ -31,9 +32,7 @@ const server = new McpServer(
 
 async function hostedRequest(path: string, init: RequestInit = {}): Promise<unknown> {
   if (!API_KEY) {
-    throw new Error(
-      `Hosted tool requires DRIFTGUARD_API_KEY (Pro/Team). Start a trial: ${HOSTED_TRIAL} · Pricing: ${HOSTED_PRICING}`,
-    );
+    throw new Error(missingApiKeyMessage());
   }
   const response = await fetch(`${HOSTED_API}${path}`, {
     ...init,
@@ -193,7 +192,11 @@ server.tool(
   },
   async ({ text, urls, mcpJson, create }) => {
     const body: Record<string, unknown> = { text, urls, create };
-    if (mcpJson) body.mcpJson = JSON.parse(mcpJson);
+    if (mcpJson) {
+      const parsed = parseJsonString(mcpJson, "mcpJson");
+      if (!parsed.ok) return jsonResult({ error: parsed.error }, true);
+      body.mcpJson = parsed.value;
+    }
     return jsonResult(
       await hostedRequest("/api/watches/suggest", { method: "POST", body: JSON.stringify(body) }),
     );
@@ -205,11 +208,12 @@ server.tool(
   "Explain SchemaChange objects with remediation hints (agentAction). Works without API key. Use after compare_json when breakingCount > 0. Does not register watches.",
   { changesJson: z.string().describe("JSON array of SchemaChange objects from compare_json") },
   async ({ changesJson }) => {
-    const changes = JSON.parse(changesJson);
+    const parsed = parseJsonString(changesJson, "changesJson");
+    if (!parsed.ok) return jsonResult({ error: parsed.error }, true);
     const result = await fetch(`${HOSTED_API}/api/drift/explain`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ changes }),
+      body: JSON.stringify({ changes: parsed.value }),
     }).then((r) => r.json());
     return jsonResult(result);
   },
@@ -223,8 +227,15 @@ server.tool(
     mcpJson: z.string().optional(),
   },
   async ({ text, mcpJson }) => {
+    if (!API_KEY) {
+      return jsonResult({ error: missingApiKeyMessage() }, true);
+    }
     const body: Record<string, unknown> = { text };
-    if (mcpJson) body.mcpJson = JSON.parse(mcpJson);
+    if (mcpJson) {
+      const parsed = parseJsonString(mcpJson, "mcpJson");
+      if (!parsed.ok) return jsonResult({ error: parsed.error }, true);
+      body.mcpJson = parsed.value;
+    }
     const response = await fetch(`${HOSTED_API}/api/coverage/assert`, {
       method: "POST",
       headers: {
