@@ -34,7 +34,7 @@
     "examples/mcp-client-config.json"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build --prefix packages/diff-core && tsc",
     "sync-version": "node scripts/sync-version.mjs",
     "dev:mcp": "tsx src/mcp/server.ts",
     "mcp": "node dist/mcp/server.js",

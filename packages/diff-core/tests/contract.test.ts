@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
-import { diffSchemas, inferSchema } from "../src/index.js";
+import { diffSchemas, inferSchema } from "../dist/index.js";
 
 const vectors = JSON.parse(
   readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../contract/vectors.json"), "utf8"),

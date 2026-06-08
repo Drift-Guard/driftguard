@@ -4,12 +4,22 @@
   "description": "Canonical schema diff semantics for DriftGuard CLI, hosted checks, and contract tests",
   "type": "module",
   "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "contract"
+  ],
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
     "./contract/vectors.json": "./contract/vectors.json"
   },
   "scripts": {
-    "test": "node --import tsx --test tests/*.test.ts"
+    "build": "tsc",
+    "test": "npm run build && node --test tests/*.test.ts"
   },
   "devDependencies": {
     "tsx": "^4.22.4"
