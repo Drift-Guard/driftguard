@@ -90,3 +90,23 @@ def test_md_c_005_telemetry_emits_when_enabled():
             urlopen.return_value = resp
             emit_cloud_ci_run()
             urlopen.assert_called_once()
+
+
+def test_md_c_004_cloud_client_sends_user_agent():
+    """Production edge blocks default Python urllib without User-Agent."""
+    captured: dict[str, str] = {}
+
+    def _capture_request(req, *_args, **_kwargs):
+        captured.update(dict(req.header_items()))
+        resp = mock.Mock()
+        resp.__enter__ = mock.Mock(return_value=resp)
+        resp.__exit__ = mock.Mock(return_value=False)
+        resp.read.return_value = json.dumps(CLOUD_FIXTURE_RESPONSE).encode()
+        return resp
+
+    with mock.patch.dict(os.environ, {"DRIFTGUARD_API_KEY": "dg_live_test"}):
+        with mock.patch("urllib.request.urlopen", side_effect=_capture_request):
+            fetch_fixture_from_watch("watch_test123")
+    assert "User-agent" in captured or "User-Agent" in captured
+    ua = captured.get("User-agent") or captured.get("User-Agent")
+    assert ua and "MockDrift" in ua

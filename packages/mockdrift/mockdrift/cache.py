@@ -5,17 +5,17 @@ from pathlib import Path
 from typing import Any
 
 
-def cache_root(root: Path | None = None) -> Path:
-    base = (root or Path.cwd()).resolve()
+def cache_root(root: Path | str | None = None) -> Path:
+    base = Path(root).resolve() if root is not None else Path.cwd().resolve()
     return base / ".mockdrift" / "cache"
 
 
-def cache_dir_for_watch(watch_id: str, *, root: Path | None = None) -> Path:
+def cache_dir_for_watch(watch_id: str, *, root: Path | str | None = None) -> Path:
     safe = watch_id.replace("/", "_")
     return cache_root(root) / safe
 
 
-def write_cached_fixture(watch_id: str, cloud_response: dict[str, Any], *, root: Path | None = None) -> Path:
+def write_cached_fixture(watch_id: str, cloud_response: dict[str, Any], *, root: Path | str | None = None) -> Path:
     """Materialize cloud fixture payload as on-disk MockDrift fixture files."""
     fixture_dir = cache_dir_for_watch(watch_id, root=root)
     fixture_dir.mkdir(parents=True, exist_ok=True)
@@ -67,7 +67,7 @@ def write_cached_fixture(watch_id: str, cloud_response: dict[str, Any], *, root:
     return fixture_dir
 
 
-def load_cached_fixture(watch_id: str, *, root: Path | None = None) -> dict[str, Any] | None:
+def load_cached_fixture(watch_id: str, *, root: Path | str | None = None) -> dict[str, Any] | None:
     fixture_dir = cache_dir_for_watch(watch_id, root=root)
     meta_path = fixture_dir / "cloud-meta.json"
     if not meta_path.is_file():
