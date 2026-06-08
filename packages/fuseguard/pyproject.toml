@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fuseguard"
+version = "0.1.0"
+description = "Loop and budget fuse for AI agents (DriftGuard Platform Gate 1b)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+  "mockdrift>=0.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "jsonschema>=4.0",
+]
+
+[project.scripts]
+fuseguard = "fuseguard.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fuseguard"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "unit: fast isolated unit test",
+]

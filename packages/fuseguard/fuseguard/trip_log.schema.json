@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://driftguard.org/schemas/fuseguard/trip-log.v1.json",
+  "title": "FuseGuardTripLog",
+  "type": "object",
+  "required": ["tripId", "reason", "createdAt", "calls"],
+  "additionalProperties": false,
+  "properties": {
+    "tripId": {
+      "type": "string",
+      "pattern": "^fg_[0-9a-f]{12}$"
+    },
+    "reason": {
+      "type": "string",
+      "enum": ["loop_detected", "budget_exceeded"]
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "toolName": {
+      "type": ["string", "null"]
+    },
+    "watchId": {
+      "type": ["string", "null"]
+    },
+    "calls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step", "tool", "argsHash"],
+        "additionalProperties": false,
+        "properties": {
+          "step": { "type": "integer", "minimum": 1 },
+          "tool": { "type": "string", "minLength": 1 },
+          "argsHash": { "type": "string", "minLength": 8 },
+          "statusCode": { "type": ["integer", "null"] },
+          "errorClass": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}
