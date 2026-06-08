@@ -1,0 +1,10 @@
+{
+  "tools": {
+    "stripe_create_refund": {
+      "required": ["amount", "currency", "billing_country", "customer_reference"]
+    },
+    "stripe_confirm_refund": {
+      "required": ["refund_id"]
+    }
+  }
+}

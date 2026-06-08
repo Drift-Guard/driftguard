@@ -1,0 +1,10 @@
+{
+  "schema_valid": { "enabled": true },
+  "no_loop_spiral": { "max_identical_tool_hashes": 3 },
+  "idempotency": {
+    "enabled": true,
+    "side_effect_tools": ["stripe_create_refund"],
+    "require_idempotency_key": false,
+    "max_duplicate_side_effects": 0
+  }
+}

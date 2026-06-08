@@ -1,0 +1,338 @@
+# mockdrift.assertion.v2 — MockDrift scenario & result schema
+# Intent-binding & drift-replay simulator (NOT a stateful business-logic sandbox)
+# https://driftguard.org/docs/mockdrift/assertion-v2
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://driftguard.org/schemas/mockdrift-assertion-v2.schema.yaml"
+title: MockDrift Assertion v2
+version: "2.0.0"
+description: |
+  Declarative contract for MockDrift scenarios and CI pass/fail results.
+  PASS never means "task succeeded" — only defensive correctness under injected drift.
+
+# -----------------------------------------------------------------------------
+# Scenario file (input) — typically mockdrift.scenario.yaml
+# -----------------------------------------------------------------------------
+
+Scenario:
+  type: object
+  required: [apiVersion, name, agent, drift, expect]
+  properties:
+    apiVersion:
+      const: mockdrift.assertion/v2
+    name:
+      type: string
+      description: Human-readable scenario id (kebab-case)
+    description:
+      type: string
+    tags:
+      type: array
+      items: { type: string }
+      examples: [["stripe", "mcp", "write-tool"]]
+
+    agent:
+      $ref: "#/$defs/AgentTarget"
+
+    drift:
+      $ref: "#/$defs/DriftInjection"
+
+    expect:
+      $ref: "#/$defs/Expectation"
+
+    limits:
+      $ref: "#/$defs/Limits"
+
+  $defs:
+    AgentTarget:
+      type: object
+      required: [runner]
+      properties:
+        runner:
+          type: string
+          enum: [langgraph, crewai, autogen, custom, subprocess]
+        entry:
+          type: string
+          description: Module path, graph name, or shell command
+        env:
+          type: object
+          additionalProperties: { type: string }
+        state_schema:
+          type: string
+          description: Optional JSON Schema or dot-path manifest for state_invariants
+
+    DriftInjection:
+      type: object
+      required: [source]
+      properties:
+        source:
+          oneOf:
+            - $ref: "#/$defs/DriftFixtureSource"
+            - $ref: "#/$defs/DriftGuardWatchSource"
+        target:
+          type: object
+          properties:
+            tool:
+              type: string
+              description: MCP tool name or HTTP operation id
+            endpoint:
+              type: string
+              format: uri
+            match:
+              type: string
+              enum: [first_call, every_call, nth_call]
+              default: first_call
+            nth:
+              type: integer
+              minimum: 1
+        response:
+          type: object
+          properties:
+            mode:
+              enum: [fixture_error, schema_break, status_only]
+              default: fixture_error
+            http_status:
+              type: integer
+            body_fixture:
+              type: string
+              description: Path to JSON error payload relative to scenario file
+            missing_fields:
+              type: array
+              items: { type: string }
+            type_changes:
+              type: array
+              items:
+                type: object
+                required: [path, from, to]
+                properties:
+                  path: { type: string }
+                  from: { type: string }
+                  to: { type: string }
+
+    DriftFixtureSource:
+      type: object
+      required: [type, path]
+      properties:
+        type:
+          const: fixture
+        path:
+          type: string
+          description: Directory with before.schema.json, after.schema.json, sample-error.json
+
+    DriftGuardWatchSource:
+      type: object
+      required: [type]
+      properties:
+        type:
+          const: driftguard_watch
+        watch_id:
+          type: string
+        event_id:
+          type: string
+        offline_snapshot:
+          type: string
+          description: Fallback fixture path when cloud unavailable (CI must not require network)
+
+    Expectation:
+      type: object
+      required: [failure_profile, schema_valid, no_loop_spiral]
+      properties:
+        failure_profile:
+          $ref: "#/$defs/FailureProfile"
+        schema_valid:
+          $ref: "#/$defs/SchemaValidExpectation"
+        state_invariants:
+          type: array
+          items: { $ref: "#/$defs/StateInvariant" }
+        next_step_valid:
+          $ref: "#/$defs/NextStepValidExpectation"
+        idempotency:
+          $ref: "#/$defs/IdempotencyExpectation"
+        no_loop_spiral:
+          $ref: "#/$defs/LoopExpectation"
+
+    FailureProfile:
+      type: string
+      enum:
+        - halt_clean
+        - bubble_to_orchestrator
+        - fallback_state
+      description: |
+        halt_clean — agent stops; terminal state; no further tool calls after drift.
+        bubble_to_orchestrator — domain/unhandled error propagates to runner (PASS if runner catches).
+        fallback_state — typed domain error + declared fallback state fields set.
+
+    SchemaValidExpectation:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+        normalize:
+          type: object
+          properties:
+            sort_object_keys: { type: boolean, default: true }
+            coerce_int_strings: { type: boolean, default: false }
+            strip_whitespace: { type: boolean, default: true }
+
+    StateInvariant:
+      type: object
+      required: [path, rule]
+      properties:
+        path:
+          type: string
+          description: JSONPath or LangGraph state dot-path
+        rule:
+          enum:
+            - unchanged_since_checkpoint
+            - one_of
+            - equals
+            - not_null
+            - reverted_to_checkpoint
+        values:
+          type: array
+          description: Required when rule is one_of or equals
+        checkpoint:
+          enum: [pre_drift, scenario_start]
+          default: pre_drift
+
+    NextStepValidExpectation:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+        max_steps_after_drift:
+          type: integer
+          minimum: 0
+          default: 2
+        max_retries_same_tool:
+          type: integer
+          minimum: 0
+          default: 1
+          description: Bounded retries after drift; 0 = must not retry drifted tool
+        forbid_null_fields:
+          type: array
+          items: { type: string }
+        forbid_tools_after_drift:
+          type: array
+          items: { type: string }
+          description: Tools that must NOT be called after drift (e.g. write tools)
+
+    IdempotencyExpectation:
+      type: object
+      description: Mock ledger tracks side-effect class calls; no duplicate writes after simulated failure
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        side_effect_tools:
+          type: array
+          items: { type: string }
+        require_idempotency_key:
+          type: boolean
+          default: true
+        max_duplicate_side_effects:
+          type: integer
+          maximum: 0
+          default: 0
+
+    LoopExpectation:
+      type: object
+      required: [max_identical_tool_hashes, window_steps]
+      properties:
+        max_identical_tool_hashes:
+          type: integer
+          minimum: 1
+          default: 3
+          description: Same normalized tool+args hash within window => loop
+        window_steps:
+          type: integer
+          minimum: 1
+          default: 10
+        same_error_streak:
+          type: integer
+          minimum: 1
+          default: 3
+          description: Identical HTTP/status/error class streak on same tool
+
+    Limits:
+      type: object
+      properties:
+        timeout_ms:
+          type: integer
+          default: 120000
+        max_total_steps:
+          type: integer
+          default: 50
+        budget_usd:
+          type: number
+          description: Optional; blocks outbound LLM calls when exceeded (local estimate)
+
+# -----------------------------------------------------------------------------
+# Result file (output) — mockdrift-result.json (CI artifact)
+# -----------------------------------------------------------------------------
+
+Result:
+  type: object
+  required: [apiVersion, scenario, verdict, criteria, trace_summary]
+  properties:
+    apiVersion:
+      const: mockdrift.assertion/v2
+    scenario:
+      type: string
+    verdict:
+      enum: [PASS, FAIL]
+    criteria:
+      type: object
+      required: [schema_valid, failure_profile_met, no_loop_spiral]
+      properties:
+        schema_valid:
+          $ref: "#/$defs/CriterionResult"
+        failure_profile_met:
+          $ref: "#/$defs/CriterionResult"
+        state_invariants:
+          $ref: "#/$defs/CriterionResult"
+        next_step_valid:
+          $ref: "#/$defs/CriterionResult"
+        idempotency:
+          $ref: "#/$defs/CriterionResult"
+        no_loop_spiral:
+          $ref: "#/$defs/CriterionResult"
+
+    trace_summary:
+      type: object
+      properties:
+        steps_total: { type: integer }
+        steps_after_drift: { type: integer }
+        drift_injected_at_step: { type: integer }
+        tools_called:
+          type: array
+          items:
+            type: object
+            properties:
+              tool: { type: string }
+              hash: { type: string }
+              error_class: { type: string }
+
+    failure:
+      type: object
+      properties:
+        code:
+          enum:
+            - SCHEMA_INVALID
+            - WRONG_FAILURE_PROFILE
+            - STATE_INVARIANT_VIOLATION
+            - POISONED_NEXT_STEP
+            - LOOP_SPIRAL
+            - IDEMPOTENCY_VIOLATION
+            - TIMEOUT
+            - BUDGET_EXCEEDED
+        message: { type: string }
+        step: { type: integer }
+
+    CriterionResult:
+      type: object
+      required: [pass]
+      properties:
+        pass: { type: boolean }
+        detail: { type: string }

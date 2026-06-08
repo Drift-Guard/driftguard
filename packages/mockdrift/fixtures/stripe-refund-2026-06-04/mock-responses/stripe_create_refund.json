@@ -1,0 +1,5 @@
+{
+  "id": "{{mockdrift.uuid}}",
+  "status": "pending",
+  "amount": 100
+}

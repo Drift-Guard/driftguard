@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mockdrift"
+version = "0.1.0"
+description = "Intent-binding drift-replay tests for AI agents (DriftGuard Platform Gate 1)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+  "pytest>=8.0",
+  "pyyaml>=6.0",
+  "tomli>=2.0; python_version < '3.11'",
+]
+
+[project.optional-dependencies]
+langgraph = [
+  "langgraph>=0.2",
+  "langchain-core>=0.3",
+]
+dev = [
+  "pytest>=8.0",
+  "langgraph>=0.2",
+  "langchain-core>=0.3",
+]
+
+[project.scripts]
+mockdrift = "mockdrift.cli:main"
+
+[project.entry-points.pytest11]
+mockdrift = "mockdrift.pytest_plugin"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mockdrift"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "examples/reference_langgraph/tests"]
+markers = [
+  "mockdrift: drift-replay scenario test",
+  "skip_mockdrift: skip mockdrift harness",
+  "unit: fast isolated unit test",
+  "integration: layer1/layer2 scenario integration test",
+]
