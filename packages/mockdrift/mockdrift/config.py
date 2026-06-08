@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -77,6 +78,20 @@ def load_config(root: Path | None = None) -> MockDriftConfig:
 def resolve_fixture_config(config: MockDriftConfig, fixture_key: str) -> FixtureConfig:
     if fixture_key in config.fixtures:
         return config.fixtures[fixture_key]
+
+    sim_path = os.environ.get("MOCKDRIFT_SIMULATE_FIXTURE")
+    if fixture_key in ("simulate-drift", "simulate-drift-watch") and sim_path:
+        sim_dir = Path(sim_path).resolve()
+        if not sim_dir.is_dir():
+            raise MisconfigurationError(f"Simulate fixture path not found: {sim_dir}")
+        return FixtureConfig(
+            name=fixture_key,
+            path=sim_dir,
+            drift_target=os.environ.get("MOCKDRIFT_SIMULATE_DRIFT_TARGET"),
+            match=os.environ.get("MOCKDRIFT_SIMULATE_MATCH", "first_call"),
+            failure_profile=os.environ.get("MOCKDRIFT_SIMULATE_FAILURE_PROFILE"),
+        )
+
     candidate = Path(fixture_key)
     if candidate.is_dir():
         return FixtureConfig(name=candidate.name, path=candidate.resolve())

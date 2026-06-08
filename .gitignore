@@ -6,6 +6,7 @@ coverage/
 .DS_Store
 .venv/
 .pytest_cache/
+.mockdrift/cache/
 __pycache__/
 *.pyc
 
