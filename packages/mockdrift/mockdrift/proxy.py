@@ -4,7 +4,9 @@ import hashlib
 import importlib
 import json
 import os
+import shlex
 import subprocess
+import sys
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -209,9 +211,10 @@ def _proxy_env(session: MockDriftSession) -> dict[str, str]:
 
 def _run_python_entry(entry: str, *, env: dict[str, str]) -> None:
     parts = entry.split(maxsplit=1)
-    if len(parts) < 2:
+    if len(parts) < 2 or parts[0] != "python":
         raise MisconfigurationError(f"Invalid python entry: {entry}")
-    result = subprocess.run(parts[1], shell=True, env=env, check=False)  # noqa: S602
+    cmd = [sys.executable, *shlex.split(parts[1])]
+    result = subprocess.run(cmd, env=env, check=False)
     if result.returncode != 0:
         raise MisconfigurationError(f"Entry command failed with exit {result.returncode}")
 

@@ -20,6 +20,7 @@ class LoopDetector:
     _recent: list[tuple[str, str | None]] = field(default_factory=list)
 
     def record(self, *, step: int, tool: str, args_hash: str, error_class: str | None) -> None:
+        _ = (step, tool)  # reserved for trace enrichment
         self._recent.append((args_hash, error_class))
         if len(self._recent) > self.window_steps:
             self._recent.pop(0)

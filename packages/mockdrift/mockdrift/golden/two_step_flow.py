@@ -5,7 +5,7 @@ from typing import Any
 from mockdrift.proxy import ToolProxy
 
 
-def run(proxy: ToolProxy, inputs: dict[str, Any]) -> None:
+def run(proxy: ToolProxy, _inputs: dict[str, Any]) -> None:
     """Two-step flow: uuid from step 1 flows to step 2 via scope refs."""
     first = proxy.invoke(
         "stripe_create_refund",

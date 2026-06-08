@@ -16,7 +16,7 @@ describe("formatCiUpgradeSummary", () => {
     });
     assert.match(md, /2 endpoints unmonitored/);
     assert.match(md, /Unmonitored endpoints/);
-    assert.match(md, /api.example.com/);
+    assert.match(md, /api\.example\.com/);
     assert.match(md, /View pricing/);
   });
 

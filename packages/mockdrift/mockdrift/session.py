@@ -117,7 +117,7 @@ class MockDriftSession:
 
     def run(
         self,
-        graph: Any | None = None,
+        _graph: Any | None = None,
         *,
         inputs: dict[str, Any] | None = None,
         config: dict[str, Any] | None = None,

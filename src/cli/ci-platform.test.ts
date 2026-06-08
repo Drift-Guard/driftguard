@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import fs from "node:fs";
+import fs, { mkdtempSync, rmSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, it } from "node:test";
@@ -47,15 +47,22 @@ describe("ci-platform", () => {
   });
 
   it("ciSummaryPath reads GITHUB_STEP_SUMMARY", () => {
-    process.env.GITHUB_STEP_SUMMARY = "/tmp/summary.md";
-    assert.equal(ciSummaryPath(), "/tmp/summary.md");
+    const dir = mkdtempSync(path.join(os.tmpdir(), "dg-ci-summary-"));
+    const file = path.join(dir, "summary.md");
+    process.env.GITHUB_STEP_SUMMARY = file;
+    assert.equal(ciSummaryPath(), file);
+    rmSync(dir, { recursive: true, force: true });
   });
 
   it("appendCiSummary writes to summary file when configured", async () => {
-    const file = path.join(os.tmpdir(), `dg-summary-${Date.now()}.md`);
+    const dir = mkdtempSync(path.join(os.tmpdir(), "dg-summary-"));
+    const file = path.join(dir, "summary.md");
     process.env.GITHUB_STEP_SUMMARY = file;
-    await appendCiSummary("### DriftGuard\n\nhello");
-    assert.match(fs.readFileSync(file, "utf8"), /hello/);
-    fs.unlinkSync(file);
+    try {
+      await appendCiSummary("### DriftGuard\n\nhello");
+      assert.match(fs.readFileSync(file, "utf8"), /hello/);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

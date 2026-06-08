@@ -28,7 +28,7 @@ def _demo(fixture_key: str) -> None:
     try:
         config = load_config(root)
         fixture_cfg = resolve_fixture_config(config, fixture_key)
-        fixture = load_fixture(fixture_cfg, defaults=config.defaults)
+        load_fixture(fixture_cfg, defaults=config.defaults)
     except MisconfigurationError as exc:
         print(str(exc), file=sys.stderr)
         sys.exit(2)

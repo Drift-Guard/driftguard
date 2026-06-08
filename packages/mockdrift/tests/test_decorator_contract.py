@@ -18,7 +18,8 @@ def test_drift_replay_accepts_session_param():
 def test_drift_replay_rejects_bad_signature():
     @drift_replay(fixture="x", runner="custom", entry="true", assert_profiles=False)
     def bad(a, b):
-        pass
+        """Intentionally wrong signature for contract validation."""
+        raise AssertionError("should not run")
 
     with pytest.raises(TypeError):
         bad()
