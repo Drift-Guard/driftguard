@@ -20,11 +20,13 @@ describe("formatCiUpgradeSummary", () => {
     assert.match(md, /View pricing/);
   });
 
-  it("includes trial gate env block when present", () => {
+  it("SEC-U04: redacts trial secret value from CI job summary", () => {
     const md = formatCiUpgradeSummary({
       message: "ok",
-      trialGate: { envVar: "DRIFTGUARD_TRIAL_SESSION=abc" },
+      trialGate: { envVar: "DRIFTGUARD_TRIAL_SESSION=super-secret-token" },
     });
-    assert.match(md, /DRIFTGUARD_TRIAL_SESSION=abc/);
+    assert.match(md, /DRIFTGUARD_TRIAL_SESSION/);
+    assert.doesNotMatch(md, /super-secret-token/);
+    assert.match(md, /omitted from job summary/i);
   });
 });
