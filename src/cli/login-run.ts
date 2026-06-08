@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 /** OSS — verify API key against hosted /api/me */
+import { formatLoginExportHint } from "./api-key-hint.js";
+
 const API = process.env.DRIFTGUARD_API_URL || "https://driftguard.org";
 
 export async function runLogin(argv: string[]): Promise<number> {
@@ -19,7 +21,7 @@ export async function runLogin(argv: string[]): Promise<number> {
       return 1;
     }
     console.log(`Authenticated as ${body.email || body.customerId || "customer"} (${body.plan || "pro"})`);
-    console.log(`Export: export DRIFTGUARD_API_KEY=${key}`);
+    console.log(formatLoginExportHint(key));
     return 0;
   } catch (err) {
     console.error(err instanceof Error ? err.message : String(err));
