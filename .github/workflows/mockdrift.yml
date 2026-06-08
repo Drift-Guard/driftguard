@@ -7,12 +7,14 @@ on:
       - "packages/mockdrift/**"
       - "docs/mockdrift/**"
       - ".github/workflows/mockdrift.yml"
+      - ".github/actions/mockdrift/**"
   pull_request:
     branches: [main]
     paths:
       - "packages/mockdrift/**"
       - "docs/mockdrift/**"
       - ".github/workflows/mockdrift.yml"
+      - ".github/actions/mockdrift/**"
   workflow_dispatch:
 
 permissions:
@@ -49,7 +51,7 @@ jobs:
           cache: pip
           cache-dependency-path: packages/mockdrift/pyproject.toml
       - run: pip install -e ".[dev]"
-      - run: pytest tests/test_layer1.py tests/test_layer2.py examples/reference_langgraph/tests/ -v --tb=short
+      - run: pytest tests/test_layer1.py tests/test_layer2.py tests/test_phase1c.py examples/reference_langgraph/tests/ -v --tb=short
       - run: mockdrift demo stripe-required-field
 
   matrix:

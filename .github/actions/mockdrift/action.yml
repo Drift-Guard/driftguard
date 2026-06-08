@@ -1,0 +1,48 @@
+name: MockDrift drift-replay
+description: Run MockDrift pytest scenarios; optional cloud --simulate-drift from a hosted watch
+branding:
+  icon: beaker
+  color: blue
+inputs:
+  pytest-args:
+    description: Arguments after --pytest (e.g. tests/ or tests/test_foo.py::test_bar)
+    required: true
+  simulate-drift:
+    description: Hosted watch ID for cloud fixture replay (requires DRIFTGUARD_API_KEY + mockdrift_cloud)
+    required: false
+    default: ""
+  cache-fixture:
+    description: Cache cloud fixture under .mockdrift/cache/
+    required: false
+    default: "false"
+  python-version:
+    description: Python version for MockDrift
+    required: false
+    default: "3.12"
+  working-directory:
+    description: Directory containing packages/mockdrift or pyproject with mockdrift dep
+    required: false
+    default: "."
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v6
+      with:
+        python-version: ${{ inputs.python-version }}
+    - shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        DRIFTGUARD_API_KEY: ${{ env.DRIFTGUARD_API_KEY }}
+        MOCKDRIFT_TELEMETRY: ${{ env.MOCKDRIFT_TELEMETRY }}
+      run: |
+        set -euo pipefail
+        pip install -e "./packages/mockdrift[dev]" 2>/dev/null || pip install -e ".[dev]" 2>/dev/null || pip install mockdrift
+        ARGS=(${{ inputs.pytest-args }})
+        CMD=(mockdrift run --pytest "${ARGS[@]}")
+        if [ -n "${{ inputs.simulate-drift }}" ]; then
+          CMD+=(--simulate-drift "${{ inputs.simulate-drift }}")
+        fi
+        if [ "${{ inputs.cache-fixture }}" = "true" ]; then
+          CMD+=(--cache-fixture)
+        fi
+        "${CMD[@]}"
