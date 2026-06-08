@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# ToolChange pre-commit — lint tools.json when manifest or baseline changes.
+# Install: cp packages/toolchange/hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+MANIFEST="${TOOLCHANGE_MANIFEST:-tools.json}"
+BASELINE="${TOOLCHANGE_BASELINE:-tools.baseline.json}"
+
+changed() {
+  git diff --cached --name-only --diff-filter=ACMR | grep -qxF "$1"
+}
+
+if ! changed "$MANIFEST" && ! changed "$BASELINE"; then
+  exit 0
+fi
+
+if [[ ! -f "$ROOT/$MANIFEST" ]] || [[ ! -f "$ROOT/$BASELINE" ]]; then
+  echo "toolchange pre-commit: skip (manifest or baseline missing)"
+  exit 0
+fi
+
+if ! command -v toolchange >/dev/null 2>&1; then
+  echo "toolchange pre-commit: install with pip install -e packages/toolchange"
+  exit 1
+fi
+
+echo "toolchange lint: $MANIFEST vs $BASELINE"
+toolchange lint --manifest "$ROOT/$MANIFEST" --baseline "$ROOT/$BASELINE" --repo-root "$ROOT"

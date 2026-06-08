@@ -1,0 +1,25 @@
+name: SchemaSync
+
+on:
+  push:
+    paths:
+      - "packages/schemasync/**"
+      - ".github/workflows/schemasync.yml"
+  pull_request:
+    paths:
+      - "packages/schemasync/**"
+      - ".github/workflows/schemasync.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/schemasync
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pytest tests/ -v --tb=short
