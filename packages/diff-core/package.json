@@ -1,0 +1,17 @@
+{
+  "name": "@driftguard/diff-core",
+  "version": "0.1.0",
+  "description": "Canonical schema diff semantics for DriftGuard CLI, hosted checks, and contract tests",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./contract/vectors.json": "./contract/vectors.json"
+  },
+  "scripts": {
+    "test": "node --import tsx --test tests/*.test.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.22.4"
+  }
+}

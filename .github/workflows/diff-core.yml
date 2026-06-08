@@ -1,0 +1,51 @@
+name: DiffCore
+
+on:
+  push:
+    paths:
+      - "packages/diff-core/**"
+      - "src/core/diff.ts"
+      - "cloud/src/core/diff.ts"
+      - ".github/workflows/diff-core.yml"
+  pull_request:
+    paths:
+      - "packages/diff-core/**"
+      - "src/core/diff.ts"
+      - "cloud/src/core/diff.ts"
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/diff-core
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm test
+
+  oss-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm test -- src/core/diff.test.ts
+
+  toolchange-contract:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/toolchange
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pytest tests/test_schema_diff_contract.py -v

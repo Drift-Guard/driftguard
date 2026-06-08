@@ -46,6 +46,7 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@driftguard/diff-core": "file:packages/diff-core",
     "@modelcontextprotocol/sdk": "^1.27.0",
     "yaml": "^2.9.0",
     "zod": "^3.24.2"
