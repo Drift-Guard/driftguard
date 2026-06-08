@@ -1,0 +1,7 @@
+{
+  "tools": {
+    "mcp_search": {
+      "required": ["query"]
+    }
+  }
+}

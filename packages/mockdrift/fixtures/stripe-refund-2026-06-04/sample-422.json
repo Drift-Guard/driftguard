@@ -1,0 +1,7 @@
+{
+  "status": "422",
+  "error": {
+    "code": "parameter_missing",
+    "message": "billing_country is required"
+  }
+}

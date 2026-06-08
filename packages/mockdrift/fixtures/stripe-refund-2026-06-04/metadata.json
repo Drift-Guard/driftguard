@@ -1,0 +1,5 @@
+{
+  "severity": "breaking",
+  "recorded_at": "2026-06-04T00:00:00Z",
+  "source": "stripe-refund-api"
+}

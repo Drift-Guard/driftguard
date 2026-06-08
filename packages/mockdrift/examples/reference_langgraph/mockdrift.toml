@@ -1,0 +1,16 @@
+[defaults]
+runner = "langgraph"
+failure_profile = "bubble_to_orchestrator"
+timeout_ms = 120000
+
+[fixtures.stripe-required-field]
+path = "../../fixtures/stripe-refund-2026-06-04"
+drift_target = "stripe_create_refund"
+match = "first_call"
+failure_profile = "bubble_to_orchestrator"
+
+[fixtures.mcp-tool-removed]
+path = "../../fixtures/mcp-tool-removed-2026-06-01"
+drift_target = "mcp_search"
+match = "first_call"
+failure_profile = "halt_clean"

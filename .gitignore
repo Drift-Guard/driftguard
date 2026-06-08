@@ -4,6 +4,10 @@ coverage/
 .env
 *.db
 .DS_Store
+.venv/
+.pytest_cache/
+__pycache__/
+*.pyc
 
 # Private hosted service — never commit
 cloud/

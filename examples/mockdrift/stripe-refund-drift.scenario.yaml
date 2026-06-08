@@ -1,0 +1,49 @@
+apiVersion: mockdrift.assertion/v2
+name: stripe-refund-required-field-drift
+description: billing_country becomes required; agent must not loop or poison downstream charge step
+
+agent:
+  runner: langgraph
+  entry: agents.billing:refund_graph
+
+drift:
+  source:
+    type: fixture
+    path: ./fixtures/stripe-refund-2026-06-04
+  target:
+    tool: stripe_create_refund
+    match: first_call
+  response:
+    mode: fixture_error
+    body_fixture: ./fixtures/stripe-refund-2026-06-04/sample-422.json
+
+expect:
+  failure_profile: bubble_to_orchestrator
+  schema_valid:
+    enabled: true
+    normalize:
+      sort_object_keys: true
+      strip_whitespace: true
+  state_invariants:
+    - path: $.refund.status
+      rule: one_of
+      values: [failed, pending_human]
+      checkpoint: pre_drift
+  next_step_valid:
+    max_steps_after_drift: 2
+    max_retries_same_tool: 0
+    forbid_null_fields: [invoice_id, amount_cents]
+    forbid_tools_after_drift: [stripe_capture_payment]
+  idempotency:
+    enabled: true
+    side_effect_tools: [stripe_create_refund, stripe_capture_payment]
+    require_idempotency_key: true
+    max_duplicate_side_effects: 0
+  no_loop_spiral:
+    max_identical_tool_hashes: 3
+    window_steps: 10
+    same_error_streak: 3
+
+limits:
+  timeout_ms: 120000
+  max_total_steps: 30

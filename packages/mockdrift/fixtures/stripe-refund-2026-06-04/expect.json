@@ -1,0 +1,19 @@
+{
+  "schema_valid": { "enabled": true },
+  "no_loop_spiral": {
+    "max_identical_tool_hashes": 3,
+    "window_steps": 10,
+    "same_error_streak": 3
+  },
+  "next_step_valid": {
+    "max_steps_after_drift": 0,
+    "forbid_tools_after_drift": ["stripe_capture_payment"]
+  },
+  "state_invariants": [
+    {
+      "path": "refund.status",
+      "rule": "one_of",
+      "values": ["pending_human", "failed", "unchanged_since_checkpoint"]
+    }
+  ]
+}

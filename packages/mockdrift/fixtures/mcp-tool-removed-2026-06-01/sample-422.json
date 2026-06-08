@@ -1,0 +1,7 @@
+{
+  "status": "422",
+  "error": {
+    "code": "tool_removed",
+    "message": "mcp_search is no longer available"
+  }
+}

@@ -1,0 +1,28 @@
+[defaults]
+runner = "custom"
+failure_profile = "bubble_to_orchestrator"
+timeout_ms = 120000
+mock_egress = true
+
+[fixtures.stripe-required-field]
+path = "fixtures/stripe-refund-2026-06-04"
+drift_target = "stripe_create_refund"
+match = "first_call"
+failure_profile = "bubble_to_orchestrator"
+
+[fixtures.mcp-tool-removed]
+path = "fixtures/mcp-tool-removed-2026-06-01"
+drift_target = "mcp_search"
+match = "first_call"
+failure_profile = "halt_clean"
+
+[fixtures.idempotency-violation]
+path = "fixtures/idempotency-violation-2026-06-02"
+
+[fixtures.loop-spiral]
+path = "fixtures/stripe-refund-2026-06-04"
+drift_target = "stripe_create_refund"
+match = "every_call"
+
+[fixtures.no-drift-two-step]
+path = "fixtures/no-drift-two-step"

@@ -1,0 +1,4 @@
+{
+  "schema_valid": { "enabled": true },
+  "no_loop_spiral": { "max_identical_tool_hashes": 3 }
+}
