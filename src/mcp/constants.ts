@@ -12,6 +12,13 @@ export const HOSTED_CONSOLE = `${HOSTED_API}/console`;
 export const HOSTED_PRICING = `${HOSTED_API}/pricing`;
 export const HOSTED_TRIAL = `${HOSTED_API}/start`;
 
+/** Max wait for hosted API calls (MCP + CLI). */
+export const HOSTED_FETCH_TIMEOUT_MS = 10_000;
+
+export function hostedFetchSignal(): AbortSignal {
+  return AbortSignal.timeout(HOSTED_FETCH_TIMEOUT_MS);
+}
+
 export const SERVER_INSTRUCTIONS = `DriftGuard MCP client — open-source local schema diff + hosted monitoring proxy.
 
 Offline (no API key): compare_json, parse_mcp_config, hosted_info, explain_drift.

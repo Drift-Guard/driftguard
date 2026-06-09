@@ -12,6 +12,7 @@ import {
   HOSTED_CONSOLE,
   HOSTED_PRICING,
   HOSTED_TRIAL,
+  hostedFetchSignal,
   SERVER_INSTRUCTIONS,
   VERSION,
 } from "./constants.js";
@@ -41,6 +42,7 @@ async function hostedRequest(path: string, init: RequestInit = {}): Promise<unkn
       authorization: `Bearer ${API_KEY}`,
       ...(init.headers as Record<string, string>),
     },
+    signal: hostedFetchSignal(),
   });
   const body = await response.json();
   if (!response.ok) {
@@ -214,6 +216,7 @@ server.tool(
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ changes: parsed.value }),
+      signal: hostedFetchSignal(),
     }).then((r) => r.json());
     return jsonResult(result);
   },
@@ -243,6 +246,7 @@ server.tool(
         authorization: `Bearer ${API_KEY}`,
       },
       body: JSON.stringify(body),
+      signal: hostedFetchSignal(),
     });
     const result = await response.json();
     return jsonResult(result, !response.ok);
