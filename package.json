@@ -40,7 +40,7 @@
     "mcp": "node dist/mcp/server.js",
     "check": "tsx src/cli/check.ts",
     "test": "node --import tsx --test 'src/**/*.test.ts'",
-    "test:coverage": "c8 node --import tsx --test 'src/**/*.test.ts'"
+    "test:coverage": "c8 --reporter=text --reporter=lcov --include='src/core/**' --include='src/mcp/**' node --import tsx --test 'src/**/*.test.ts'"
   },
   "engines": {
     "node": ">=20"
