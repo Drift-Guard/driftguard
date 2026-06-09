@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
-import { formatCiUpgradeSummary } from "./coverage-api.js";
+import { afterEach, beforeEach, describe, it } from "node:test";
+import {
+  assertCoverage,
+  coveragePreview,
+  formatCiUpgradeSummary,
+  mintTrialSession,
+} from "./coverage-api.js";
 
 describe("formatCiUpgradeSummary", () => {
   it("includes message and upgrade links", () => {
@@ -20,11 +25,56 @@ describe("formatCiUpgradeSummary", () => {
     assert.match(md, /View pricing/);
   });
 
-  it("includes trial gate env block when present", () => {
+  it("SEC-U04: redacts trial secret value from CI job summary", () => {
     const md = formatCiUpgradeSummary({
       message: "ok",
-      trialGate: { envVar: "DRIFTGUARD_TRIAL_SESSION=abc" },
+      trialGate: { envVar: "DRIFTGUARD_TRIAL_SESSION=super-secret-token" },
     });
-    assert.match(md, /DRIFTGUARD_TRIAL_SESSION=abc/);
+    assert.match(md, /DRIFTGUARD_TRIAL_SESSION/);
+    assert.doesNotMatch(md, /super-secret-token/);
+    assert.match(md, /omitted from job summary/i);
+  });
+});
+
+describe("hosted coverage fetch", () => {
+  let origFetch: typeof fetch;
+
+  beforeEach(() => {
+    origFetch = globalThis.fetch;
+  });
+
+  afterEach(() => {
+    globalThis.fetch = origFetch;
+  });
+
+  function mockFetch() {
+    const calls: RequestInit[] = [];
+    globalThis.fetch = async (_url, init) => {
+      calls.push(init ?? {});
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({}),
+      } as Response;
+    };
+    return calls;
+  }
+
+  it("mintTrialSession passes AbortSignal.timeout", async () => {
+    const calls = mockFetch();
+    await mintTrialSession({ repo: "org/repo" });
+    assert.ok(calls[0]?.signal instanceof AbortSignal);
+  });
+
+  it("coveragePreview passes AbortSignal.timeout", async () => {
+    const calls = mockFetch();
+    await coveragePreview({ files: [{ path: "mcp.json", content: "{}" }] });
+    assert.ok(calls[0]?.signal instanceof AbortSignal);
+  });
+
+  it("assertCoverage passes AbortSignal.timeout", async () => {
+    const calls = mockFetch();
+    await assertCoverage({ apiKey: "dg_test", files: [{ path: "mcp.json", content: "{}" }] });
+    assert.ok(calls[0]?.signal instanceof AbortSignal);
   });
 });
