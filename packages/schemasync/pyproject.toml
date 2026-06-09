@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schemasync"
+version = "0.1.0"
+description = "Literal reference linter for schema drift prompts (DriftGuard Platform Gate 4)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[project.scripts]
+schemasync = "schemasync.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["schemasync"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -32,3 +32,21 @@ jobs:
           cache-dependency-path: packages/toolchange/pyproject.toml
       - run: pip install -e ".[dev]"
       - run: pytest tests/ -v --tb=short
+      - name: Composite action smoke (TC-L07)
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          pip install -e "./packages/toolchange[dev]"
+          # Pass fixture
+          python -m toolchange lint \
+            --manifest packages/toolchange/fixtures/lint-pass/tools.json \
+            --baseline packages/toolchange/fixtures/lint-pass/baseline.json \
+            --repo-root packages/toolchange
+          # Fail fixture
+          if python -m toolchange lint \
+            --manifest packages/toolchange/fixtures/breaking-required/tools.json \
+            --baseline packages/toolchange/fixtures/breaking-required/baseline.json \
+            --repo-root packages/toolchange; then
+            echo "expected lint failure on breaking fixture"
+            exit 1
+          fi

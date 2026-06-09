@@ -45,6 +45,7 @@ runs:
         DRIFTGUARD_FILES_JSON: ${{ inputs.files-json }}
         DRIFTGUARD_SCAN_PATHS: ${{ inputs.scan-paths }}
         DRIFTGUARD_API: ${{ inputs.api }}
+        DRIFTGUARD_ALLOW_CUSTOM_API: ${{ inputs.api != '' && '1' || '' }}
         DRIFTGUARD_CI_REPO: ${{ inputs.repo }}
       run: |
         if [ -z "$DRIFTGUARD_API_KEY" ] && [ -z "$DRIFTGUARD_TRIAL_SESSION" ]; then
