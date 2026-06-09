@@ -1,23 +1,5 @@
-import { diffSchemas, type DiffResult, type SchemaChange } from "./diff.js";
+import { collectSchemaChanges, summarize, type DiffResult, type SchemaChange } from "./diff.js";
 import type { OpenApiOperationSnapshot } from "./openapi-normalize.js";
-
-function summarize(changes: SchemaChange[]): DiffResult {
-  let breakingCount = 0;
-  let warningCount = 0;
-  let infoCount = 0;
-  for (const c of changes) {
-    if (c.severity === "breaking") breakingCount++;
-    else if (c.severity === "warning") warningCount++;
-    else infoCount++;
-  }
-  return {
-    hasChanges: changes.length > 0,
-    breakingCount,
-    warningCount,
-    infoCount,
-    changes,
-  };
-}
 
 function diffSchemaMaps(
   before: Record<string, import("./diff.js").JsonSchema>,
@@ -47,7 +29,7 @@ function diffSchemaMaps(
       });
       continue;
     }
-    for (const c of diffSchemas(before[key], after[key]).changes) {
+    for (const c of collectSchemaChanges(before[key], after[key])) {
       changes.push({ ...c, path: `${prefix}.${key}${c.path.slice(1)}` });
     }
   }
@@ -86,17 +68,17 @@ export function diffOpenApiSpecs(
     const prev = before[key];
     const next = after[key];
 
-    for (const c of diffSchemas(prev.parameters, next.parameters).changes) {
+    for (const c of collectSchemaChanges(prev.parameters, next.parameters)) {
       changes.push({ ...c, path: `operations.${key}.parameters${c.path.slice(1)}` });
     }
-    for (const c of diffSchemas(prev.responseSchema, next.responseSchema).changes) {
+    for (const c of collectSchemaChanges(prev.responseSchema, next.responseSchema)) {
       changes.push({ ...c, path: `operations.${key}.response${c.path.slice(1)}` });
     }
     changes.push(...diffSchemaMaps(prev.responses, next.responses, `operations.${key}.responses`));
     changes.push(
       ...diffSchemaMaps(prev.responseHeaders, next.responseHeaders, `operations.${key}.responseHeaders`),
     );
-    for (const c of diffSchemas(prev.security, next.security).changes) {
+    for (const c of collectSchemaChanges(prev.security, next.security)) {
       changes.push({ ...c, path: `operations.${key}.security${c.path.slice(1)}` });
     }
   }

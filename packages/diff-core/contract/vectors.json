@@ -1,0 +1,52 @@
+[
+  {
+    "id": "cli-required-field-removed-breaking",
+    "profile": "cli",
+    "before": { "id": 1, "email": "a@b.com" },
+    "after": { "id": 1 },
+    "expect": { "breakingCount": 1, "warningCount": 0, "infoCount": 0 }
+  },
+  {
+    "id": "hosted-optional-field-removed-warning",
+    "profile": "hosted",
+    "before": { "id": 1, "email": "a@b.com" },
+    "after": { "id": 1 },
+    "expect": { "breakingCount": 0, "warningCount": 1, "infoCount": 0 }
+  },
+  {
+    "id": "hosted-optional-field-added-info",
+    "profile": "hosted",
+    "before": { "id": 1 },
+    "after": { "id": 1, "email": "a@b.com" },
+    "expect": { "breakingCount": 0, "warningCount": 0, "infoCount": 1 }
+  },
+  {
+    "id": "type-change-breaking",
+    "profile": "hosted",
+    "before": { "count": 1 },
+    "after": { "count": "one" },
+    "expect": { "breakingCount": 1, "warningCount": 0, "infoCount": 0, "changeType": "type_changed" }
+  },
+  {
+    "id": "array-nested-optional-removed",
+    "profile": "hosted",
+    "before": [{ "id": 1, "email": "a@b.com" }],
+    "after": [{ "id": 1 }],
+    "expect": { "breakingCount": 0, "warningCount": 1, "infoCount": 0 }
+  },
+  {
+    "id": "tool-schema-required-added-breaking",
+    "kind": "tool_manifest",
+    "baseline": {
+      "type": "object",
+      "properties": { "q": { "type": "string" } },
+      "required": []
+    },
+    "current": {
+      "type": "object",
+      "properties": { "q": { "type": "string" } },
+      "required": ["q"]
+    },
+    "expectBreakingMessages": ["Required", "required"]
+  }
+]

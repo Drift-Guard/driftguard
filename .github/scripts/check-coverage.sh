@@ -9,8 +9,7 @@ cd "${ROOT}"
 if [[ "${SKIP_NPM_CI:-}" != "1" ]]; then
   npm ci --silent
 fi
-npx c8 --reporter=text --reporter=lcov --include='src/core/**' --include='src/mcp/**' \
-  node --import tsx --test 'src/**/*.test.ts'
+npm run test:coverage
 
 PCT="$(node -e "
 const fs = require('fs');
