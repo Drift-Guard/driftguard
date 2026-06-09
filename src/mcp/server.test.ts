@@ -3,6 +3,10 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import {
+  CallToolResultSchema,
+  type CallToolResult,
+} from "@modelcontextprotocol/sdk/types.js";
 import { afterEach, describe, it } from "node:test";
 
 const EXPECTED_TOOLS = [
@@ -63,12 +67,15 @@ describe("server.ts entry orchestration", { concurrency: 1 }, () => {
       [...EXPECTED_TOOLS].sort(),
     );
 
-    const response = await client.callTool({
-      name: "compare_json",
-      arguments: { before: '{"x":1}', after: '{"x":1}' },
-    });
+    const response = (await client.callTool(
+      {
+        name: "compare_json",
+        arguments: { before: '{"x":1}', after: '{"x":1}' },
+      },
+      CallToolResultSchema,
+    )) as CallToolResult;
     assert.notEqual(response.isError, true);
-    const textBlock = response.content?.find((block) => block.type === "text");
+    const textBlock = response.content.find((block) => block.type === "text");
     assert.equal(textBlock?.type, "text");
     if (textBlock?.type !== "text") return;
 
