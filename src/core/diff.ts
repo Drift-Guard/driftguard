@@ -55,10 +55,14 @@ function schemaType(schema: JsonSchema): string {
   return String(schema.type ?? "unknown");
 }
 
-export function diffSchemas(before: JsonSchema, after: JsonSchema): DiffResult {
+export function collectSchemaChanges(before: JsonSchema, after: JsonSchema): SchemaChange[] {
   const changes: SchemaChange[] = [];
   diffRecursive(before, after, changes);
-  return summarize(changes);
+  return changes;
+}
+
+export function diffSchemas(before: JsonSchema, after: JsonSchema): DiffResult {
+  return summarize(collectSchemaChanges(before, after));
 }
 
 function diffRecursive(before: JsonSchema, after: JsonSchema, changes: SchemaChange[]): void {
@@ -138,7 +142,7 @@ function diffRecursive(before: JsonSchema, after: JsonSchema, changes: SchemaCha
   }
 }
 
-function summarize(changes: SchemaChange[]): DiffResult {
+export function summarize(changes: SchemaChange[]): DiffResult {
   let breakingCount = 0;
   let warningCount = 0;
   let infoCount = 0;

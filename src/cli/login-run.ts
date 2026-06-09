@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /** OSS — verify API key against hosted /api/me */
+import { hostedFetchSignal } from "../mcp/constants.js";
 import { formatLoginExportHint } from "./api-key-hint.js";
 
 const API = process.env.DRIFTGUARD_API_URL || "https://driftguard.org";
@@ -14,6 +15,7 @@ export async function runLogin(argv: string[]): Promise<number> {
   try {
     const res = await fetch(`${API}/api/me`, {
       headers: { authorization: `Bearer ${key}` },
+      signal: hostedFetchSignal(),
     });
     const body = await res.json();
     if (!res.ok) {

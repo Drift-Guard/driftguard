@@ -40,4 +40,19 @@ describe("runLogin", () => {
     assert.ok(!output.includes(sample));
     assert.match(output, /ends with/);
   });
+
+  it("passes AbortSignal.timeout to hosted /api/me fetch", async () => {
+    let seenSignal: AbortSignal | undefined;
+    globalThis.fetch = async (_url, init) => {
+      seenSignal = init?.signal ?? undefined;
+      return {
+        ok: true,
+        json: async () => ({ email: "a@b.com", plan: "pro" }),
+      } as Response;
+    };
+
+    const code = await runLogin([`--api-key=${"c".repeat(32)}`]);
+    assert.equal(code, 0);
+    assert.ok(seenSignal instanceof AbortSignal);
+  });
 });

@@ -43,4 +43,32 @@ describe("ci-files", () => {
   it("readFilesJsonForCi throws when nothing to scan", () => {
     assert.throws(() => readFilesJsonForCi(), /No scannable files/);
   });
+
+  it("SEC-U03: redacts mcp.json env secrets before upload", () => {
+    fs.writeFileSync(
+      "mcp.json",
+      JSON.stringify({
+        mcpServers: {
+          stripe: { env: { API_KEY: "sk_live_secret", REGION: "us" } },
+        },
+      }),
+    );
+    const parsed = JSON.parse(buildCiFilesJson("mcp.json")) as Array<{ content: string }>;
+    const content = parsed[0]?.content ?? "";
+    assert.doesNotMatch(content, /sk_live_secret/);
+    assert.match(content, /\[REDACTED\]/);
+    assert.match(content, /"REGION":"us"/);
+  });
+
+  it("SEC-U03: redacts DRIFTGUARD_FILES_JSON mcp entries", () => {
+    process.env.DRIFTGUARD_FILES_JSON = JSON.stringify([
+      {
+        path: ".cursor/mcp.json",
+        content: JSON.stringify({ mcpServers: { x: { env: { token: "abc123" } } } }),
+      },
+    ]);
+    const parsed = JSON.parse(readFilesJsonForCi()) as Array<{ content: string }>;
+    assert.doesNotMatch(parsed[0]?.content ?? "", /abc123/);
+    assert.match(parsed[0]?.content ?? "", /\[REDACTED\]/);
+  });
 });
