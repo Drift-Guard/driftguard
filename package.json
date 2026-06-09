@@ -34,7 +34,7 @@
     "examples/mcp-client-config.json"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build --prefix packages/diff-core && tsc",
     "sync-version": "node scripts/sync-version.mjs",
     "dev:mcp": "tsx src/mcp/server.ts",
     "mcp": "node dist/mcp/server.js",
@@ -46,6 +46,7 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@driftguard/diff-core": "file:packages/diff-core",
     "@modelcontextprotocol/sdk": "^1.27.0",
     "yaml": "^2.9.0",
     "zod": "^3.24.2"

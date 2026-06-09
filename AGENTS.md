@@ -15,7 +15,8 @@ Guidance for AI coding agents working in this repository. For a compact tool/API
 ## Layout
 
 ```
-src/core/diff.ts       # Schema inference + diff engine (public OSS)
+packages/diff-core/    # Canonical diff semantics (@driftguard/diff-core, ARCH-U01)
+src/core/diff.ts       # OSS adapter (cli profile) over diff-core
 src/cli/check.ts       # CLI entry (diff, mcp)
 src/mcp/server.ts      # MCP server — local + hosted proxy tools
 src/mcp/constants.ts   # Version, hosted URLs, server instructions
