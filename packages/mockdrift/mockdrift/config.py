@@ -60,6 +60,8 @@ def load_config(root: Path | None = None) -> MockDriftConfig:
         if not rel:
             raise MisconfigurationError(f"[fixtures.{key}] missing path")
         fixture_path = (config_dir / str(rel)).resolve()
+        if fixture_path != config_dir and config_dir not in fixture_path.parents:
+            raise MisconfigurationError(f"[fixtures.{key}] path escapes config directory")
         expect = {k: v for k, v in value.items() if k.startswith("expect.") or k == "expect"}
         if "expect" in value and isinstance(value["expect"], dict):
             expect = value["expect"]
@@ -93,6 +95,12 @@ def resolve_fixture_config(config: MockDriftConfig, fixture_key: str) -> Fixture
         )
 
     candidate = Path(fixture_key)
+    if not candidate.is_absolute():
+        candidate = (config.root / candidate).resolve()
+        if config.root not in candidate.parents and candidate != config.root:
+            raise MisconfigurationError(f"Fixture path escapes config root: {fixture_key}")
+    else:
+        candidate = candidate.resolve()
     if candidate.is_dir():
-        return FixtureConfig(name=candidate.name, path=candidate.resolve())
+        return FixtureConfig(name=candidate.name, path=candidate)
     raise MisconfigurationError(f"Unknown fixture '{fixture_key}'")
