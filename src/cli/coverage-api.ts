@@ -102,7 +102,11 @@ export function formatCiUpgradeSummary(body: Record<string, unknown>): string {
   }
   const trialGate = body.trialGate as Record<string, string> | undefined;
   if (trialGate?.envVar) {
-    lines.push("**Trial CI secret:**", "", "```", trialGate.envVar, "```", "");
+    const varName = trialGate.envVar.split("=")[0]?.trim() || "DRIFTGUARD_TRIAL_SESSION";
+    lines.push(
+      `**Trial CI secret:** set \`${varName}\` in your CI provider — value omitted from job summary (SEC-U04).`,
+      "",
+    );
   }
   return lines.join("\n");
 }
