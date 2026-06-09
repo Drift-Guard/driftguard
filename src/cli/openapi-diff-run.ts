@@ -1,5 +1,6 @@
 import { diffOpenApiSpecs, normalizeOpenApiSpec, buildOpenApiChangelog } from "../core/openapi.js";
 import { enrichChangesWithAgentActions } from "../core/agent-action.js";
+import { hostedFetchSignal } from "../mcp/constants.js";
 import { loadOpenApiSpecFile } from "./openapi-load.js";
 
 export function parseOpenApiDiffArgs(argv: string[]): {
@@ -48,6 +49,7 @@ async function postRemoteCompare(
       targetLabel: labels.target,
       source: "cli",
     }),
+    signal: hostedFetchSignal(),
   });
   const body = await res.json();
   if (!res.ok) throw new Error(body.error || `HTTP ${res.status}`);

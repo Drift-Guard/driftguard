@@ -1,4 +1,4 @@
-import { HOSTED_API, VERSION } from "../mcp/constants.js";
+import { HOSTED_API, hostedFetchSignal, VERSION } from "../mcp/constants.js";
 
 export type CoverageFile = { path: string; content: string };
 
@@ -28,6 +28,7 @@ export async function mintTrialSession(opts: {
       ...(opts.repo ? { "x-driftguard-ci-repo": opts.repo } : {}),
     }),
     body: JSON.stringify({ repo: opts.repo, import: opts.importToken }),
+    signal: hostedFetchSignal(),
   });
   return { ok: res.ok, status: res.status, body: await res.json() };
 }
@@ -46,6 +47,7 @@ export async function coveragePreview(opts: {
       ...(opts.runId ? { "x-driftguard-ci-run": opts.runId } : {}),
     }),
     body: JSON.stringify({ files: opts.files, repo: opts.repo, runId: opts.runId }),
+    signal: hostedFetchSignal(),
   });
   return { ok: res.ok, status: res.status, body: await res.json() };
 }
@@ -68,6 +70,7 @@ export async function assertCoverage(opts: {
     method: "POST",
     headers,
     body: JSON.stringify({ files: opts.files, repo: opts.repo }),
+    signal: hostedFetchSignal(),
   });
   return { ok: res.ok, status: res.status, body: await res.json() };
 }
@@ -102,7 +105,11 @@ export function formatCiUpgradeSummary(body: Record<string, unknown>): string {
   }
   const trialGate = body.trialGate as Record<string, string> | undefined;
   if (trialGate?.envVar) {
-    lines.push("**Trial CI secret:**", "", "```", trialGate.envVar, "```", "");
+    const varName = trialGate.envVar.split("=")[0]?.trim() || "DRIFTGUARD_TRIAL_SESSION";
+    lines.push(
+      `**Trial CI secret:** set \`${varName}\` in your CI provider — value omitted from job summary (SEC-U04).`,
+      "",
+    );
   }
   return lines.join("\n");
 }

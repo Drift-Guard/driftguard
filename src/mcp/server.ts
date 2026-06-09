@@ -6,12 +6,13 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { diffSchemas, inferSchema } from "../core/diff.js";
+import { compactDiffResult, diffSchemas, inferSchema } from "../core/diff.js";
 import {
   HOSTED_API,
   HOSTED_CONSOLE,
   HOSTED_PRICING,
   HOSTED_TRIAL,
+  hostedFetchSignal,
   SERVER_INSTRUCTIONS,
   VERSION,
 } from "./constants.js";
@@ -41,6 +42,7 @@ async function hostedRequest(path: string, init: RequestInit = {}): Promise<unkn
       authorization: `Bearer ${API_KEY}`,
       ...(init.headers as Record<string, string>),
     },
+    signal: hostedFetchSignal(),
   });
   const body = await response.json();
   if (!response.ok) {
@@ -49,9 +51,14 @@ async function hostedRequest(path: string, init: RequestInit = {}): Promise<unkn
   return body;
 }
 
-function jsonResult(value: unknown, isError = false) {
+function jsonResult(value: unknown, isError = false, compact = false) {
   return {
-    content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }],
+    content: [
+      {
+        type: "text" as const,
+        text: compact ? JSON.stringify(value) : JSON.stringify(value, null, 2),
+      },
+    ],
     ...(isError ? { isError: true } : {}),
   };
 }
@@ -76,7 +83,7 @@ server.tool(
       inferSchema(parsedBefore, "$", { markAllFieldsRequired: true }),
       inferSchema(parsedAfter, "$", { markAllFieldsRequired: true }),
     );
-    return jsonResult(result);
+    return jsonResult(compactDiffResult(result), false, true);
   },
 );
 
@@ -214,6 +221,7 @@ server.tool(
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ changes: parsed.value }),
+      signal: hostedFetchSignal(),
     }).then((r) => r.json());
     return jsonResult(result);
   },
@@ -243,6 +251,7 @@ server.tool(
         authorization: `Bearer ${API_KEY}`,
       },
       body: JSON.stringify(body),
+      signal: hostedFetchSignal(),
     });
     const result = await response.json();
     return jsonResult(result, !response.ok);

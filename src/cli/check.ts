@@ -1,23 +1,16 @@
 #!/usr/bin/env node
-import { startMcpServer } from "../mcp/server.js";
-import { diffSchemas, inferSchema } from "../core/diff.js";
-import { runAssertCoverage, runCoveragePreview } from "./coverage-run.js";
-import { readFilesJsonForCi } from "./ci-files.js";
-import { printVersionJson, printVersionPlain } from "./version.js";
-import { runOpenApiDiff } from "./openapi-diff-run.js";
-import { runOpenApiChangelog } from "./openapi-changelog-run.js";
-import { runLogin } from "./login-run.js";
-import { runInit } from "./init-run.js";
 import { HOSTED_PRICING, HOSTED_TRIAL } from "../mcp/constants.js";
 
 const [,, command, ...args] = process.argv;
 
-function readFilesJson(): string {
+async function readFilesJson(): Promise<string> {
+  const { readFilesJsonForCi } = await import("./ci-files.js");
   return readFilesJsonForCi(args[0]);
 }
 
 async function main(): Promise<void> {
   if (command === "diff") {
+    const { diffSchemas, inferSchema } = await import("../core/diff.js");
     const before = JSON.parse(args[0]);
     const after = JSON.parse(args[1]);
     const result = diffSchemas(inferSchema(before), inferSchema(after));
@@ -28,12 +21,13 @@ async function main(): Promise<void> {
   if (command === "coverage-preview") {
     let raw: string;
     try {
-      raw = readFilesJson();
+      raw = await readFilesJson();
     } catch (err) {
       console.error(String(err));
       console.error("Usage: driftguard coverage-preview  (set DRIFTGUARD_FILES_JSON or DRIFTGUARD_SCAN_PATHS)");
       process.exit(1);
     }
+    const { runCoveragePreview } = await import("./coverage-run.js");
     const code = await runCoveragePreview({
       filesJson: raw,
       failOnMissing: process.env.DRIFTGUARD_FAIL_ON_MISSING === "1",
@@ -44,7 +38,7 @@ async function main(): Promise<void> {
   if (command === "assert-coverage") {
     let raw: string;
     try {
-      raw = readFilesJson();
+      raw = await readFilesJson();
     } catch (err) {
       console.error(String(err));
       process.exit(1);
@@ -56,33 +50,40 @@ async function main(): Promise<void> {
       console.error(`Free hook: driftguard coverage-preview — ${HOSTED_TRIAL}`);
       process.exit(1);
     }
+    const { runAssertCoverage } = await import("./coverage-run.js");
     const code = await runAssertCoverage({ filesJson: raw, apiKey, trialSession });
     process.exit(code);
   }
 
   if (command === "openapi-diff") {
+    const { runOpenApiDiff } = await import("./openapi-diff-run.js");
     process.exit(await runOpenApiDiff(args));
   }
 
   if (command === "login") {
+    const { runLogin } = await import("./login-run.js");
     process.exit(await runLogin(args));
   }
 
   if (command === "init") {
+    const { runInit } = await import("./init-run.js");
     process.exit(runInit(args));
   }
 
   if (command === "openapi-changelog") {
+    const { runOpenApiChangelog } = await import("./openapi-changelog-run.js");
     process.exit(runOpenApiChangelog(args));
   }
 
   if (command === "version") {
+    const { printVersionJson, printVersionPlain } = await import("./version.js");
     if (args[0] === "--json") printVersionJson();
     else printVersionPlain();
     return;
   }
 
   if (command === "mcp") {
+    const { startMcpServer } = await import("../mcp/server.js");
     await startMcpServer();
     return;
   }

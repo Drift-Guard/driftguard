@@ -23,7 +23,12 @@
         },
         {
           "name": "DRIFTGUARD_API",
-          "description": "Hosted API base URL (default: driftguard.org)",
+          "description": "Hosted API base URL (default: driftguard.org). Non-default values require DRIFTGUARD_ALLOW_CUSTOM_API.",
+          "required": false
+        },
+        {
+          "name": "DRIFTGUARD_ALLOW_CUSTOM_API",
+          "description": "Set to 1 to allow a non-default DRIFTGUARD_API (prevents Bearer token exfil via hostile MCP config)",
           "required": false
         }
       ]
