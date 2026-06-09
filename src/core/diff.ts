@@ -35,7 +35,7 @@ function isInferredSchema(value: unknown): value is JsonSchema {
 
 function trimEmbeddedSchema(value: unknown): unknown {
   if (typeof value === "string") return value;
-  if (isInferredSchema(value)) return schemaType(value);
+  if (isInferredSchema(value)) return value.type;
   return value;
 }
 
