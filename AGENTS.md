@@ -64,6 +64,8 @@ git push -u origin feat/your-change
 gh pr create --fill
 ```
 
+**Parallel PR Processing**: For backlogs of >3 PRs, use the **Isolated Runner Pattern** (spawn up to 4 parallel subagents in unique scratch clones) to verify and merge concurrently.
+
 ## CI expectations
 
 PRs should pass: `npm ci`, `npm run build`, `npm test`, coverage threshold, `npm audit`, CodeQL, Gitleaks, and (on PRs) dependency review.
@@ -77,3 +79,11 @@ Non-draft PRs with code changes receive an automated OpenRouter review when `OPE
 - Registry metadata: [server.json](server.json)
 - Discovery steps: [docs/DISCOVERY.md](docs/DISCOVERY.md)
 - npm publish is optional; document clone + build path until published
+
+## Parallel PR Runner Protocol
+
+When clearing a PR backlog, agents MUST use the **Isolated Runner Pattern**:
+1. **Orchestrate**: Rank PRs by impact (Security > Perf > Features).
+2. **Parallelize**: Delegate to subagents for verification and merge.
+3. **Isolate**: Each subagent MUST work in a unique temporary clone (e.g., `scratch/driftguard-runner-N`).
+4. **Final Sync**: Lead agent pulls `main` and verifies the final unified state.
