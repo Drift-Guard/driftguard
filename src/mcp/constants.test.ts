@@ -2,19 +2,10 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   DEFAULT_HOSTED_API,
+  resolveHostedApi,
   HOSTED_FETCH_TIMEOUT_MS,
   hostedFetchSignal,
-  resolveHostedApi,
 } from "./constants.js";
-
-describe("hostedFetchSignal", () => {
-  it("returns an AbortSignal with the hosted fetch timeout", () => {
-    const signal = hostedFetchSignal();
-    assert.ok(signal instanceof AbortSignal);
-    assert.equal(signal.aborted, false);
-    assert.equal(HOSTED_FETCH_TIMEOUT_MS, 10_000);
-  });
-});
 
 describe("resolveHostedApi", () => {
   it("uses default when DRIFTGUARD_API is unset", () => {
@@ -50,5 +41,15 @@ describe("resolveHostedApi", () => {
       DRIFTGUARD_ALLOW_CUSTOM_API: "true",
     });
     assert.equal(result.api, "https://staging.driftguard.org");
+    assert.equal(result.customBlocked, false);
+  });
+});
+
+describe("hostedFetchSignal", () => {
+  it("returns an AbortSignal with the hosted fetch timeout", () => {
+    const signal = hostedFetchSignal();
+    assert.ok(signal instanceof AbortSignal);
+    assert.equal(signal.aborted, false);
+    assert.equal(HOSTED_FETCH_TIMEOUT_MS, 10_000);
   });
 });

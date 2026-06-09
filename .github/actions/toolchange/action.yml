@@ -1,0 +1,44 @@
+name: ToolChange manifest lint
+description: Lint tools.json against a baseline manifest in CI (<5s, no network)
+branding:
+  icon: shield
+  color: purple
+inputs:
+  manifest:
+    description: Path to tools.json manifest
+    required: true
+  baseline:
+    description: Path to baseline tools.json
+    required: true
+  advisory:
+    description: Report findings but exit 0 (Gate 3 alpha)
+    required: false
+    default: "false"
+  repo-root:
+    description: Repository root for stale-manifest source hash checks
+    required: false
+    default: "."
+  python-version:
+    description: Python version for ToolChange
+    required: false
+    default: "3.12"
+  working-directory:
+    description: Directory containing packages/toolchange or pyproject with toolchange dep
+    required: false
+    default: "."
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v6
+      with:
+        python-version: ${{ inputs.python-version }}
+    - shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -euo pipefail
+        pip install -e "./packages/toolchange[dev]" 2>/dev/null || pip install -e ".[dev]" 2>/dev/null || pip install toolchange
+        ARGS=(lint --manifest "${{ inputs.manifest }}" --baseline "${{ inputs.baseline }}" --repo-root "${{ inputs.repo-root }}")
+        if [ "${{ inputs.advisory }}" = "true" ]; then
+          ARGS+=(--advisory)
+        fi
+        python -m toolchange "${ARGS[@]}"
