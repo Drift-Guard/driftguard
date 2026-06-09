@@ -28,3 +28,14 @@ def test_resolve_unknown_fixture_raises():
     config = load_config(Path(__file__).resolve().parents[1])
     with pytest.raises(MisconfigurationError, match="Unknown fixture"):
         resolve_fixture_config(config, "does-not-exist")
+
+
+def test_resolve_fixture_rejects_path_traversal(pkg_root: Path):
+    config = load_config(pkg_root)
+    with pytest.raises(MisconfigurationError, match="escapes mockdrift package root"):
+        resolve_fixture_config(config, "../../../..")
+
+
+def test_load_config_allows_shared_fixtures_from_examples(pkg_root: Path):
+    config = load_config(pkg_root / "examples" / "reference_langgraph")
+    assert config.fixtures["stripe-required-field"].path.is_dir()
