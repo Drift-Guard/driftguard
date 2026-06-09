@@ -1,4 +1,4 @@
-import { diffSchemas, inferSchema, type DiffResult, type SchemaChange } from "./diff.js";
+import { diffSchemas, type DiffResult, type SchemaChange } from "./diff.js";
 
 function summarize(changes: SchemaChange[]): DiffResult {
   let breakingCount = 0;
@@ -10,6 +10,23 @@ function summarize(changes: SchemaChange[]): DiffResult {
     else infoCount++;
   }
   return { hasChanges: changes.length > 0, breakingCount, warningCount, infoCount, changes };
+}
+
+function toolsListToRequiredSchema(tools: unknown): Record<string, unknown> {
+  const inner = toolsListToSchema(tools);
+  const properties = (inner.properties ?? {}) as Record<string, unknown>;
+  const keys = Object.keys(properties);
+  return {
+    type: "object",
+    properties: {
+      tools: {
+        type: "object",
+        properties,
+        required: keys,
+      },
+    },
+    required: ["tools"],
+  };
 }
 
 function toolsListToSchema(tools: unknown): Record<string, unknown> {
@@ -53,11 +70,11 @@ export function diffMcpManifests(beforeRaw: unknown, afterRaw: unknown): DiffRes
     throw new Error("Expected MCP tools/list snapshots or mcp.json with tools arrays");
   }
 
-  const beforeSchema = inferSchema(toolsListToSchema(beforeTools), "tools", { markAllFieldsRequired: true });
-  const afterSchema = inferSchema(toolsListToSchema(afterTools), "tools", { markAllFieldsRequired: true });
+  const beforeSchema = toolsListToRequiredSchema(beforeTools);
+  const afterSchema = toolsListToRequiredSchema(afterTools);
   const changes = diffSchemas(beforeSchema, afterSchema).changes.map((c) => ({
     ...c,
-    path: c.path.replace(/^\$\.tools\./, "tools."),
+    path: c.path.replace(/^\$\.tools\./, "tools.").replace(/^\$\./, "tools."),
   }));
   return summarize(changes);
 }

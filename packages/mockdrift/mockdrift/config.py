@@ -38,6 +38,27 @@ def _find_config_file(root: Path) -> Path | None:
     return None
 
 
+def _mockdrift_package_root(start: Path) -> Path:
+    """Directory that owns shared fixtures/ and the mockdrift Python package."""
+    candidate = start.resolve()
+    for _ in range(12):
+        if (candidate / "fixtures").is_dir() and (candidate / "mockdrift").is_dir():
+            return candidate
+        parent = candidate.parent
+        if parent == candidate:
+            break
+        candidate = parent
+    return start.resolve()
+
+
+def _assert_path_in_sandbox(path: Path, sandbox: Path, label: str) -> None:
+    resolved = path.resolve()
+    sandbox = sandbox.resolve()
+    if resolved == sandbox or sandbox in resolved.parents:
+        return
+    raise MisconfigurationError(f"{label} path escapes mockdrift package root")
+
+
 def load_config(root: Path | None = None) -> MockDriftConfig:
     base = (root or Path.cwd()).resolve()
     config_path = _find_config_file(base)
@@ -52,6 +73,7 @@ def load_config(root: Path | None = None) -> MockDriftConfig:
     defaults = dict(raw.get("defaults", {}))
     fixtures: dict[str, FixtureConfig] = {}
     config_dir = config_path.parent
+    package_root = _mockdrift_package_root(config_dir)
 
     for key, value in raw.get("fixtures", {}).items():
         if not isinstance(value, dict):
@@ -60,6 +82,7 @@ def load_config(root: Path | None = None) -> MockDriftConfig:
         if not rel:
             raise MisconfigurationError(f"[fixtures.{key}] missing path")
         fixture_path = (config_dir / str(rel)).resolve()
+        _assert_path_in_sandbox(fixture_path, package_root, f"[fixtures.{key}]")
         expect = {k: v for k, v in value.items() if k.startswith("expect.") or k == "expect"}
         if "expect" in value and isinstance(value["expect"], dict):
             expect = value["expect"]
@@ -92,7 +115,13 @@ def resolve_fixture_config(config: MockDriftConfig, fixture_key: str) -> Fixture
             failure_profile=os.environ.get("MOCKDRIFT_SIMULATE_FAILURE_PROFILE"),
         )
 
+    package_root = _mockdrift_package_root(config.root)
     candidate = Path(fixture_key)
+    if not candidate.is_absolute():
+        candidate = (config.root / candidate).resolve()
+        _assert_path_in_sandbox(candidate, package_root, f"Fixture '{fixture_key}'")
+    else:
+        candidate = candidate.resolve()
     if candidate.is_dir():
-        return FixtureConfig(name=candidate.name, path=candidate.resolve())
+        return FixtureConfig(name=candidate.name, path=candidate)
     raise MisconfigurationError(f"Unknown fixture '{fixture_key}'")
