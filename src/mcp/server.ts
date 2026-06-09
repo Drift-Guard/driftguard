@@ -6,7 +6,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { diffSchemas, inferSchema } from "../core/diff.js";
+import { compactDiffResult, diffSchemas, inferSchema } from "../core/diff.js";
 import {
   HOSTED_API,
   HOSTED_CONSOLE,
@@ -51,9 +51,14 @@ async function hostedRequest(path: string, init: RequestInit = {}): Promise<unkn
   return body;
 }
 
-function jsonResult(value: unknown, isError = false) {
+function jsonResult(value: unknown, isError = false, compact = false) {
   return {
-    content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }],
+    content: [
+      {
+        type: "text" as const,
+        text: compact ? JSON.stringify(value) : JSON.stringify(value, null, 2),
+      },
+    ],
     ...(isError ? { isError: true } : {}),
   };
 }
@@ -78,7 +83,7 @@ server.tool(
       inferSchema(parsedBefore, "$", { markAllFieldsRequired: true }),
       inferSchema(parsedAfter, "$", { markAllFieldsRequired: true }),
     );
-    return jsonResult(result);
+    return jsonResult(compactDiffResult(result), false, true);
   },
 );
 
