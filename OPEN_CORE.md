@@ -28,6 +28,7 @@ The following are **not published** and constitute the product:
 - Drift classification pipeline for MCP tool changes
 - Billing, API keys, and customer provisioning
 - Alert delivery, drift history, web console
+- **Product roadmap and control-plane sequencing** (`driftguard-cloud` repo only)
 
 ## Funnel
 

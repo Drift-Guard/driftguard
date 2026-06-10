@@ -197,7 +197,7 @@ fixtures/stripe-refund-2026-06-04/
 
 ## Relationship to SchemaSync
 
-SchemaSync **`lint-nl`** has two modes: **`literal`** (deterministic PR gate) and **`semantic-hints`** (pinned ONNX, advisory on draft PR only). Same philosophy as MockDrift — deterministic core, human review for ambiguity. See [ROADMAP-V2.md](../ROADMAP-V2.md) §4.5.
+SchemaSync **`lint-nl`** has two modes: **`literal`** (deterministic PR gate) and **`semantic-hints`** (pinned ONNX, advisory on draft PR only). Same philosophy as MockDrift — deterministic core, human review for ambiguity. See [packages/schemasync/README.md](../../packages/schemasync/README.md) (Gate 4A).
 
 ---
 

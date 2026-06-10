@@ -1,0 +1,104 @@
+# DriftGuard — agent documentation index
+# Machine-readable sitemap. Humans: https://github.com/kioie/driftguard/tree/main/docs
+
+> DriftGuard catches schema drift before integrations break.
+> OSS client: local JSON diff + MCP connector. Continuous monitoring is hosted SaaS — not self-hostable from this repo.
+
+## Identity
+
+- Package: driftguard (clone + build; npm publish optional)
+- Role: structural JSON schema diff, mcp.json preview, proxy to hosted API
+- Boundary: OPEN_CORE.md — do not document hosted infrastructure in OSS repo
+
+## Start here (order)
+
+1. docs/QUICKSTART.md — copy-paste install and MCP config
+2. SYSTEM_PROMPT.md — tool matrix, decision flow, env vars
+3. docs/getting-started.md — linear onboarding funnel
+4. docs/guides/agent-mcp.md — offline-first tool order, when/when-not/siblings
+
+## Hub sections
+
+- docs/README.md — documentation hub landing, OSS vs hosted matrix
+- docs/glossary.md — DriftGuard terms (watch, drift event, breaking, gate)
+- docs/guides/README.md — audience-split guides (developer, agent, CI, drift mgmt, platform)
+- docs/reference/README.md — MCP tools, CLI, diff semantics (exact contracts)
+- docs/integrations/README.md — GitHub Actions, GitLab, MCP clients, registry
+- docs/policies/gate-ladder.md — MockDrift → FuseGuard → ToolChange → SchemaSync
+- docs/migrate/README.md — adoption paths and troubleshooting
+- docs/changelog/README.md — product release notes, breaking MCP/diff policy
+- docs/reference/hosted-api.md — hosted REST index (link-out, no OpenAPI)
+- docs/reference/webhooks-alerts.md — alerts and webhook concepts (hosted)
+- docs/security/README.md — trust hub, data boundaries, OSS vs hosted
+
+## MCP tools (offline first)
+
+| Tool | Key | Network |
+|------|-----|---------|
+| compare_json | No | No |
+| parse_mcp_config | No | No |
+| hosted_info | No | No |
+| explain_drift | No | Yes (public) |
+| register_watch | Yes | Yes |
+| check_watch | Yes | Yes |
+| list_watches | Yes | Yes |
+| list_drift_events | Yes | Yes |
+| suggest_watches | Yes | Yes |
+| assert_coverage | Yes | Yes |
+
+Full catalog: docs/reference/README.md#mcp-tools
+Source: src/mcp/server.ts
+
+## CLI
+
+- driftguard diff — exit 1 when breakingCount > 0
+- driftguard mcp — stdio MCP server
+- driftguard assert-coverage — CI gate (DRIFTGUARD_API_KEY + DRIFTGUARD_FILES_JSON)
+
+## Environment
+
+- DRIFTGUARD_API_KEY — Pro/Team key for hosted tools
+- DRIFTGUARD_API — override API base (default https://driftguard.org)
+- DRIFTGUARD_ALLOW_CUSTOM_API=1 — required with custom DRIFTGUARD_API
+
+## Hosted funnel (link only — no infra docs)
+
+- Trial: https://driftguard.org/start
+- Pricing: https://driftguard.org/pricing
+- Hosted product roadmap: private driftguard-cloud repo
+
+## CI integrations
+
+- docs/CI.md — hook → preview → trial → gate
+- examples/workflows/driftguard-starter.yml
+- docs/GITLAB_CI.md — GitLab parity
+- docs/integrations/github-actions.md
+- docs/integrations/gitlab-ci.md
+
+## Gate packages (OSS)
+
+- packages/mockdrift — Gate 1 assertion v2
+- packages/fuseguard — Gate 2A fuse
+- packages/toolchange — Gate 3A tool manifest lint
+- packages/schemasync — Gate 4A lint-nl
+
+## Discovery
+
+- docs/DISCOVERY.md — MCP Registry, server.json
+- examples/mcp-client-config.json
+- AGENTS.md — contributing to this repo
+
+## Security
+
+- docs/security/README.md — trust hub (start here)
+- docs/security/PUBLIC-REPO-AUDIT.md — public repo audit
+- docs/security/SECRET-ROTATION-CHECKLIST.md — operator rotation (hosted)
+
+## Changelog
+
+- docs/changelog/README.md — user-facing releases
+- CHANGELOG.md — maintainer Keep a Changelog
+
+## Root llms.txt
+
+- llms.txt — pointer to this file (single source of truth)

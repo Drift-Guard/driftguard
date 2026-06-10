@@ -2,7 +2,7 @@
 
 Loop and budget fuse for AI agents (Gate 1b).
 
-**Roadmap:** [docs/PRODUCT-ROADMAP.md](../../docs/PRODUCT-ROADMAP.md) § Phase 2A · **Shared loop-detect:** `mockdrift.loop_detect`
+**Gate:** FuseGuard 2A (OSS). Hosted trip ingest is in `driftguard-cloud`. **Shared loop-detect:** `mockdrift.loop_detect`
 
 ## Quick start
 

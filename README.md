@@ -122,7 +122,7 @@ src/core/          # Schema inference + diff (MIT)
 src/cli/           # driftguard diff | mcp
 src/mcp/           # MCP server (local + hosted proxy)
 examples/          # MCP client config template
-docs/              # Quick start, discovery
+docs/              # Documentation hub, quick start, reference
 AGENTS.md          # Agent contribution guide
 SYSTEM_PROMPT.md   # Agent tool reference
 server.json        # MCP Registry metadata
@@ -135,7 +135,10 @@ OPEN_CORE.md       # Public vs hosted boundary
 
 | Doc | Use |
 |-----|-----|
+| [docs/README.md](docs/README.md) | Documentation hub — pillars, OSS vs hosted, nav |
 | [SYSTEM_PROMPT.md](SYSTEM_PROMPT.md) | Tool matrix, decision flow, config |
+| [docs/getting-started.md](docs/getting-started.md) | Progressive onboarding funnel |
+| [docs/reference/](docs/reference/README.md) | MCP + CLI reference index |
 | [docs/CI.md](docs/CI.md) | Version-pinned CI paths (Actions, npx, assert) |
 | [AGENTS.md](AGENTS.md) | Editing this repo |
 | [docs/QUICKSTART.md](docs/QUICKSTART.md) | Setup steps |
