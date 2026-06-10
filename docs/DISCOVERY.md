@@ -19,9 +19,11 @@ Ship [examples/mcp-client-config.json](../examples/mcp-client-config.json) with 
 
 | File | Audience |
 |------|----------|
+| [docs/llms.txt](./llms.txt) | Machine-readable doc sitemap |
 | [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) | LLM codegen / tool selection |
 | [AGENTS.md](../AGENTS.md) | Agents editing this repo |
 | [docs/QUICKSTART.md](./QUICKSTART.md) | Setup steps |
+| [guides/agent-mcp.md](./guides/agent-mcp.md) | Offline-first MCP tool order |
 
 ## Hosted funnel
 

@@ -39,4 +39,4 @@ Set `TOOLCHANGE_MANIFEST` / `TOOLCHANGE_BASELINE` to override paths.
 
 ## Roadmap
 
-See [`docs/PRODUCT-ROADMAP.md`](../../docs/PRODUCT-ROADMAP.md) § Phase 3A (TC-L01–L07). **3A DoD:** action + hook shipped in this repo; hosted how-to at driftguard.org `/docs/how-tos/toolchange`.
+**Gate 3A DoD:** action + hook shipped in this repo (TC-L01–L07); hosted how-to at [driftguard.org/docs/how-tos/toolchange](https://driftguard.org/docs/how-tos/toolchange).

@@ -2,7 +2,7 @@
 
 Literal reference linter for schema-drift prompts (Gate 4).
 
-**Roadmap:** [docs/PRODUCT-ROADMAP.md](../../docs/PRODUCT-ROADMAP.md) § Phase 4A
+**Gate:** SchemaSync 4A (`lint-nl` literal + semantic-hints). Hosted GitHub App is in `driftguard-cloud`.
 
 ## Quick start
 
