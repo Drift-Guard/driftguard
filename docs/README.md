@@ -1,37 +1,37 @@
 # DriftGuard documentation
 
-Catch schema drift before your integrations break. This hub routes you from **offline try** → **CI hooks** → **hosted trial** → **Pro monitoring** without implying full self-host.
+Catch API and schema changes before your integrations break. This hub walks you from **try it locally** → **add CI checks** → **free trial** → **paid monitoring**.
 
-**Requirements:** Node.js 20+ for the open-source client. Hosted tools need a [free trial](https://driftguard.org/start) or [Pro/Team API key](https://driftguard.org/pricing).
+**What you need:** Node.js 20+ for the free open-source client. Hosted tools need a [free trial](https://driftguard.org/start) or [Pro/Team API key](https://driftguard.org/pricing).
 
 ---
 
-## Concept pillars
+## What DriftGuard does
 
-| Pillar | What it does | Where it runs |
+| Feature | What it does | Where it runs |
 |--------|--------------|---------------|
-| **Structural diff** | Infer JSON schemas from payloads; classify breaking vs additive changes | OSS CLI + MCP (`compare_json`) |
-| **MCP config preview** | Discover HTTPS endpoints from `mcp.json` without creating watches | OSS (`parse_mcp_config`) |
-| **Watches** | Continuous checks on APIs, OpenAPI, or remote MCP endpoints | Hosted Pro/Team |
-| **Drift events** | History and alerts when a watched contract changes | Hosted |
-| **MCP tool/schema polling** | Track remote MCP `tools/list` and schema changes | Hosted only |
-| **Remediation hints** | Suggested fixes after breaking diffs | Public endpoint (`explain_drift`) |
-| **CI coverage gates** | Fail pipelines when dependencies are unwatched | Hosted (`assert_coverage`) + Actions |
+| **Schema comparison** | Compare two JSON payloads and flag breaking vs safe changes | Free CLI + MCP (`compare_json`) |
+| **MCP config preview** | List HTTPS URLs from `mcp.json` without signing up | Free (`parse_mcp_config`) |
+| **Scheduled checks** | Check an API, OpenAPI spec, or MCP endpoint on a schedule | Hosted Pro/Team |
+| **Change history** | See when a watched contract changed and get alerts | Hosted |
+| **MCP tool tracking** | Watch remote MCP `tools/list` for catalog changes | Hosted only |
+| **Fix suggestions** | Get hints after breaking changes | Public endpoint (`explain_drift`) |
+| **CI coverage checks** | Fail pipelines when dependencies are not watched | Hosted (`assert_coverage`) + Actions |
 
-DriftGuard sits **between contracts and consumers**: `mcp.json`, API payloads, OpenAPI specs, CI pipelines, AI agents, and the hosted console.
+DriftGuard sits **between your contracts and your apps**: `mcp.json`, API payloads, OpenAPI specs, CI pipelines, AI agents, and the hosted console.
 
 ```
   mcp.json / OpenAPI / API responses
               │
               ▼
      ┌─────────────────┐
-     │  OSS client     │  compare_json, parse_mcp_config (offline)
+     │  Free client    │  compare_json, parse_mcp_config (offline)
      │  CLI + MCP      │
      └────────┬────────┘
               │ DRIFTGUARD_API_KEY
               ▼
      ┌─────────────────┐
-     │  Hosted         │  watches, drift events, alerts, console
+     │  Hosted         │  scheduled checks, change history, alerts
      │  DriftGuard     │
      └────────┬────────┘
               │
@@ -41,43 +41,43 @@ DriftGuard sits **between contracts and consumers**: `mcp.json`, API payloads, O
 
 ---
 
-## OSS vs hosted
+## What's free vs paid
 
-| Capability | OSS client (this repo) | Hosted DriftGuard |
+| Capability | Free client (this repo) | Hosted DriftGuard |
 |------------|------------------------|-------------------|
 | JSON schema diff | ✅ CLI + MCP | ✅ + history |
 | Parse `mcp.json` preview | ✅ offline | ✅ + auto-import |
-| Continuous checks | ❌ | ✅ cron + queues |
+| Scheduled checks | ❌ | ✅ |
 | MCP `tools/list` polling | ❌ | ✅ |
 | Alerts & console | ❌ | ✅ |
 | CI coverage gate | Preview free; gate needs key | ✅ |
 
-Full boundary: [OPEN_CORE.md](../OPEN_CORE.md). At runtime, MCP tool **`hosted_info`** returns the current matrix and upgrade URLs.
+Full split: [OPEN_CORE.md](../OPEN_CORE.md). At runtime, MCP tool **`hosted_info`** shows what's free vs paid and upgrade links.
 
 ---
 
 ## Start here
 
-| Doc | Audience | Purpose |
-|-----|----------|---------|
-| [Getting started](./getting-started.md) | Developers, SREs | Linear funnel: install → diff → MCP → CI → trial |
-| [Glossary](./glossary.md) | Everyone | DriftGuard terms and familiar equivalents |
-| [Reference](./reference/README.md) | Integrators, agents | MCP tools, CLI commands, diff semantics |
+| Doc | Who it's for | What you'll do |
+|-----|--------------|----------------|
+| [Getting started](./getting-started.md) | Developers, SREs | Install → diff → MCP → CI → trial |
+| [Glossary](./glossary.md) | Everyone | Plain definitions for DriftGuard terms |
+| [Reference](./reference/README.md) | Integrators, agents | MCP tools, CLI commands, diff rules |
 | [QUICKSTART](./QUICKSTART.md) | Hands-on setup | Copy-paste install and MCP config |
 
 ---
 
 ## Guides
 
-Task-oriented flows by role — [guides index](./guides/README.md).
+Step-by-step guides by role — [guides index](./guides/README.md).
 
-| Guide | Audience |
-|-------|----------|
+| Guide | Who it's for |
+|-------|--------------|
 | [Developer](./guides/developer.md) | Local diff, pre-commit, `explain_drift` |
-| [Agent / MCP](./guides/agent-mcp.md) | Offline-first tools, `SYSTEM_PROMPT` companion |
+| [Agent / MCP](./guides/agent-mcp.md) | Free tools first, `SYSTEM_PROMPT` companion |
 | [CI/CD](./guides/ci-cd.md) | Hook → preview → trial → gate |
-| [Drift management](./guides/drift-management.md) | Detection → triage → fix (hosted) |
-| [Platform admin](./guides/platform-admin.md) | Watches, API keys, alerts (hosted) |
+| [Drift management](./guides/drift-management.md) | Find → review → fix changes (hosted) |
+| [Platform admin](./guides/platform-admin.md) | Scheduled checks, API keys, alerts (hosted) |
 
 ---
 
@@ -97,7 +97,7 @@ Task-oriented flows by role — [guides index](./guides/README.md).
 
 ## Policies & gates
 
-[Policies](./policies/README.md) — coverage, breaking-change policy, open-core guardrails.
+[Policies](./policies/README.md) — coverage rules, breaking-change policy, what's free vs paid.
 
 | Topic | Doc |
 |-------|-----|
@@ -109,24 +109,24 @@ Task-oriented flows by role — [guides index](./guides/README.md).
 
 ## Migrate & adopt
 
-[Migration paths](./migrate/README.md) — from zero, manual JSON diff, CI-only, mcp.json sprawl (with per-path troubleshooting).
+[Migration paths](./migrate/README.md) — start from zero, manual JSON diff, CI-only, or many MCP servers (with troubleshooting).
 
 ---
 
 ## Changelog & releases
 
-[Product changelog](./changelog/README.md) — user-facing release notes, SemVer and breaking MCP/diff policy. Maintainer history: [CHANGELOG.md](../CHANGELOG.md) · [GitHub releases](https://github.com/kioie/driftguard/releases).
+[Product changelog](./changelog/README.md) — release notes, version numbers, and breaking MCP/diff policy. Maintainer history: [CHANGELOG.md](../CHANGELOG.md) · [GitHub releases](https://github.com/kioie/driftguard/releases).
 
 ---
 
 ## Hosted reference (link-out)
 
-Exact OpenAPI and console setup live on [driftguard.org](https://driftguard.org) — OSS hub indexes only.
+Exact OpenAPI and console setup live on [driftguard.org](https://driftguard.org) — this hub links to them.
 
 | Doc | Purpose |
 |-----|---------|
-| [Hosted API](./reference/hosted-api.md) | Route families (watches, drift, CI, agents) |
-| [Webhooks & alerts](./reference/webhooks-alerts.md) | Event concepts, channels, retry overview |
+| [Hosted API](./reference/hosted-api.md) | API route families (watches, drift, CI, agents) |
+| [Webhooks & alerts](./reference/webhooks-alerts.md) | Events, channels, retry overview |
 
 ---
 
@@ -137,7 +137,7 @@ Exact OpenAPI and console setup live on [driftguard.org](https://driftguard.org)
 | [llms.txt](./llms.txt) | Machine-readable sitemap |
 | [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) | Tool matrix, decision flow, env vars |
 | [Reference — MCP tools](./reference/README.md#mcp-tools) | Full catalog with when / when-not |
-| [Agent / MCP guide](./guides/agent-mcp.md) | Offline-first order |
+| [Agent / MCP guide](./guides/agent-mcp.md) | Free tools first |
 | [AGENTS.md](../AGENTS.md) | Contributing to this repo |
 
 ---
@@ -146,7 +146,7 @@ Exact OpenAPI and console setup live on [driftguard.org](https://driftguard.org)
 
 | Doc | Purpose |
 |-----|---------|
-| [Security overview](./security/README.md) | Data boundaries, OSS vs hosted, trust links |
+| [Security overview](./security/README.md) | Data boundaries, free vs paid, trust links |
 | [Public repo audit](./security/PUBLIC-REPO-AUDIT.md) | History scrub, proprietary content |
 | [DESIGN.md](./DESIGN.md) | Brand / design tokens |
 

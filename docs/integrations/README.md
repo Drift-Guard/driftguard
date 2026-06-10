@@ -1,8 +1,8 @@
 # Integrations
 
-Catalog of how DriftGuard connects to CI platforms, MCP clients, registries, and hosted notification channels.
+How DriftGuard connects to CI platforms, MCP clients, registries, and hosted notification channels.
 
-**OSS boundary:** This repo ships client configs and workflow templates. Alert routing and console integrations are hosted — [OPEN_CORE.md](../../OPEN_CORE.md).
+**What's free:** This repo ships client configs and workflow templates. Alert routing and console integrations are hosted — [OPEN_CORE.md](../../OPEN_CORE.md).
 
 ---
 
@@ -14,7 +14,7 @@ Catalog of how DriftGuard connects to CI platforms, MCP clients, registries, and
 | **GitLab CI** | Same CLI tiers; job summary parity | [gitlab-ci.md](./gitlab-ci.md) |
 | **GitHub Marketplace** | Listing path for published actions | [GITHUB_MARKETPLACE.md](../GITHUB_MARKETPLACE.md) |
 
-Funnel model: [CI.md](../CI.md) · Guide: [CI/CD](../guides/ci-cd.md).
+CI tiers: [CI.md](../CI.md) · Guide: [CI/CD](../guides/ci-cd.md).
 
 ---
 
@@ -31,9 +31,9 @@ Agent tool selection: [Agent / MCP guide](../guides/agent-mcp.md) · [SYSTEM_PRO
 
 ## Notifications (hosted)
 
-Slack, email, and webhook delivery are configured in the **hosted console** — not in this public repo.
+Set up Slack, email, and webhooks in the **hosted console** — not in this public repo.
 
-| Channel | OSS repo | Hosted |
+| Channel | Free repo | Hosted |
 |---------|----------|--------|
 | Slack | — | Console integration |
 | Email | — | Console notification settings |

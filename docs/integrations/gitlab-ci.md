@@ -1,6 +1,6 @@
 # GitLab CI
 
-Same OSS CLI and hosted API routes as GitHub Actions — no Actions-specific dependencies.
+Same free CLI and hosted API routes as GitHub Actions — no Actions-specific dependencies.
 
 **Full reference:** [GITLAB_CI.md](../GITLAB_CI.md) · **Guide:** [CI/CD](../guides/ci-cd.md)
 

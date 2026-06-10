@@ -1,6 +1,6 @@
 # Reference
 
-Exact contracts for the OSS client: MCP tools, CLI commands, and diff semantics. For task-oriented flows see [Guides](../guides/README.md), [Getting started](../getting-started.md), and [CI.md](../CI.md).
+Exact contracts for the free client: MCP tools, CLI commands, and diff rules. For step-by-step guides see [Guides](../guides/README.md), [Getting started](../getting-started.md), and [CI.md](../CI.md).
 
 **Agent quick ref:** [SYSTEM_PROMPT.md](../../SYSTEM_PROMPT.md) — decision flow and env vars in one page.
 
@@ -29,7 +29,7 @@ Exact contracts for the OSS client: MCP tools, CLI commands, and diff semantics.
 
 | | |
 |---|---|
-| **When** | One-off before/after JSON schema diff — CI fixtures, API responses, MCP tool output |
+| **When** | One-off before/after JSON diff — CI fixtures, API responses, MCP tool output |
 | **When not** | Continuous monitoring (use `register_watch`) |
 | **Siblings** | `explain_drift` after breaking results; hosted `/api/diff` is not needed offline |
 | **Inputs** | `before`, `after` — JSON strings |
@@ -51,16 +51,16 @@ Stdio MCP servers without URLs are skipped — hosted MCP polling is required fo
 
 | | |
 |---|---|
-| **When** | User asks about self-hosting, API keys, trials, or why a hosted tool failed |
+| **When** | You ask about self-hosting, API keys, trials, or why a hosted tool failed |
 | **When not** | Substitute for running an actual diff or watch operation |
-| **Siblings** | All tools — returns offline vs hosted matrix |
+| **Siblings** | All tools — returns free vs paid matrix |
 | **Network** | No |
 
 #### `explain_drift`
 
 | | |
 |---|---|
-| **When** | After `compare_json` when `breakingCount > 0` — remediation hints |
+| **When** | After `compare_json` when `breakingCount > 0` — fix suggestions |
 | **When not** | Registering watches or replacing local diff |
 | **Inputs** | `changesJson` — array of SchemaChange objects from diff output |
 | **Network** | Yes (public hosted endpoint, no API key) |
@@ -69,7 +69,7 @@ Stdio MCP servers without URLs are skipped — hosted MCP polling is required fo
 
 ### Hosted (requires `DRIFTGUARD_API_KEY`)
 
-Fails with trial/pricing URLs when the key is missing. Do not document hosted infrastructure in this repo — use funnel links only.
+Fails with trial/pricing URLs when the key is missing. Do not document hosted infrastructure in this repo — use upgrade links only.
 
 #### `register_watch`
 
@@ -83,7 +83,7 @@ Fails with trial/pricing URLs when the key is missing. Do not document hosted in
 
 | | |
 |---|---|
-| **When** | Immediate check on a registered watch |
+| **When** | Run one check now on a registered watch |
 | **When not** | One-off JSON comparison |
 | **Inputs** | `watchId` (UUID) |
 
@@ -106,7 +106,7 @@ Fails with trial/pricing URLs when the key is missing. Do not document hosted in
 
 | | |
 |---|---|
-| **When** | Agent binding contract status before orchestrator runs |
+| **When** | Agent binding contract status before agent runs |
 | **Inputs** | `agentId` |
 
 #### `list_affected_agents`
@@ -127,7 +127,7 @@ Fails with trial/pricing URLs when the key is missing. Do not document hosted in
 
 | | |
 |---|---|
-| **When** | Drift history from continuous monitoring |
+| **When** | Change history from continuous monitoring |
 | **When not** | One-off JSON comparison |
 | **Inputs** | optional `watchId`, `limit` (1–50, default 10) |
 
@@ -198,17 +198,17 @@ CI embed paths and version pinning: [CI.md](../CI.md).
 
 ---
 
-## Diff semantics
+## Diff rules
 
-Canonical rules live in `@driftguard/diff-core` ([packages/diff-core](../../packages/diff-core/README.md)).
+Standard rules live in `@driftguard/diff-core` ([packages/diff-core](../../packages/diff-core/README.md)).
 
 | Concept | Rule of thumb |
 |---------|---------------|
 | **Breaking** | Removed fields, type changes, stricter constraints, new required fields |
 | **Additive** | New optional fields, relaxed constraints |
-| **Profiles** | `cli` (OSS) vs `hosted` — inference options may differ; contract vectors keep repos aligned |
+| **Profiles** | `cli` (free) vs `hosted` — inference options may differ; contract vectors keep repos aligned |
 
-OSS adapter: `src/core/diff.ts` over diff-core. Golden vectors: `packages/diff-core/contract/vectors.json`.
+Free adapter: `src/core/diff.ts` over diff-core. Golden vectors: `packages/diff-core/contract/vectors.json`.
 
 Gate package schemas: [mockdrift/ASSERTION-V2.md](../mockdrift/ASSERTION-V2.md).
 
@@ -222,7 +222,7 @@ REST routes for watches, coverage, drift, and notifications are **not** duplicat
 |-----|---------|
 | [hosted-api.md](./hosted-api.md) | Route families, auth, MCP mapping |
 | [webhooks-alerts.md](./webhooks-alerts.md) | Drift events, channels, retry overview |
-| [CI.md — API reference](../CI.md#api-reference-hosted) | Coverage preview/assert funnel |
+| [CI.md — API reference](../CI.md#api-reference-hosted) | Coverage preview/assert tiers |
 
 **Upgrade URLs:** [driftguard.org/start](https://driftguard.org/start) · [pricing](https://driftguard.org/pricing) · [console](https://driftguard.org/console) · full API docs on hosted site when published
 

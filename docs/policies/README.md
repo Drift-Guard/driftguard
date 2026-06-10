@@ -1,34 +1,32 @@
 # Policies & gates
 
-Platform and security policies for schema drift: coverage rules, breaking-change enforcement, and the OSS **gate ladder** for repo-level contract testing.
+Rules for schema drift: coverage, breaking-change enforcement, and optional **gate packages** for repo-level contract testing.
 
-**Hosted enforcement:** Full coverage gates and alert policies require Pro/Team — [pricing](https://driftguard.org/pricing). OSS alone cannot replicate continuous monitoring or multi-tenant policy engines.
+**Hosted enforcement:** Full coverage gates and alert policies need Pro/Team — [pricing](https://driftguard.org/pricing). The free client alone cannot run scheduled checks or multi-tenant policy engines.
 
-Boundary: [OPEN_CORE.md](../../OPEN_CORE.md).
+What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md).
 
 ---
 
 ## Policy topics
 
-| Policy | OSS | Hosted | Doc |
-|--------|-----|--------|-----|
+| Policy | Free | Hosted | Doc |
+|--------|------|--------|-----|
 | **Breaking-change** | CLI/MCP diff exits 1 on breaking | Watch alerts + history | [Developer guide](../guides/developer.md) |
 | **Coverage** | Preview lists gaps (non-blocking) | `assert_coverage` fails CI | [CI/CD guide](../guides/ci-cd.md) |
 | **Gate ladder** | MockDrift → SchemaSync packages | Trip ingest / GitHub App (cloud) | [gate-ladder.md](./gate-ladder.md) |
 
 ---
 
-## Open-core guardrails
-
-What OSS **cannot** enforce alone:
+## What the free client cannot do alone
 
 - Scheduled checks across many endpoints
 - MCP `tools/list` polling and tool-schema drift pipeline
 - Team-wide API key provisioning and SSO
-- Alert routing to Slack/email with retry semantics
+- Alert routing to Slack/email with retry rules
 - Drift history export and audit trails
 
-Use the funnel: offline try → [trial](https://driftguard.org/start) → Pro key.
+Path to paid monitoring: try offline → [trial](https://driftguard.org/start) → Pro key.
 
 ---
 

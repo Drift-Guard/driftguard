@@ -16,6 +16,8 @@ The **hosted product roadmap** (control plane, billing, console, alert routing) 
 
 Continuous watches, drift history, alerts, identity, billing, and console — [free trial](https://driftguard.org/start) · [pricing](https://driftguard.org/pricing).
 
+**Hosted UX roadmap (private):** Portkey-inspired onboarding stepper, integrations catalog, analytics dashboards, and console IA live in **`driftguard-cloud`** — see `docs/PRODUCT-ROADMAP.md` § *Portkey-inspired UX & features (2026-06)*. OSS hub links out to [driftguard.org/resources](https://driftguard.org/resources) and [driftguard.org/docs/integrations](https://driftguard.org/docs/integrations); local MCP/CLI flows stay in this repo.
+
 ## Semantic drift (flagship)
 
 Semantic / NL drift classification for hosted Pro/Team remains on the **hosted** roadmap until public launch. Local OSS diff is structural (JSON schema) only.

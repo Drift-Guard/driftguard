@@ -1,16 +1,16 @@
 # Platform admin guide
 
-Watch lifecycle, team API keys, and alert routing for **hosted** DriftGuard. The public repo is the OSS client only — provisioning and console live on driftguard.org.
+Manage scheduled checks, team API keys, and alerts for **hosted** DriftGuard. The public repo is the free client only — provisioning and console live on driftguard.org.
 
-**Prerequisites:** Pro or Team plan — [pricing](https://driftguard.org/pricing). Trial covers one endpoint: [start](https://driftguard.org/start).
+**Before you start:** Pro or Team plan — [pricing](https://driftguard.org/pricing). Trial covers one endpoint: [start](https://driftguard.org/start).
 
-Boundary: [OPEN_CORE.md](../../OPEN_CORE.md).
+What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md).
 
 ---
 
 ## Overview
 
-Platform admins manage **what** is watched, **who** can register watches, and **where** alerts go. Agents and CI use the same API key scoped to your tenant.
+You manage **what** is watched, **who** can register watches, and **where** alerts go. Agents and CI use the same API key scoped to your tenant.
 
 ---
 
@@ -66,7 +66,7 @@ Enforce that every discovered dependency in CI is watched:
 - GitLab: `driftguard assert-coverage`
 - MCP: `assert_coverage`
 
-Trial gates allow **one** endpoint; multi-dependency repos need Pro. Funnel: [CI/CD guide](./ci-cd.md).
+Trial gates allow **one** endpoint; multi-dependency repos need Pro. Steps: [CI/CD guide](./ci-cd.md).
 
 Policy concepts: [Policies](../policies/README.md).
 
@@ -74,7 +74,7 @@ Policy concepts: [Policies](../policies/README.md).
 
 ## Alerts (hosted)
 
-Alert delivery (Slack, email, webhooks) is configured in the hosted console — not in the OSS repo.
+Alert delivery (Slack, email, webhooks) is configured in the hosted console — not in the free repo.
 
 | Channel | Config surface |
 |---------|----------------|
@@ -93,7 +93,7 @@ Index: [Integrations — notifications](../integrations/README.md#notifications-
 | Concern | Notes |
 |---------|-------|
 | **SSO / audit** | Team tier — [pricing](https://driftguard.org/pricing) |
-| **Agent bindings** | Map agents to watches; ack-gated policies — [Glossary](../glossary.md#agent--orchestration-hosted) |
+| **Agent bindings** | Map agents to watches; ack-gated policies — [Glossary](../glossary.md#agent-features-hosted) |
 | **Drift ack** | `acknowledge_drift` after human review |
 
 ---
@@ -104,5 +104,5 @@ Index: [Integrations — notifications](../integrations/README.md#notifications-
 |------|-----|
 | Drift triage workflow | [Drift management](./drift-management.md) |
 | CI gate setup | [CI/CD guide](./ci-cd.md) |
-| OSS-only evaluation | [Getting started](../getting-started.md) |
+| Free-only evaluation | [Getting started](../getting-started.md) |
 | Security posture | [security/](../security/) |

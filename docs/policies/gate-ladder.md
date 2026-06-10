@@ -1,21 +1,21 @@
 # Gate ladder
 
-Progressive adoption of contract-testing gates in your repo. Start where you have pain today; add gates as MCP tools, agents, and NL prompts grow in scope.
+Add contract-testing checks to your repo step by step. Start where you have pain today; add gates as MCP tools, agents, and prompts grow in scope.
 
-**Package READMEs** hold implementation detail — this page covers **when to adopt** each gate.
+**Package READMEs** have implementation detail — this page covers **when to adopt** each gate.
 
 ---
 
 ## Ladder overview
 
 ```
-Gate 1 — MockDrift     Assertion v2 for mock/snapshot tests
+Gate 1 — MockDrift     Test assertions for mock/snapshot tests
     ↓
-Gate 2A — FuseGuard    Loop/budget fuse for agent tool calls
+Gate 2A — FuseGuard    Stop runaway agent tool loops
     ↓
-Gate 3A — ToolChange   Manifest lint for MCP tool schema PRs
+Gate 3A — ToolChange   Lint MCP tool manifest changes in PRs
     ↓
-Gate 4A — SchemaSync   NL prompt lint vs removed schema fields
+Gate 4A — SchemaSync   Check prompts still match removed schema fields
 ```
 
 Hosted complements (not in this repo): FuseGuard trip ingest, SchemaSync GitHub App — `driftguard-cloud`.
@@ -26,8 +26,8 @@ Hosted complements (not in this repo): FuseGuard trip ingest, SchemaSync GitHub 
 
 | | |
 |---|---|
-| **When** | You have pytest/integration tests with mocked APIs and need deterministic drift assertions |
-| **When not** | Pure JSON fixture diff is enough — use OSS `compare_json` or CI `drift-diff` |
+| **When** | You have pytest/integration tests with mocked APIs and need reliable drift assertions |
+| **When not** | Plain JSON fixture diff is enough — use free `compare_json` or CI `drift-diff` |
 | **Package** | [packages/mockdrift](../../packages/mockdrift/README.md) |
 | **Docs** | [ASSERTION-V2.md](../mockdrift/ASSERTION-V2.md) · [R3-API.md](../mockdrift/R3-API.md) |
 
@@ -82,14 +82,14 @@ schemasync lint-nl --mode literal --prompt "…" --removed field_name
 
 | Stage | Gates | Typical trigger |
 |-------|-------|-------------------|
-| **1** | OSS diff + CI hook | First API or MCP integration |
+| **1** | Free diff + CI hook | First API or MCP integration |
 | **2** | MockDrift | Flaky mocks; need scenario replay |
 | **3** | FuseGuard | Agent cost/runaway loops |
 | **4** | ToolChange | MCP tool sprawl in monorepo |
 | **5** | SchemaSync | Prompts must stay aligned with schema removals |
 | **Parallel** | Hosted watches | Continuous monitoring — [trial](https://driftguard.org/start) |
 
-Structural JSON diff (`compare_json`) underpins all gates but is not a replacement for hosted watches.
+JSON diff (`compare_json`) underpins all gates but is not a replacement for hosted watches.
 
 ---
 

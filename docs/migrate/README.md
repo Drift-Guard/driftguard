@@ -1,8 +1,8 @@
 # Migrate & adopt
 
-Adoption paths for teams at different maturity levels. Each path links to the minimal doc set — no duplicate runbooks.
+Adoption paths for teams at different stages. Each path links to the minimal doc set.
 
-**Start here if unsure:** [Getting started](../getting-started.md).
+**Not sure where to start?** [Getting started](../getting-started.md).
 
 ---
 
@@ -12,7 +12,7 @@ New to contract drift detection.
 
 | Step | Action | Doc |
 |------|--------|-----|
-| 1 | Install OSS client | [Getting started §1](../getting-started.md#1-install-the-oss-client) |
+| 1 | Install free client | [Getting started §1](../getting-started.md#1-install-the-oss-client) |
 | 2 | First diff | [Getting started §2](../getting-started.md#2-run-your-first-diff) |
 | 3 | MCP in IDE | [Getting started §3](../getting-started.md#3-connect-an-mcp-client) |
 | 4 | Optional CI hook | [CI/CD guide](../guides/ci-cd.md) |
@@ -44,9 +44,9 @@ Already comparing snapshots by hand or with generic diff tools.
 
 | Issue | Fix |
 |-------|-----|
-| Too many false positives | Review diff semantics; optional fields vs required |
+| Too many false positives | Review diff rules; optional fields vs required |
 | Large payloads | Diff infers schema shape — trim to representative samples |
-| Need remediation text | `explain_drift` after breaking `compare_json` |
+| Need fix suggestions | `explain_drift` after breaking `compare_json` |
 
 ---
 

@@ -1,10 +1,10 @@
 # CI/CD guide
 
-Embed DriftGuard in pipelines as a **hook → preview → trial → gate** funnel. Start free; upgrade when you need full coverage enforcement.
+Add DriftGuard to pipelines in four steps: **hook → preview → trial → gate**. Start free; upgrade when you need full coverage enforcement.
 
 **Full reference:** [CI.md](../CI.md) — tiers, env vars, Step Summary behavior, version pins.
 
-**Prerequisites:** Repo with JSON fixtures, `mcp.json`, or OpenAPI paths to scan. Node 20+ for CLI jobs.
+**Before you start:** A repo with JSON fixtures, `mcp.json`, or OpenAPI paths to scan. Node 20+ for CLI jobs.
 
 ---
 
@@ -88,7 +88,7 @@ Details: [CI.md — Layer 4](../CI.md).
 
 ## Gate packages in CI
 
-Beyond structural JSON diff, adopt repo gates incrementally: [Gate ladder](../policies/gate-ladder.md) (MockDrift → ToolChange → SchemaSync).
+Beyond JSON diff, add repo gates step by step: [Gate ladder](../policies/gate-ladder.md) (MockDrift → ToolChange → SchemaSync).
 
 ---
 
