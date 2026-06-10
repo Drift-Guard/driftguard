@@ -132,6 +132,7 @@ server.tool(
       hostedTools: [
         "register_watch",
         "check_watch",
+        "get_watch_status",
         "list_watches",
         "list_drift_events",
         "suggest_watches",
@@ -172,6 +173,13 @@ server.tool(
   "Hosted: list your drift watches and health status. Requires API key. Use before check_watch or list_drift_events.",
   {},
   async () => jsonResult(await hostedRequest("/api/watches")),
+);
+
+server.tool(
+  "get_watch_status",
+  "Hosted: query canonical drift_status, incident state, latest drift event, and agentActions for one watch. Requires API key. Use before orchestrator runs or to gate agent deploys — pair with compare_json for local diff only.",
+  { watchId: z.string().uuid() },
+  async ({ watchId }) => jsonResult(await hostedRequest(`/api/watches/${watchId}/status`)),
 );
 
 server.tool(

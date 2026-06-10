@@ -14,6 +14,7 @@ const EXPECTED_TOOLS = [
   "check_watch",
   "compare_json",
   "explain_drift",
+  "get_watch_status",
   "hosted_info",
   "list_drift_events",
   "list_watches",
