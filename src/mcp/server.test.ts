@@ -18,6 +18,7 @@ const EXPECTED_TOOLS = [
   "get_agent_status",
   "list_affected_agents",
   "acknowledge_drift",
+  "trigger_remediation",
   "hosted_info",
   "list_drift_events",
   "list_watches",

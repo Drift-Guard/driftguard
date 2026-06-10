@@ -136,6 +136,7 @@ server.tool(
         "get_agent_status",
         "list_affected_agents",
         "acknowledge_drift",
+        "trigger_remediation",
         "list_watches",
         "list_drift_events",
         "suggest_watches",
@@ -207,6 +208,22 @@ server.tool(
   async ({ watchId }) =>
     jsonResult(
       await hostedRequest(`/api/watches/${watchId}/incident/ack`, { method: "POST" }),
+    ),
+);
+
+server.tool(
+  "trigger_remediation",
+  "Hosted: open a SchemaSync remediation draft PR for a watch (draft_pr policy + GitHub App install). Requires API key. Use after breaking drift when auto-remediation did not run or you need to retry.",
+  {
+    watchId: z.string().uuid(),
+    driftEventId: z.string().uuid().optional(),
+  },
+  async ({ watchId, driftEventId }) =>
+    jsonResult(
+      await hostedRequest(`/api/watches/${watchId}/trigger_remediation`, {
+        method: "POST",
+        body: JSON.stringify(driftEventId ? { driftEventId } : {}),
+      }),
     ),
 );
 
