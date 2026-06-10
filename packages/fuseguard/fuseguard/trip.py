@@ -28,9 +28,46 @@ class Trip:
     watch_id: str | None = None
     calls: list[CallRecord] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
+    agent_action: str | None = None
+
+    def primary_agent_action(self) -> str | None:
+        if self.agent_action:
+            return self.agent_action
+        actions = self.metadata.get("agentActions")
+        if isinstance(actions, list) and actions:
+            first = actions[0]
+            return str(first) if first else None
+        blocked = self.metadata.get("blocked")
+        if isinstance(blocked, list):
+            for item in blocked:
+                if isinstance(item, dict):
+                    for action in item.get("agentActions") or []:
+                        if isinstance(action, str) and action:
+                            return action
+        return None
+
+    def to_blocked_response(self) -> dict[str, Any]:
+        """Structured halt payload for orchestrators (CP-3.2)."""
+        agent_action = self.primary_agent_action()
+        payload: dict[str, Any] = {
+            "error": "contract_drift_blocked",
+            "tripId": self.trip_id,
+            "reason": self.reason,
+            "watchId": self.watch_id,
+            "trip": self.to_log_dict(),
+        }
+        if agent_action:
+            payload["agentAction"] = agent_action
+        actions = self.metadata.get("agentActions")
+        if isinstance(actions, list) and actions:
+            payload["agentActions"] = actions
+        blocked = self.metadata.get("blocked")
+        if isinstance(blocked, list) and blocked:
+            payload["blocked"] = blocked
+        return payload
 
     def to_log_dict(self) -> dict[str, Any]:
-        return {
+        payload: dict[str, Any] = {
             "tripId": self.trip_id,
             "reason": self.reason,
             "createdAt": self.created_at,
@@ -48,6 +85,9 @@ class Trip:
             ],
             "metadata": self.metadata,
         }
+        if self.agent_action:
+            payload["agentAction"] = self.agent_action
+        return payload
 
 
 class FuseTrip(Exception):
@@ -56,6 +96,19 @@ class FuseTrip(Exception):
     def __init__(self, trip: Trip) -> None:
         self.trip = trip
         super().__init__(f"FuseGuard tripped: {trip.reason} ({trip.trip_id})")
+
+    def to_response_dict(self) -> dict[str, Any]:
+        if self.trip.reason == "contract_drift_blocked":
+            return self.trip.to_blocked_response()
+        agent_action = self.trip.primary_agent_action()
+        payload: dict[str, Any] = {
+            "error": self.trip.reason,
+            "tripId": self.trip.trip_id,
+            "trip": self.trip.to_log_dict(),
+        }
+        if agent_action:
+            payload["agentAction"] = agent_action
+        return payload
 
 
 def new_trip_id() -> str:

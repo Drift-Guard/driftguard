@@ -54,6 +54,7 @@ class FuseMonitor:
             created_at=utc_now_iso(),
             watch_id=blocked[0].get("watchId") if blocked and isinstance(blocked[0], dict) else None,
             calls=list(self.calls),
+            agent_action=agent_actions[0] if agent_actions else None,
             metadata={
                 "preflight": result,
                 "blocked": blocked,
