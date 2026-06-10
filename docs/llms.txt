@@ -2,34 +2,34 @@
 # Machine-readable sitemap. Humans: https://github.com/kioie/driftguard/tree/main/docs
 
 > DriftGuard catches schema drift before integrations break.
-> OSS client: local JSON diff + MCP connector. Continuous monitoring is hosted SaaS — not self-hostable from this repo.
+> Free client: local JSON diff + MCP connector. Continuous monitoring is hosted SaaS — not self-hostable from this repo.
 
 ## Identity
 
 - Package: driftguard (clone + build; npm publish optional)
-- Role: structural JSON schema diff, mcp.json preview, proxy to hosted API
+- Role: JSON schema diff, mcp.json preview, proxy to hosted API
 - Boundary: OPEN_CORE.md — do not document hosted infrastructure in OSS repo
 
 ## Start here (order)
 
 1. docs/QUICKSTART.md — copy-paste install and MCP config
 2. SYSTEM_PROMPT.md — tool matrix, decision flow, env vars
-3. docs/getting-started.md — linear onboarding funnel
-4. docs/guides/agent-mcp.md — offline-first tool order, when/when-not/siblings
+3. docs/getting-started.md — step-by-step onboarding
+4. docs/guides/agent-mcp.md — free tools first, when/when-not/siblings
 
 ## Hub sections
 
-- docs/README.md — documentation hub landing, OSS vs hosted matrix
+- docs/README.md — documentation hub, free vs paid matrix
 - docs/glossary.md — DriftGuard terms (watch, drift event, breaking, gate)
-- docs/guides/README.md — audience-split guides (developer, agent, CI, drift mgmt, platform)
-- docs/reference/README.md — MCP tools, CLI, diff semantics (exact contracts)
+- docs/guides/README.md — guides by role (developer, agent, CI, drift mgmt, platform)
+- docs/reference/README.md — MCP tools, CLI, diff rules (exact contracts)
 - docs/integrations/README.md — GitHub Actions, GitLab, MCP clients, registry
 - docs/policies/gate-ladder.md — MockDrift → FuseGuard → ToolChange → SchemaSync
 - docs/migrate/README.md — adoption paths and troubleshooting
 - docs/changelog/README.md — product release notes, breaking MCP/diff policy
 - docs/reference/hosted-api.md — hosted REST index (link-out, no OpenAPI)
 - docs/reference/webhooks-alerts.md — alerts and webhook concepts (hosted)
-- docs/security/README.md — trust hub, data boundaries, OSS vs hosted
+- docs/security/README.md — trust hub, data boundaries, free vs paid
 
 ## MCP tools (offline first)
 
@@ -61,7 +61,7 @@ Source: src/mcp/server.ts
 - DRIFTGUARD_API — override API base (default https://driftguard.org)
 - DRIFTGUARD_ALLOW_CUSTOM_API=1 — required with custom DRIFTGUARD_API
 
-## Hosted funnel (link only — no infra docs)
+## Hosted upgrade path (link only — no infra docs)
 
 - Trial: https://driftguard.org/start
 - Pricing: https://driftguard.org/pricing

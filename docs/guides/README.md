@@ -1,17 +1,17 @@
 # Guides
 
-Task-oriented flows by role. For exact tool contracts see [Reference](../reference/README.md); for linear onboarding see [Getting started](../getting-started.md).
+Step-by-step guides by role. For exact tool contracts see [Reference](../reference/README.md); for linear onboarding see [Getting started](../getting-started.md).
 
 ---
 
-## Audience tracks
+## Pick your guide
 
 | Track | Guide | You are… |
 |-------|-------|----------|
-| **Developer** | [developer.md](./developer.md) | Writing diffs, pre-commit checks, interpreting output, remediation |
-| **Agent / MCP** | [agent-mcp.md](./agent-mcp.md) | Selecting tools offline-first, `SYSTEM_PROMPT` companion |
-| **CI/CD** | [ci-cd.md](./ci-cd.md) | Hook → preview → trial → gate in pipelines |
-| **Drift management** | [drift-management.md](./drift-management.md) | Detection → triage → fix (hosted where applicable) |
+| **Developer** | [developer.md](./developer.md) | Running diffs, pre-commit checks, reading output, fixing issues |
+| **Agent / MCP** | [agent-mcp.md](./agent-mcp.md) | Picking tools (free first), `SYSTEM_PROMPT` companion |
+| **CI/CD** | [ci-cd.md](./ci-cd.md) | Adding hook → preview → trial → gate to pipelines |
+| **Drift management** | [drift-management.md](./drift-management.md) | Find → review → fix when contracts change (hosted) |
 | **Platform / admin** | [platform-admin.md](./platform-admin.md) | Watches, API keys, alerts (hosted) |
 
 ---
@@ -22,8 +22,8 @@ Task-oriented flows by role. For exact tool contracts see [Reference](../referen
 |---------|---------|
 | [Integrations](../integrations/README.md) | GitHub Actions, GitLab CI, MCP clients, registry |
 | [Policies & gates](../policies/README.md) | Coverage rules, gate ladder (MockDrift → SchemaSync) |
-| [Migrate & adopt](../migrate/README.md) | Adoption paths from zero, manual diff, CI-only, mcp.json sprawl |
-| [CI.md](../CI.md) | Full CI funnel reference (hook, preview, trial, gate) |
+| [Migrate & adopt](../migrate/README.md) | Adoption paths from zero, manual diff, CI-only, many MCP servers |
+| [CI.md](../CI.md) | Full CI tier reference (hook, preview, trial, gate) |
 
 ---
 

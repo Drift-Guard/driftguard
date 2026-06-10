@@ -2,7 +2,7 @@
 
 DriftGuard ships composite actions under `.github/actions/` in the public repo. Pin semver tags — never `@main`.
 
-**Full funnel:** [CI.md](../CI.md) · **Guide:** [CI/CD](../guides/ci-cd.md)
+**Full CI tiers:** [CI.md](../CI.md) · **Guide:** [CI/CD](../guides/ci-cd.md)
 
 ---
 

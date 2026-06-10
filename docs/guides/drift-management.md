@@ -1,31 +1,31 @@
 # Drift management guide
 
-From **detection** through **triage** to **fix** when a watched contract changes. Structural diff is OSS; drift history, alerts, and ack workflows are hosted.
+Find, review, and fix changes when a watched contract changes. JSON diff is free; change history, alerts, and ack workflows are hosted.
 
-**Prerequisites:** At least one watch registered — [Getting started step 6](../getting-started.md#6-upgrade--trial-api-key-watches) or [Platform admin](./platform-admin.md). Trial: [driftguard.org/start](https://driftguard.org/start).
+**Before you start:** At least one watch registered — [Getting started step 6](../getting-started.md#6-upgrade--trial-api-key-watches) or [Platform admin](./platform-admin.md). Trial: [driftguard.org/start](https://driftguard.org/start).
 
-Boundary: [OPEN_CORE.md](../../OPEN_CORE.md) — no self-hosted console in this repo.
+What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md) — no self-hosted console in this repo.
 
 ---
 
 ## Overview
 
 ```
-  Detection          Triage              Fix
-  ─────────          ──────              ───
-  check_watch        list_drift_events   explain_drift (OSS hint)
-  scheduled checks   breaking vs add.    PR / baseline update
-  drift alerts       link to incident    acknowledge_drift (hosted)
+  Find it            Review             Fix it
+  ───────            ──────             ──────
+  check_watch        list_drift_events  explain_drift (free hint)
+  scheduled checks   breaking vs safe   PR / baseline update
+  drift alerts       link to incident   acknowledge_drift (hosted)
 ```
 
 ---
 
-## Detection
+## Find changes
 
 | Method | Tool / surface | Notes |
 |--------|----------------|-------|
-| **Immediate check** | `check_watch` | On-demand diff against last baseline |
-| **Scheduled** | Hosted cron | Automatic — Pro/Team console |
+| **Check now** | `check_watch` | On-demand diff against last baseline |
+| **On a schedule** | Hosted cron | Automatic — Pro/Team console |
 | **CI hook** | `compare_json` / `drift-diff` | Catches breaking changes in fixtures before deploy |
 | **MCP polling** | Hosted only | Remote `tools/list` and schema extraction |
 
@@ -33,7 +33,7 @@ List watches: `list_watches`. Status: `get_watch_status` (ok, incident open, lat
 
 ---
 
-## Triage
+## Review changes
 
 1. **Fetch history** — `list_drift_events` for the watch (or console drift timeline).
 2. **Classify** — breaking changes block consumers; additive changes are usually safe to absorb.
@@ -41,11 +41,11 @@ List watches: `list_watches`. Status: `get_watch_status` (ok, incident open, lat
 
 Terms: [Glossary — drift event, breaking](../glossary.md).
 
-For one-off payloads (no watch yet), use OSS `compare_json` then `explain_drift` when `breakingCount > 0`.
+For one-off payloads (no watch yet), use free `compare_json` then `explain_drift` when `breakingCount > 0`.
 
 ---
 
-## Fix
+## Fix it
 
 | Scenario | Action |
 |----------|--------|
@@ -54,13 +54,13 @@ For one-off payloads (no watch yet), use OSS `compare_json` then `explain_drift`
 | **False positive / accepted risk** | `acknowledge_drift` in hosted console (unblocks ack-gated agent policies) |
 | **Unwatched dependency** | `register_watch` or `suggest_watches` import; enable CI gate when ready |
 
-Remediation hints: `explain_drift` (public endpoint, no API key) — [Developer guide](./developer.md#remediation-after-breaking-diffs).
+Fix suggestions: `explain_drift` (public endpoint, no API key) — [Developer guide](./developer.md#fix-suggestions-after-breaking-diffs).
 
 ---
 
 ## Hosted-only capabilities
 
-These are not implemented in the public repo; use the console or MCP hosted tools with `DRIFTGUARD_API_KEY`:
+These are not in the public repo; use the console or MCP hosted tools with `DRIFTGUARD_API_KEY`:
 
 - Alert routing (Slack, email, webhooks)
 - Drift history export and audit
