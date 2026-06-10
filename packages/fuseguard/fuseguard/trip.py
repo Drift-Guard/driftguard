@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal
 
-TripReason = Literal["loop_detected", "budget_exceeded"]
+TripReason = Literal["loop_detected", "budget_exceeded", "contract_drift_blocked"]
 
 
 @dataclass

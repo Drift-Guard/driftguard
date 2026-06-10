@@ -5,6 +5,7 @@ from typing import Any
 
 from fuseguard.budget import BudgetGate
 from fuseguard.config import FuseConfig, fuse_enabled
+from fuseguard.drift_gate import DriftPreflightGate
 from fuseguard.loop_bridge import LoopDetector, tool_args_hash
 from fuseguard.streak import counts_toward_loop, effective_error_class
 from fuseguard.trip import CallRecord, FuseTrip, Trip, new_trip_id, utc_now_iso, write_trip_log
@@ -26,12 +27,45 @@ class FuseMonitor:
         )
         if self.config.budget_cap_usd is not None:
             self.budget = BudgetGate(cap_usd=self.config.budget_cap_usd)
+        self._drift_gate: DriftPreflightGate | None = (
+            DriftPreflightGate(self.config) if self.config.has_drift_gate() else None
+        )
 
     @classmethod
     def from_env(cls) -> FuseMonitor:
         return cls(config=FuseConfig.from_env(), enabled=fuse_enabled())
 
+    def assert_contract_drift_clear(self) -> None:
+        if not self.enabled or self._drift_gate is None:
+            return
+        result = self._drift_gate.check()
+        if result.get("allowed", True):
+            return
+        blocked = result.get("blocked") or []
+        agent_actions: list[str] = []
+        for item in blocked:
+            if isinstance(item, dict):
+                for action in item.get("agentActions") or []:
+                    if isinstance(action, str):
+                        agent_actions.append(action)
+        trip = Trip(
+            trip_id=new_trip_id(),
+            reason="contract_drift_blocked",
+            created_at=utc_now_iso(),
+            watch_id=blocked[0].get("watchId") if blocked and isinstance(blocked[0], dict) else None,
+            calls=list(self.calls),
+            metadata={
+                "preflight": result,
+                "blocked": blocked,
+                "agentActions": agent_actions,
+                "policyBlocked": result.get("policyBlocked"),
+            },
+        )
+        self._persist_trip(trip)
+        raise FuseTrip(trip)
+
     def assert_pre_call_budget(self, estimated_cost_usd: float = 0.0) -> None:
+        self.assert_contract_drift_clear()
         if not self.enabled or self.budget is None:
             return
         if self.budget.would_exceed(estimated_cost_usd):
