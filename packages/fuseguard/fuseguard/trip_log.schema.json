@@ -23,6 +23,9 @@
     "watchId": {
       "type": ["string", "null"]
     },
+    "agentAction": {
+      "type": "string"
+    },
     "calls": {
       "type": "array",
       "items": {
