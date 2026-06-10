@@ -133,6 +133,9 @@ server.tool(
         "register_watch",
         "check_watch",
         "get_watch_status",
+        "get_agent_status",
+        "list_affected_agents",
+        "acknowledge_drift",
         "list_watches",
         "list_drift_events",
         "suggest_watches",
@@ -180,6 +183,31 @@ server.tool(
   "Hosted: query canonical drift_status, incident state, latest drift event, and agentActions for one watch. Requires API key. Use before orchestrator runs or to gate agent deploys — pair with compare_json for local diff only.",
   { watchId: z.string().uuid() },
   async ({ watchId }) => jsonResult(await hostedRequest(`/api/watches/${watchId}/status`)),
+);
+
+server.tool(
+  "get_agent_status",
+  "Hosted: query agent binding contract status (ok/blocked/degraded), bound watches, and policy action. Requires API key. Use agent id or slug from agents.yaml — pair with preflight before orchestrator runs.",
+  { agentId: z.string().min(1) },
+  async ({ agentId }) => jsonResult(await hostedRequest(`/api/agents/${encodeURIComponent(agentId)}/status`)),
+);
+
+server.tool(
+  "list_affected_agents",
+  "Hosted: list agent bindings that depend on a watch (policies + ids). Requires API key. Use after drift.detected on a watch to see which agents are impacted.",
+  { watchId: z.string().uuid() },
+  async ({ watchId }) =>
+    jsonResult(await hostedRequest(`/api/watches/${watchId}/affected-agents`)),
+);
+
+server.tool(
+  "acknowledge_drift",
+  "Hosted: acknowledge the open drift incident on a watch (unblocks ack-gated agents per policy). Requires API key. Use after human review before resuming agent runs.",
+  { watchId: z.string().uuid() },
+  async ({ watchId }) =>
+    jsonResult(
+      await hostedRequest(`/api/watches/${watchId}/incident/ack`, { method: "POST" }),
+    ),
 );
 
 server.tool(
