@@ -24,6 +24,19 @@ pytest tests/ -v
 
 Disable fuse: `DRIFTGUARD_FUSE=0`.
 
+## Contract drift gate (CP-3.1)
+
+Before each outbound tool call, FuseGuard can call hosted `POST /api/preflight` when configured:
+
+| Env | Purpose |
+|-----|---------|
+| `DRIFTGUARD_API_KEY` | Bearer token for hosted preflight |
+| `FUSEGUARD_WATCH_IDS` | Comma-separated watch IDs to gate on |
+| `FUSEGUARD_AGENT_ID` | Agent binding id/slug (alternative to watch list) |
+| `FUSEGUARD_PREFLIGHT_CACHE_TTL_SEC` | In-process cache TTL (default 30) |
+
+Blocked preflight trips with reason `contract_drift_blocked` and `agentActions` in trip metadata.
+
 ## Example — runner wrap
 
 ```python
