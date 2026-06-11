@@ -13,6 +13,7 @@ Step-by-step guides by role. For exact tool contracts see [Reference](../referen
 | **CI/CD** | [ci-cd.md](./ci-cd.md) | Adding hook → preview → trial → gate to pipelines |
 | **Drift management** | [drift-management.md](./drift-management.md) | Find → review → fix when contracts change (hosted) |
 | **Platform / admin** | [platform-admin.md](./platform-admin.md) | Watches, API keys, alerts (hosted) |
+| **A2A Contract Watch** | [a2a-contract-watch.md](./a2a-contract-watch.md) | Agent Card vs MCP silent mismatch (planned) |
 
 ---
 
