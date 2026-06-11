@@ -2,9 +2,9 @@
 
 [![CI](https://github.com/kioie/driftguard/actions/workflows/ci.yml/badge.svg)](https://github.com/kioie/driftguard/actions/workflows/ci.yml)
 
-**Catch schema drift before your integrations break.**
+**Catch API and schema changes before your integrations break.**
 
-Open-source **local JSON schema diff** + **MCP client** for developers and AI agents. Continuous API/MCP monitoring, alerts, and history run on **[hosted DriftGuard Pro/Team](https://driftguard.org/pricing)**.
+DriftGuard compares JSON contracts locally (free CLI and MCP client) and runs scheduled checks with alerts when you need always-on monitoring on **[hosted Pro/Team](https://driftguard.org/pricing)**.
 
 > **Not full self-host:** this repo is the client layer (diff + MCP connector). The monitoring pipeline is a managed service — see [OPEN_CORE.md](OPEN_CORE.md).
 

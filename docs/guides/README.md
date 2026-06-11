@@ -22,7 +22,7 @@ Step-by-step guides by role. For exact tool contracts see [Reference](../referen
 | Section | Purpose |
 |---------|---------|
 | [Integrations](../integrations/README.md) | GitHub Actions, GitLab CI, MCP clients, registry |
-| [Policies & gates](../policies/README.md) | Coverage rules, gate ladder (MockDrift → SchemaSync) |
+| [Policies & gates](../policies/README.md) | Coverage rules, progressive CI enforcement (MockDrift → SchemaSync) |
 | [Migrate & adopt](../migrate/README.md) | Adoption paths from zero, manual diff, CI-only, many MCP servers |
 | [CI.md](../CI.md) | Full CI tier reference (hook, preview, trial, gate) |
 
