@@ -26,6 +26,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - run: npm run check:agents-yaml
       - name: Tests & coverage threshold
         env:
           SKIP_NPM_CI: "1"

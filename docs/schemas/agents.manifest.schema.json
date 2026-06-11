@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://driftguard.org/schemas/agents.manifest.schema.json",
+  "title": "DriftGuard agents.yaml manifest",
+  "description": "Agent binding manifest for CP-2.1 — see docs/guides/a2a-contract-watch.md",
+  "type": "object",
+  "required": ["version", "agents"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": 1 },
+    "org": { "type": "string", "minLength": 1 },
+    "agents": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/agent" }
+    },
+    "policies": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/policy" }
+    }
+  },
+  "$defs": {
+    "agent": {
+      "type": "object",
+      "required": ["id", "environment", "policy", "watches"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "slug": { "type": "string" },
+        "name": { "type": "string" },
+        "environment": { "type": "string" },
+        "policy": { "type": "string" },
+        "runtime_webhook": { "type": "string", "format": "uri" },
+        "a2a": {
+          "type": "object",
+          "required": ["cardUrl"],
+          "properties": { "cardUrl": { "type": "string", "format": "uri" } }
+        },
+        "mcp": {
+          "type": "object",
+          "required": ["configPath"],
+          "properties": {
+            "configPath": { "type": "string" },
+            "skillToolMap": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "watches": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/watch" }
+        }
+      }
+    },
+    "watch": {
+      "type": "object",
+      "required": ["type", "url"],
+      "properties": {
+        "type": { "enum": ["a2a_card", "mcp", "api", "openapi"] },
+        "url": { "type": "string", "format": "uri" },
+        "name": { "type": "string" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "required": ["on_breaking"],
+      "properties": {
+        "on_breaking": {
+          "enum": ["notify", "draft_pr", "block_new_runs", "kill_in_flight"]
+        },
+        "on_warning": { "enum": ["notify"] },
+        "require_ack_to_unblock": { "type": "boolean" },
+        "auto_resolve_incident": { "type": "boolean" }
+      }
+    }
+  }
+}
