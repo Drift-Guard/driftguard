@@ -48,16 +48,22 @@ Integration surfaces: MCP/HTTP proxy (`FuseProxy`), runner wrap (`wrap_agent`). 
 
 ---
 
-## Gate 2B — A2A Contract Watch (planned)
+## Gate 2B — agents.yaml lint (shipped)
 
 | | |
 |---|---|
-| **When** | Multi-agent (A2A) setups with Agent Cards + MCP; silent card/runtime mismatch |
-| **When not** | Single agent, no Agent Card, MCP-only with no declared skills |
-| **Surface** | `.driftguard/agents.yaml`, hosted `a2a_card` + MCP watches, `assert_a2a_coverage` |
-| **Status** | Spec + tasks — [PRODUCT-ROADMAP.md](../PRODUCT-ROADMAP.md) § A2A Contract Watch |
+| **When** | Production agents declare bindings in `.driftguard/agents.yaml`; catch schema/policy errors in CI |
+| **When not** | Bindings managed only in hosted console with no manifest in Git |
+| **Surface** | `.driftguard/agents.yaml`, GitHub Action `drift-agents-lint`, `driftguard lint-agents` |
+| **Status** | **Shipped** (CP-2.1) — hosted watch resolution and `assert_a2a_coverage` remain roadmap |
 
-Guide: [A2A Contract Watch](../guides/a2a-contract-watch.md).
+```yaml
+- uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+  with:
+    manifest: .driftguard/agents.yaml
+```
+
+Guide: [A2A Contract Watch](../guides/a2a-contract-watch.md) · Hosted: [agents.yaml reference](https://driftguard.org/docs/reference/agents-yaml).
 
 ---
 
