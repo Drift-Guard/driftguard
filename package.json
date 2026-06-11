@@ -39,6 +39,7 @@
     "dev:mcp": "tsx src/mcp/server.ts",
     "mcp": "node dist/mcp/server.js",
     "check": "tsx src/cli/check.ts",
+    "check:agents-yaml": "npm run build && node scripts/check-agents-yaml.mjs",
     "test": "node --import tsx --test 'src/**/*.test.ts'",
     "test:coverage": "c8 --reporter=text --reporter=lcov --include='src/core/**' --include='src/mcp/**' node --import tsx --test 'src/**/*.test.ts'"
   },
