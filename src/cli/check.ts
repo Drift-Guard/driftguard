@@ -75,6 +75,11 @@ async function main(): Promise<void> {
     process.exit(runOpenApiChangelog(args));
   }
 
+  if (command === "lint-agents") {
+    const { runAgentsLint } = await import("./agents-lint-run.js");
+    process.exit(runAgentsLint(args));
+  }
+
   if (command === "version") {
     const { printVersionJson, printVersionPlain } = await import("./version.js");
     if (args[0] === "--json") printVersionJson();
@@ -98,6 +103,7 @@ Usage:
   driftguard init [--yes]                                  Write .driftguard.yml
   driftguard coverage-preview                              Free — scan repo + console links
   driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
+  driftguard lint-agents [path]                            Validate .driftguard/agents.yaml (offline)
   driftguard version [--json]
   driftguard mcp
 

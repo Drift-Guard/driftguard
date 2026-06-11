@@ -61,6 +61,12 @@ describe("check.ts CLI routing", () => {
     assert.match(result.stdout, /Usage:/);
   });
 
+  it("routes lint-agents on example manifest to exit 0", () => {
+    const result = runCheck("lint-agents", "examples/a2a/agents.yaml");
+    assert.equal(result.status, 0);
+    assert.match(result.stdout, /OK\s+examples\/a2a\/agents.yaml/);
+  });
+
   it("routes assert-coverage without credentials to exit 1", () => {
     const result = spawnSync(process.execPath, ["--import", "tsx", checkEntry, "assert-coverage"], {
       cwd: repoRoot,

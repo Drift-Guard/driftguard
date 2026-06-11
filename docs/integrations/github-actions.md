@@ -13,6 +13,7 @@ DriftGuard ships composite actions under `.github/actions/` in the public repo. 
 | `drift-diff` | Hook | On breaking diff | No |
 | `drift-coverage-preview` | Preview | No (default) | No |
 | `drift-coverage` | Gate | Yes | Pro key or trial |
+| `drift-agents-lint` | Manifest lint | No | `.driftguard/agents.yaml` |
 
 Marketplace names and listing status: [GITHUB_MARKETPLACE.md](../GITHUB_MARKETPLACE.md).
 
@@ -45,7 +46,15 @@ Copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftg
     DRIFTGUARD_API_KEY: ${{ secrets.DRIFTGUARD_API_KEY }}
 ```
 
-Per-action READMEs: `.github/actions/drift-diff/README.md`, `drift-coverage-preview/README.md`, `drift-coverage/README.md`.
+**agents.yaml lint** (offline, no API key):
+
+```yaml
+- uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+  with:
+    manifest: .driftguard/agents.yaml
+```
+
+Per-action READMEs: `.github/actions/drift-diff/README.md`, `drift-coverage-preview/README.md`, `drift-coverage/README.md`, `drift-agents-lint/README.md`.
 
 ---
 

@@ -67,3 +67,7 @@ jobs:
         continue-on-error: true
         id: breaking
       - run: test "${{ steps.breaking.outcome }}" = "failure"
+      - name: drift-agents-lint action accepts example manifest
+        uses: ./.github/actions/drift-agents-lint
+        with:
+          manifest: examples/a2a/agents.yaml

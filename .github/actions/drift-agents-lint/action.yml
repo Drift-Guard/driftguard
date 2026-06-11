@@ -1,0 +1,39 @@
+name: DriftGuard agents.yaml lint
+description: Validate .driftguard/agents.yaml — schema, policy presets, HTTPS runtime webhooks (offline, no API key)
+branding:
+  icon: file-code
+  color: purple
+inputs:
+  manifest:
+    description: Path to agents.yaml or directory to scan for agents.yaml files
+    required: false
+    default: ".driftguard/agents.yaml"
+  version:
+    description: DriftGuard client semver when using published CLI (optional)
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+    - shell: bash
+      env:
+        MANIFEST: ${{ inputs.manifest }}
+        INPUT_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        REPO_ROOT="$(cd "${{ github.action_path }}/../.." && pwd)"
+        if [ -f "$REPO_ROOT/package.json" ] && [ "$(node -p "require('$REPO_ROOT/package.json').name" 2>/dev/null || echo '')" = "driftguard" ]; then
+          echo "Linting from DriftGuard action source (${{ github.action_ref }})..."
+          cd "$REPO_ROOT"
+          npm ci
+          npm run build
+          node scripts/check-agents-yaml.mjs "$MANIFEST"
+          exit $?
+        fi
+        echo "Installing DriftGuard CLI for agents.yaml lint..."
+        uses_setup="${{ github.action_path }}/../setup-driftguard/install.sh"
+        bash "$uses_setup" "$INPUT_VERSION"
+        driftguard lint-agents "$MANIFEST"
