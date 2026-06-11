@@ -16,7 +16,13 @@ The **hosted product roadmap** (control plane, billing, console, alert routing) 
 
 Continuous watches, drift history, alerts, identity, billing, and console — [free trial](https://driftguard.org/start) · [pricing](https://driftguard.org/pricing).
 
-**Hosted UX roadmap (private):** Portkey-inspired onboarding stepper, integrations catalog, analytics dashboards, and console IA live in **`driftguard-cloud`** — see `docs/PRODUCT-ROADMAP.md` § *Portkey-inspired UX & features (2026-06)*. OSS hub links out to [driftguard.org/resources](https://driftguard.org/resources) and [driftguard.org/docs/integrations](https://driftguard.org/docs/integrations); local MCP/CLI flows stay in this repo.
+**Hosted UX roadmap (private):** Portkey-inspired onboarding, analytics, console IA — `driftguard-cloud` · [PRODUCT-ROADMAP.md](./PRODUCT-ROADMAP.md).
+
+**Control Plane Phase 0 (next hosted work):** [PRODUCT-ROADMAP.md](./PRODUCT-ROADMAP.md) § Control Plane Phase 0 — `GET /api/watches/:id/status`, alert `agentAction` enrichment, webhook v1, console badge. Implement in private `driftguard-cloud`.
+
+**GTM (pre-revenue):** [PRODUCT-ROADMAP.md](./PRODUCT-ROADMAP.md) § Founding Lab, § **Pricing architecture** (Critical / Fleet / Enterprise / Custom).
+
+**A2A Contract Watch (spec in OSS):** [PRODUCT-ROADMAP.md](./PRODUCT-ROADMAP.md) § A2A Contract Watch — Agent Card ↔ MCP correlation, `assert_a2a_coverage`, Phase 2 agent bindings. User guide: [guides/a2a-contract-watch.md](./guides/a2a-contract-watch.md).
 
 ## Semantic drift (flagship)
 

@@ -163,4 +163,6 @@ Exact OpenAPI and console setup live on [driftguard.org](https://driftguard.org)
 
 ## Roadmap
 
-Public OSS roadmap and documentation phases: [ROADMAP.md](./ROADMAP.md). Hosted product sequencing lives in the private `driftguard-cloud` repository.
+Public OSS roadmap and documentation phases: [ROADMAP.md](./ROADMAP.md).
+
+**Hosted roadmap (implement in `driftguard-cloud`):** [PRODUCT-ROADMAP.md](./PRODUCT-ROADMAP.md) — **Phase 0** (status API, alert enrichment), **Founding Lab** GTM, OSS npm/Marketplace train, A2A Contract Watch tasks.

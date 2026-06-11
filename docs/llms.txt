@@ -25,6 +25,8 @@
 - docs/reference/README.md — MCP tools, CLI, diff rules (exact contracts)
 - docs/integrations/README.md — GitHub Actions, GitLab, MCP clients, registry
 - docs/policies/gate-ladder.md — MockDrift → FuseGuard → ToolChange → SchemaSync
+- docs/guides/a2a-contract-watch.md — A2A Agent Card vs MCP contract watch (planned)
+- docs/PRODUCT-ROADMAP.md — hosted control plane: Phase 0 (CP-0.*), Founding Lab (LAB-*), OSS release (OSS-*), A2A tasks
 - docs/migrate/README.md — adoption paths and troubleshooting
 - docs/changelog/README.md — product release notes, breaking MCP/diff policy
 - docs/reference/hosted-api.md — hosted REST index (link-out, no OpenAPI)
@@ -65,7 +67,7 @@ Source: src/mcp/server.ts
 
 - Trial: https://driftguard.org/start
 - Pricing: https://driftguard.org/pricing
-- Hosted product roadmap: private driftguard-cloud repo
+- Hosted product roadmap: docs/PRODUCT-ROADMAP.md (A2A Contract Watch tasks)
 
 ## CI integrations
 

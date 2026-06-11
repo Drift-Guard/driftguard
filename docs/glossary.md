@@ -74,6 +74,7 @@ Optional packages for contract testing in repos. Package READMEs have implementa
 |------|---------|---------|
 | **Gate 1 — MockDrift** | [mockdrift/](./mockdrift/) | Test assertions for mock/snapshot tests |
 | **Gate 2A — FuseGuard** | [packages/fuseguard](../packages/fuseguard/README.md) | Stop runaway agent tool loops before schema checks |
+| **Gate 2B — A2A Contract Watch** | [PRODUCT-ROADMAP.md](../PRODUCT-ROADMAP.md) | Agent Card vs MCP correlation (planned) |
 | **Gate 3A — ToolChange** | [packages/toolchange](../packages/toolchange/README.md) | Lint MCP tool manifest changes in CI (alpha) |
 | **Gate 4A — SchemaSync** | [packages/schemasync](../packages/schemasync/README.md) | Check prompts still match schema fields (partial) |
 
@@ -89,7 +90,17 @@ Optional packages for contract testing in repos. Package READMEs have implementa
 
 ---
 
-## Next steps
+## A2A (Agent-to-Agent)
+
+| DriftGuard term | Plain meaning | Notes |
+|-----------------|---------------|-------|
+| **Agent Card** | A2A discovery document | Usually `/.well-known/agent.json` — declares skills and I/O schemas |
+| **A2A Contract Watch** | Card + MCP + API reconciliation | Detects silent mismatch between declared skills and runtime tools |
+| **skillToolMap** | Manifest mapping | A2A skill id → MCP tool name(s) in `.driftguard/agents.yaml` |
+| **Silent skew** | Runtime changed, declaration didn't | e.g. MCP tool schema changed; Agent Card unchanged — warning rule A2A-SKEW-001 |
+| **Correlation finding** | Rule-based contract mismatch | e.g. `A2A-MCP-002` — skill requires field MCP tool lacks |
+
+Guide: [A2A Contract Watch](./guides/a2a-contract-watch.md). Implementation tasks: [PRODUCT-ROADMAP.md](./PRODUCT-ROADMAP.md).
 
 - [Getting started](./getting-started.md) — use these terms in the onboarding steps
 - [Reference](./reference/README.md) — exact tool and CLI contracts

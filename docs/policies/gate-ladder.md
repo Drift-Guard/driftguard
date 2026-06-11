@@ -1,4 +1,4 @@
-# Gate ladder
+# Progressive CI enforcement (gate ladder)
 
 Add contract-testing checks to your repo step by step. Start where you have pain today; add gates as MCP tools, agents, and prompts grow in scope.
 
@@ -48,6 +48,19 @@ Integration surfaces: MCP/HTTP proxy (`FuseProxy`), runner wrap (`wrap_agent`). 
 
 ---
 
+## Gate 2B — A2A Contract Watch (planned)
+
+| | |
+|---|---|
+| **When** | Multi-agent (A2A) setups with Agent Cards + MCP; silent card/runtime mismatch |
+| **When not** | Single agent, no Agent Card, MCP-only with no declared skills |
+| **Surface** | `.driftguard/agents.yaml`, hosted `a2a_card` + MCP watches, `assert_a2a_coverage` |
+| **Status** | Spec + tasks — [PRODUCT-ROADMAP.md](../PRODUCT-ROADMAP.md) § A2A Contract Watch |
+
+Guide: [A2A Contract Watch](../guides/a2a-contract-watch.md).
+
+---
+
 ## Gate 3A — ToolChange
 
 | | |
@@ -85,6 +98,7 @@ schemasync lint-nl --mode literal --prompt "…" --removed field_name
 | **1** | Free diff + CI hook | First API or MCP integration |
 | **2** | MockDrift | Flaky mocks; need scenario replay |
 | **3** | FuseGuard | Agent cost/runaway loops |
+| **3b** | A2A Contract Watch | A2A Agent Card vs MCP skew (multi-agent) |
 | **4** | ToolChange | MCP tool sprawl in monorepo |
 | **5** | SchemaSync | Prompts must stay aligned with schema removals |
 | **Parallel** | Hosted watches | Continuous monitoring — [trial](https://driftguard.org/start) |
