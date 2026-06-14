@@ -1,0 +1,298 @@
+# mockdrift.sensor/v1 — LLM-readable MockDrift sensor report
+# Projection of mockdrift.assertion/v2 results for CI artifacts and in-loop agent self-correction.
+# Verdict semantics: docs/mockdrift/ASSERTION-V2.md
+# Harness bundle ADR: docs/adr/0003-harness-bundle.md
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://driftguard.org/schemas/mockdrift-sensor-v1.schema.yaml"
+title: MockDrift Sensor v1
+version: "1.0.0"
+description: |
+  Agent- and evaluator-facing report derived from a MockDrift harness run.
+  PASS means defensive correctness under injected drift — not end-user task success.
+  Producers MUST emit this from MockDriftResult; consumers MUST NOT treat raw mock
+  responses as ground truth.
+
+type: object
+required:
+  - apiVersion
+  - verdict
+  - scenario
+  - criteria
+  - trace
+properties:
+  apiVersion:
+    const: mockdrift.sensor/v1
+
+  verdict:
+    type: string
+    enum: [PASS, FAIL]
+
+  scenario:
+    type: object
+    required: [id]
+    properties:
+      id:
+        type: string
+        description: Fixture id (vendor/scenario) or scenario name from assertion result
+        examples: ["stripe/required-field", "stripe-refund-required-field-drift"]
+      failure_profile:
+        type: string
+        enum: [halt_clean, bubble_to_orchestrator, fallback_state]
+      runner:
+        type: string
+        enum: [langgraph, crewai, autogen, custom, subprocess]
+      entry:
+        type: string
+        description: Module path or graph entry when runner is not custom
+
+  source:
+    type: object
+    description: Upstream assertion artifact this sensor was projected from
+    properties:
+      assertion_api_version:
+        const: mockdrift.assertion/v2
+      emitted_at:
+        type: string
+        format: date-time
+      session_id:
+        type: string
+        description: Optional pytest node id or CI run correlation id
+
+  criteria:
+    type: object
+    description: Full criterion map (machine-readable); mirrors assertion v2 criteria
+    additionalProperties:
+      $ref: "#/$defs/Criterion"
+
+  failed_criteria:
+    type: array
+    description: FAIL-only; agent-optimized subset with remediation hints
+    items:
+      $ref: "#/$defs/FailedCriterion"
+
+  trace:
+    $ref: "#/$defs/TraceSummary"
+
+  failure:
+    type: object
+    description: Primary failure classification when verdict is FAIL
+    required: [code, message]
+    properties:
+      code:
+        $ref: "#/$defs/FailureCode"
+      message:
+        type: string
+      step:
+        type: integer
+        minimum: 0
+        description: Tool-call step where failure was detected, if applicable
+
+  agent_actions:
+    type: array
+    description: Ordered suggested fixes for in-loop agents (no raw fixture bodies)
+    items:
+      type: string
+    minItems: 1
+
+  links:
+    type: object
+    properties:
+      assertion_docs:
+        type: string
+        format: uri
+        default: "https://driftguard.org/docs/mockdrift/ASSERTION-V2"
+      failure_profiles:
+        type: string
+        format: uri
+      fixture:
+        type: string
+        description: Relative path or marketplace id (vendor/scenario@version)
+      harness_bundle:
+        type: string
+        description: Path to .driftguard bundle or harness.lock ref
+
+$defs:
+  Criterion:
+    type: object
+    required: [pass]
+    properties:
+      pass:
+        type: boolean
+      detail:
+        type: string
+
+  FailedCriterion:
+    type: object
+    required: [id, message]
+    properties:
+      id:
+        type: string
+        description: Criterion key from assertion v2
+        enum:
+          - schema_valid
+          - failure_profile_met
+          - state_invariants
+          - next_step_valid
+          - idempotency
+          - no_loop_spiral
+      code:
+        $ref: "#/$defs/FailureCode"
+      message:
+        type: string
+        description: Single-line explanation suitable for agent context
+      remediation:
+        type: string
+        description: Actionable fix without exposing vendor mock payload contents
+      detail:
+        type: string
+        description: Raw criterion detail from assertion v2 (optional)
+
+  FailureCode:
+    type: string
+    enum:
+      - SCHEMA_INVALID
+      - WRONG_FAILURE_PROFILE
+      - STATE_INVARIANT_VIOLATION
+      - POISONED_NEXT_STEP
+      - LOOP_SPIRAL
+      - IDEMPOTENCY_VIOLATION
+      - TIMEOUT
+      - BUDGET_EXCEEDED
+      - MISCONFIGURATION
+
+  TraceSummary:
+    type: object
+    required: [steps_total, steps_after_drift]
+    properties:
+      steps_total:
+        type: integer
+        minimum: 0
+      steps_after_drift:
+        type: integer
+        minimum: 0
+      drift_injected_at_step:
+        type: integer
+        minimum: 0
+        nullable: true
+      last_tool:
+        type: string
+        nullable: true
+        description: Last tool invoked in the trace
+      tools_called:
+        type: array
+        description: Condensed tool sequence (omit request/response bodies)
+        items:
+          type: object
+          required: [tool]
+          properties:
+            tool:
+              type: string
+            step:
+              type: integer
+              minimum: 0
+            error_class:
+              type: string
+              description: HTTP status or error class label when call failed
+
+# -----------------------------------------------------------------------------
+# Examples (non-normative; for schema reviewers and golden tests)
+# -----------------------------------------------------------------------------
+
+examples:
+  - title: FAIL — bubble_to_orchestrator violated (tools continued after drift)
+    value:
+      apiVersion: mockdrift.sensor/v1
+      verdict: FAIL
+      scenario:
+        id: stripe/required-field
+        failure_profile: bubble_to_orchestrator
+        runner: langgraph
+        entry: agents.billing:refund_graph
+      source:
+        assertion_api_version: mockdrift.assertion/v2
+        emitted_at: "2026-06-10T12:00:00Z"
+      criteria:
+        schema_valid:
+          pass: true
+        failure_profile_met:
+          pass: false
+          detail: "bubble_to_orchestrator: steps_after_drift=2"
+        no_loop_spiral:
+          pass: true
+        next_step_valid:
+          pass: false
+          detail: "steps_after_drift=2"
+      failed_criteria:
+        - id: failure_profile_met
+          code: WRONG_FAILURE_PROFILE
+          message: "Agent continued tool calls after drift; expected bubble to orchestrator."
+          remediation: "Stop tool calls after drift; let DriftToolError reach the LangGraph runner."
+          detail: "bubble_to_orchestrator: steps_after_drift=2"
+        - id: next_step_valid
+          code: POISONED_NEXT_STEP
+          message: "Too many steps after drift injection."
+          remediation: "Set max_steps_after_drift in expect or fix graph interrupt handling."
+          detail: "steps_after_drift=2"
+      trace:
+        steps_total: 4
+        steps_after_drift: 2
+        drift_injected_at_step: 1
+        last_tool: stripe_confirm_refund
+        tools_called:
+          - tool: stripe_create_refund
+            step: 0
+          - tool: stripe_create_refund
+            step: 1
+            error_class: "422"
+          - tool: stripe_confirm_refund
+            step: 2
+          - tool: stripe_confirm_refund
+            step: 3
+      failure:
+        code: WRONG_FAILURE_PROFILE
+        message: "failure_profile bubble_to_orchestrator not met"
+        step: 2
+      agent_actions:
+        - "Reduce retry loop on confirm_refund after create_refund schema drift."
+        - "Verify graph catches DriftToolError and does not schedule further tool nodes."
+        - "If user-facing halt is intended, switch failure_profile to halt_clean in harness.lock."
+      links:
+        fixture: stripe/required-field@1.0.0
+        harness_bundle: .driftguard/
+
+  - title: PASS — halt_clean under drift
+    value:
+      apiVersion: mockdrift.sensor/v1
+      verdict: PASS
+      scenario:
+        id: stripe/required-field
+        failure_profile: halt_clean
+        runner: langgraph
+        entry: agents.billing:refund_graph
+      source:
+        assertion_api_version: mockdrift.assertion/v2
+      criteria:
+        schema_valid:
+          pass: true
+        failure_profile_met:
+          pass: true
+          detail: "halt_clean: no post-drift tool calls"
+        no_loop_spiral:
+          pass: true
+        next_step_valid:
+          pass: true
+          detail: "steps_after_drift=0"
+      trace:
+        steps_total: 2
+        steps_after_drift: 0
+        drift_injected_at_step: 1
+        last_tool: stripe_create_refund
+        tools_called:
+          - tool: stripe_create_refund
+            step: 0
+          - tool: stripe_create_refund
+            step: 1
+            error_class: "422"
+      links:
+        fixture: stripe/required-field@1.0.0

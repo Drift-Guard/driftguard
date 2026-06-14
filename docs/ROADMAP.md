@@ -24,6 +24,21 @@ Continuous watches, drift history, alerts, identity, billing, and console — [f
 
 **A2A Contract Watch (spec in OSS):** [PRODUCT-ROADMAP.md](./PRODUCT-ROADMAP.md) § A2A Contract Watch — Agent Card ↔ MCP correlation, `assert_a2a_coverage`, Phase 2 agent bindings. User guide: [guides/a2a-contract-watch.md](./guides/a2a-contract-watch.md).
 
+## Harness engineering (H0–H5)
+
+Portable **harness bundle** (fixtures + gates + agent bindings) and **LLM-readable sensor output** for in-loop self-correction and PGE-style CI (generator ≠ evaluator). ADR: [adr/0003-harness-bundle.md](./adr/0003-harness-bundle.md). Sensor schema: [mockdrift/sensor-v1.schema.yaml](./mockdrift/sensor-v1.schema.yaml).
+
+| Phase | Deliverable | Status | Repo |
+|-------|-------------|--------|------|
+| **H0** | `mockdrift.sensor/v1` schema + `to_sensor_json()` + pytest artifact | **Shipped** — schema, `sensor.py`, `--mockdrift-sensor-report`, `MOCKDRIFT_SENSOR_JSON` | OSS |
+| **H1** | `.driftguard/gates.yaml`, `harness.lock`, `lint-harness` | **Shipped** | OSS |
+| **H2** | `mockdrift init` (LangGraph + custom/proxy scaffolds) | **Shipped** | OSS |
+| **H3** | Fixture marketplace index (`vendor/scenario`), curated Stripe/Slack/MCP packs | **Shipped** — `fixtures/index.yaml`, `mockdrift demo vendor/id` | OSS |
+| **H4** | Evaluator agent pack (rule-only CI; PGE job 2 reads sensor JSON only) | **Shipped** — `mockdrift evaluate`, `drift-evaluator` action | OSS |
+| **H5** | CrewAI init template; hosted fixture catalog + install; optional managed LLM evaluator | **Partial** — CrewAI scaffold in `mockdrift init --runner crewai`; hosted catalog refs in index | OSS + cloud |
+
+Aligns with [policies/gate-ladder.md](./policies/gate-ladder.md) — MockDrift remains Gate 1 sensor; FuseGuard / ToolChange / SchemaSync toggled via `gates.yaml`.
+
 ## Semantic drift (flagship)
 
 Semantic / NL drift classification for hosted Pro/Team remains on the **hosted** roadmap until public launch. Local OSS diff is structural (JSON schema) only.

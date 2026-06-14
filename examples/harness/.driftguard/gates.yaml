@@ -1,0 +1,21 @@
+version: 1
+gates:
+  mockdrift:
+    enabled: true
+    advisory: false
+  fuseguard:
+    enabled: true
+    max_tool_calls: 40
+  agents_lint:
+    enabled: true
+  toolchange:
+    enabled: true
+    advisory: true
+  schemasync:
+    enabled: false
+  evaluator:
+    enabled: true
+    advisory: false
+defaults:
+  failure_profile: bubble_to_orchestrator
+  runner: langgraph

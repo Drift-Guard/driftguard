@@ -1,0 +1,15 @@
+# Example harness bundle — portable gates + fixture lock for CI
+version: 1
+agents:
+  - id: billing-refund-harness
+    slug: billing-refund-harness
+    environment: staging
+    policy: staging-strict
+    mcp:
+      configPath: .cursor/mcp.json
+      skillToolMap:
+        process_refund:
+          - stripe_create_refund
+    watches:
+      - type: mcp
+        url: https://mcp.example.com/sse

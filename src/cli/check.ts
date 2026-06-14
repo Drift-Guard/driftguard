@@ -80,6 +80,11 @@ async function main(): Promise<void> {
     process.exit(runAgentsLint(args));
   }
 
+  if (command === "lint-harness") {
+    const { runHarnessLint } = await import("./harness-lint-run.js");
+    process.exit(runHarnessLint(args));
+  }
+
   if (command === "version") {
     const { printVersionJson, printVersionPlain } = await import("./version.js");
     if (args[0] === "--json") printVersionJson();
@@ -104,6 +109,7 @@ Usage:
   driftguard coverage-preview                              Free — scan repo + console links
   driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
   driftguard lint-agents [path]                            Validate .driftguard/agents.yaml (offline)
+  driftguard lint-harness [bundle-dir]                   Validate harness bundle (gates + lock)
   driftguard version [--json]
   driftguard mcp
 

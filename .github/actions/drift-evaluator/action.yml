@@ -1,0 +1,22 @@
+name: DriftGuard sensor evaluator (PGE)
+description: Rule-only evaluator for mockdrift.sensor/v1 JSON — producer ≠ reviewer
+branding:
+  icon: check-circle
+  color: green
+inputs:
+  report:
+    description: Path to mockdrift.sensor/v1 JSON artifact
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - shell: bash
+      env:
+        REPORT: ${{ inputs.report }}
+      run: |
+        set -euo pipefail
+        pip install -e packages/mockdrift 2>/dev/null || pip install mockdrift
+        mockdrift evaluate --report "$REPORT"

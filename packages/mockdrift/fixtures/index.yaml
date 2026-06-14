@@ -1,0 +1,73 @@
+# OSS fixture marketplace index — vendor/scenario ids for mockdrift demo and harness.lock
+version: 1
+fixtures:
+  stripe/required-field:
+    version: "1.0.0"
+    path: stripe-refund-2026-06-04
+    mockdrift_key: stripe-required-field
+    vendor: stripe
+    tags: [payments, refund, write-tool]
+    description: billing_country becomes required on create_refund
+
+  stripe/no-drift-two-step:
+    version: "1.0.0"
+    path: no-drift-two-step
+    mockdrift_key: no-drift-two-step
+    vendor: stripe
+    tags: [payments, refund, happy-path]
+
+  stripe/idempotency-violation:
+    version: "1.0.0"
+    path: idempotency-violation-2026-06-02
+    mockdrift_key: idempotency-violation
+    vendor: stripe
+    tags: [payments, idempotency]
+
+  stripe/loop-spiral:
+    version: "1.0.0"
+    path: stripe-refund-2026-06-04
+    mockdrift_key: loop-spiral
+    vendor: stripe
+    tags: [payments, loop-detect]
+    drift_target: stripe_create_refund
+    match: every_call
+
+  mcp/tool-removed:
+    version: "1.0.0"
+    path: mcp-tool-removed-2026-06-01
+    mockdrift_key: mcp-tool-removed
+    vendor: mcp
+    tags: [mcp, tools-list]
+
+  slack/message-field-required:
+    version: "1.0.0"
+    path: slack-message-field-2026-06-10
+    mockdrift_key: slack-message-field
+    vendor: slack
+    tags: [slack, messaging, write-tool]
+    description: thread_ts becomes required on chat.postMessage
+
+  openai/chat-completions-tool-required:
+    version: "1.0.0"
+    ref: driftguard/fixtures-openai@1.0.0
+    vendor: openai
+    tags: [llm, tools, hosted-only]
+    description: Hosted catalog lane — install via driftguard.org when available
+
+  github/issues-create-label-required:
+    version: "1.0.0"
+    ref: driftguard/fixtures-github@1.0.0
+    vendor: github
+    tags: [github, issues, hosted-only]
+
+  twilio/send-sms-body-format:
+    version: "1.0.0"
+    ref: driftguard/fixtures-twilio@1.0.0
+    vendor: twilio
+    tags: [sms, hosted-only]
+
+  notion/page-parent-required:
+    version: "1.0.0"
+    ref: driftguard/fixtures-notion@1.0.0
+    vendor: notion
+    tags: [notion, hosted-only]

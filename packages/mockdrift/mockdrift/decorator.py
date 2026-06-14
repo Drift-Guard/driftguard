@@ -9,6 +9,7 @@ from typing import Any, TypeVar
 
 import pytest
 
+from mockdrift.artifacts import write_configured_artifacts
 from mockdrift.session import MisconfigurationError, MockDriftSession
 from mockdrift.types import FailureProfile
 
@@ -55,6 +56,12 @@ def drift_replay(
                     )
             except MisconfigurationError as exc:
                 pytest.fail(str(exc), pytrace=False)
+
+            write_configured_artifacts(
+                result,
+                session,
+                session_id=test_fn.__name__,
+            )
 
             if result.verdict == "FAIL":
                 emit_path = os.environ.get("MOCKDRIFT_EMIT_SCENARIO")
