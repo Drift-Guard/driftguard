@@ -1,0 +1,13 @@
+sonar.projectKey=kioie_driftguard
+sonar.organization=kioie
+sonar.host.url=https://sonarcloud.io
+sonar.sourceEncoding=UTF-8
+
+sonar.sources=src
+sonar.tests=src
+sonar.test.inclusions=**/*.test.ts
+sonar.exclusions=**/node_modules/**,**/dist/**,**/scratch/**,**/packages/**,**/examples/**
+
+sonar.typescript.tsconfigPath=tsconfig.json
+
+# Security hotspot review: docs/security/SONAR-HOTSPOTS.md (OSS)
