@@ -3,7 +3,7 @@
 **Category:** Intent-binding & drift-replay simulator  
 **Not:** stateful DB sandbox, business-logic prover, or "task succeeded" e2e test
 
-Machine schema: [`assertion-v2.schema.yaml`](./assertion-v2.schema.yaml)
+Machine schema: [`assertion-v2.schema.yaml`](./assertion-v2.schema.yaml) · Sensor projection: [`sensor-v1.schema.yaml`](./sensor-v1.schema.yaml)
 
 ---
 
@@ -154,6 +154,20 @@ limits:
   }
 }
 ```
+
+### Sensor projection (`mockdrift.sensor/v1`)
+
+For **in-loop agents** and **evaluator CI** (producer ≠ reviewer), MockDrift projects assertion results into an LLM-readable JSON report with `failed_criteria[].remediation` and `agent_actions` — without raw mock bodies. Schema: [`sensor-v1.schema.yaml`](./sensor-v1.schema.yaml). Harness bundle ADR: [`docs/adr/0003-harness-bundle.md`](../adr/0003-harness-bundle.md).
+
+```bash
+# CI artifact (single file or per-test directory)
+pytest --mockdrift-sensor-report=./mockdrift-sensor.json
+# or
+export MOCKDRIFT_SENSOR_JSON=./reports/sensors/
+pytest tests/harness/
+```
+
+`MockDriftResult.to_sensor_json()` and `to_sensor_dict()` are available for direct use outside pytest.
 
 ---
 

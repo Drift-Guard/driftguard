@@ -14,6 +14,10 @@ def pytest_configure(config):
     if emit:
         os.environ["MOCKDRIFT_EMIT_SCENARIO"] = emit
 
+    sensor_report = config.getoption("--mockdrift-sensor-report", default=None)
+    if sensor_report:
+        os.environ["MOCKDRIFT_SENSOR_JSON"] = sensor_report
+
     watch_id = config.getoption("--simulate-drift", default=None)
     if watch_id:
         from mockdrift.cloud_client import fetch_fixture_from_watch
@@ -39,6 +43,12 @@ def pytest_addoption(parser):
         action="store",
         default=None,
         help="Write YAML scenario artifact on MockDrift FAIL",
+    )
+    parser.addoption(
+        "--mockdrift-sensor-report",
+        action="store",
+        default=None,
+        help="Write mockdrift.sensor/v1 JSON artifact (file or directory per test)",
     )
     parser.addoption(
         "--simulate-drift",

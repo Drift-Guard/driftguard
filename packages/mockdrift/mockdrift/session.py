@@ -53,6 +53,56 @@ class MockDriftResult:
         failed = [f"{k}: {v.detail}" for k, v in self.criteria.items() if not v.pass_]
         return "; ".join(failed) or "assertion failed"
 
+    def to_sensor_dict(
+        self,
+        *,
+        scenario_id: str | None = None,
+        failure_profile: FailureProfile | None = None,
+        runner: str | None = None,
+        entry: str | None = None,
+        session_id: str | None = None,
+        fixture_ref: str | None = None,
+        harness_bundle: str | None = None,
+    ) -> dict[str, Any]:
+        from mockdrift.sensor import project_sensor
+
+        return project_sensor(
+            self,
+            scenario_id=scenario_id,
+            failure_profile=failure_profile,
+            runner=runner,
+            entry=entry,
+            session_id=session_id,
+            fixture_ref=fixture_ref,
+            harness_bundle=harness_bundle,
+        )
+
+    def to_sensor_json(
+        self,
+        *,
+        scenario_id: str | None = None,
+        failure_profile: FailureProfile | None = None,
+        runner: str | None = None,
+        entry: str | None = None,
+        session_id: str | None = None,
+        fixture_ref: str | None = None,
+        harness_bundle: str | None = None,
+        indent: int | None = 2,
+    ) -> str:
+        from mockdrift.sensor import sensor_json
+
+        return sensor_json(
+            self,
+            scenario_id=scenario_id,
+            failure_profile=failure_profile,
+            runner=runner,
+            entry=entry,
+            session_id=session_id,
+            fixture_ref=fixture_ref,
+            harness_bundle=harness_bundle,
+            indent=indent,
+        )
+
 
 class MockDriftSession:
     """Per-test MockDrift harness. See docs/mockdrift/R3-API.md."""

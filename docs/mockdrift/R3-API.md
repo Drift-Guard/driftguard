@@ -152,7 +152,11 @@ class MockDriftResult:
     scenario_name: str
 
     def emit_scenario(self) -> str: ...  # YAML for --emit-scenario
+    def to_sensor_dict(self, **ctx) -> dict: ...  # mockdrift.sensor/v1 object
+    def to_sensor_json(self, **ctx) -> str: ...  # JSON for CI / in-loop agents
 ```
+
+Pytest: `--mockdrift-sensor-report=path.json` or directory (per-test files). Env: `MOCKDRIFT_SENSOR_JSON`.
 
 ---
 
