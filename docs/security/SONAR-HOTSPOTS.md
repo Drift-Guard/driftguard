@@ -2,6 +2,13 @@
 
 Analysis scope: `src/` only (`sonar-project.properties`). Mark items **Safe** in [SonarCloud](https://sonarcloud.io/project/security_hotspots?id=kioie_driftguard) after review.
 
+## Enable SonarCloud (after hotspot review)
+
+1. Merge security fixes on `main`.
+2. Add `sonar-project.properties` (see template in this doc’s history or cloud repo).
+3. Push to `main` and open [Security Hotspots](https://sonarcloud.io/project/security_hotspots?id=kioie_driftguard) — mark items below **Safe**.
+4. Add `.github/workflows/sonarcloud.yml` once hotspots are reviewed (avoids failing PR quality gate on first scan).
+
 ## Intentional (mark Safe)
 
 | Area | File | Rationale |
