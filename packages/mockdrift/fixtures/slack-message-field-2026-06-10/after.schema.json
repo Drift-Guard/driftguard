@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "required": ["channel", "text", "thread_ts"],
+  "properties": {
+    "channel": { "type": "string" },
+    "text": { "type": "string" },
+    "thread_ts": { "type": "string" }
+  }
+}

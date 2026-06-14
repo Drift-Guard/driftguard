@@ -102,6 +102,22 @@ def resolve_fixture_config(config: MockDriftConfig, fixture_key: str) -> Fixture
     if fixture_key in config.fixtures:
         return config.fixtures[fixture_key]
 
+    package_root = _mockdrift_package_root(config.root)
+    from mockdrift.marketplace import marketplace_fixture_config
+
+    marketplace = marketplace_fixture_config(fixture_key, package_root)
+    if marketplace is not None:
+        if marketplace.mockdrift_key and marketplace.mockdrift_key in config.fixtures:
+            return config.fixtures[marketplace.mockdrift_key]
+        if marketplace.path:
+            return FixtureConfig(
+                name=marketplace.mockdrift_key or marketplace.id.replace("/", "-"),
+                path=marketplace.path,
+                drift_target=marketplace.drift_target,
+                match=marketplace.match or "first_call",
+                failure_profile=marketplace.failure_profile,
+            )
+
     sim_path = os.environ.get("MOCKDRIFT_SIMULATE_FIXTURE")
     if fixture_key in ("simulate-drift", "simulate-drift-watch") and sim_path:
         sim_dir = Path(sim_path).resolve()

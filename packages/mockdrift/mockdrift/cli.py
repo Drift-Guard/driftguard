@@ -1,15 +1,18 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import subprocess
 import sys
 from pathlib import Path
 
-from mockdrift.cache import cache_dir_for_watch, write_cached_fixture
+from mockdrift.cache import write_cached_fixture
 from mockdrift.cloud_client import CloudClientError, MissingApiKeyError, fetch_fixture_from_watch
 from mockdrift.config import load_config, resolve_fixture_config
+from mockdrift.evaluator import evaluate_sensor_file
 from mockdrift.fixture import load_fixture
+from mockdrift.init_cmd import run_init
 from mockdrift.session import MisconfigurationError, MockDriftSession
 from mockdrift.telemetry import emit_cloud_ci_run
 
@@ -24,12 +27,17 @@ def main() -> None:
     if command == "run":
         _run(sys.argv[2:])
         return
+    if command == "init":
+        sys.exit(run_init(sys.argv[2:]))
+    if command == "evaluate":
+        _evaluate(sys.argv[2:])
+        return
     _usage()
 
 
 def _demo(fixture_key: str) -> None:
     if not fixture_key:
-        print("Usage: mockdrift demo <fixture>", file=sys.stderr)
+        print("Usage: mockdrift demo <fixture|vendor/scenario>", file=sys.stderr)
         sys.exit(2)
     root = Path.cwd()
     try:
@@ -40,7 +48,7 @@ def _demo(fixture_key: str) -> None:
         print(str(exc), file=sys.stderr)
         sys.exit(2)
 
-    session = MockDriftSession.from_fixture(fixture_key, root=root)
+    session = MockDriftSession.from_fixture(fixture_cfg.name, root=root)
     session.entry = "mockdrift.golden.refund_proxy_smoke:run"
     session.runner = "custom"
     session.assert_profiles = False
@@ -54,18 +62,36 @@ def _demo(fixture_key: str) -> None:
     sys.exit(0 if result.verdict == "PASS" else 1)
 
 
+def _evaluate(argv: list[str]) -> None:
+    parser = argparse.ArgumentParser(prog="mockdrift evaluate")
+    parser.add_argument("--report", required=True, help="Path to mockdrift.sensor/v1 JSON")
+    args = parser.parse_args(argv)
+    path = Path(args.report)
+    if not path.is_file():
+        print(f"sensor report not found: {path}", file=sys.stderr)
+        sys.exit(2)
+
+    result = evaluate_sensor_file(path)
+    print(json.dumps(result.to_dict(), indent=2))
+    sys.exit(0 if result.verdict == "PASS" else 1)
+
+
 def _run(argv: list[str]) -> None:
     parser = argparse.ArgumentParser(prog="mockdrift run", add_help=False)
     parser.add_argument("--pytest", nargs=argparse.REMAINDER, required=True)
     parser.add_argument("--simulate-drift", dest="simulate_drift", default=None)
     parser.add_argument("--cache-fixture", action="store_true")
     parser.add_argument("--event-id", dest="event_id", default=None)
+    parser.add_argument("--mockdrift-sensor-report", dest="sensor_report", default=None)
     args, _ = parser.parse_known_args(argv)
 
     env = os.environ.copy()
     pytest_args = list(args.pytest or [])
     if pytest_args and pytest_args[0] == "--":
         pytest_args = pytest_args[1:]
+
+    if args.sensor_report:
+        env["MOCKDRIFT_SENSOR_JSON"] = args.sensor_report
 
     if args.simulate_drift:
         try:
@@ -96,6 +122,8 @@ def _run(argv: list[str]) -> None:
     emit_cloud_ci_run(metadata={"simulateDrift": args.simulate_drift or ""})
 
     cmd = [sys.executable, "-m", "pytest", *pytest_args]
+    if args.sensor_report:
+        cmd.extend(["--mockdrift-sensor-report", args.sensor_report])
     result = subprocess.run(cmd, env=env, check=False)
     sys.exit(result.returncode)
 
@@ -111,8 +139,10 @@ def _print_result(result) -> None:
 
 def _usage() -> None:
     print(
-        "Usage: mockdrift demo <fixture> | mockdrift run --pytest [args] "
-        "[--simulate-drift WATCH_ID] [--cache-fixture]",
+        "Usage: mockdrift demo <fixture> | mockdrift init [options] | "
+        "mockdrift evaluate --report <sensor.json> | "
+        "mockdrift run --pytest [args] [--simulate-drift WATCH_ID] "
+        "[--mockdrift-sensor-report PATH]",
         file=sys.stderr,
     )
     sys.exit(2)

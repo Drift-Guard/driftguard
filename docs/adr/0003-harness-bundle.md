@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: accepted
 ---
 
 # Harness bundle — portable gate config and LLM-readable sensors (H0–H5)

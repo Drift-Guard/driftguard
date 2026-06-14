@@ -67,6 +67,34 @@ Guide: [A2A Contract Watch](../guides/a2a-contract-watch.md) · Hosted: [agents.
 
 ---
 
+## Harness bundle lint (shipped)
+
+| | |
+|---|---|
+| **When** | Portable `.driftguard/` bundle with `gates.yaml`, `harness.lock`, optional `agents.yaml` |
+| **When not** | MockDrift-only pytest with no gate toggles or fixture pins |
+| **Surface** | `driftguard lint-harness`, GitHub Action `drift-harness-lint` |
+| **Status** | **Shipped** (H1) — see [adr/0003-harness-bundle.md](../adr/0003-harness-bundle.md) |
+
+```yaml
+- uses: kioie/driftguard/.github/actions/drift-harness-lint@v0.3.3
+  with:
+    bundle: .driftguard
+```
+
+---
+
+## Gate 1b — Evaluator (PGE, shipped)
+
+| | |
+|---|---|
+| **When** | CI separates generator (pytest sensor) from reviewer (evaluator reads sensor JSON only) |
+| **When not** | Single-job pytest is enough |
+| **Surface** | `mockdrift evaluate --report`, GitHub Action `drift-evaluator` |
+| **Status** | **Shipped** (H4) — rule-only; hosted LLM evaluator remains Enterprise |
+
+---
+
 ## Gate 3A — ToolChange
 
 | | |

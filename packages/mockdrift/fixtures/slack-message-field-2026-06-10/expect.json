@@ -1,0 +1,4 @@
+{
+  "failure_profile": "halt_clean",
+  "no_loop_spiral": { "max_identical_tool_hashes": 3 }
+}

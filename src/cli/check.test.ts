@@ -67,6 +67,12 @@ describe("check.ts CLI routing", () => {
     assert.match(result.stdout, /OK\s+examples\/a2a\/agents.yaml/);
   });
 
+  it("routes lint-harness on example bundle to exit 0", () => {
+    const result = runCheck("lint-harness", "examples/harness/.driftguard");
+    assert.equal(result.status, 0);
+    assert.match(result.stdout, /OK\s+examples\/harness\/\.driftguard/);
+  });
+
   it("routes assert-coverage without credentials to exit 1", () => {
     const result = spawnSync(process.execPath, ["--import", "tsx", checkEntry, "assert-coverage"], {
       cwd: repoRoot,

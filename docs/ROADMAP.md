@@ -31,11 +31,11 @@ Portable **harness bundle** (fixtures + gates + agent bindings) and **LLM-readab
 | Phase | Deliverable | Status | Repo |
 |-------|-------------|--------|------|
 | **H0** | `mockdrift.sensor/v1` schema + `to_sensor_json()` + pytest artifact | **Shipped** — schema, `sensor.py`, `--mockdrift-sensor-report`, `MOCKDRIFT_SENSOR_JSON` | OSS |
-| **H1** | `.driftguard/gates.yaml`, `harness.lock`, `lint-harness` | Planned | OSS |
-| **H2** | `mockdrift init` (LangGraph + custom/proxy scaffolds) | Planned | OSS |
-| **H3** | Fixture marketplace index (`vendor/scenario`), curated Stripe/Slack/MCP packs | Planned | OSS index; hosted catalog later |
-| **H4** | Evaluator agent pack (rule-only CI; PGE job 2 reads sensor JSON only) | Planned | OSS action |
-| **H5** | CrewAI template; hosted marketplace install; optional managed LLM evaluator | Planned | OSS + cloud |
+| **H1** | `.driftguard/gates.yaml`, `harness.lock`, `lint-harness` | **Shipped** | OSS |
+| **H2** | `mockdrift init` (LangGraph + custom/proxy scaffolds) | **Shipped** | OSS |
+| **H3** | Fixture marketplace index (`vendor/scenario`), curated Stripe/Slack/MCP packs | **Shipped** — `fixtures/index.yaml`, `mockdrift demo vendor/id` | OSS |
+| **H4** | Evaluator agent pack (rule-only CI; PGE job 2 reads sensor JSON only) | **Shipped** — `mockdrift evaluate`, `drift-evaluator` action | OSS |
+| **H5** | CrewAI init template; hosted fixture catalog + install; optional managed LLM evaluator | **Partial** — CrewAI scaffold in `mockdrift init --runner crewai`; hosted catalog refs in index | OSS + cloud |
 
 Aligns with [policies/gate-ladder.md](./policies/gate-ladder.md) — MockDrift remains Gate 1 sensor; FuseGuard / ToolChange / SchemaSync toggled via `gates.yaml`.
 

@@ -24,5 +24,11 @@ path = "fixtures/stripe-refund-2026-06-04"
 drift_target = "stripe_create_refund"
 match = "every_call"
 
+[fixtures.slack-message-field]
+path = "fixtures/slack-message-field-2026-06-10"
+drift_target = "slack_post_message"
+match = "first_call"
+failure_profile = "halt_clean"
+
 [fixtures.no-drift-two-step]
 path = "fixtures/no-drift-two-step"
