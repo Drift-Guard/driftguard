@@ -36,7 +36,7 @@ export function resolveHostedApi(env: NodeJS.ProcessEnv = process.env): {
   }
 
   try {
-    const parsed = new URL(normalized);
+    const parsed = new URL(normalized); // NOSONAR S5332 — https-only + explicit opt-in gate
     if (parsed.protocol !== "https:") {
       return { api: DEFAULT_HOSTED_API, customBlocked: true };
     }
