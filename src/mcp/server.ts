@@ -19,7 +19,10 @@ import {
 import { parseLocalWatchPreviews } from "./parse-mcp-json.js";
 import { missingApiKeyMessage, parseJsonString } from "./tool-input.js";
 
-const API_KEY = process.env.DRIFTGUARD_API_KEY;
+function hostedApiKey(): string | undefined {
+  const key = process.env.DRIFTGUARD_API_KEY?.trim();
+  return key || undefined;
+}
 
 const server = new McpServer(
   {
@@ -32,14 +35,15 @@ const server = new McpServer(
 );
 
 async function hostedRequest(path: string, init: RequestInit = {}): Promise<unknown> {
-  if (!API_KEY) {
+  const apiKey = hostedApiKey();
+  if (!apiKey) {
     throw new Error(missingApiKeyMessage());
   }
   const response = await fetch(`${HOSTED_API}${path}`, {
     ...init,
     headers: {
       "content-type": "application/json",
-      authorization: `Bearer ${API_KEY}`,
+      authorization: `Bearer ${apiKey}`,
       ...(init.headers as Record<string, string>),
     },
     signal: hostedFetchSignal(),
@@ -114,7 +118,7 @@ server.tool(
       nextSteps: {
         trial: HOSTED_TRIAL,
         pricing: HOSTED_PRICING,
-        hostedTool: API_KEY ? "suggest_watches with create:true" : "Set DRIFTGUARD_API_KEY then call suggest_watches",
+        hostedTool: hostedApiKey() ? "suggest_watches with create:true" : "Set DRIFTGUARD_API_KEY then call suggest_watches",
       },
     });
   },
@@ -142,7 +146,7 @@ server.tool(
         "suggest_watches",
         "assert_coverage",
       ],
-      apiKeyConfigured: Boolean(API_KEY),
+      apiKeyConfigured: Boolean(hostedApiKey()),
       hostedApi: HOSTED_API,
       console: HOSTED_CONSOLE,
       trial: HOSTED_TRIAL,
@@ -288,7 +292,8 @@ server.tool(
     mcpJson: z.string().optional(),
   },
   async ({ text, mcpJson }) => {
-    if (!API_KEY) {
+    const apiKey = hostedApiKey();
+    if (!apiKey) {
       return jsonResult({ error: missingApiKeyMessage() }, true);
     }
     const body: Record<string, unknown> = { text };
@@ -301,7 +306,7 @@ server.tool(
       method: "POST",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${API_KEY}`,
+        authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify(body),
       signal: hostedFetchSignal(),
