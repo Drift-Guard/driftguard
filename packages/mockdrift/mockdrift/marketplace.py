@@ -108,7 +108,7 @@ def marketplace_fixture_config(
     if entry.ref and not entry.path:
         raise MisconfigurationError(
             f"Fixture '{fixture_key}' is hosted-catalog only ({entry.ref}). "
-            "See https://driftguard.org/start for hosted fixture catalog."
+            "Install with: mockdrift install " + fixture_key
         )
     return entry
 

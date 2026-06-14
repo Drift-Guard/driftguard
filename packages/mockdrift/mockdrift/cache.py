@@ -15,6 +15,19 @@ def cache_dir_for_watch(watch_id: str, *, root: Path | str | None = None) -> Pat
     return cache_root(root) / safe
 
 
+def catalog_cache_id(catalog_id: str) -> str:
+    return f"catalog_{catalog_id.replace('/', '_')}"
+
+
+def write_cached_catalog_fixture(
+    catalog_id: str,
+    cloud_response: dict[str, Any],
+    *,
+    root: Path | str | None = None,
+) -> Path:
+    return write_cached_fixture(catalog_cache_id(catalog_id), cloud_response, root=root)
+
+
 def write_cached_fixture(watch_id: str, cloud_response: dict[str, Any], *, root: Path | str | None = None) -> Path:
     """Materialize cloud fixture payload as on-disk MockDrift fixture files."""
     fixture_dir = cache_dir_for_watch(watch_id, root=root)

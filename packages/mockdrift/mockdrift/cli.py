@@ -32,6 +32,12 @@ def main() -> None:
     if command == "evaluate":
         _evaluate(sys.argv[2:])
         return
+    if command == "catalog":
+        _catalog()
+        return
+    if command == "install":
+        _install(sys.argv[2:] if len(sys.argv) > 2 else [])
+        return
     _usage()
 
 
@@ -60,6 +66,50 @@ def _demo(fixture_key: str) -> None:
 
     _print_result(result)
     sys.exit(0 if result.verdict == "PASS" else 1)
+
+
+def _catalog() -> None:
+    try:
+        from mockdrift.cloud_client import fetch_fixture_catalog
+
+        data = fetch_fixture_catalog()
+    except Exception as exc:  # noqa: BLE001 — CLI surface
+        # Offline: print OSS index hint
+        from pathlib import Path
+
+        index = Path(__file__).resolve().parent.parent / "fixtures" / "index.yaml"
+        if index.is_file():
+            print(f"Hosted catalog unreachable ({exc}); local index: {index}", file=sys.stderr)
+        else:
+            print(str(exc), file=sys.stderr)
+        sys.exit(2)
+
+    fixtures = data.get("fixtures", [])
+    for row in fixtures:
+        lane = row.get("lane", "?")
+        tags = ",".join(row.get("tags", []))
+        print(f"{row.get('id')} [{lane}] {tags}")
+    sys.exit(0)
+
+
+def _install(argv: list[str]) -> None:
+    parser = argparse.ArgumentParser(prog="mockdrift install")
+    parser.add_argument("id", help="Catalog id vendor/scenario")
+    parser.add_argument("--cache-fixture", action="store_true")
+    args = parser.parse_args(argv)
+
+    try:
+        from mockdrift.cloud_client import fetch_fixture_from_catalog
+        from mockdrift.cache import write_cached_catalog_fixture
+
+        body = fetch_fixture_from_catalog(args.id, use_cache=args.cache_fixture)
+        fixture_dir = write_cached_catalog_fixture(args.id, body)
+    except Exception as exc:  # noqa: BLE001
+        print(str(exc), file=sys.stderr)
+        sys.exit(2)
+
+    print(f"installed {args.id} -> {fixture_dir}", file=sys.stderr)
+    sys.exit(0)
 
 
 def _evaluate(argv: list[str]) -> None:
@@ -140,6 +190,7 @@ def _print_result(result) -> None:
 def _usage() -> None:
     print(
         "Usage: mockdrift demo <fixture> | mockdrift init [options] | "
+        "mockdrift catalog | mockdrift install <vendor/scenario> | "
         "mockdrift evaluate --report <sensor.json> | "
         "mockdrift run --pytest [args] [--simulate-drift WATCH_ID] "
         "[--mockdrift-sensor-report PATH]",

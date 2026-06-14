@@ -78,3 +78,66 @@ def fetch_fixture_from_watch(
     if use_cache:
         write_cached_fixture(watch_id, body)
     return body
+
+
+def fetch_fixture_from_catalog(
+    catalog_id: str,
+    *,
+    event_id: str | None = None,
+    use_cache: bool = False,
+) -> dict[str, Any]:
+    from mockdrift.cache import catalog_cache_id, load_cached_fixture, write_cached_catalog_fixture
+
+    cache_key = catalog_cache_id(catalog_id)
+    if use_cache:
+        cached = load_cached_fixture(cache_key)
+        if cached is not None:
+            return cached
+
+    payload: dict[str, Any] = {"id": catalog_id}
+    if event_id:
+        payload["eventId"] = event_id
+
+    url = f"{hosted_api_base()}/v1/mockdrift/fixtures/install"
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            **driftguard_request_headers(api_key=api_key()),
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        try:
+            parsed = json.loads(detail)
+            message = parsed.get("error", detail)
+        except json.JSONDecodeError:
+            message = detail or exc.reason
+        if exc.code == 403 and "PRODUCT_REQUIRED" in str(message):
+            raise CloudClientError(str(message)) from exc
+        raise CloudClientError(f"Catalog install failed ({exc.code}): {message}") from exc
+    except urllib.error.URLError as exc:
+        raise CloudClientError(f"Catalog install unreachable: {exc.reason}") from exc
+
+    if use_cache:
+        write_cached_catalog_fixture(catalog_id, body)
+    return body
+
+
+def fetch_fixture_catalog() -> dict[str, Any]:
+    url = f"{hosted_api_base()}/v1/mockdrift/fixtures/catalog"
+    req = urllib.request.Request(url, method="GET")
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise CloudClientError(f"Catalog fetch failed ({exc.code}): {detail}") from exc
+    except urllib.error.URLError as exc:
+        raise CloudClientError(f"Catalog unreachable: {exc.reason}") from exc

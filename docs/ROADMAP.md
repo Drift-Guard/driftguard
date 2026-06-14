@@ -35,7 +35,7 @@ Portable **harness bundle** (fixtures + gates + agent bindings) and **LLM-readab
 | **H2** | `mockdrift init` (LangGraph + custom/proxy scaffolds) | **Shipped** | OSS |
 | **H3** | Fixture marketplace index (`vendor/scenario`), curated Stripe/Slack/MCP packs | **Shipped** — `fixtures/index.yaml`, `mockdrift demo vendor/id` | OSS |
 | **H4** | Evaluator agent pack (rule-only CI; PGE job 2 reads sensor JSON only) | **Shipped** — `mockdrift evaluate`, `drift-evaluator` action | OSS |
-| **H5** | CrewAI init template; hosted fixture catalog + install; optional managed LLM evaluator | **Partial** — CrewAI scaffold in `mockdrift init --runner crewai`; hosted catalog refs in index | OSS + cloud |
+| **H5** | CrewAI init template; hosted fixture catalog + install; optional managed LLM evaluator | **Shipped** — CrewAI scaffold; hosted `GET /v1/mockdrift/fixtures/catalog` + `install` (cloud); `mockdrift catalog` / `install` | OSS + cloud |
 
 Aligns with [policies/gate-ladder.md](./policies/gate-ladder.md) — MockDrift remains Gate 1 sensor; FuseGuard / ToolChange / SchemaSync toggled via `gates.yaml`.
 
