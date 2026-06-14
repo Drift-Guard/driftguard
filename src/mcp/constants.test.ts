@@ -35,6 +35,15 @@ describe("resolveHostedApi", () => {
     assert.equal(result.customBlocked, false);
   });
 
+  it("blocks non-https custom URL even with opt-in", () => {
+    const result = resolveHostedApi({
+      DRIFTGUARD_API: "http://staging.driftguard.org",
+      DRIFTGUARD_ALLOW_CUSTOM_API: "1",
+    });
+    assert.equal(result.api, DEFAULT_HOSTED_API);
+    assert.equal(result.customBlocked, true);
+  });
+
   it("strips trailing slashes on custom URL", () => {
     const result = resolveHostedApi({
       DRIFTGUARD_API: "https://staging.driftguard.org///",
