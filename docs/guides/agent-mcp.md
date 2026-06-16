@@ -74,10 +74,12 @@ Same flow in [SYSTEM_PROMPT.md](../../SYSTEM_PROMPT.md#agent-decision-flow).
 
 ## Environment
 
+Set **`DRIFTGUARD_API_KEY`** once to unlock all hosted tools — no other activation variables required.
+
 | Variable | Purpose |
 |----------|---------|
-| `DRIFTGUARD_API_KEY` | Unlocks hosted tools (`dg_…`) |
-| `DRIFTGUARD_API` | Override API base (default `https://driftguard.org`) |
+| `DRIFTGUARD_API_KEY` | Primary activation — unlocks hosted tools (`dg_…`) |
+| `DRIFTGUARD_API` | **Advanced:** override API base (default `https://driftguard.org`) |
 | `DRIFTGUARD_ALLOW_CUSTOM_API` | Set `1` with custom API — prevents hostile configs redirecting tokens |
 
 Hosted tools **fail clearly** with trial and pricing URLs when the key is missing. Do not retry hosted calls without your consent.

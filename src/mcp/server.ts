@@ -132,6 +132,7 @@ server.tool(
     jsonResult({
       repo: "https://github.com/kioie/driftguard",
       model: "open-core",
+      primaryActivationEnv: "DRIFTGUARD_API_KEY",
       offlineTools: ["compare_json", "parse_mcp_config", "hosted_info", "explain_drift"],
       hostedTools: [
         "register_watch",
