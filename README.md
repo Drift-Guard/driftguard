@@ -46,7 +46,7 @@ npm run check -- diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
 
 ### MCP server (Cursor, Claude, Windsurf)
 
-See [docs/QUICKSTART.md](docs/QUICKSTART.md) and [examples/mcp-client-config.json](examples/mcp-client-config.json).
+See [docs/QUICKSTART.md](docs/QUICKSTART.md), [examples/mcp-client-config.json](examples/mcp-client-config.json), and [examples/AGENTS-snippet.md](examples/AGENTS-snippet.md) for consumer repos.
 
 ```json
 {
