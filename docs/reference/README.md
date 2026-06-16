@@ -10,10 +10,12 @@ Exact contracts for the free client: MCP tools, CLI commands, and diff rules. Fo
 
 ## Environment variables
 
+**Primary activation:** `DRIFTGUARD_API_KEY` — one Pro/Team key unlocks all hosted MCP tools and CI coverage gates.
+
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `DRIFTGUARD_API_KEY` | Hosted tools only | Pro/Team API key (`dg_…`) |
-| `DRIFTGUARD_API` | No | Override hosted base URL (default: `https://driftguard.org`) |
+| `DRIFTGUARD_API` | No | **Advanced:** override hosted base URL (default: `https://driftguard.org`) |
 | `DRIFTGUARD_ALLOW_CUSTOM_API` | With custom `DRIFTGUARD_API` | Set to `1` to opt in; prevents hostile MCP configs from redirecting your token |
 | `DRIFTGUARD_FILES_JSON` | CI scan | JSON array of `{path, content}` for coverage commands |
 | `DRIFTGUARD_SCAN_PATHS` | CI scan | Comma-separated paths (alternative to `FILES_JSON`) |

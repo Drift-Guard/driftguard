@@ -33,8 +33,10 @@ The following are **not published** and constitute the product:
 ## Funnel
 
 ```
-OSS client (try offline) → free trial → Pro/Team API key → monitoring tools
+OSS client (try offline) → free trial → set DRIFTGUARD_API_KEY → monitoring tools
 ```
+
+**Single activation variable:** `DRIFTGUARD_API_KEY` (`dg_…`) unlocks all hosted MCP tools and CI gates. Advanced overrides (`DRIFTGUARD_API`, `DRIFTGUARD_ALLOW_CUSTOM_API`) are for staging or enterprise proxies only.
 
 Trial: https://driftguard.org/start
 

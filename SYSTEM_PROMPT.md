@@ -10,10 +10,12 @@ Token-efficient reference for AI agents using or extending this repo. For repo w
 
 ## Environment
 
+**Activate hosted tools with one variable:** `DRIFTGUARD_API_KEY` (`dg_…`).
+
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `DRIFTGUARD_API_KEY` | For hosted tools only | Pro/Team API key (`dg_…`) |
-| `DRIFTGUARD_API` | No | Override hosted base URL (default: `https://driftguard.org`) |
+| `DRIFTGUARD_API` | No | **Advanced:** override hosted base URL (default: `https://driftguard.org`) |
 | `DRIFTGUARD_ALLOW_CUSTOM_API` | Only with custom `DRIFTGUARD_API` | Set to `1` to opt in. Without it, non-default `DRIFTGUARD_API` is ignored so a hostile MCP config cannot redirect your Bearer token to an attacker. |
 
 ## Tool matrix

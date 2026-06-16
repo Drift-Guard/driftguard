@@ -87,6 +87,16 @@ describe("server.ts entry orchestration", { concurrency: 1 }, () => {
     const diff = JSON.parse(textBlock.text) as { breakingCount: number };
     assert.equal(diff.breakingCount, 0);
 
+    const infoResponse = (await client.callTool(
+      { name: "hosted_info", arguments: {} },
+      CallToolResultSchema,
+    )) as CallToolResult;
+    const infoText = infoResponse.content.find((block) => block.type === "text");
+    assert.equal(infoText?.type, "text");
+    if (infoText?.type !== "text") return;
+    const info = JSON.parse(infoText.text) as { primaryActivationEnv?: string };
+    assert.equal(info.primaryActivationEnv, "DRIFTGUARD_API_KEY");
+
     await client.close();
   });
 });

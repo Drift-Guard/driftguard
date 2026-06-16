@@ -116,7 +116,7 @@ Full model: [docs/CI.md](docs/CI.md)
 3. **Add API key** — set `DRIFTGUARD_API_KEY` in MCP env → monitoring tools unlock
 4. **Team** — [pricing](https://driftguard.org/pricing) for more watches, audit export, SSO
 
-Optional: override hosted URL with `DRIFTGUARD_API` (default: `https://driftguard.org`). Non-default values also require `DRIFTGUARD_ALLOW_CUSTOM_API=1` — otherwise the client pins to the official host so a malicious MCP config cannot exfiltrate your API key.
+**Advanced (rare):** override hosted URL with `DRIFTGUARD_API` (default `https://driftguard.org`). Non-default values require `DRIFTGUARD_ALLOW_CUSTOM_API=1` — otherwise the client pins to the official host so a malicious MCP config cannot exfiltrate your API key.
 
 ---
 
