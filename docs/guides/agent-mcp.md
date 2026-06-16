@@ -92,8 +92,8 @@ Trial: [driftguard.org/start](https://driftguard.org/start) · Pricing: [driftgu
 {
   "mcpServers": {
     "driftguard": {
-      "command": "node",
-      "args": ["/absolute/path/to/driftguard/dist/mcp/server.js"],
+      "command": "npx",
+      "args": ["-y", "driftguard@0.3.3", "mcp"],
       "env": {
         "DRIFTGUARD_API_KEY": "dg_…"
       }
@@ -101,6 +101,8 @@ Trial: [driftguard.org/start](https://driftguard.org/start) · Pricing: [driftgu
   }
 }
 ```
+
+Copy-paste from [examples/mcp-client-config.json](../../examples/mcp-client-config.json) — no absolute paths.
 
 Omit `DRIFTGUARD_API_KEY` for fully offline use (`compare_json`, `parse_mcp_config`, `hosted_info`).
 

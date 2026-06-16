@@ -23,7 +23,7 @@ Exit code `1` means breaking changes were detected.
 
 ## 3. Connect Cursor (MCP)
 
-Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) and set the **absolute path** to `dist/mcp/server.js`.
+Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) into your MCP client config — **no path edits required**.
 
 **Offline tools work immediately** — no API key:
 
@@ -40,14 +40,19 @@ Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) and s
 {
   "mcpServers": {
     "driftguard": {
-      "command": "node",
-      "args": ["/Users/you/driftguard/dist/mcp/server.js"]
+      "command": "npx",
+      "args": ["-y", "driftguard@0.3.3", "mcp"],
+      "env": {
+        "DRIFTGUARD_API_KEY": ""
+      }
     }
   }
 }
 ```
 
-Add `"DRIFTGUARD_API_KEY": "dg_…"` under `env` when you upgrade.
+Set `"DRIFTGUARD_API_KEY": "dg_…"` when you upgrade. Pin the semver in `args` (shown) or use `@latest` for convenience.
+
+**Contributors** editing this repo: use `npm run mcp` or `node dist/mcp/server.js` after `npm run build` — see [AGENTS.md](../AGENTS.md).
 
 ## 4. Typical agent workflows
 

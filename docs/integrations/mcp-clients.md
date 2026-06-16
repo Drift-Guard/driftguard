@@ -1,6 +1,6 @@
 # MCP clients
 
-DriftGuard runs as a **stdio** MCP server. Copy [examples/mcp-client-config.json](../../examples/mcp-client-config.json) and set the absolute path to `dist/mcp/server.js`.
+DriftGuard runs as a **stdio** MCP server. Copy [examples/mcp-client-config.json](../../examples/mcp-client-config.json) — npx-based, no absolute paths.
 
 **Guide:** [Agent / MCP](../guides/agent-mcp.md) · **Setup:** [QUICKSTART.md](../QUICKSTART.md#3-connect-cursor-mcp)
 
@@ -23,14 +23,14 @@ DriftGuard runs as a **stdio** MCP server. Copy [examples/mcp-client-config.json
 {
   "mcpServers": {
     "driftguard": {
-      "command": "node",
-      "args": ["/absolute/path/to/driftguard/dist/mcp/server.js"]
+      "command": "npx",
+      "args": ["-y", "driftguard@0.3.3", "mcp"]
     }
   }
 }
 ```
 
-Build first: `npm ci && npm run build`.
+Requires Node.js 20+ and network for first `npx` fetch. **Contributors** clone this repo and use `npm run mcp` after build.
 
 **Works without API key:** `compare_json`, `parse_mcp_config`, `hosted_info`, `explain_drift`.
 

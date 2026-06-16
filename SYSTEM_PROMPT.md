@@ -54,8 +54,8 @@ CI: fail if deps unwatched?
 {
   "mcpServers": {
     "driftguard": {
-      "command": "node",
-      "args": ["/absolute/path/to/driftguard/dist/mcp/server.js"],
+      "command": "npx",
+      "args": ["-y", "driftguard@0.3.3", "mcp"],
       "env": {
         "DRIFTGUARD_API_KEY": "dg_…"
       }
@@ -64,7 +64,7 @@ CI: fail if deps unwatched?
 }
 ```
 
-Template: [examples/mcp-client-config.json](examples/mcp-client-config.json)
+Template: [examples/mcp-client-config.json](examples/mcp-client-config.json) — copy-paste; no absolute paths. Contributors clone + build per [AGENTS.md](AGENTS.md).
 
 ## CLI
 

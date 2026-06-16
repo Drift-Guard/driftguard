@@ -55,9 +55,8 @@ Diff rules: [Reference — diff rules](./reference/README.md#diff-semantics).
 
 Add DriftGuard to Cursor, Claude Desktop, Windsurf, or Zed via stdio.
 
-1. Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json).
-2. Set the **absolute path** to `dist/mcp/server.js` on your machine.
-3. Restart the MCP client.
+1. Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) into your MCP client config.
+2. Restart the MCP client — no absolute paths to edit.
 
 **Cursor** — `.cursor/mcp.json`:
 
@@ -65,8 +64,11 @@ Add DriftGuard to Cursor, Claude Desktop, Windsurf, or Zed via stdio.
 {
   "mcpServers": {
     "driftguard": {
-      "command": "node",
-      "args": ["/Users/you/driftguard/dist/mcp/server.js"]
+      "command": "npx",
+      "args": ["-y", "driftguard@0.3.3", "mcp"],
+      "env": {
+        "DRIFTGUARD_API_KEY": ""
+      }
     }
   }
 }
@@ -79,12 +81,7 @@ Add DriftGuard to Cursor, Claude Desktop, Windsurf, or Zed via stdio.
 - `hosted_info` — what's free vs paid and upgrade links
 - `explain_drift` — fix suggestions after breaking diffs
 
-Start the server manually if needed:
-
-```bash
-npm run mcp
-# or: node dist/cli/check.js mcp
-```
+**Contributors** working in a clone: `npm run mcp` after `npm run build` — see [AGENTS.md](../AGENTS.md).
 
 More detail: [QUICKSTART.md](./QUICKSTART.md#3-connect-cursor-mcp).
 
