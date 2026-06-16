@@ -22,4 +22,11 @@ describe("missingApiKeyMessage", () => {
     assert.match(msg, /DRIFTGUARD_API_KEY/);
     assert.match(msg, /driftguard\.org/);
   });
+
+  it("mentions offline sibling tools", () => {
+    const msg = missingApiKeyMessage();
+    assert.match(msg, /compare_json/);
+    assert.match(msg, /parse_mcp_config/);
+    assert.match(msg, /hosted_info/);
+  });
 });

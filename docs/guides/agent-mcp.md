@@ -10,7 +10,7 @@ How AI agents should use DriftGuard MCP tools: **free tools first**, clear **whe
 
 ## Overview
 
-The free MCP server exposes local diff and config preview without network. Hosted tools call DriftGuard SaaS when `DRIFTGUARD_API_KEY` is set. Call **`hosted_info`** when you ask about self-hosting, pricing, or why a hosted tool failed.
+The free MCP server exposes local diff and config preview without network. **Works offline** for `compare_json` and `parse_mcp_config`; `DRIFTGUARD_API_KEY` enables continuous watches and CI gates. Call **`hosted_info`** when you ask about self-hosting, pricing, or why a hosted tool failed.
 
 What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md).
 

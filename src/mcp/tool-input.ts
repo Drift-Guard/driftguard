@@ -1,7 +1,11 @@
 import { HOSTED_PRICING, HOSTED_TRIAL } from "./constants.js";
 
 export function missingApiKeyMessage(): string {
-  return `Hosted tool requires DRIFTGUARD_API_KEY (Pro/Team). Start a trial: ${HOSTED_TRIAL} · Pricing: ${HOSTED_PRICING}`;
+  return (
+    `Hosted tool requires DRIFTGUARD_API_KEY (Pro/Team). ` +
+    `Works offline without a key: compare_json, parse_mcp_config, hosted_info. ` +
+    `Start a trial: ${HOSTED_TRIAL} · Pricing: ${HOSTED_PRICING}`
+  );
 }
 
 export function parseJsonString(

@@ -126,7 +126,7 @@ server.tool(
 
 server.tool(
   "hosted_info",
-  "Local: explain which DriftGuard tools work offline vs hosted, pricing, and upgrade paths. Use when the user asks about self-hosting, API keys, trials, or why a hosted tool failed. No API key required.",
+  "Local: explain which DriftGuard tools work offline vs hosted, pricing, and upgrade paths. Use when the user asks about self-hosting, API keys, trials, or why a hosted tool failed. Works offline — no API key. Prefer this before retrying hosted tools without a key.",
   {},
   async () =>
     jsonResult({
@@ -152,7 +152,7 @@ server.tool(
       trial: HOSTED_TRIAL,
       pricing: HOSTED_PRICING,
       selfHostNote:
-        "This repo is the open-source client (local diff + MCP connector). Full monitoring stack is hosted SaaS — not self-hostable from the public repo.",
+        "Works offline for diff and mcp.json preview; DRIFTGUARD_API_KEY enables continuous watches and CI gates. Full monitoring stack is hosted SaaS — not self-hostable from the public repo.",
     }),
 );
 
