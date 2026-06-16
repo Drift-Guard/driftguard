@@ -1,5 +1,5 @@
 # Example agent binding manifest for A2A Contract Watch.
-# Spec: docs/PRODUCT-ROADMAP.md § Agent binding manifest
+# Spec: docs/guides/a2a-contract-watch.md (implementation specs: driftguard-cloud)
 version: 1
 agents:
   - id: billing-refund-v3

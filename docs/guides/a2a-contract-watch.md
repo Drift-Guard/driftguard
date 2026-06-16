@@ -28,7 +28,7 @@ DriftGuard reconciles **declared vs actual**:
 3. CI — `assert_a2a_coverage` GitHub Action on PRs touching manifest or `mcp.json`
 4. MCP — `parse_agent_card` (offline), `correlate_card_mcp` (hosted)
 
-**Implementation status and task breakdown:** [PRODUCT-ROADMAP.md](../PRODUCT-ROADMAP.md) § A2A Contract Watch.
+**Implementation status:** Hosted product feature — see [free trial](https://driftguard.org/start) and [A2A guide](./a2a-contract-watch.md). Task specs are private (`driftguard-cloud`).
 
 ## Related
 

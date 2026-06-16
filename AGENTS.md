@@ -22,7 +22,7 @@ src/mcp/server.ts      # MCP server — local + hosted proxy tools
 src/mcp/constants.ts   # Version, hosted URLs, server instructions
 src/mcp/parse-mcp-json.ts  # Local mcp.json URL preview (no network)
 examples/              # MCP client config templates
-docs/                  # Quick start, discovery
+docs/                  # Quick start, discovery (product IP → driftguard-cloud)
 ```
 
 ## Open core boundary
@@ -35,6 +35,18 @@ docs/                  # Quick start, discovery
 | `explain_drift` (public endpoint) | Alert routing, drift history export |
 
 Do not document or implement hosted infrastructure in this repo. Funnel continuous monitoring to [hosted trial](https://driftguard.org/start) and [pricing](https://driftguard.org/pricing).
+
+## Intellectual property
+
+**Never add product IP to this public repo.** The following belong **only** in the private **`driftguard-cloud`** repository:
+
+- Product roadmap and control-plane sequencing (CP-*, LAB-*, GTM-*, HANDBOOK-*)
+- Pricing strategy, COGS, and packaging specs
+- GTM, founding lab, distribution, and enterprise sales playbooks
+- Hosted implementation specs beyond user-facing API/MCP reference docs
+- Internal handbook (mission, ICP narrative, operating metrics)
+
+This repo may include **user-facing** OSS docs (quick start, guides, gate ladder, hosted API index with link-outs). When in doubt, put specs in `driftguard-cloud`.
 
 ## MCP tool conventions
 
