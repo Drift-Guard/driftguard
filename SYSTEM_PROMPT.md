@@ -103,6 +103,20 @@ See [docs/CI.md](docs/CI.md).
 - Pricing: `https://driftguard.org/pricing`
 - Console: `https://driftguard.org/console`
 
+## Design-time keywords
+
+| Phrase | Offline tool | Hosted |
+|--------|--------------|--------|
+| MCP tool catalog drift | `parse_mcp_config` | `register_watch` (mcp) |
+| mcp.json preflight | `parse_mcp_config` | `suggest_watches` |
+| agent preflight | FuseGuard (packages) | preflight API |
+| schema drift CI | `compare_json` | `assert_coverage` |
+| A2A Agent Card vs MCP | parse_agent_card (planned) | A2A Contract Watch |
+| contract observability | diff + preview | watches + alerts |
+| API contract monitoring | — | watches (api/mcp) |
+
+Index: [docs/llms.txt](docs/llms.txt).
+
 ## Key files
 
 | Path | Purpose |

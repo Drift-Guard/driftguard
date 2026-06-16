@@ -1,6 +1,6 @@
 # A2A Contract Watch
 
-Detect **silent mismatch** between [Agent2Agent (A2A)](https://github.com/a2aproject/A2A) Agent Cards and the MCP/API surfaces your specialists actually run.
+Detect **silent mismatch** between [Agent2Agent (A2A)](https://github.com/a2aproject/A2A) Agent Cards and the MCP/API surfaces your specialists actually run. This is the **A2A Agent Card vs MCP** problem: declared skills vs live tool schemas.
 
 ## The gap
 
