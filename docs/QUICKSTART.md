@@ -21,6 +21,8 @@ npm run check -- diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'
 
 Exit code `1` means breaking changes were detected.
 
+**schema drift CI:** add `compare_json` or the drift-diff Action to your pipeline — see [CI.md](./CI.md).
+
 ## 3. Connect Cursor (MCP)
 
 Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) into your MCP client config — **no path edits required**.
@@ -28,7 +30,7 @@ Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) into 
 **Offline tools work immediately** — no API key:
 
 - `compare_json` — diff two JSON strings
-- `parse_mcp_config` — preview URLs from mcp.json
+- `parse_mcp_config` — **mcp.json preflight** (preview URLs from mcp.json)
 - `hosted_info` — tool matrix and upgrade paths
 - `explain_drift` — remediation hints (calls public hosted endpoint)
 

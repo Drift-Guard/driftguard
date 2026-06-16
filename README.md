@@ -7,7 +7,9 @@
 > **Start hosted trial (no credit card):** [**driftguard.org/start**](https://driftguard.org/start?utm_source=github&utm_medium=readme&utm_campaign=dg-readme-trial) — full Pro on one endpoint, ~2 minutes.  
 > **10-min MCP drift lab:** [Dev.to tutorial](https://dev.to/kioiek/catch-mcp-tool-schema-drift-in-10-minutes-live-demo-optional-watch-4ao2?utm_source=github&utm_medium=readme&utm_campaign=dg-readme-tutorial) · [ToolSchema Kit](https://github.com/kioie/toolschema-kit)
 
-DriftGuard compares JSON contracts locally (free CLI and MCP client) and runs scheduled checks with alerts when you need always-on monitoring on **[hosted Pro/Team](https://driftguard.org/pricing)**.
+DriftGuard compares JSON contracts locally (free CLI and MCP client) and runs scheduled checks with alerts when you need always-on **API contract monitoring** and **contract observability** on **[hosted Pro/Team](https://driftguard.org/pricing)**.
+
+Use **schema drift CI** (`compare_json`, GitHub Actions) before merge; use hosted watches when you need **MCP tool catalog drift** detection in production.
 
 > **Not full self-host:** this repo is the client layer (diff + MCP connector). The monitoring pipeline is a managed service — see [OPEN_CORE.md](OPEN_CORE.md).
 

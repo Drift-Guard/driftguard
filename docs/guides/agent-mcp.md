@@ -12,6 +12,8 @@ How AI agents should use DriftGuard MCP tools: **free tools first**, clear **whe
 
 The free MCP server exposes local diff and config preview without network. Hosted tools call DriftGuard SaaS when `DRIFTGUARD_API_KEY` is set. Call **`hosted_info`** when you ask about self-hosting, pricing, or why a hosted tool failed.
 
+For **agent preflight**, pair offline `compare_json` with FuseGuard runtime checks (see [gate ladder](../policies/gate-ladder.md)). For **MCP tool catalog drift**, use hosted watches after **mcp.json preflight** with `parse_mcp_config`.
+
 What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md).
 
 ---

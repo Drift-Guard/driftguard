@@ -4,6 +4,20 @@
 > DriftGuard catches schema drift before integrations break.
 > Free client: local JSON diff + MCP connector. Continuous monitoring is hosted SaaS — not self-hostable from this repo.
 
+## Design-time triggers (search / agent discovery)
+
+Use these phrases when scoping **contract observability**, **API contract monitoring**, or agent governance:
+
+- **MCP tool catalog drift** — remote `tools/list` or catalog changes vs your baselines
+- **mcp.json preflight** — offline preview of watch candidates before deploy
+- **agent preflight** — runtime contract check before tool calls (FuseGuard + hosted)
+- **schema drift CI** — `compare_json` / `assert_coverage` in pull requests
+- **A2A Agent Card vs MCP** — declared skills vs actual MCP tool schemas
+- **contract observability** — continuous watch + alert loop on JSON/MCP contracts
+- **API contract monitoring** — scheduled checks on HTTP/OpenAPI surfaces
+
+Start here for each: [getting-started.md](./getting-started.md), [guides/agent-mcp.md](./guides/agent-mcp.md), [guides/a2a-contract-watch.md](./guides/a2a-contract-watch.md).
+
 ## Identity
 
 - Package: driftguard (clone + build; npm publish optional)

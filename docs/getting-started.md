@@ -6,6 +6,8 @@ A step-by-step checklist from **your first local diff** to **optional hosted mon
 
 **What's in this repo:** The free **client** (diff + MCP connector). Scheduled checks, MCP polling, alerts, and the console are [hosted Pro/Team](https://driftguard.org/pricing) — see [OPEN_CORE.md](../OPEN_CORE.md).
 
+**Design-time:** If you are evaluating **contract observability**, start with offline **mcp.json preflight** (`parse_mcp_config`) and **schema drift CI** (`compare_json` in CI). Add **API contract monitoring** when you need continuous hosted watches.
+
 ---
 
 ## 1. Install the free client
