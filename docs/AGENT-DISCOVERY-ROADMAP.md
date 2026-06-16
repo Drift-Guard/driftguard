@@ -564,12 +564,13 @@ Run periodically (manual or scripted):
 
 | ID | PR | Status | Merged |
 |----|-----|--------|--------|
-| ROADMAP | | pending | |
+| ROADMAP | [#74](https://github.com/kioie/driftguard/pull/74) | open — CI green, awaiting review | |
+| INT-002 | [#75](https://github.com/kioie/driftguard/pull/75) | merged | 2026-06-16 |
+| INT-003 | [#76](https://github.com/kioie/driftguard/pull/76) | pending | |
+| AGT-001 | [cloud#324](https://github.com/kioie/driftguard-cloud/pull/324) | pending | |
 | INT-001 | | pending | |
-| INT-002 | | pending | |
-| INT-003 | | pending | |
 | INT-004 | | pending | |
-| DISC-001 | | blocked | |
+| DISC-001 | | blocked — NPM_TOKEN | |
 | DISC-002 | | blocked | |
 | DISC-003 | | pending | |
 | DISC-004 | | pending | |
@@ -577,7 +578,6 @@ Run periodically (manual or scripted):
 | ACT-001 | | pending | |
 | ACT-002 | | pending | |
 | ACT-003 | | pending | |
-| AGT-001 | | pending | |
 | DES-001 | | pending | |
 | DES-002 | | pending | |
 | DES-003 | | pending | |
