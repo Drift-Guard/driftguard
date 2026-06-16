@@ -15,6 +15,7 @@ Out of scope:
 
 - Hosted worker, console, billing, or deployment code
 - Replicating continuous MCP polling locally
+- Product roadmap, GTM, pricing strategy, handbook, or other intellectual property (use **`driftguard-cloud`** only)
 
 ## Setup
 

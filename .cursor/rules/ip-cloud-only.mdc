@@ -1,0 +1,20 @@
+---
+description: Product IP belongs in driftguard-cloud only — never in public OSS repo
+alwaysApply: true
+---
+
+# Intellectual property boundary
+
+Do **not** add product intellectual property to this public repository.
+
+| Belongs in `driftguard-cloud` only | OK in this OSS repo |
+|-----------------------------------|---------------------|
+| Product roadmap, CP/LAB/GTM/HANDBOOK task IDs | User-facing quick start, guides, reference |
+| Pricing strategy, COGS, packaging specs | OPEN_CORE.md boundary (high level) |
+| GTM, founding lab, enterprise playbooks | Gate ladder, MockDrift/CI docs |
+| Handbook (mission, ICP, operating metrics) | Hosted API index with link-outs |
+| Hosted implementation specs | Technical ADRs for OSS client |
+
+When asked to document roadmap, GTM, or pricing — work in **`driftguard-cloud`**. Link to [driftguard.org](https://driftguard.org) for public users.
+
+See [AGENTS.md](../../AGENTS.md) § Intellectual property and [OPEN_CORE.md](../../OPEN_CORE.md).
