@@ -28,6 +28,8 @@ Do not document hosted infrastructure (Workers, D1, queues) in the public repo.
 
 Verify a key: CLI `driftguard login` → `GET /api/me` (hosted).
 
+**Agent install metadata (public, no auth):** `GET https://driftguard.org/api/public/agent-config` — npx MCP command, docs URLs, offline tool list.
+
 Env vars: [Reference — environment](./README.md#environment-variables).
 
 ---

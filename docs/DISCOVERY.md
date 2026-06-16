@@ -22,6 +22,7 @@ Contributors editing this repo use `npm run mcp` after build — see [AGENTS.md]
 | File | Audience |
 |------|----------|
 | [docs/llms.txt](./llms.txt) | Machine-readable doc sitemap |
+| [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md) | Drop-in block for consumer `AGENTS.md` |
 | [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) | LLM codegen / tool selection |
 | [AGENTS.md](../AGENTS.md) | Agents editing this repo |
 | [docs/QUICKSTART.md](./QUICKSTART.md) | Setup steps |
