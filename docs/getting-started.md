@@ -85,6 +85,8 @@ Add DriftGuard to Cursor, Claude Desktop, Windsurf, or Zed via stdio.
 
 More detail: [QUICKSTART.md](./QUICKSTART.md#3-connect-cursor-mcp).
 
+**Add to your agent instructions:** copy [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md) into your project's `AGENTS.md` or `.cursor/rules`.
+
 **Next:** Preview dependencies from `mcp.json` (step 4).
 
 ---
