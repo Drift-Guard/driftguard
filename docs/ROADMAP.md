@@ -37,6 +37,10 @@ Aligns with [policies/gate-ladder.md](./policies/gate-ladder.md) — MockDrift r
 
 Semantic / NL drift classification for hosted Pro/Team remains on the **hosted** product. Local OSS diff is structural (JSON schema) only.
 
+## Singapore MGFA product fit (guiding doc)
+
+Strategic orientation for MGFA-aligned enhancements across the **full ecosystem** (Core CLI/MCP, diff-core, MockDrift, FuseGuard, ToolChange, SchemaSync, harness bundle, evaluator/PGE, A2A Contract Watch, hosted watches and complements — contract observability lane, not compliance certification): [SINGAPORE-MGFA-PRODUCT-FIT.md](./SINGAPORE-MGFA-PRODUCT-FIT.md).
+
 ## Agent discoverability (PostHog parity)
 
 Implementation specs for agent discovery, one-session MCP install, and single-key activation: [AGENT-DISCOVERY-ROADMAP.md](./AGENT-DISCOVERY-ROADMAP.md).
