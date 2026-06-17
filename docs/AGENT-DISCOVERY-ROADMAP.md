@@ -598,7 +598,7 @@ Run periodically (manual or scripted):
 | E4 | [#104](https://github.com/kioie/driftguard/pull/104), [cloud#354](https://github.com/kioie/driftguard-cloud/pull/354) | merged | 2026-06-17 |
 | E22 | [#111](https://github.com/kioie/driftguard/pull/111) | merged | 2026-06-17 |
 | E5 | [#112](https://github.com/kioie/driftguard/pull/112) | merged | 2026-06-17 |
-| E23 | | open | |
+| E23 | [#118](https://github.com/kioie/driftguard/pull/118) | merged | 2026-06-17 |
 
 ---
 
