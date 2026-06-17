@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { HOSTED_PRICING, HOSTED_TRIAL } from "../mcp/constants.js";
+import { readHostedApiKey } from "../mcp/env-secrets.js";
+import { parseJsonString } from "../mcp/tool-input.js";
 
 const [,, command, ...args] = process.argv;
 
@@ -11,9 +13,17 @@ async function readFilesJson(): Promise<string> {
 async function main(): Promise<void> {
   if (command === "diff") {
     const { diffSchemas, inferSchema } = await import("../core/diff.js");
-    const before = JSON.parse(args[0]);
-    const after = JSON.parse(args[1]);
-    const result = diffSchemas(inferSchema(before), inferSchema(after));
+    const beforeResult = parseJsonString(args[0], "before JSON");
+    const afterResult = parseJsonString(args[1], "after JSON");
+    if (!beforeResult.ok) {
+      console.error(beforeResult.error);
+      process.exit(1);
+    }
+    if (!afterResult.ok) {
+      console.error(afterResult.error);
+      process.exit(1);
+    }
+    const result = diffSchemas(inferSchema(beforeResult.value), inferSchema(afterResult.value));
     console.log(JSON.stringify(result, null, 2));
     process.exit(result.breakingCount > 0 ? 1 : 0);
   }
@@ -43,7 +53,7 @@ async function main(): Promise<void> {
       console.error(String(err));
       process.exit(1);
     }
-    const apiKey = process.env.DRIFTGUARD_API_KEY;
+    const apiKey = readHostedApiKey();
     const trialSession = process.env.DRIFTGUARD_TRIAL_SESSION;
     if (!apiKey && !trialSession) {
       console.error(`CI gate requires DRIFTGUARD_API_KEY (Pro) or DRIFTGUARD_TRIAL_SESSION (1 endpoint trial).`);
