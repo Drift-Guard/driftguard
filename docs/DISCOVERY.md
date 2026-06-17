@@ -19,7 +19,7 @@ Ship [examples/mcp-client-config.json](../examples/mcp-client-config.json) with 
 
 ## npm org defense
 
-Scoped packages under `@driftguard/*` are publishable only by org members — see [npm-org-defense.md](./npm-org-defense.md) for 2FA, token hygiene, and publish checklist (`@driftguard/driftguard` + `@driftguard/cli`).
+Scoped packages under `@driftguard/*` are publishable only by org members — see [npm-org-defense.md](./npm-org-defense.md) and [npm-org-chase.md](./npm-org-chase.md) for 2FA, token hygiene, and publish checklist (`@driftguard/driftguard` + `@driftguard/cli`).
 
 Contributors editing this repo use `npm run mcp` after build — see [AGENTS.md](../AGENTS.md).
 
