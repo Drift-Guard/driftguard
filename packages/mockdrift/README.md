@@ -2,7 +2,7 @@
 
 Gate 1 local drift-replay harness for AI agents.
 
-**Spec:** [docs/mockdrift/R3-API.md](../../docs/mockdrift/R3-API.md) · **MGFA replay guide:** [docs/guides/mockdrift-cloud-replay.md](../../docs/guides/mockdrift-cloud-replay.md) · **Phase:** 1C (M3 — cloud replay + GitHub Action)
+**Spec:** [docs/mockdrift/R3-API.md](../../docs/mockdrift/R3-API.md) · **MGFA replay guide:** [docs/guides/mockdrift-cloud-replay.md](../../docs/guides/mockdrift-cloud-replay.md) · **SIEM export:** [docs/guides/mockdrift-siem-export.md](../../docs/guides/mockdrift-siem-export.md) · **Phase:** 1C (M3 — cloud replay + GitHub Action)
 
 ## Quick start
 
