@@ -20,6 +20,23 @@ Catch API and schema changes before your integrations break. This hub walks you 
 
 DriftGuard sits **between your contracts and your apps**: `mcp.json`, API payloads, OpenAPI specs, CI pipelines, AI agents, and the hosted console.
 
+---
+
+## How DriftGuard compares
+
+DriftGuard is **contract observability** — not an error tracker and not a replacement for APM.
+
+| | Sentry / error tracking | OpenAPI lint (Spectral, etc.) | DriftGuard |
+|--|-------------------------|-------------------------------|------------|
+| **Primary question** | What failed at runtime? | Is this spec valid / styled? | Did the contract change vs baseline? |
+| **MCP `tools/list` drift** | ❌ | ❌ | ✅ hosted watches |
+| **JSON payload diff** | ❌ | ❌ | ✅ `compare_json` (free) |
+| **Pre-deploy CI gate** | Partial (errors only) | ✅ spec rules | ✅ breaking schema diff + coverage gate |
+| **Continuous monitoring** | ✅ errors/traces | ❌ (lint is point-in-time) | ✅ hosted watches + alerts |
+| **Agent contract preflight** | ❌ | ❌ | ✅ FuseGuard + agent status (hosted) |
+
+Use Sentry for production exceptions; use OpenAPI lint for spec authoring; use DriftGuard when integrations break because **schemas or tool catalogs changed**.
+
 ```
   mcp.json / OpenAPI / API responses
               │

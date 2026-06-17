@@ -2,6 +2,8 @@
 
 DriftGuard terms in plain language. For what's free vs paid see [OPEN_CORE.md](../OPEN_CORE.md).
 
+**Positioning:** DriftGuard is **contract observability** for JSON APIs and MCP tool catalogs — not an error tracker (Sentry) and not pre-deploy OpenAPI lint only.
+
 ---
 
 ## Core concepts

@@ -8,6 +8,8 @@ A step-by-step checklist from **your first local diff** to **optional hosted mon
 
 **Design-time:** If you are evaluating **contract observability**, start with offline **mcp.json preflight** (`parse_mcp_config`) and **schema drift CI** (`compare_json` in CI). Add **API contract monitoring** when you need continuous hosted watches.
 
+**Positioning:** DriftGuard is **contract observability** for JSON APIs and MCP tool catalogs — not an error tracker (Sentry) and not pre-deploy OpenAPI lint only.
+
 ---
 
 ## 1. Install the free client
