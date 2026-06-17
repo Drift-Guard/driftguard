@@ -1,6 +1,47 @@
 # Public roadmap (OSS)
 
-The **hosted product roadmap** (control plane, billing, console, GTM, handbook, pricing strategy) is maintained in the private **`driftguard-cloud`** repository — not in this public repo. See [OPEN_CORE.md](../OPEN_CORE.md).
+The **hosted product roadmap** (control plane sequencing, billing COGS, GTM playbooks) is maintained in the private **`driftguard-cloud`** repository — not in this public repo. See [OPEN_CORE.md](../OPEN_CORE.md).
+
+**Public phase summary & enterprise narrative:** [driftguard.org](https://driftguard.org) handbook (private repo; link-out only).
+
+---
+
+## Public hosted roadmap
+
+Reader-facing phases (no internal task IDs). Status as of 2026-06.
+
+| Phase | Focus | OSS | Hosted | Status |
+|-------|--------|-----|--------|--------|
+| **Foundation** | Truthful `drift_status` + alert payloads with `agentAction` | Diff + MCP client | Watches, webhooks v2, console chips | **Shipped** |
+| **Status plane** | Queryable health before orchestrator runs | `get_watch_status` proxy | REST status, portfolio status, preflight API | **Shipped** |
+| **Bindings & policies** | Agent ↔ watch mapping, ack-to-unblock | `agents.yaml`, harness | Bindings ingest, drift policies, affected agents | **Shipped** |
+| **Runtime enforcement** | Stop retry spirals under policy | FuseGuard (OSS fuse) | Trip ingest + drift correlation | **Shipped** |
+| **Remediation** | Propose fixes, not just alert | MockDrift, SchemaSync lint-nl | Draft PR records, remediation triggers | **Partial** |
+| **Portfolio & scale** | Fleet ops, enterprise depth | — | Compass, optimizer, audit/RBAC/SSO | **In progress** |
+
+Unreleased hosted APIs return **501** with stable JSON — not 404. Call MCP `hosted_info` for the current offline vs keyed tool list.
+
+---
+
+## Hosted capability matrix
+
+| Capability | OSS (free) | Hosted (API key) | Notes |
+|------------|------------|------------------|-------|
+| Structural JSON / MCP diff | Yes | — | `compare_json`, `parse_mcp_config` |
+| Offline MCP config preview | Yes | — | No network |
+| CI gates (MockDrift, ToolChange, …) | Yes | Assert/enforce with key | [gate ladder](./policies/gate-ladder.md) |
+| FuseGuard loop/budget fuse | Yes | Trip correlation on Pro+ | OSS fuse stays free |
+| Continuous URL watches | — | Yes | Trial: 3 URLs daily |
+| MCP `tools/list` polling | — | Yes | Core hosted value |
+| Drift history & export | — | Yes | Tier retention limits |
+| Webhooks / Slack / PagerDuty | — | Yes | v2 payloads with enrichment |
+| Watch & agent status APIs | Proxy only | Yes | `get_watch_status`, preflight |
+| Semantic / NL drift class | — | Pro/Team | Structural diff in OSS only |
+| Agent bindings & policies | Validate locally | Yes | Console + API |
+| SchemaSync draft PRs | lint-nl | Records + console | Full GitHub App loop in progress |
+| Billing & console | — | Yes | [pricing](https://driftguard.org/pricing) |
+
+---
 
 ## What this repo ships (OSS)
 
