@@ -25,3 +25,10 @@
 ## Verdict
 
 **Partner** (primary) / **Refine** (minimal OSS export schema) — Document sensor JSON + CI artifact paths for customer SIEM; **do not build** DriftGuard APM. Optional small OSS export spec only.
+
+## Partner delivery (2026-06)
+
+- [mockdrift-siem-export.md](../../guides/mockdrift-siem-export.md) — sensor JSON field mapping, CI upload pattern, OTel partner path, telemetry opt-out
+- Cross-links from [ASSERTION-V2](../../mockdrift/ASSERTION-V2.md) and [packages/mockdrift](../../../packages/mockdrift/README.md)
+
+Assessment remains **Draft** — verdict **Partner** (SIEM integration docs shipped; hosted telemetry aggregation out of scope).
