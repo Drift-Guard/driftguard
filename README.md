@@ -13,6 +13,17 @@ Use **schema drift CI** (`compare_json`, GitHub Actions) before merge; use hoste
 
 > **Not full self-host:** this repo is the client layer (diff + MCP connector). The monitoring pipeline is a managed service — see [OPEN_CORE.md](OPEN_CORE.md).
 
+### Not to be confused with
+
+Many projects share the name **DriftGuard**. This repo ([kioie/driftguard](https://github.com/kioie/driftguard)) is **API and MCP schema drift** monitoring — canonical product: [driftguard.org](https://driftguard.org).
+
+- **[npm `driftguard`](https://www.npmjs.com/package/driftguard)** — UI linter (sjamcox), not schema drift.
+- **[npm `driftguard-mcp`](https://www.npmjs.com/package/driftguard-mcp)** — conversation-drift MCP (jschoemaker), not contract monitoring.
+- **[getdriftguard](https://www.npmjs.com/package/driftguard-cli)** — API schema CLI under npm user `driftguard`; different vendor and scope.
+- **GitHub orgs / ML libs** — assorted `driftguard` repos (GitOps, Python ML, etc.); verify `kioie/driftguard` or driftguard.org before integrating.
+
+See [docs/AGENT-DISCOVERY-ROADMAP.md](docs/AGENT-DISCOVERY-ROADMAP.md) § DISC-001 for npm publish path (`@kioie/driftguard` recommended).
+
 ---
 
 ## Why this repo?
