@@ -27,7 +27,7 @@ describe("harness bundle lint", () => {
     assert.equal(result.ok, true);
   });
 
-  it("lints MGFA harness bundle with toolchange manifest pins", () => {
+  it("lints MGFA harness bundle with agents.yaml and toolchange pins", () => {
     const mgfaDir = join(repoRoot, "examples/harness-mgfa/.driftguard");
     const lockYaml = readFileSync(join(mgfaDir, "harness.lock"), "utf8");
     const lock = validateHarnessLockText(lockYaml);

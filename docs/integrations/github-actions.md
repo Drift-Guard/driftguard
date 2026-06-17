@@ -46,13 +46,15 @@ Copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftg
     DRIFTGUARD_API_KEY: ${{ secrets.DRIFTGUARD_API_KEY }}
 ```
 
-**agents.yaml lint** (offline, no API key):
+**agents.yaml lint** (offline, no API key) — see [agent binding manifest guide](../guides/agent-binding-manifest.md):
 
 ```yaml
 - uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
   with:
     manifest: .driftguard/agents.yaml
 ```
+
+Template: [examples/workflows/agents-lint.yml](../../examples/workflows/agents-lint.yml).
 
 Per-action READMEs: `.github/actions/drift-diff/README.md`, `drift-coverage-preview/README.md`, `drift-coverage/README.md`, `drift-agents-lint/README.md`.
 

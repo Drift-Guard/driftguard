@@ -50,4 +50,79 @@ agents:
     assert.equal(result.ok, false);
     if (!result.ok) assert.ok(result.errors.some((e) => e.includes("unknown policy")));
   });
+
+  it("rejects duplicate agent ids", () => {
+    const result = validateAgentsYamlText(`
+version: 1
+agents:
+  - id: dup
+    environment: dev
+    policy: notify-only
+    watches:
+      - type: api
+        url: https://example.com/openapi.json
+  - id: dup
+    environment: staging
+    policy: notify-only
+    watches:
+      - type: api
+        url: https://example.com/other.json
+`);
+    assert.equal(result.ok, false);
+    if (!result.ok) assert.ok(result.errors.some((e) => e.includes("duplicate agent id")));
+  });
+
+  it("requires skillToolMap when a2a.cardUrl is set", () => {
+    const result = validateAgentsYamlText(`
+version: 1
+agents:
+  - id: a2a-only
+    environment: dev
+    policy: notify-only
+    a2a:
+      cardUrl: https://agent.example/.well-known/agent.json
+    watches:
+      - type: a2a_card
+        url: https://agent.example/.well-known/agent.json
+`);
+    assert.equal(result.ok, false);
+    if (!result.ok) assert.ok(result.errors.some((e) => e.includes("skillToolMap")));
+  });
+
+  it("requires a2a_card watch matching cardUrl", () => {
+    const result = validateAgentsYamlText(`
+version: 1
+agents:
+  - id: skewed-card
+    environment: dev
+    policy: notify-only
+    a2a:
+      cardUrl: https://agent.example/.well-known/agent.json
+    mcp:
+      configPath: .cursor/mcp.json
+      skillToolMap:
+        do_thing:
+          - tool_a
+    watches:
+      - type: a2a_card
+        url: https://other.example/.well-known/agent.json
+`);
+    assert.equal(result.ok, false);
+    if (!result.ok) assert.ok(result.errors.some((e) => e.includes("a2a_card")));
+  });
+
+  it("requires mcp.configPath when mcp watch is declared", () => {
+    const result = validateAgentsYamlText(`
+version: 1
+agents:
+  - id: mcp-watch-only
+    environment: dev
+    policy: notify-only
+    watches:
+      - type: mcp
+        url: https://mcp.example.com/sse
+`);
+    assert.equal(result.ok, false);
+    if (!result.ok) assert.ok(result.errors.some((e) => e.includes("mcp.configPath")));
+  });
 });

@@ -1,0 +1,21 @@
+# Example: agents.yaml manifest lint on PRs (Gate 2B)
+# Copy into .github/workflows/agents-lint.yml
+# MGFA Dim 1 bound tool scope — see docs/guides/agent-binding-manifest.md
+
+name: Agent bindings
+
+on:
+  pull_request:
+    paths:
+      - ".driftguard/agents.yaml"
+      - "**/*.agents.yaml"
+      - ".github/workflows/agents-lint.yml"
+
+jobs:
+  manifest-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+        with:
+          manifest: .driftguard/agents.yaml
