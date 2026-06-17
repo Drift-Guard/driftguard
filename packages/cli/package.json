@@ -1,0 +1,33 @@
+{
+  "name": "@driftguard/cli",
+  "version": "0.3.3",
+  "description": "Alias install path for DriftGuard CLI — primary package is @driftguard/driftguard",
+  "type": "module",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kioie/driftguard.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/kioie/driftguard#readme",
+  "bugs": {
+    "url": "https://github.com/kioie/driftguard/issues"
+  },
+  "bin": {
+    "driftguard": "./bin/driftguard.js",
+    "driftguard-mcp": "./bin/driftguard-mcp.js"
+  },
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "dependencies": {
+    "@driftguard/driftguard": "^0.3.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

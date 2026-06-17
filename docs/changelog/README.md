@@ -10,7 +10,7 @@ Release notes for the **free client** and its MCP/CLI surface. For maintainer-or
 
 | Surface | Scheme | Pin in CI |
 |---------|--------|-----------|
-| npm package + MCP server | [SemVer](https://semver.org/) | `npx driftguard@0.3.3`, Action `@v0.3.3` |
+| npm package + MCP server | [SemVer](https://semver.org/) | `npx @driftguard/driftguard@0.3.3`, Action `@v0.3.3` |
 | MCP tool names & inputs | Stable within minor; breaking renames rare | See policy below |
 | Diff rules (`@driftguard/diff-core`) | Contract vectors in repo | Rule changes ship with minor bump + changelog callout |
 

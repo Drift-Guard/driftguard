@@ -4,7 +4,7 @@ Token-efficient reference for AI agents using or extending this repo. For repo w
 
 ## Identity
 
-- **Package:** `driftguard` (npm, not yet published — clone + build)
+- **Package:** `@driftguard/driftguard` (npm; alias `@driftguard/cli` — clone + build until published)
 - **Role:** Open-source **local JSON schema diff** + **MCP connector** to hosted DriftGuard SaaS
 - **Not self-hostable:** continuous monitoring, MCP polling, alerts, and console are hosted-only
 
@@ -68,7 +68,7 @@ CI: fail if deps unwatched?
   "mcpServers": {
     "driftguard": {
       "command": "npx",
-      "args": ["-y", "driftguard@0.3.3", "mcp"],
+      "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"],
       "env": {
         "DRIFTGUARD_API_KEY": "dg_…"
       }
@@ -96,7 +96,7 @@ Exit code: `driftguard diff` exits **1** when `breakingCount > 0`.
 | Pin | Example |
 |-----|---------|
 | GitHub Action | `uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1` |
-| npx | `npx driftguard@0.3.1 diff '…' '…'` |
+| npx | `npx @driftguard/driftguard@0.3.3 diff '…' '…'` |
 | Coverage action | `uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.1` |
 
 See [docs/CI.md](docs/CI.md).

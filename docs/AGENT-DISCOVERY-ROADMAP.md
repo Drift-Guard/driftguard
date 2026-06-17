@@ -98,33 +98,35 @@ flowchart TD
 
 ### [DISC-001] Publish npm package + `npx driftguard-mcp`
 
-- **Architecture note:** OSS only. `package.json` bins and `release.yml` publish job stay in public repo; `NPM_TOKEN` is GitHub secret — never committed. Hosted monitoring remains cloud-only per [OPEN_CORE.md](../OPEN_CORE.md).
-- **Brand landscape (2026-06 scan):** ~154 GitHub repos named `driftguard`; **0 forks** of `kioie/driftguard`. npm unscoped names are **occupied** — do not publish as `driftguard` without resolution:
-  1. **`driftguard`** — [sjamcox](https://www.npmjs.com/package/driftguard) UI linter (unrelated).
-  2. **`driftguard-cli`** / npm user **`driftguard`** — [getdriftguard](https://www.npmjs.com/package/driftguard-cli) API schema CLI (different product).
+- **Architecture note:** OSS only. Primary npm name **`@driftguard/driftguard`** (scoped under org `driftguard`). Defensive alias **`@driftguard/cli`** occupies the familiar CLI name so squatters cannot. `package.json` bins and `release.yml` publish job stay in public repo; `NPM_TOKEN` is GitHub secret — never committed. Hosted monitoring remains cloud-only per [OPEN_CORE.md](../OPEN_CORE.md).
+- **Brand landscape (2026-06 scan):** npm unscoped names are **occupied** — do not publish as unscoped `driftguard`:
+  1. **`driftguard`** — [sjamcox](https://www.npmjs.com/package/driftguard) UI linter (unrelated); optional transfer later, not claimed in docs until resolved.
+  2. **`driftguard-cli`** — [getdriftguard](https://www.npmjs.com/package/driftguard-cli) API schema CLI (different product); deprecate with message pointing to `@driftguard/cli` after scoped publish.
   3. **`driftguard-mcp`** — [jschoemaker](https://www.npmjs.com/package/driftguard-mcp) conversation-drift MCP (unrelated).
-- **Recommended publish path:** scoped **`@kioie/driftguard`** (matches GitHub org; avoids collisions) **or** negotiate transfer/deprecation with incumbent publishers. Update `package.json` `name`, `server.json` identifier, INT-002 npx template, and docs in the same release PR.
-- **Prerequisites:** `NPM_TOKEN` with publish rights to chosen scope/org; semver tag `v0.3.3+`.
+- **Publish path:** `@driftguard/driftguard` + defensive `@driftguard/cli`. See [npm-org-defense.md](./npm-org-defense.md).
+- **Prerequisites:** npm org `driftguard` access; `NPM_TOKEN` in GitHub repo secrets; semver tag `v0.3.3+`.
 - **Implementation steps:**
-  1. Verify `.github/workflows/release.yml` `publish-npm` job runs `npm publish --access public` on `v*` tags.
-  2. Verify `package.json` declares bins `driftguard` → `dist/cli/check.js`, `driftguard-mcp` → `dist/mcp/server.js`; `files` includes `dist`, `server.json`, `examples/mcp-client-config.json`.
-  3. Run `npm run sync-version` so `server.json` version matches `package.json`.
-  4. Tag and push `v0.3.3` (or current semver); confirm `publish-npm` job green.
-  5. Smoke: `npx -y driftguard@0.3.3 mcp` stdio handshake (local or CI).
-  6. Post-publish doc sweep: remove "not yet published" from [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md), [README.md](../README.md), [docs/llms.txt](./llms.txt), [docs/QUICKSTART.md](./QUICKSTART.md).
+  1. Verify `.github/workflows/release.yml` `publish-npm` job runs `npm publish --access public` on `v*` tags for **`@driftguard/driftguard`** then **`@driftguard/cli`**.
+  2. Verify root `package.json` name `@driftguard/driftguard`, `publishConfig.access: public`; bins `driftguard` → `dist/cli/check.js`, `driftguard-mcp` → `dist/mcp/server.js`; `files` includes `dist`, `server.json`, `examples/mcp-client-config.json`.
+  3. Verify `packages/cli` (`@driftguard/cli`) depends on `@driftguard/driftguard` and re-exports same bins.
+  4. Run `npm run sync-version` so `server.json` identifier/version match `package.json`.
+  5. Tag and push `v0.3.3` (or current semver); confirm `publish-npm` job green.
+  6. Smoke: `npx -y @driftguard/driftguard@0.3.3 mcp` stdio handshake (local or CI).
+  7. Post-publish doc sweep: remove "not yet published" from [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md), [README.md](../README.md), [docs/llms.txt](./llms.txt), [docs/QUICKSTART.md](./QUICKSTART.md).
 - **Tests (required before merge):**
   - **Unit:** `npm ci && npm run build && npm test` (existing suite).
   - **Integration:** Release workflow artifact contains `.tgz`; `npm pack` locally matches published tarball structure.
-  - **Manual/agent eval:** `npm view driftguard version` returns `0.3.3`; Cursor connects via INT-002 npx config.
+  - **Manual/agent eval:** `npm view @driftguard/driftguard version` returns `0.3.3`; Cursor connects via INT-002 npx config.
 - **Definition of done:**
-  - [ ] `npm view driftguard version` returns `0.3.3` (or current semver)
-  - [ ] `npx -y driftguard@latest mcp` starts without clone/build
-  - [ ] Release workflow publishes on tag without manual `npm publish`
+  - [ ] `npm view @driftguard/driftguard version` returns `0.3.3` (or current semver)
+  - [ ] `npm view @driftguard/cli version` returns matching semver
+  - [ ] `npx -y @driftguard/driftguard@latest mcp` starts without clone/build
+  - [ ] Release workflow publishes both scoped packages on tag without manual `npm publish`
   - [ ] No OSS doc says "not yet published"
-- **PR scope:** `.github/workflows/release.yml` (if fixes needed), `package.json`, `server.json`, post-publish doc files listed above
+- **PR scope:** `.github/workflows/release.yml`, root `package.json`, `packages/cli/`, `server.json`, [npm-org-defense.md](./npm-org-defense.md), post-publish doc files listed above
 - **Rollback:** Deprecate bad npm version via npm deprecate; yank only if security issue; revert doc claims if publish fails
 
-**Status:** Blocked — unscoped `driftguard` on npm is another product (`0.1.1`); `0.3.3` not published. Unblock: choose scoped name (`@kioie/driftguard`) or negotiate unscoped transfer, then set `NPM_TOKEN` and tag release.
+**Status:** Blocked — scoped packages not yet published. Unscoped `driftguard` collision (sjamcox). Unblock: merge scoped rename, set `NPM_TOKEN`, tag release. `release.yml` dual-publish deferred to follow-up PR (workflow scope).
 
 ---
 
@@ -133,7 +135,7 @@ flowchart TD
 - **Architecture note:** OSS `server.json` is source of truth; registry listing references npm package (not hosted infra). No cloud code.
 - **Prerequisites:** DISC-001 complete; [mcp-publisher CLI](https://modelcontextprotocol.io) auth.
 - **Implementation steps:**
-  1. Confirm [server.json](../server.json) `packages[0].identifier` = `driftguard`, version matches npm.
+  1. Confirm [server.json](../server.json) `packages[0].identifier` = `@driftguard/driftguard`, version matches npm.
   2. Add registry republish step to release checklist in [docs/DISCOVERY.md](./DISCOVERY.md).
   3. Run `mcp-publisher publish` from repo root after tag.
   4. Verify listing `command`/`args` match INT-002 npx template.
@@ -143,7 +145,7 @@ flowchart TD
   - **Manual/agent eval:** Agent finds server via MCP Registry search "schema drift".
 - **Definition of done:**
   - [ ] DriftGuard appears in MCP Registry search
-  - [ ] Registry install command matches `npx -y driftguard@<version> mcp`
+  - [ ] Registry install command matches `npx -y @driftguard/driftguard@<version> mcp`
   - [ ] DISCOVERY.md documents republish on semver bump
 - **PR scope:** `server.json`, `docs/DISCOVERY.md`, optional `scripts/check-server-json.mjs`
 - **Rollback:** Unpublish or update registry entry via mcp-publisher; revert DISCOVERY.md checklist
@@ -253,7 +255,7 @@ flowchart TD
        "mcpServers": {
          "driftguard": {
            "command": "npx",
-           "args": ["-y", "driftguard@0.3.3", "mcp"],
+           "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"],
            "env": { "DRIFTGUARD_API_KEY": "" }
          }
        }
@@ -265,7 +267,7 @@ flowchart TD
   4. Add unit test: `examples/mcp-client-config.json` has no `/absolute/` or `/Users/` paths; uses `npx` command.
 - **Tests (required before merge):**
   - **Unit:** New test file `src/examples/mcp-config.test.ts` (or `scripts/check-mcp-config.mjs` in CI).
-  - **Integration:** After DISC-001 — `npx -y driftguard@0.3.3 mcp` smoke on Node 20.
+  - **Integration:** After DISC-001 — `npx -y @driftguard/driftguard@0.3.3 mcp` smoke on Node 20.
   - **Manual/agent eval:** Copy-paste config into Cursor without path edits.
 - **Definition of done:**
   - [ ] Default template has zero absolute paths

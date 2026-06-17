@@ -11,7 +11,7 @@ export function printVersionJson(): void {
         pricing: HOSTED_PRICING,
         ci: {
           actionRef: "kioie/driftguard/.github/actions/drift-diff@v" + VERSION,
-          npx: `npx driftguard@${VERSION}`,
+          npx: `npx @driftguard/driftguard@${VERSION}`,
         },
       },
       null,

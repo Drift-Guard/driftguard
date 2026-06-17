@@ -73,7 +73,7 @@ Marketplace listing should highlight this three-line preview step:
 
 ## GitLab
 
-Marketplace is GitHub-only. GitLab users use `npx driftguard@X.Y.Z` — see [GITLAB_CI.md](./GITLAB_CI.md) and `examples/gitlab-ci.yml`.
+Marketplace is GitHub-only. GitLab users use `npx @driftguard/driftguard@X.Y.Z` — see [GITLAB_CI.md](./GITLAB_CI.md) and `examples/gitlab-ci.yml`.
 
 ---
 
