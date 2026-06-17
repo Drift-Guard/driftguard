@@ -15,6 +15,7 @@ Step-by-step guides by role. For exact tool contracts see [Reference](../referen
 | **Pre-deploy replay** | [mockdrift-cloud-replay.md](./mockdrift-cloud-replay.md) | Replay open drift incidents in MockDrift CI (`--simulate-drift`) |
 | **Init + fixtures** | [mockdrift-init-fixtures.md](./mockdrift-init-fixtures.md) | `mockdrift init`, OSS marketplace, hosted catalog (H2–H5) |
 | **Drift management** | [drift-management.md](./drift-management.md) | Find → review → fix when contracts change (hosted) |
+| **Semantic drift boundary** | [semantic-drift-boundary.md](./semantic-drift-boundary.md) | Structural vs semantic; MGFA policy-adjacent only (hosted) |
 | **Platform / admin** | [platform-admin.md](./platform-admin.md) | Watches, API keys, alerts (hosted) |
 | **A2A Contract Watch** | [a2a-contract-watch.md](./a2a-contract-watch.md) | Agent Card vs MCP silent mismatch (planned) |
 

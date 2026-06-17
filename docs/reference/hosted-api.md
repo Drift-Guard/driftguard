@@ -199,6 +199,23 @@ Documented in [CI.md — API reference](../CI.md#api-reference-hosted). CLI: `co
 | `GET` | `/health` | Deploy smoke |
 | `POST` | `/api/openapi/diff/remote` | Remote OpenAPI structural diff (CLI) |
 
+### Semantic drift (Pro/Team)
+
+Hosted watches run **structural** diff first (`@driftguard/diff-core`), then an optional **semantic** classifier on Pro/Team plans. Semantic findings attach to the same drift events and incident lifecycle as structural changes — they are not a separate product surface.
+
+| Layer | Detects | OSS? |
+|-------|---------|------|
+| **Structural** | Schema shape, types, required fields | Yes — `compare_json` |
+| **Semantic** | Value/unit shifts, enum repurposing, metadata meaning without schema edit | No — hosted pipeline only |
+
+**Signal classes** (when classifier fires): `unit_suspect`, `enum_set_changed`, `distribution_shift`, NL tool-metadata shifts (roadmap). Same breaking / warning / info severity discipline as structural diff.
+
+**MGFA posture:** Dimension 3 **policy-adjacent change detection** — not SOP compliance, NL policy evaluation, or regulatory certification. Lead MGFA pitches with structural monitoring (E1/E4/E11); use semantic as supplement only.
+
+**Not in scope:** agent behavioural eval (LangSmith lane), prompt injection safety, internal SOP documents, GRC policy engines — see [partner list](../SINGAPORE-MGFA-PRODUCT-FIT.md#what-we-explicitly-will-not-build-partner-list).
+
+Guide: [semantic drift — structural boundary](../guides/semantic-drift-boundary.md) · hosted buyer reference: `driftguard-cloud/docs/compliance/SEMANTIC-DRIFT-BOUNDARY.md`.
+
 ---
 
 ## Funnel responses
@@ -214,6 +231,7 @@ Coverage preview/assert responses include `upgrade.*` deep links (`start`, `cons
 | [Webhooks & alerts](./webhooks-alerts.md) | Notification channels and event concepts |
 | [MCP tools](./README.md#mcp-tools) | Agent-facing hosted proxies |
 | [Platform admin guide](../guides/platform-admin.md) | Watches, keys, alerts |
+| [Semantic drift boundary](../guides/semantic-drift-boundary.md) | Structural vs semantic; no SOP claims |
 | [OPEN_CORE.md](../../OPEN_CORE.md) | Private control plane boundary |
 
 **Full API reference (hosted site):** [driftguard.org](https://driftguard.org) — use trial or docs link from console when published.

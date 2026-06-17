@@ -25,3 +25,16 @@
 ## Verdict
 
 **Refine** (boundary docs) / **Defer** (MGFA lead story) — Valuable hosted SKU but **do not foreground in MGFA pitch** until structural evidence pack (E1/E4/E11) is solid. Strict disclaimer required.
+
+## Refine delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Structural vs semantic boundary guide (MGFA Dim 3 policy-adjacent only; no SOP claims) | [semantic-drift-boundary.md](../../guides/semantic-drift-boundary.md) |
+| OSS hosted API index — semantic drift route family + signal taxonomy | [hosted-api](../../reference/hosted-api.md#semantic-drift-proteam) |
+| Glossary — structural vs semantic drift terms | [glossary](../../glossary.md) |
+| MGFA product fit — Hosted DriftGuard + E13 catalog row | [SINGAPORE-MGFA-PRODUCT-FIT.md](../../SINGAPORE-MGFA-PRODUCT-FIT.md) |
+| Hosted buyer boundary (sales/support prohibited claims) | Cloud `docs/compliance/SEMANTIC-DRIFT-BOUNDARY.md` |
+| Drift management + guides hub cross-links | [drift-management](../../guides/drift-management.md) · [guides/README](../../guides/README.md) |
+
+Assessment remains **Draft** until semantic classifier GA and buyer repos demonstrate stable triage workflows. Verdict unchanged: **Refine** (boundary docs shipped; NL metadata classifier and MGFA lead story deferred).

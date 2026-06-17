@@ -12,6 +12,7 @@ DriftGuard terms in plain language. For what's free vs paid see [OPEN_CORE.md](.
 |-----------------|---------------|-------|
 | **Schema drift** | An API or data contract changed | Detected when a watched or compared payload's inferred schema changes |
 | **Structural diff** | Compare JSON shapes and flag what changed | The free default; labels changes as breaking or safe — not natural-language classification |
+| **Semantic drift** | Classify value/metadata meaning shifts on watched contracts | **Hosted Pro/Team only** — unit/enum/distribution signals; policy-adjacent, not SOP compliance |
 | **Breaking change** | Change that breaks existing apps | e.g. removed field, type change, new required field — fails CI when `breakingCount > 0` |
 | **Additive change** | Safe, backward-compatible change | e.g. new optional field — usually fine for consumers |
 | **Watch** | A URL we check on a schedule | A registered API, OpenAPI, or remote MCP endpoint — **hosted only** |
@@ -29,7 +30,7 @@ Canonical stages — same names in handbook, guides, and agent prompts:
 | Stage | Plain meaning |
 |-------|---------------|
 | **Baseline** | Capture or accept last known-good contract snapshot |
-| **Diff / classify** | Structural compare; breaking vs additive (`compare_json`, hosted drift pipeline) |
+| **Diff / classify** | Structural compare; breaking vs additive (`compare_json`, hosted drift pipeline). Semantic classification on hosted watches — see [semantic drift boundary](./guides/semantic-drift-boundary.md) |
 | **CI gate** | Block merge when contracts break or deps unwatched (`assert_coverage`, gate packages) |
 | **Scheduled watch** | Poll live MCP/API URLs on an interval — **hosted only** |
 | **Alert** | Notify with structured context (webhook, console, `agentAction`) — **hosted** |

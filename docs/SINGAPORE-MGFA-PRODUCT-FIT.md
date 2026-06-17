@@ -267,10 +267,10 @@ Each product section follows the same shape: MGFA hooks, current capabilities, e
 | Field | Detail |
 |-------|--------|
 | **MGFA hooks** | Dim 3 — post-deploy monitoring, logging, change management; Dim 4 — drift transparency |
-| **Current capabilities** | Scheduled checks, MCP `tools/list` polling, drift events, webhooks, console, semantic drift (Pro/Team), Team audit export (CSV/JSON + signed audit) |
-| **Enhancement opportunities** | Watch health SLOs; semantic vs structural boundary docs; incident lifecycle for MGFA buyers |
-| **Roadmap / gate refs** | Hosted watches · [hosted-api](./reference/hosted-api.md) · [webhooks-alerts](./reference/webhooks-alerts.md) · CP-* (private) |
-| **Assessment** | **TBD** |
+| **Current capabilities** | Scheduled checks, MCP `tools/list` polling, drift events, webhooks, console, semantic drift (Pro/Team partial), Team audit export (CSV/JSON + signed audit) |
+| **Enhancement opportunities** | NL tool-metadata classifier GA; semantic false-positive tuning |
+| **Roadmap / gate refs** | Hosted watches · [hosted-api](./reference/hosted-api.md) · [semantic-drift-boundary](./guides/semantic-drift-boundary.md) · [webhooks-alerts](./reference/webhooks-alerts.md) |
+| **Assessment** | **[Draft](./assessments/mgfa/E13-semantic-nl-drift-classification.md)** (Refine) |
 
 **Key gaps:** Not OTel-native APM; semantic drift is classification not SOP compliance.
 
@@ -324,7 +324,7 @@ Legend — **Current state:** **Exists** (shipped) · **Partial** (alpha or OSS-
 | **E10** | **Coverage and dependency watch enforcement** | Core MCP · CI Actions · Hosted | Dim 1 — third-party / external system linkage visibility | **Exists** (hosted) | CI templates for "all agent deps watched" policy; Singapore deployment checklist | `assert_coverage` · DISC-004 (agent repo templates) | Hosted + OSS Actions | **[Draft](./assessments/mgfa/E10-coverage-watch-enforcement.md)** |
 | **E11** | **Webhook and incident acknowledgement trail** | Hosted DriftGuard | Dim 3 — failsafe and escalation; Dim 2 — human response evidence | **Exists** (hosted) | Document ack-gated deploy blocks; webhook payload stability for GRC tools | [webhooks-alerts](./reference/webhooks-alerts.md) · `acknowledge_drift` | Hosted | **[Draft](./assessments/mgfa/E11-webhook-ack-trail.md)** |
 | **E12** | **Design-time discoverability for MGFA buyers** | Docs · Core MCP | Dim 4 — transparency of what the ecosystem covers vs not | **Partial** | Keywords and cursor rules for "agentic AI governance", "MCP drift", "contract observability" | DES-001 · DES-003 · DISC-004 · DISC-005 | OSS docs | **[Draft](./assessments/mgfa/E12-design-time-discoverability.md)** |
-| **E13** | **Semantic / NL drift classification** | Hosted DriftGuard | Dim 3 — policy-adjacent change detection (not full policy eval) | **Partial** (hosted Pro/Team) | Clear boundary: structural vs semantic; no SOP compliance claims | [ROADMAP.md](./ROADMAP.md) semantic section | Hosted | **[Draft](./assessments/mgfa/E13-semantic-nl-drift-classification.md)** |
+| **E13** | **Semantic / NL drift classification** | Hosted DriftGuard | Dim 3 — policy-adjacent change detection (not full policy eval) | **Partial** (Refine) | NL metadata classifier GA; false-positive tuning | [semantic-drift-boundary](./guides/semantic-drift-boundary.md) · [ROADMAP.md](./ROADMAP.md) | Hosted | **[Draft](./assessments/mgfa/E13-semantic-nl-drift-classification.md)** |
 | **E14** | **FuseGuard trip ingest and drift correlation** | FuseGuard · Hosted | Dim 3 — runtime logging tied to contract incidents | **Partial** (OSS trip log; hosted ingest roadmap) | Correlate trips with open drift incidents for post-mortems | FuseGuard 2B · FG-2A-* shipped | Hosted | **[Draft](./assessments/mgfa/E14-trip-ingest-drift-correlation.md)** |
 | **E15** | **Evaluator / PGE sensor loop (MockDrift sensor v1)** | MockDrift · Evaluator | Dim 3 — pre-deploy agent workflow testing | **Exists** (H0–H4) | Document as producer ≠ evaluator pattern for MGFA testing sections | H0 · H4 · [mockdrift/sensor-v1.schema.yaml](./mockdrift/sensor-v1.schema.yaml) | OSS | **[Draft](./assessments/mgfa/E15-evaluator-pge-sensor-loop.md)** |
 | **E16** | **Canonical diff semantics (`diff-core`)** | diff-core · Core · ToolChange | Dim 3 — consistent structural verdicts across CLI, cloud, and gates | **Exists** | Expand contract vectors for MCP tool edge cases; MGFA "single source of truth" narrative for structural checks | ARCH-U01 · [packages/diff-core](../packages/diff-core/README.md) | OSS | **[Draft](./assessments/mgfa/E16-diff-core-canonical-semantics.md)** |
@@ -408,7 +408,7 @@ Draft value/soundness reviews for all catalog entries (2026-06). Full blocks: [d
 
 **Go now (low engineering, high credibility):** E2, E8, E10, E11, E12, E15, E16, E20, E21, E22 — mostly documentation, templates, and gate-ladder packaging on **shipped** OSS/hosted surfaces. Unblock DISC-001 (npm publish) before leaning on E2/E10 in agent discoverability flows.
 
-**Refine before sales claims:** E3 (ToolChange alpha/advisory), E5/E6 (hosted resolution pieces), E9 (literal-only blocking), E13 (semantic boundary / compliance claim risk), E17/E18 (replay + fixture **content** more than code).
+**Refine before sales claims:** E3 (ToolChange alpha/advisory), E5/E6 (hosted resolution pieces), E9 (literal-only blocking), E13 (NL metadata classifier GA — boundary docs shipped), E17/E18 (replay + fixture **content** more than code).
 
 **Defer (roadmap-blocked):** E7 (DES-003 hosted correlation), E14 (FG-2B trip ingest), E19 (Gate 4B App gap). Do not foreground in MGFA pitch until cloud delivery; OSS slices (agents.yaml lint, literal SchemaSync, trip log schema) are interim only.
 
