@@ -41,7 +41,8 @@ Copy [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.md
 
 | File | Audience |
 |------|----------|
-| [docs/llms.txt](./llms.txt) | Machine-readable doc sitemap |
+| [docs/llms.txt](./llms.txt) | Machine-readable doc sitemap (OSS source) |
+| **Canonical:** [https://driftguard.org/llms.txt](https://driftguard.org/llms.txt) | Production index (OSS + hosted sections; synced at cloud deploy) |
 | [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.mdc) | Cursor rule for repos with `mcp.json` |
 | [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md) | Drop-in block for consumer `AGENTS.md` |
 | [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) | LLM codegen / tool selection |

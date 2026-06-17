@@ -564,17 +564,17 @@ Run periodically (manual or scripted):
 
 | ID | PR | Status | Merged |
 |----|-----|--------|--------|
-| ROADMAP | [#74](https://github.com/kioie/driftguard/pull/74) | open — CI green, awaiting review | |
+| ROADMAP | [#74](https://github.com/kioie/driftguard/pull/74) | merged | 2026-06-16 |
 | INT-002 | [#75](https://github.com/kioie/driftguard/pull/75) | merged | 2026-06-16 |
-| INT-003 | [#76](https://github.com/kioie/driftguard/pull/76) | pending | |
-| AGT-001 | [cloud#324](https://github.com/kioie/driftguard-cloud/pull/324) | pending | |
-| INT-001 | | pending | |
-| INT-004 | | pending | |
+| INT-003 | [#76](https://github.com/kioie/driftguard/pull/76) | merged | 2026-06-16 |
+| AGT-001 | [cloud#324](https://github.com/kioie/driftguard-cloud/pull/324) | merged | 2026-06-16 |
+| INT-001 | [#79](https://github.com/kioie/driftguard/pull/79) | merged | 2026-06-16 |
+| INT-004 | [#80](https://github.com/kioie/driftguard/pull/80) | merged | 2026-06-16 |
 | DISC-001 | | blocked — NPM_TOKEN | |
 | DISC-002 | | blocked | |
-| DISC-003 | | pending | |
-| DISC-004 | | in progress | |
-| DISC-005 | | pending | |
+| DISC-003 | | in progress | |
+| DISC-004 | [#82](https://github.com/kioie/driftguard/pull/82) | merged | 2026-06-17 |
+| DISC-005 | [#78](https://github.com/kioie/driftguard/pull/78) | merged | 2026-06-16 |
 | ACT-001 | | pending | |
 | ACT-002 | | pending | |
 | ACT-003 | | pending | |
