@@ -87,6 +87,10 @@ fixtures:
 packages:
   mockdrift: "0.3.x"
   fuseguard: "0.2.x"
+manifests:
+  toolchange:
+    manifest: tools.json
+    baseline: tools.baseline.json
 ```
 
 Fixture IDs use `vendor/scenario` (e.g. `stripe/refund-required-field`, `mcp/tools-list-removed`).

@@ -26,4 +26,13 @@ describe("harness bundle lint", () => {
     const result = lintHarnessBundle(bundleDir, repoRoot);
     assert.equal(result.ok, true);
   });
+
+  it("lints MGFA harness bundle with toolchange manifest pins", () => {
+    const mgfaDir = join(repoRoot, "examples/harness-mgfa/.driftguard");
+    const lockYaml = readFileSync(join(mgfaDir, "harness.lock"), "utf8");
+    const lock = validateHarnessLockText(lockYaml);
+    assert.equal(lock.ok, true);
+    const result = lintHarnessBundle(mgfaDir, repoRoot);
+    assert.equal(result.ok, true);
+  });
 });

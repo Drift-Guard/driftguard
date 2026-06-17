@@ -1,0 +1,21 @@
+version: 1
+fixtures:
+  - id: stripe/required-field
+    version: "1.0.0"
+    path: packages/mockdrift/fixtures/stripe-refund-2026-06-04
+    mockdrift_key: stripe-required-field
+  - id: mcp/tool-removed
+    version: "1.0.0"
+    path: packages/mockdrift/fixtures/mcp-tool-removed-2026-06-01
+    mockdrift_key: mcp-tool-removed
+  - id: toolchange/lint-pass
+    version: "1.0.0"
+    path: packages/toolchange/fixtures/lint-pass
+packages:
+  mockdrift: "0.1.x"
+  fuseguard: "0.2.x"
+  toolchange: "0.1.x"
+manifests:
+  toolchange:
+    manifest: packages/toolchange/fixtures/lint-pass/tools.json
+    baseline: packages/toolchange/fixtures/lint-pass/baseline.json

@@ -15,7 +15,11 @@ toolchange lint --manifest fixtures/lint-pass/tools.json --baseline fixtures/lin
 
 - `toolchange export --out tools.json` — write/refresh manifest (local venv)
 - `toolchange lint --manifest tools.json --baseline baseline.json` — deterministic checks
-- `--advisory` — report findings without failing CI (Gate 3 alpha)
+- `--advisory` — report findings without failing CI (opt-in; CLI blocks by default)
+
+## MGFA change management
+
+See [docs/guides/toolchange-change-management.md](../../docs/guides/toolchange-change-management.md) — manifest discipline, advisory→blocking path, harness `manifests.toolchange` pinning.
 
 ## GitHub Action
 

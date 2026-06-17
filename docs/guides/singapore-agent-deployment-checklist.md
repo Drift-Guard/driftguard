@@ -16,6 +16,8 @@ Use this checklist when deploying agentic apps in Singapore/APAC programmes that
 | 2 | Run MockDrift + evaluator | Dim 3 pre-deploy testing | `mockdrift.sensor/v1` JSON (producer ≠ reviewer) |
 | 3 | Lint `agents.yaml` bindings | Dim 1 bound tool scope | CI log from `drift-agents-lint` |
 | 4 | ToolChange on MCP manifest PRs | Dim 3 change management | PR check output |
+
+Workflow: [toolchange-change-management.md](./toolchange-change-management.md) · CI template: [examples/workflows/toolchange.yml](../../examples/workflows/toolchange.yml).
 | 5 | `drift-diff` / `compare_json` on fixtures | Dim 3 structural controls | Breaking vs additive counts |
 
 Example harness profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml).

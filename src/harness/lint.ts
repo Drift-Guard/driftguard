@@ -32,6 +32,20 @@ function lintLockPaths(bundleDir: string, repoRoot: string, lock: HarnessLock): 
       errors.push(`fixture "${entry.id}": path not found (${entry.path})`);
     }
   }
+
+  const pin = lock.manifests?.toolchange;
+  if (pin) {
+    for (const [label, rel] of [
+      ["manifest", pin.manifest],
+      ["baseline", pin.baseline],
+    ] as const) {
+      const abs = resolveFixturePath(bundleDir, repoRoot, rel);
+      if (!existsSync(abs)) {
+        errors.push(`manifests.toolchange.${label}: path not found (${rel})`);
+      }
+    }
+  }
+
   return errors;
 }
 

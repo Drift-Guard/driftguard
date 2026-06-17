@@ -126,9 +126,9 @@ Guide: [A2A Contract Watch](../guides/a2a-contract-watch.md) · Hosted: [agents.
 | **When** | MCP tool manifests change in PRs; you want manifest-vs-baseline lint in CI |
 | **When not** | Tools are not versioned as JSON manifests yet |
 | **Package** | [packages/toolchange](../../packages/toolchange/README.md) |
-| **Status** | Alpha — `--advisory` for non-blocking CI |
+| **Status** | Alpha — CLI and Action **block by default**; harness MGFA profile uses advisory until manifests are stable |
 
-Commands: `toolchange export`, `toolchange lint`. GitHub Action: `.github/actions/toolchange`. Pre-commit hook included.
+Commands: `toolchange export`, `toolchange lint`. GitHub Action: `.github/actions/toolchange`. Pre-commit hook included. Change-management guide: [toolchange-change-management.md](../guides/toolchange-change-management.md).
 
 ---
 
