@@ -35,4 +35,14 @@ describe("harness bundle lint", () => {
     const result = lintHarnessBundle(mgfaDir, repoRoot);
     assert.equal(result.ok, true);
   });
+
+  it("appends MGFA phrases when bundle files are missing", () => {
+    const missingDir = join(repoRoot, "scratch/e22-missing-bundle");
+    const result = lintHarnessBundle(missingDir, repoRoot);
+    assert.equal(result.ok, false);
+    if (result.ok) return;
+    const missingGates = result.errors.find((e) => e.includes("missing gates.yaml"));
+    assert.ok(missingGates);
+    assert.match(missingGates, /\[MGFA: Dim 3 — reproducible pre-deploy baselines\]/);
+  });
 });

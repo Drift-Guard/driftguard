@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { validateAgentsYamlText } from "../agents/validate.js";
+import { formatHarnessLintError } from "./mgfa-phrases.js";
 import { validateGatesYamlText } from "./validate-gates.js";
 import { validateHarnessLockText, type HarnessLock } from "./validate-lock.js";
 
@@ -130,5 +131,6 @@ export function lintHarnessBundle(bundleDir: string, repoRoot = process.cwd()): 
 
   errors.push(...lintDefaultsConsistency(gatesYaml, lockYaml));
 
-  return errors.length ? { ok: false, errors } : { ok: true };
+  if (!errors.length) return { ok: true };
+  return { ok: false, errors: errors.map(formatHarnessLintError) };
 }

@@ -25,3 +25,5 @@
 ## Verdict
 
 **Go** — Shipped, distinctive, low-cost documentation play for MGFA pre-deploy testing narrative.
+
+**Wave C pairing:** [E22 harness ↔ gate orchestration](./E22-harness-gate-orchestration.md) — `evaluator` gate in [examples/harness-mgfa/.driftguard/gates.yaml](../../../examples/harness-mgfa/.driftguard/gates.yaml) enables producer ≠ reviewer in portable bundles.
