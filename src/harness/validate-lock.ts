@@ -13,10 +13,20 @@ const fixtureEntrySchema = z
   })
   .refine((f) => f.path || f.ref, { message: "fixture entry requires path or ref" });
 
+const toolchangeManifestPinSchema = z.object({
+  manifest: z.string().min(1),
+  baseline: z.string().min(1),
+});
+
 export const harnessLockSchema = z.object({
   version: z.literal(1),
   fixtures: z.array(fixtureEntrySchema).min(1),
   packages: z.record(z.string().min(1)).optional(),
+  manifests: z
+    .object({
+      toolchange: toolchangeManifestPinSchema.optional(),
+    })
+    .optional(),
 });
 
 export type HarnessLock = z.infer<typeof harnessLockSchema>;

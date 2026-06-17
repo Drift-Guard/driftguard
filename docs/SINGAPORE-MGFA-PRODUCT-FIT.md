@@ -239,12 +239,12 @@ Each product section follows the same shape: MGFA hooks, current capabilities, e
 | Field | Detail |
 |-------|--------|
 | **MGFA hooks** | Dim 3 — change management; avoid outsized impact from small tool schema changes |
-| **Current capabilities** | `toolchange export/lint`, GitHub Action, pre-commit hook; `--advisory` alpha mode |
-| **Enhancement opportunities** | GA with PR-blocking default; manifest baseline pinning in harness bundle; MGFA change-mgmt narrative |
-| **Roadmap / gate refs** | Gate 3A · TC-L01–L07 · [packages/toolchange](../packages/toolchange/README.md) |
-| **Assessment** | **TBD** |
+| **Current capabilities** | `toolchange export/lint`, GitHub Action, pre-commit hook; CLI/Action block by default; harness profile advisory during bootstrap |
+| **Enhancement opportunities** | Buyer manifest discipline adoption; GA positioning; pair with hosted watches post-merge |
+| **Roadmap / gate refs** | Gate 3A · TC-L01–L07 · [toolchange-change-management](./guides/toolchange-change-management.md) |
+| **Assessment** | **[Draft](./assessments/mgfa/E03-toolchange-manifest-change-mgmt.md)** (Refine) |
 
-**Key gaps:** Requires manifest discipline in repo; alpha advisory default today.
+**Key gaps:** Requires manifest discipline in buyer repos; assessment Refine until adoption evidence.
 
 ---
 
@@ -314,7 +314,7 @@ Legend — **Current state:** **Exists** (shipped) · **Partial** (alpha or OSS-
 |---|-------------|-------------------|-------------------|---------------|----------------------|---------------------|------------|-------------------|
 | **E1** | **Continuous MCP/API contract monitoring** | Hosted DriftGuard | Dim 3 — post-deploy monitoring; change management for tool/protocol surfaces | **Exists** (hosted) | Harden watch health SLOs, MCP `tools/list` polling reliability, incident lifecycle docs for MGFA buyers | Hosted watches · [hosted-api](./reference/hosted-api.md) | Hosted | **[Draft](./assessments/mgfa/E01-continuous-mcp-monitoring.md)** |
 | **E2** | **Pre-deploy CI contract gates** | Core CLI/MCP · CI Actions | Dim 3 — pre-deployment safety testing; structural/rule-based controls | **Exists** (OSS + hosted) | Package gate ladder as MGFA-ready "contract test harness" narrative; tighten `assert_coverage` trial → Pro path | Gate 1 MockDrift · H4 evaluator · [gate-ladder](./policies/gate-ladder.md) | OSS + hosted | **[Draft](./assessments/mgfa/E02-pre-deploy-ci-contract-gates.md)** |
-| **E3** | **MCP tool manifest change management (ToolChange)** | ToolChange | Dim 3 — change management; avoid outsized impact from small tool schema changes | **Partial** (Gate 3A alpha) | GA ToolChange; PR-blocking default; manifest baseline pinning in harness bundle | Gate 3A · [packages/toolchange](../packages/toolchange/README.md) | OSS | **[Draft](./assessments/mgfa/E03-toolchange-manifest-change-mgmt.md)** |
+| **E3** | **MCP tool manifest change management (ToolChange)** | ToolChange | Dim 3 — change management; avoid outsized impact from small tool schema changes | **Partial** (Refine) | GA ToolChange positioning; buyer manifest discipline; harness manifest pins | Gate 3A · [toolchange-change-management](./guides/toolchange-change-management.md) | OSS | **[Draft](./assessments/mgfa/E03-toolchange-manifest-change-mgmt.md)** |
 | **E4** | **Drift history and audit export** | Hosted DriftGuard | Dim 3 — logging and monitoring; Dim 2 — evidence for oversight audits | **Shipped** (Refine) | Structured export (CSV/JSON) aligned to watch lifecycle; retention and immutability story for enterprise | Team features · [webhooks-alerts](./reference/webhooks-alerts.md) | Hosted | **[Draft](./assessments/mgfa/E04-drift-history-audit-export.md)** |
 | **E5** | **Runtime contract preflight (FuseGuard)** | FuseGuard · Hosted preflight | Dim 3 — guardrails before/during action; tool-use validation | **Partial** (CP-3.1 OSS + hosted preflight) | Expand preflight reasons taxonomy; document MGFA "block before irreversible tool call" pattern | CP-3.1 · Gate 2A · [packages/fuseguard](../packages/fuseguard/README.md) | OSS + hosted | **[Draft](./assessments/mgfa/E05-runtime-contract-preflight.md)** |
 | **E6** | **Agent binding manifest (`agents.yaml`)** | agents.yaml lint · A2A Contract Watch | Dim 1 — bound tool scope via declared bindings; Dim 3 — dev-time structural controls | **Partial** (CP-2.1 lint shipped) | Hosted watch resolution from manifest; `assert_a2a_coverage` CI gate | CP-2.1 · Gate 2B · [examples/a2a/agents.yaml](../examples/a2a/agents.yaml) | OSS + hosted | **[Draft](./assessments/mgfa/E06-agent-binding-manifest.md)** |
@@ -530,7 +530,7 @@ When an enhancement moves from this catalog to its own spec, create `docs/mgfa/<
 | Field | Value |
 |-------|-------|
 | **Created** | 2026-06 |
-| **Last expanded** | 2026-06 — E1 Refine: watch health SLO docs ([#100](https://github.com/kioie/driftguard/pull/100)) |
+| **Last expanded** | 2026-06 — E3 Refine: ToolChange manifest hardening + change-mgmt guide |
 | **MGFA version referenced** | v1.5 (Jan 2026 launch; iterative updates) |
 | **Review cadence** | Quarterly or when IMDA publishes MGFA revisions |
 | **Assessment backlog** | E1–E23 **Draft** — [assessments/mgfa/](./assessments/mgfa/) |

@@ -24,4 +24,16 @@
 
 ## Verdict
 
-**Refine** — Strong MGFA fit but **premature for MGFA sales claims at alpha/advisory default**. Prioritize GA with blocking default and harness bundle baseline pinning before deep-dive spec.
+**Refine** — Strong MGFA fit but **premature for MGFA sales claims until manifest discipline is adopted in buyer repos**. CLI and Action block by default; harness MGFA profile stays advisory during bootstrap.
+
+## Refine delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Manifest structural validation (duplicate names, scope, schema shape) | OSS `packages/toolchange/toolchange/manifest.py` |
+| Manifest diff behavior tests (tool add/remove, advisory mode) | OSS `packages/toolchange/tests/` |
+| MGFA change-management guide (discipline, advisory→blocking, evidence artifact) | [toolchange-change-management.md](../../guides/toolchange-change-management.md) |
+| CI workflow template (blocking default) | [examples/workflows/toolchange.yml](../../../examples/workflows/toolchange.yml) |
+| Harness `manifests.toolchange` baseline pinning + lint | `examples/harness-mgfa/.driftguard/harness.lock` · `lint-harness` |
+
+Assessment remains **Draft** until buyer repos demonstrate stable manifest workflows. Verdict unchanged: **Refine** (hardening + docs shipped; GA positioning awaits customer adoption data).

@@ -13,7 +13,7 @@ gates:
     enabled: true
   toolchange:
     enabled: true
-    advisory: true   # Gate 3A alpha — set false when PR-blocking GA
+    advisory: true   # Gate 3A alpha — set false when tools.json + baseline are committed (see harness.lock manifests.toolchange)
   schemasync:
     enabled: true
     advisory: true   # literal blocking; semantic-hints remain advisory

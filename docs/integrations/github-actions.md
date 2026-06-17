@@ -69,5 +69,5 @@ Preview and gate actions write markdown to the GitHub Actions Step Summary with 
 | Goal | Doc |
 |------|-----|
 | GitLab equivalent | [gitlab-ci.md](./gitlab-ci.md) |
-| ToolChange gate in Actions | [packages/toolchange](../../packages/toolchange/README.md) |
+| ToolChange gate in Actions | [toolchange-change-management.md](../guides/toolchange-change-management.md) |
 | Integrations index | [README.md](./README.md) |

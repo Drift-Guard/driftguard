@@ -1,0 +1,24 @@
+# Example: ToolChange manifest lint on PRs (Gate 3A)
+# Copy into .github/workflows/toolchange.yml
+# MGFA Dim 3 change management — see docs/guides/toolchange-change-management.md
+
+name: ToolChange
+
+on:
+  pull_request:
+    paths:
+      - "tools.json"
+      - "tools.baseline.json"
+      - ".github/workflows/toolchange.yml"
+
+jobs:
+  manifest-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      # Blocking mode (default): omit advisory or set advisory: "false"
+      - uses: kioie/driftguard/.github/actions/toolchange@v0.3.3
+        with:
+          manifest: tools.json
+          baseline: tools.baseline.json
+          repo-root: .
