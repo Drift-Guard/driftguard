@@ -58,6 +58,32 @@ Fix suggestions: `explain_drift` (public endpoint, no API key) — [Developer gu
 
 ---
 
+## Incident lifecycle
+
+Hosted watches move through a repeatable lifecycle — useful for governance buyers mapping **post-deploy monitoring** to oversight workflows (see [Singapore MGFA product fit](../SINGAPORE-MGFA-PRODUCT-FIT.md); DriftGuard does **not** certify MGFA compliance).
+
+```
+  Monitor          Detect              Triage              Resolve
+  ───────          ──────              ──────              ───────
+  scheduled /      drift event +       classify breaking   fix upstream or
+  on-demand        open incident       vs additive;        update baseline;
+  check_watch      webhook/Slack       correlate to        acknowledge_drift
+                                       deploy/PR           (if ack-gated)
+```
+
+| State (`get_watch_status`) | Meaning | Typical action |
+|----------------------------|---------|----------------|
+| `ok` | Contract matches baseline | No action |
+| `drifted` | Open incident — breaking or additive drift recorded | Review `list_drift_events`; block deploy if breaking |
+| `error` / `never_run` | Check failed or not yet run | Fix watch URL/auth; run `check_watch` |
+| After `acknowledge_drift` | Human reviewed; ack-gated agent policies unblock | Resume deploy or agent run |
+
+**Evidence for audits:** drift events carry timestamps and structural diff summaries; acknowledgement records who reviewed and when (console or `POST /api/watches/{id}/incident/ack`). Pair with [webhook ack trail](../reference/webhooks-alerts.md#incident-acknowledgement-trail) for GRC/SOAR ingest. Team tier adds console export — [drift history and audit](../reference/hosted-api.md#drift-history-and-audit-team).
+
+**Watch health:** Pro/Team watches should report `ok` or `drifted` on schedule. Sustained `error` or missed polls indicate upstream MCP/API unreachability — treat as an operational signal separate from contract drift.
+
+---
+
 ## Hosted-only capabilities
 
 These are not in the public repo; use the console or MCP hosted tools with `DRIFTGUARD_API_KEY`:

@@ -573,7 +573,7 @@ Run periodically (manual or scripted):
 | DISC-001 | | blocked — NPM_TOKEN | |
 | DISC-002 | | blocked | |
 | DISC-003 | [cloud#335](https://github.com/kioie/driftguard-cloud/pull/335), [#83](https://github.com/kioie/driftguard/pull/83) | merged | 2026-06-17 |
-| ACT-003 | | in progress | |
+| ACT-003 | [#84](https://github.com/kioie/driftguard/pull/84), [cloud#336](https://github.com/kioie/driftguard-cloud/pull/336) | merged | 2026-06-17 |
 | DISC-004 | [#82](https://github.com/kioie/driftguard/pull/82) | merged | 2026-06-17 |
 | DISC-005 | [#78](https://github.com/kioie/driftguard/pull/78) | merged | 2026-06-16 |
 | ACT-001 | [cloud#340](https://github.com/kioie/driftguard-cloud/pull/340) | merged | 2026-06-17 |
@@ -593,4 +593,4 @@ Run periodically (manual or scripted):
 | Date | Change |
 |------|--------|
 | 2026-06-16 | Initial roadmap from PostHog parity analysis |
-| 2026-06-16 | Restructured into testable tasks with PR scope, waves, execution log |
+| 2026-06-17 | ACT-003 merged; MGFA Wave A evidence-pack docs (E1/E4/E11) |
