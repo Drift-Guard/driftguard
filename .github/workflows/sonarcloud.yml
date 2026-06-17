@@ -1,0 +1,60 @@
+# SonarCloud scan for OSS client (src/ only). Mark hotspots Safe per docs/security/SONAR-HOTSPOTS.md before enabling PR quality gate.
+name: SonarCloud
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: sonar-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+
+      - id: sonar
+        run: |
+          if [ -n "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::SONAR_TOKEN not set — skipping upload."
+          fi
+
+      - run: npm ci
+        if: steps.sonar.outputs.enabled == 'true'
+
+      - run: npm run build
+        if: steps.sonar.outputs.enabled == 'true'
+
+      - run: npm test
+        if: steps.sonar.outputs.enabled == 'true'
+
+      - name: SonarCloud Scan
+        if: steps.sonar.outputs.enabled == 'true'
+        uses: SonarSource/sonarcloud-github-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Sonar skipped (no token)
+        if: steps.sonar.outputs.enabled != 'true'
+        run: echo "SonarCloud workflow OK — configure SONAR_TOKEN to upload analysis."
