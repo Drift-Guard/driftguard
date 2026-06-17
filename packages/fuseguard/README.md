@@ -34,10 +34,21 @@ Before each outbound tool call, FuseGuard can call hosted `POST /api/preflight` 
 | `FUSEGUARD_WATCH_IDS` | Comma-separated watch IDs to gate on |
 | `FUSEGUARD_AGENT_ID` | Agent binding id/slug (alternative to watch list) |
 | `FUSEGUARD_PREFLIGHT_CACHE_TTL_SEC` | In-process cache TTL (default 30) |
+| `FUSEGUARD_PREFLIGHT_TIMEOUT_SEC` | HTTP timeout (default 15) |
+| `DRIFTGUARD_API` | API base URL (default `https://driftguard.org`) |
+| `FUSEGUARD_TRIP_LOG` | Optional JSON trip log path on block |
 
-Blocked preflight trips with reason `contract_drift_blocked` and `agentActions` in trip metadata.
+Blocked preflight trips use trip reason `contract_drift_blocked` with hosted `blocked[].reasons[]` and `agentActions` in trip metadata.
 
-## Example — runner wrap
+**Reason taxonomy and MGFA pattern:** [runtime contract preflight guide](../../docs/guides/runtime-contract-preflight.md) · hosted API [driftguard.org/docs/api/preflight](https://driftguard.org/docs/api/preflight).
+
+### Example — env + wrap
+
+```bash
+export DRIFTGUARD_API_KEY="dg_live_…"
+export FUSEGUARD_AGENT_ID="billing-agent"
+export FUSEGUARD_TRIP_LOG=".fuseguard/trip.json"
+```
 
 ```python
 from fuseguard import FuseConfig, wrap_agent
@@ -46,9 +57,13 @@ class Agent:
     def invoke_tool(self, tool, args):
         ...
 
-wrapped = wrap_agent(Agent(), FuseConfig(budget_cap_usd=1.0))
+wrapped = wrap_agent(Agent(), FuseConfig.from_env())
 wrapped.invoke_tool("stripe_refund", {"amount": 100}, estimated_cost_usd=0.02)
 ```
+
+Runnable sample: [examples/fuseguard/preflight_wrap.py](../../examples/fuseguard/preflight_wrap.py).
+
+On block, `FuseTrip.trip.metadata` includes the full preflight payload. Pair ack-gated unblocks with [webhook ack trail](../../docs/reference/webhooks-alerts.md#incident-acknowledgement-trail) (E11).
 
 ## Trip log
 

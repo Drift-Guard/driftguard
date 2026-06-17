@@ -25,3 +25,5 @@
 ## Verdict
 
 **Go** — Core capability shipped; documentation and payload stability for GRC tools is high-value, low-risk MGFA evidence.
+
+**Wave D pairing:** Runtime preflight (E5) blocks tool calls on open drift; ack trail (E11) records human review before ack-gated resume — see [runtime contract preflight](../../guides/runtime-contract-preflight.md).

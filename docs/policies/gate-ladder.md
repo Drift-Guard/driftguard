@@ -186,6 +186,7 @@ For Singapore [MGFA](https://www.imda.gov.sg/-/media/imda/files/about/emerging-t
 | Change management | ToolChange (3A) | PR lint on MCP tool manifest |
 | Instruction/tool consistency | SchemaSync (4A) | `lint-nl` literal mode |
 | Third-party linkage visibility | `assert_coverage` (hosted) | CI gate — deps must be watched |
+| Runtime contract preflight | FuseGuard + `POST /api/preflight` | Trip log `contract_drift_blocked` + ack trail (E5 · E11) |
 | Post-deploy monitoring | Hosted watches | Drift events + ack trail (see [drift management](../guides/drift-management.md)) |
 
 **CI funnel:** hook (`drift-diff`) → preview (`drift-coverage-preview`) → trial → Pro gate (`drift-coverage` + key). Trial covers **one** endpoint; multi-dep agents need Pro for full `assert_coverage`. See [CI.md](../CI.md).
