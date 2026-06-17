@@ -26,9 +26,37 @@ Do not document hosted infrastructure (Workers, D1, queues) in the public repo.
 | **Trial session** | CI gate limited to one endpoint — see [CI.md](../CI.md) |
 | **None** | Public/rate-limited routes only (`explain_drift`, coverage preview, health) |
 
-Verify a key: CLI `driftguard login` → `GET /api/me` (hosted).
+Send the key as `Authorization: Bearer dg_…` or `X-Api-Key: dg_…`.
+
+### Verify your API key
+
+After [trial](https://driftguard.org/start) or Pro checkout, confirm the key works:
+
+```bash
+export DRIFTGUARD_API_KEY="dg_…"   # never commit real keys
+
+curl -sf "https://driftguard.org/api/me" \
+  -H "Authorization: Bearer $DRIFTGUARD_API_KEY"
+```
+
+**200 response shape** (values redacted):
+
+```json
+{
+  "email": "you@example.com",
+  "plan": "pro",
+  "apiKeyHint": "dg_…••••abcd",
+  "status": "active"
+}
+```
+
+The full key is never returned — only `apiKeyHint` for console display. **401** means missing, invalid, or inactive key.
+
+CLI shortcut: `driftguard login` (same `GET /api/me` call).
 
 **Agent install metadata (public, no auth):** `GET https://driftguard.org/api/public/agent-config` — npx MCP command, docs URLs, offline tool list.
+
+Authoritative REST index: [driftguard.org/docs/api](https://driftguard.org/docs/api).
 
 Env vars: [Reference — environment](./README.md#environment-variables).
 

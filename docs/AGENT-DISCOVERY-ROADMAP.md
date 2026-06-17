@@ -572,12 +572,12 @@ Run periodically (manual or scripted):
 | INT-004 | [#80](https://github.com/kioie/driftguard/pull/80) | merged | 2026-06-16 |
 | DISC-001 | | blocked — NPM_TOKEN | |
 | DISC-002 | | blocked | |
-| DISC-003 | | in progress | |
+| DISC-003 | [cloud#335](https://github.com/kioie/driftguard-cloud/pull/335), [#83](https://github.com/kioie/driftguard/pull/83) | merged | 2026-06-17 |
+| ACT-003 | | in progress | |
 | DISC-004 | [#82](https://github.com/kioie/driftguard/pull/82) | merged | 2026-06-17 |
 | DISC-005 | [#78](https://github.com/kioie/driftguard/pull/78) | merged | 2026-06-16 |
 | ACT-001 | | pending | |
 | ACT-002 | | pending | |
-| ACT-003 | | pending | |
 | DES-001 | | pending | |
 | DES-002 | | pending | |
 | DES-003 | | pending | |
