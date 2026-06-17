@@ -126,7 +126,7 @@ flowchart TD
 - **PR scope:** `.github/workflows/release.yml`, root `package.json`, `packages/cli/`, `server.json`, [npm-org-defense.md](./npm-org-defense.md), post-publish doc files listed above
 - **Rollback:** Deprecate bad npm version via npm deprecate; yank only if security issue; revert doc claims if publish fails
 
-**Status:** Blocked — scoped packages not yet published. Unscoped `driftguard` collision (sjamcox). Unblock: merge scoped rename, set `NPM_TOKEN`, tag release. `release.yml` dual-publish deferred to follow-up PR (workflow scope).
+**Status:** **Deferred** — scoped rename merged in [#94](https://github.com/kioie/driftguard/pull/94); code ready on `main`. Publish blocked on org `NPM_TOKEN` — revisit later. Unscoped `driftguard` collision (sjamcox) unchanged.
 
 ---
 
@@ -150,7 +150,7 @@ flowchart TD
 - **PR scope:** `server.json`, `docs/DISCOVERY.md`, optional `scripts/check-server-json.mjs`
 - **Rollback:** Unpublish or update registry entry via mcp-publisher; revert DISCOVERY.md checklist
 
-**Status:** Blocked on DISC-001.
+**Status:** **Deferred** — depends on DISC-001 npm publish.
 
 ---
 
@@ -518,6 +518,8 @@ flowchart TD
 - **PR scope:** `docs/DISCOVERY.md`, external list PRs
 - **Rollback:** Request removal from directories
 
+**Status:** **Deferred** — still blocked on npm publish (DISC-001) and MCP Registry (DISC-002).
+
 ---
 
 ### [OPS-001] PostHog production alignment (doc consistency)
@@ -577,8 +579,8 @@ Run periodically (manual or scripted):
 | AGT-001 | [cloud#324](https://github.com/kioie/driftguard-cloud/pull/324) | merged | 2026-06-16 |
 | INT-001 | [#79](https://github.com/kioie/driftguard/pull/79) | merged | 2026-06-16 |
 | INT-004 | [#80](https://github.com/kioie/driftguard/pull/80) | merged | 2026-06-16 |
-| DISC-001 | | blocked — NPM_TOKEN | |
-| DISC-002 | | blocked | |
+| DISC-001 | [#94](https://github.com/kioie/driftguard/pull/94) | deferred — scoped rename merged; publish blocked on org token — revisit later | |
+| DISC-002 | | deferred — depends on DISC-001 | |
 | DISC-003 | [cloud#335](https://github.com/kioie/driftguard-cloud/pull/335), [#83](https://github.com/kioie/driftguard/pull/83) | merged | 2026-06-17 |
 | ACT-003 | [#84](https://github.com/kioie/driftguard/pull/84), [cloud#336](https://github.com/kioie/driftguard-cloud/pull/336) | merged | 2026-06-17 |
 | DISC-004 | [#82](https://github.com/kioie/driftguard/pull/82) | merged | 2026-06-17 |
@@ -590,7 +592,7 @@ Run periodically (manual or scripted):
 | DES-003 | [#88](https://github.com/kioie/driftguard/pull/88) | merged | 2026-06-17 |
 | DES-004 | [#89](https://github.com/kioie/driftguard/pull/89) | merged | 2026-06-17 |
 | DIST-002 | | pending | |
-| DIST-003 | | pending | |
+| DIST-003 | | deferred — pending npm (DISC-001) + registry (DISC-002) | |
 | OPS-001 | | pending | |
 
 ---
@@ -601,3 +603,4 @@ Run periodically (manual or scripted):
 |------|--------|
 | 2026-06-16 | Initial roadmap from PostHog parity analysis |
 | 2026-06-17 | ACT-003 merged; MGFA Wave A evidence-pack docs (E1/E4/E11) |
+| 2026-06-17 | DISC-001/DISC-002 deferred — npm publish track skipped until org token fixed |
