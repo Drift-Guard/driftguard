@@ -87,5 +87,7 @@ describe("check.ts CLI routing", () => {
     });
     assert.equal(result.status, 1);
     assert.match(result.stderr, /DRIFTGUARD_API_KEY/);
+    assert.match(result.stderr, /\/start/);
+    assert.match(result.stderr, /\/pricing/);
   });
 });
