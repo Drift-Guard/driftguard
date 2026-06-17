@@ -112,6 +112,10 @@ Omit `DRIFTGUARD_API_KEY` for fully offline use (`compare_json`, `parse_mcp_conf
 
 Per-client setup: [Integrations — MCP clients](../integrations/mcp-clients.md).
 
+### Cursor rule (consumer repos)
+
+For repos with `mcp.json`, copy [examples/cursor-rule-driftguard.mdc](../../examples/cursor-rule-driftguard.mdc) to `.cursor/rules/`. It scopes to `**/mcp.json` and mirrors this guide's offline-first order plus the npx config and [AGENTS-snippet.md](../../examples/AGENTS-snippet.md).
+
 ---
 
 ## Next steps

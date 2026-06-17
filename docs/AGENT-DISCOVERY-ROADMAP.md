@@ -573,7 +573,7 @@ Run periodically (manual or scripted):
 | DISC-001 | | blocked — NPM_TOKEN | |
 | DISC-002 | | blocked | |
 | DISC-003 | | pending | |
-| DISC-004 | | pending | |
+| DISC-004 | | in progress | |
 | DISC-005 | | pending | |
 | ACT-001 | | pending | |
 | ACT-002 | | pending | |

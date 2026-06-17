@@ -1,0 +1,44 @@
+---
+description: DriftGuard MCP — offline-first contract drift for mcp.json repos
+globs: **/mcp.json
+---
+
+# DriftGuard (MCP / API contract drift)
+
+When this repo has `mcp.json` or agent tool manifests, use **DriftGuard** for contract drift — offline first, hosted watches optional.
+
+## MCP client config
+
+Add the stdio server (copy [examples/mcp-client-config.json](https://github.com/kioie/driftguard/blob/main/examples/mcp-client-config.json)):
+
+```json
+{
+  "mcpServers": {
+    "driftguard": {
+      "command": "npx",
+      "args": ["-y", "driftguard@0.3.3", "mcp"],
+      "env": { "DRIFTGUARD_API_KEY": "" }
+    }
+  }
+}
+```
+
+Omit `DRIFTGUARD_API_KEY` for fully offline use.
+
+## Tool order (offline first)
+
+1. `compare_json` — one-off before/after JSON schema diff (no key)
+2. `parse_mcp_config` — preview URLs from mcp.json (no key)
+3. `hosted_info` — free vs paid, trial, pricing (no key)
+4. `explain_drift` — fix suggestions after breaking diff (no key)
+
+Set `DRIFTGUARD_API_KEY` for continuous watches (`register_watch`, `assert_coverage`). Trial: https://driftguard.org/start
+
+## Agent instructions snippet
+
+Drop the block from [examples/AGENTS-snippet.md](https://github.com/kioie/driftguard/blob/main/examples/AGENTS-snippet.md) into `AGENTS.md` or `.cursor/rules`.
+
+## Reference
+
+- Tool matrix and decision flow: [SYSTEM_PROMPT.md](https://github.com/kioie/driftguard/blob/main/SYSTEM_PROMPT.md)
+- MCP guide: [docs/guides/agent-mcp.md](https://github.com/kioie/driftguard/blob/main/docs/guides/agent-mcp.md)

@@ -33,11 +33,16 @@ Agents and search tools should map these triggers to DriftGuard:
 
 Full index: [docs/llms.txt](./llms.txt).
 
+## Cursor rule for consumer repos
+
+Copy [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.mdc) into `.cursor/rules/` when the repo has `mcp.json` or agent MCP configs. The rule applies to `**/mcp.json` and encodes offline-first tool order, the npx MCP template, and links to [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) plus [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md).
+
 ## Agent-readable docs
 
 | File | Audience |
 |------|----------|
 | [docs/llms.txt](./llms.txt) | Machine-readable doc sitemap |
+| [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.mdc) | Cursor rule for repos with `mcp.json` |
 | [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md) | Drop-in block for consumer `AGENTS.md` |
 | [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) | LLM codegen / tool selection |
 | [AGENTS.md](../AGENTS.md) | Agents editing this repo |
