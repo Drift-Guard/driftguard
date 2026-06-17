@@ -597,6 +597,7 @@ Run periodically (manual or scripted):
 | E1 | [#100](https://github.com/kioie/driftguard/pull/100), [cloud#349](https://github.com/kioie/driftguard-cloud/pull/349) | merged | 2026-06-17 |
 | E4 | [#104](https://github.com/kioie/driftguard/pull/104), [cloud#354](https://github.com/kioie/driftguard-cloud/pull/354) | open | |
 | E22 | [#111](https://github.com/kioie/driftguard/pull/111) | merged | 2026-06-17 |
+| E5 | | open | |
 
 ---
 
@@ -611,3 +612,4 @@ Run periodically (manual or scripted):
 | 2026-06-17 | DIST-002 merged — LAUNCH playbooks (Dev.to/HN prep); OSS DISCOVERY link |
 | 2026-06-17 | E1 Refine merged — watch health SLO docs ([#100](https://github.com/kioie/driftguard/pull/100)) + API fields ([cloud#349](https://github.com/kioie/driftguard-cloud/pull/349)) |
 | 2026-06-17 | MGFA Wave B/C Go docs ([#97](https://github.com/kioie/driftguard/pull/97)) — E2,E10,E15,E16,E20,E21,E22 |
+| 2026-06-17 | E5 Refine — runtime preflight reason taxonomy + MGFA pattern (Wave D) |

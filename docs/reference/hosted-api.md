@@ -145,6 +145,33 @@ Drift rows are append-only for the retention window. Signed audit exports includ
 
 Programmatic history without bulk export: paginate `GET /api/drift?watchId=…` or MCP `list_drift_events`. Pair with ack webhooks ([webhooks-alerts](./webhooks-alerts.md#incident-acknowledgement-trail)) for SOAR ingest.
 
+### Preflight (runtime gate)
+
+Block agent runs and outbound tool calls when watches are drifted or policies enforce blocks.
+
+| Method | Route | Auth | Purpose |
+|--------|-------|------|---------|
+| `POST` | `/api/preflight` | API key (watch list) or session (agent id) | Returns `allowed` / `blocked[]` with `reasons[]` and `agentActions` |
+
+**Request:** `watchIds` (up to 100) **or** `agentId` (all watches on agent binding).
+
+**Responses:** `200` when allowed or notify-only policy; `409` when `policyBlocked: true` (`block_new_runs`, `kill_in_flight`).
+
+OSS client: FuseGuard `DriftPreflightGate` calls this route before each tool invocation when `DRIFTGUARD_API_KEY` and watch/agent ids are set. Trip reason: `contract_drift_blocked`.
+
+| `blocked[].reasons[]` | Meaning |
+|-----------------------|---------|
+| `breaking_drift` | Open breaking changes vs baseline |
+| `check_failed` / `check_failed:{detail}` | Watch check error |
+| `never_checked` | Watch never completed a check |
+| `disabled` | Watch paused |
+| `policy_block:block_new_runs` | Enforcing policy — HTTP 409 |
+| `policy_block:kill_in_flight` | Enforcing policy — HTTP 409 |
+
+Guide: [runtime contract preflight](../guides/runtime-contract-preflight.md) · hosted detail: [driftguard.org/docs/api/preflight](https://driftguard.org/docs/api/preflight).
+
+MCP: `get_watch_status`, `get_agent_status` (status plane equivalents).
+
 ### Agents (orchestration)
 
 | Method | Route | Purpose |

@@ -25,3 +25,16 @@
 ## Verdict
 
 **Refine** — Shipped core is sound; prioritize reason taxonomy + MGFA pattern docs. Pair with E11 ack trail for oversight narrative, not standalone compliance claim.
+
+## Refine delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Preflight + trip reason taxonomy (`blocked[].reasons[]`, `contract_drift_blocked`) | [runtime-contract-preflight.md](../../guides/runtime-contract-preflight.md) |
+| MGFA "block before irreversible tool call" pattern + E11 ack pairing | Same guide · [webhooks-alerts](../../reference/webhooks-alerts.md#incident-acknowledgement-trail) |
+| FuseGuard → `POST /api/preflight` integration + env table | [packages/fuseguard/README.md](../../../packages/fuseguard/README.md) · [examples/fuseguard/preflight_wrap.py](../../../examples/fuseguard/preflight_wrap.py) |
+| Gate ladder + Singapore checklist runtime step | [gate-ladder](../../policies/gate-ladder.md) · [singapore-agent-deployment-checklist](../../guides/singapore-agent-deployment-checklist.md) |
+| OSS hosted API index — preflight route family | [hosted-api](../../reference/hosted-api.md#preflight-runtime-gate) |
+| Hosted preflight guide — reason taxonomy (no HITL UI) | [driftguard.org/docs/guides/preflight](https://driftguard.org/docs/guides/preflight) |
+
+Assessment remains **Draft** — verdict **Refine** (taxonomy + MGFA pattern docs on shipped CP-3.1/FG-2A; trip ingest E14 and HITL remain out of scope).

@@ -68,6 +68,20 @@ MCP equivalent: `assert_coverage` with `DRIFTGUARD_API_KEY`. Trial: [driftguard.
 
 ---
 
+## Runtime contract preflight (hosted + FuseGuard)
+
+Gate **irreversible tool calls** (refunds, writes, deletes) when bound watches report open breaking drift:
+
+| Step | Action | MGFA hook |
+|------|--------|-----------|
+| 5r | Wrap agent with FuseGuard + `DRIFTGUARD_API_KEY` + watch/agent binding | Dim 3 guardrails before/during action |
+| 5r-b | Route `FUSEGUARD_TRIP_LOG` + webhooks to SOAR | Dim 2 oversight evidence |
+| 5r-c | `acknowledge_drift` before ack-gated resume | Dim 3 failsafe (pairs with E11) |
+
+Guide: [runtime-contract-preflight.md](./runtime-contract-preflight.md) · example: [examples/fuseguard/preflight_wrap.py](../../examples/fuseguard/preflight_wrap.py).
+
+---
+
 ## Post-deploy (hosted)
 
 | Step | Action | MGFA hook |
