@@ -61,6 +61,44 @@ Do not rely on this page for retry counts or header names — confirm in console
 
 ---
 
+## Incident acknowledgement trail
+
+When agent bindings use **ack-gated** policies, an open drift incident blocks downstream agent runs until a human acknowledges review.
+
+| Step | Surface | Outcome |
+|------|---------|---------|
+| Drift detected | Webhook / Slack / email | Payload includes open `incident` and `breakingCount` |
+| Deploy or agent blocked | `get_agent_status` / preflight | Reason references open incident |
+| Human review | Console or `acknowledge_drift` MCP | Incident marked acknowledged |
+| Unblock | Same status APIs | Ack-gated policies allow resume |
+
+Acknowledgement is **evidence of human oversight** — not a full approval workflow. Route approval queues and identity to your ITSM/GRC stack; DriftGuard supplies the contract drift signal and ack timestamp.
+
+Webhook payloads use `eventSchema: 2` themes (`drift.detected`, `drift.cleared`, `drift.check_failed`) with `changes[].agentAction` hints where applicable. Stable fields for integrators:
+
+| Field theme | Use in GRC/SOAR |
+|-------------|-----------------|
+| `watchId` + `detectedAt` | Correlate to change tickets |
+| `breakingCount` / severity | Auto-open P1 when breaking |
+| `incident` state | Gate automation until acknowledged |
+| Drift event id | Idempotent dedupe across retries |
+
+See [drift management — incident lifecycle](../guides/drift-management.md#incident-lifecycle).
+
+---
+
+## GRC and SOAR integration
+
+DriftGuard is **contract observability**, not a GRC platform. Integrate via:
+
+1. **Per-watch webhook** — POST to your SOAR ingestion URL; verify signing secret from console
+2. **`list_drift_events` MCP** — poll history for audit dashboards
+3. **Team console export** — drift timeline CSV/JSON (partial; see [hosted API](./hosted-api.md#drift-history-and-audit-team))
+
+**Do not expect:** SOP/policy evaluation, HITL UI, WORM storage, or MGFA certification from this product alone. Export retention and immutability follow hosted Team terms — confirm on [driftguard.org/pricing](https://driftguard.org/pricing) before legal commitments.
+
+---
+
 ## OSS boundary
 
 | In this repo | Hosted only |

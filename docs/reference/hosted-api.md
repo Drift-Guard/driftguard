@@ -89,6 +89,17 @@ MCP: `register_watch`, `check_watch`, `list_watches`, `get_watch_status`, `sugge
 
 MCP: `list_drift_events`, `explain_drift`, `acknowledge_drift`.
 
+#### Drift history and audit (Team)
+
+Team tier includes console export of drift events and acknowledgement metadata for governance workflows. **Status:** partial — export shape and retention are defined on the hosted site; this OSS index does not duplicate OpenAPI.
+
+| Access | Auth | Scope |
+|--------|------|-------|
+| `list_drift_events` MCP / `GET /api/drift` | API key | Per-watch event list with structural diff summaries |
+| Console audit export | Team login | Bulk CSV/JSON for drift + ack trail (hosted UI) |
+
+Programmatic history today: paginate `GET /api/drift?watchId=…` or MCP `list_drift_events`. For governance evidence packs, pair scheduled monitoring with ack webhooks ([webhooks-alerts](./webhooks-alerts.md#incident-acknowledgement-trail)) — not a substitute for customer WORM/SIEM storage.
+
 ### Agents (orchestration)
 
 | Method | Route | Purpose |
