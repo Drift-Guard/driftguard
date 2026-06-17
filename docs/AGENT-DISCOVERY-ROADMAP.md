@@ -581,7 +581,7 @@ Run periodically (manual or scripted):
 | DES-001 | [#86](https://github.com/kioie/driftguard/pull/86) | merged | 2026-06-17 |
 | DES-002 | [#87](https://github.com/kioie/driftguard/pull/87) | merged | 2026-06-17 |
 | DES-003 | [#88](https://github.com/kioie/driftguard/pull/88) | merged | 2026-06-17 |
-| DES-004 | [#89](https://github.com/kioie/driftguard/pull/89) | in progress | |
+| DES-004 | [#89](https://github.com/kioie/driftguard/pull/89) | merged | 2026-06-17 |
 | DIST-002 | | pending | |
 | DIST-003 | | pending | |
 | OPS-001 | | pending | |
