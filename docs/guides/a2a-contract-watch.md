@@ -21,14 +21,14 @@ DriftGuard reconciles **declared vs actual**:
 | **Agent author** | Keep `skillToolMap` accurate; run `parse_agent_card` / `correlate_card_mcp` from MCP |
 | **Orchestrator owner** | Check `get_agent_status` before A2A delegate; handle `agent.contract.blocked` webhooks |
 
-## Quick start (when shipped)
+## Quick start
 
 1. Add manifest — see [examples/a2a/agents.yaml](../../examples/a2a/agents.yaml) and [agent binding manifest](./agent-binding-manifest.md)
 2. Register watches — `a2a_card` + `mcp` URLs from manifest (hosted Pro/Team)
-3. CI — `assert_a2a_coverage` GitHub Action on PRs touching manifest or `mcp.json`
-4. MCP — `parse_agent_card` (offline), `correlate_card_mcp` (hosted)
+3. CI — `drift-agents-lint` (offline) + `drift-a2a-coverage` on PRs touching manifest or `mcp.json`
+4. MCP — `parse_agent_card` (offline, roadmap), `correlate_card_mcp` (hosted, E7), `assert_a2a_coverage` (hosted CI gate)
 
-**Implementation status:** Hosted product feature — see [free trial](https://driftguard.org/start) and [A2A guide](./a2a-contract-watch.md). Task specs are private (`driftguard-cloud`).
+**Implementation status:** Watch coverage gate **shipped** (`assert_a2a_coverage`). Agent Card ↔ MCP correlation rules remain hosted roadmap (E7) — see [free trial](https://driftguard.org/start).
 
 ## A2A + MCP + CI narrative
 
@@ -37,7 +37,7 @@ Contract watch spans three surfaces — use them in this order:
 ```
 1. Offline diff     compare_json on Agent Card JSON vs tools/list snapshot
 2. mcp.json         parse_mcp_config — preview MCP URLs before deploy
-3. CI gate          compare_json / assert_coverage on manifest + mcp.json changes
+3. CI gate          drift-agents-lint + assert_a2a_coverage on manifest changes
 4. Continuous       register_watch (a2a_card + mcp) + get_agent_status preflight
 ```
 
@@ -45,7 +45,7 @@ Contract watch spans three surfaces — use them in this order:
 |---------|------------------|-------------------|
 | Agent Card JSON | `compare_json` | `a2a_card` watch (planned) |
 | MCP `tools/list` | `compare_json` + `parse_mcp_config` | `register_watch` (`watchType: mcp`) |
-| CI on manifest | `compare_json` in workflow | `assert_coverage` / `assert_a2a_coverage` (planned) |
+| CI on manifest | `lint-agents` + `assert_a2a_coverage` | `drift-a2a-coverage` Action (Pro key) |
 | Orchestrator preflight | FuseGuard (Gate 2A) | `get_agent_status` |
 
 Gate ladder placement: Gate 2B (A2A Contract Watch) sits after FuseGuard loop controls — see [gate ladder](../policies/gate-ladder.md#agent-start-path-4-steps).

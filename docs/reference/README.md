@@ -141,6 +141,15 @@ Fails with trial/pricing URLs when the key is missing. Do not document hosted in
 | **When not** | Offline preview only (use `parse_mcp_config`) |
 | **Inputs** | `text`, `urls`, `mcpJson`, optional `create` |
 
+#### `assert_a2a_coverage`
+
+| | |
+|---|---|
+| **When** | CI gate — every `agents.yaml` `watches[]` URL must be registered |
+| **When not** | Offline manifest lint only |
+| **Inputs** | `manifestYaml` |
+| **Siblings** | GitHub Action `drift-a2a-coverage`; CLI `assert-a2a-coverage` |
+
 #### `assert_coverage`
 
 | | |
@@ -167,6 +176,9 @@ Need continuous monitoring / alerts?
 
 CI: fail if deps unwatched?
   → assert_coverage (hosted + key)
+
+CI: fail if agents.yaml watches unwatched?
+  → lint-agents (offline) → assert_a2a_coverage (hosted + key)
 ```
 
 ---
@@ -182,6 +194,8 @@ Entry: `node dist/cli/check.js <command>` or `npm run check -- <command>`.
 | `openapi-changelog base.yaml target.yaml` | No | Release notes from OpenAPI diff |
 | `coverage-preview` | No | Scan repo; console/trial links |
 | `assert-coverage` | Pro or trial | **1** if coverage incomplete |
+| `assert-a2a-coverage [path]` | Pro/Team | **1** unwatched manifest URLs; **2** invalid manifest |
+| `lint-agents [path]` | No | **1** if manifest invalid |
 | `login --api-key dg_…` | Yes | Verify hosted key |
 | `init [--yes]` | No | Write `.driftguard.yml` |
 | `version [--json]` | No | Version + CI pin hints |

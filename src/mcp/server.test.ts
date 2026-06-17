@@ -10,6 +10,7 @@ import {
 import { afterEach, describe, it } from "node:test";
 
 const EXPECTED_TOOLS = [
+  "assert_a2a_coverage",
   "assert_coverage",
   "check_watch",
   "compare_json",

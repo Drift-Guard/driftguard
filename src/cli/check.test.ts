@@ -73,6 +73,22 @@ describe("check.ts CLI routing", () => {
     assert.match(result.stdout, /OK\s+examples\/harness\/\.driftguard/);
   });
 
+  it("routes assert-a2a-coverage without credentials to exit 1", () => {
+    const result = spawnSync(process.execPath, ["--import", "tsx", checkEntry, "assert-a2a-coverage"], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        NO_COLOR: "1",
+        DRIFTGUARD_API_KEY: "",
+      },
+    });
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /DRIFTGUARD_API_KEY/);
+    assert.match(result.stderr, /\/start/);
+    assert.match(result.stderr, /\/pricing/);
+  });
+
   it("routes assert-coverage without credentials to exit 1", () => {
     const result = spawnSync(process.execPath, ["--import", "tsx", checkEntry, "assert-coverage"], {
       cwd: repoRoot,

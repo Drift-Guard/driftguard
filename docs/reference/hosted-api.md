@@ -177,6 +177,8 @@ MCP: `get_watch_status`, `get_agent_status` (status plane equivalents).
 | Method | Route | Purpose |
 |--------|-------|---------|
 | `GET` | `/api/agents/{id}/status` | Binding contract status |
+| `POST` | `/api/agents/manifest` | Sync bindings from agents.yaml (422 if `missingWatchUrls`) |
+| `POST` | `/api/a2a/coverage/assert` | CI gate — manifest watch URLs must be registered (read-only) |
 | `GET` | `/api/watches/{id}/affected-agents` | Agents impacted by watch drift |
 
 MCP: `get_agent_status`, `list_affected_agents`. Terms: [Glossary — agent](../glossary.md).
@@ -187,9 +189,10 @@ MCP: `get_agent_status`, `list_affected_agents`. Terms: [Glossary — agent](../
 |--------|-------|------|---------|
 | `POST` | `/api/coverage/preview` | Rate-limited | Discover endpoints; funnel links |
 | `POST` | `/api/coverage/assert` | Key or trial | Fail when deps unwatched |
+| `POST` | `/api/a2a/coverage/assert` | Key | Fail when agents.yaml watch URLs unwatched |
 | `POST` | `/api/trial/session` | CI context | Mint trial session for gate |
 
-Documented in [CI.md — API reference](../CI.md#api-reference-hosted). CLI: `coverage-preview`, `assert-coverage`.
+Documented in [CI.md — API reference](../CI.md#api-reference-hosted). CLI: `coverage-preview`, `assert-coverage`, `assert-a2a-coverage`.
 
 ### Utility
 

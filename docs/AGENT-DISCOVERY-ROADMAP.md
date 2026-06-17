@@ -614,3 +614,4 @@ Run periodically (manual or scripted):
 | 2026-06-17 | E1 Refine merged — watch health SLO docs ([#100](https://github.com/kioie/driftguard/pull/100)) + API fields ([cloud#349](https://github.com/kioie/driftguard-cloud/pull/349)) |
 | 2026-06-17 | MGFA Wave B/C Go docs ([#97](https://github.com/kioie/driftguard/pull/97)) — E2,E10,E15,E16,E20,E21,E22 |
 | 2026-06-17 | E5 Refine — runtime preflight reason taxonomy + MGFA pattern (Wave D) |
+| 2026-06-18 | E6 `assert_a2a_coverage` — OSS `drift-a2a-coverage` + cloud `POST /api/a2a/coverage/assert` |

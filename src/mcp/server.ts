@@ -148,6 +148,7 @@ server.tool(
         "list_drift_events",
         "suggest_watches",
         "assert_coverage",
+        "assert_a2a_coverage",
       ],
       apiKeyConfigured: Boolean(hostedApiKey()),
       hostedApi: HOSTED_API,
@@ -284,6 +285,36 @@ server.tool(
       signal: hostedFetchSignal(),
     }).then((r) => r.json());
     return jsonResult(result);
+  },
+);
+
+server.tool(
+  "assert_a2a_coverage",
+  "Hosted Pro/Team CI gate: fail when agents.yaml watch URLs are not registered on your account. Requires API key. Use after lint-agents (offline) — not for local manifest validation.",
+  {
+    manifestYaml: z.string().describe("agents.yaml file contents"),
+  },
+  async ({ manifestYaml }) => {
+    const apiKey = hostedApiKey();
+    if (!apiKey) {
+      return jsonResult({ error: missingApiKeyMessage() }, true);
+    }
+    const { validateAgentsYamlText } = await import("../agents/validate.js");
+    const lint = validateAgentsYamlText(manifestYaml);
+    if (!lint.ok) {
+      return jsonResult({ error: "Invalid agents manifest", errors: lint.errors }, true);
+    }
+    const response = await fetch(`${HOSTED_API}/api/a2a/coverage/assert`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({ manifest: lint.manifest }),
+      signal: hostedFetchSignal(),
+    });
+    const result = await response.json();
+    return jsonResult(result, !response.ok);
   },
 );
 
