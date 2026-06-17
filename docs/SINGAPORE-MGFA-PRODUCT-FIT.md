@@ -253,12 +253,12 @@ Each product section follows the same shape: MGFA hooks, current capabilities, e
 | Field | Detail |
 |-------|--------|
 | **MGFA hooks** | Dim 3 — instruction/tool consistency; rule-based controls on prompt↔schema alignment |
-| **Current capabilities** | `schemasync lint-nl` literal mode (blocking); semantic-hints advisory (always exit 0) |
-| **Enhancement opportunities** | Semantic-hints → blocking mode; hosted GitHub App (4B) for draft-PR prompt updates; link to tool-removal regressions |
-| **Roadmap / gate refs** | Gate 4A · 4B (hosted App) · [packages/schemasync](../packages/schemasync/README.md) |
-| **Assessment** | **TBD** |
+| **Current capabilities** | `schemasync lint-nl` literal mode (blocking); semantic-hints advisory (always exit 0); CI template + MGFA guide |
+| **Enhancement opportunities** | Semantic-hints → blocking mode (deferred); hosted GitHub App (4B) for draft-PR prompt updates; link to tool-removal regressions |
+| **Roadmap / gate refs** | Gate 4A · 4B (hosted App) · [schemasync-prompt-schema-alignment](./guides/schemasync-prompt-schema-alignment.md) |
+| **Assessment** | **[Draft](./assessments/mgfa/E09-schemasync-prompt-schema-alignment.md)** (Refine) |
 
-**Key gaps:** Literal mode only for blocking; no full NL policy compliance claims.
+**Key gaps:** Literal blocking only; semantic-hints stay advisory; no full NL policy compliance claims.
 
 ---
 

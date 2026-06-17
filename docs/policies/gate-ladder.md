@@ -139,11 +139,19 @@ Commands: `toolchange export`, `toolchange lint`. GitHub Action: `.github/action
 | **When** | NL prompts reference schema fields; literal removal should fail lint |
 | **When not** | No prompt/schema coupling in repo |
 | **Package** | [packages/schemasync](../../packages/schemasync/README.md) |
-| **Status** | Partial — `lint-nl` literal mode shipped; semantic-hints advisory only |
+| **Status** | Partial — `lint-nl` literal mode shipped (blocking); semantic-hints advisory only |
 
 ```bash
-schemasync lint-nl --mode literal --prompt "…" --removed field_name
+schemasync lint-nl --mode literal --prompt-file prompts/agent.txt --removed billing_address
 ```
+
+| Mode | CI | Notes |
+|------|-----|-------|
+| `literal` | **Blocking** (exit 1) | Word-boundary match + optional synonyms map |
+| `literal --advisory` | Report only | Bootstrap while tuning synonyms |
+| `semantic-hints` | **Always pass** | Human review hints — not for MGFA blocking claims |
+
+Change-management guide: [schemasync-prompt-schema-alignment.md](../guides/schemasync-prompt-schema-alignment.md). CI template: [examples/workflows/schemasync.yml](../../examples/workflows/schemasync.yml).
 
 **Next (4B):** Hosted GitHub App webhook — cloud repo only.
 

@@ -88,7 +88,7 @@ Details: [CI.md — Layer 4](../CI.md).
 
 ## Gate packages in CI
 
-Beyond JSON diff, add repo gates step by step: [Gate ladder](../policies/gate-ladder.md) (MockDrift → ToolChange → SchemaSync).
+Beyond JSON diff, add repo gates step by step: [Gate ladder](../policies/gate-ladder.md) (MockDrift → ToolChange → SchemaSync). SchemaSync CI: [examples/workflows/schemasync.yml](../../examples/workflows/schemasync.yml) · [guide](./schemasync-prompt-schema-alignment.md).
 
 ---
 

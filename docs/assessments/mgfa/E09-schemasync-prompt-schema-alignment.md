@@ -25,3 +25,17 @@
 ## Verdict
 
 **Refine** — Literal mode is Go for MGFA CI story now; **defer semantic blocking** until accuracy proven. Don't bundle with E19 App before 4B exists.
+
+## Refine delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Literal blocking `lint-nl` (word-boundary + synonyms) | OSS `packages/schemasync/schemasync/lint_nl.py` |
+| Semantic-hints advisory-only (always exit 0) | OSS `packages/schemasync/schemasync/cli.py` |
+| Phase 4A test matrix SS-N01–N05 + CLI blocking tests | OSS `packages/schemasync/tests/` |
+| MGFA prompt↔schema guide (literal blocking, advisory bootstrap, evidence artifact) | [schemasync-prompt-schema-alignment.md](../../guides/schemasync-prompt-schema-alignment.md) |
+| CI workflow template (literal blocking default) | [examples/workflows/schemasync.yml](../../../examples/workflows/schemasync.yml) |
+| Example prompts + removed-fields + synonyms | [examples/schemasync](../../../examples/schemasync/) |
+| Harness `manifests.schemasync` pinning + lint | `examples/harness-mgfa/.driftguard/harness.lock` · `lint-harness` |
+
+Assessment remains **Draft** until buyer repos demonstrate stable prompt/schema coupling workflows. Verdict unchanged: **Refine** (literal blocking + docs shipped; semantic→blocking and Gate 4B App deferred).
