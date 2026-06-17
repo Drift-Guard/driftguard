@@ -13,6 +13,7 @@ from mockdrift.init_templates import (
     _workflow,
 )
 from mockdrift.marketplace import marketplace_fixture_config
+from mockdrift.session import MisconfigurationError
 
 
 def run_init(argv: list[str] | None = None) -> int:
@@ -39,7 +40,11 @@ def run_init(argv: list[str] | None = None) -> int:
     root = Path.cwd()
     package_root = Path(__file__).resolve().parent.parent
 
-    entry = marketplace_fixture_config(args.fixture, package_root)
+    try:
+        entry = marketplace_fixture_config(args.fixture, package_root)
+    except MisconfigurationError as exc:
+        print(str(exc), flush=True)
+        return 2
     if entry is None:
         print(f"Unknown marketplace fixture '{args.fixture}' — see fixtures/index.yaml", flush=True)
         return 2
@@ -69,7 +74,7 @@ def run_init(argv: list[str] | None = None) -> int:
         ),
         root / "tests" / "harness" / "test_drift.py": _test_harness(
             mockdrift_key,
-            effective_runner,
+            args.runner,
             entry_line,
             args.failure_profile,
         ),

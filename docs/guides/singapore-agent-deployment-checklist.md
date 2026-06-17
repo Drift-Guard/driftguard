@@ -17,6 +17,9 @@ Use this checklist when deploying agentic apps in Singapore/APAC programmes that
 | 2b | Replay open drift incident (optional Pro) | Dim 3 production-faithful pre-deploy | `--simulate-drift` cache under `.mockdrift/cache/` |
 
 Workflow: [mockdrift-cloud-replay.md](./mockdrift-cloud-replay.md) · CI template: [examples/workflows/mockdrift-replay.yml](../../examples/workflows/mockdrift-replay.yml).
+| 2c | Bootstrap harness + fixture packs (OSS) | Dim 3 reproducible scenario baselines | `mockdrift init` + `fixtures/index.yaml` |
+
+Workflow: [mockdrift-init-fixtures.md](./mockdrift-init-fixtures.md). Fixtures are structural **examples**, not compliance certification.
 | 3 | Lint `agents.yaml` bindings | Dim 1 bound tool scope | CI log from `drift-agents-lint` |
 
 Workflow: [agent-binding-manifest.md](./agent-binding-manifest.md) · CI template: [examples/workflows/agents-lint.yml](../../examples/workflows/agents-lint.yml).

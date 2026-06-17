@@ -15,6 +15,23 @@ def test_marketplace_index_loads(pkg_root: Path):
     index = load_marketplace_index(pkg_root)
     assert "stripe/required-field" in index
     assert index["stripe/required-field"].mockdrift_key == "stripe-required-field"
+    assert index["stripe/required-field"].lane == "oss"
+    assert index["stripe/required-field"].content_kind == "oss-curated"
+
+
+def test_marketplace_hosted_stub_label(pkg_root: Path):
+    index = load_marketplace_index(pkg_root)
+    twilio = index["twilio/send-sms-body-format"]
+    assert twilio.lane == "hosted"
+    assert twilio.content_kind == "hosted-stub"
+    assert twilio.ref
+
+
+def test_marketplace_pack_tags(pkg_root: Path):
+    index = load_marketplace_index(pkg_root)
+    raw = (pkg_root / "fixtures" / "index.yaml").read_text(encoding="utf-8")
+    assert "pack:payments" in raw
+    assert "fintech-example" in raw
 
 
 def test_resolve_marketplace_id(pkg_root: Path):

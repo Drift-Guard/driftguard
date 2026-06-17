@@ -25,3 +25,18 @@
 ## Verdict
 
 **Refine** — Infrastructure shipped; invest in curated scenario content and honest labeling, not new platform features.
+
+## Refine delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Init + fixture marketplace MGFA guide (H2/H3/H5, honest labeling) | [mockdrift-init-fixtures.md](../../guides/mockdrift-init-fixtures.md) |
+| `mockdrift init` LangGraph + CrewAI + custom scaffolds documented | [packages/mockdrift/README.md](../../../packages/mockdrift/README.md) · `init_templates.py` |
+| OSS fixture index curated packs + `lane` / `content_kind` labels | `packages/mockdrift/fixtures/index.yaml` |
+| Hosted catalog `contentKind` + list disclaimer (examples, not compliance) | `cloud/src/services/mockdrift/fixture-catalog.ts` |
+| CLI `mockdrift catalog` shows lane + content kind | `packages/mockdrift/mockdrift/cli.py` |
+| Init scaffold tests (langgraph, crewai, hosted-only rejection) | `packages/mockdrift/tests/test_init_cmd.py` |
+| Catalog labeling integration tests | `cloud/src/services/mockdrift/fixture-catalog.test.ts` |
+| Singapore checklist step for init / fixture bootstrap | [singapore-agent-deployment-checklist.md](../../guides/singapore-agent-deployment-checklist.md) |
+
+Assessment remains **Draft** until buyer repos adopt init scaffolds with hosted catalog installs. Verdict unchanged: **Refine** (curated **content** and labeling shipped; regulated packs are structural **examples** only).

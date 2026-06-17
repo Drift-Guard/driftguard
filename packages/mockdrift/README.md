@@ -41,3 +41,37 @@ Disable CI telemetry: `MOCKDRIFT_TELEMETRY=0`.
 **Reference app:** `examples/reference_langgraph/agents/billing/refund_graph.py` — `bubble_to_orchestrator`, `halt_clean`, `fallback_state`.
 
 **CI:** `.github/actions/mockdrift` — composite action for pytest + optional `--simulate-drift`.
+
+## Init scaffold (H2)
+
+Greenfield harness bundle from marketplace fixture:
+
+```bash
+mockdrift init --runner langgraph --fixture stripe/required-field
+# crewai | custom runners also supported
+```
+
+Writes `.driftguard/gates.yaml`, `harness.lock`, `agents.yaml`, `.mockdrift.toml`, `tests/harness/test_drift.py`, and `.github/workflows/drift-harness.yml`.
+
+Full guide: [mockdrift-init-fixtures.md](../../docs/guides/mockdrift-init-fixtures.md).
+
+## Fixture marketplace (H3)
+
+OSS vendor/scenario index at `fixtures/index.yaml`:
+
+```bash
+mockdrift demo stripe/required-field
+mockdrift demo mcp/tool-removed
+```
+
+Curated packs (tag clusters — **examples**, not compliance bundles): `pack:payments`, `pack:messaging`, `pack:tools-protocol`.
+
+## Hosted catalog (H5)
+
+```bash
+mockdrift catalog
+export DRIFTGUARD_API_KEY=dg_live_...
+mockdrift install slack/message-field-required --cache-fixture
+```
+
+Browse is public; install requires Pro `mockdrift_cloud`. Catalog entries label `contentKind` (`oss-curated`, `hosted-curated`, `hosted-stub`) — structural scenarios only, not regulatory certification.

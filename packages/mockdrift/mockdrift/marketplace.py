@@ -23,6 +23,8 @@ class MarketplaceEntry:
     match: str | None
     failure_profile: str | None
     description: str | None
+    lane: str | None
+    content_kind: str | None
 
 
 def _fixtures_root(package_root: Path) -> Path:
@@ -63,6 +65,8 @@ def load_marketplace_index(package_root: Path | None = None) -> dict[str, Market
             match=value.get("match"),
             failure_profile=value.get("failure_profile"),
             description=value.get("description"),
+            lane=value.get("lane"),
+            content_kind=value.get("content_kind"),
         )
     return entries
 
