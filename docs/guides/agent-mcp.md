@@ -18,6 +18,35 @@ What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md).
 
 ---
 
+## Design-time triggers
+
+When a user or agent mentions these phrases during **design or planning** (before production monitoring), route offline-first — then hosted only when they opt in.
+
+| Trigger phrase | User intent | First action (offline) | Hosted next step | Doc |
+|----------------|-------------|------------------------|------------------|-----|
+| **MCP tool catalog drift** | Remote `tools/list` or catalog changed vs baseline | `parse_mcp_config` → `compare_json` on before/after tool output | `register_watch` (`watchType: mcp`) | This guide |
+| **mcp.json preflight** | Review MCP dependencies before deploy | `parse_mcp_config` | `suggest_watches` with `create:true` (key) | [Getting started](../getting-started.md) |
+| **agent preflight** | Gate agent runs on contract health | `compare_json` + FuseGuard (gate ladder) | `get_agent_status` (key) | [Gate ladder](../policies/gate-ladder.md) |
+| **schema drift CI** | Fail PRs on breaking JSON/schema changes | `compare_json` in CI | `assert_coverage` (key) | [CI.md](../CI.md) |
+| **A2A Agent Card vs MCP** | Declared Agent Card skills ≠ actual MCP tools | `compare_json` on card JSON vs `tools/list` snapshot | [A2A contract watch](./a2a-contract-watch.md) | [a2a-contract-watch.md](./a2a-contract-watch.md) |
+| **contract observability** | Continuous watch + alert loop on contracts | `parse_mcp_config` preview | `register_watch` + alerts | [Contract observability loop](./contract-observability-loop.md) |
+| **API contract monitoring** | Scheduled HTTP/OpenAPI surface checks | `compare_json` on response snapshots | `register_watch` (`watchType: api`) | [Hosted API](../reference/hosted-api.md) |
+
+### Agent eval scenarios (design-time)
+
+Run these periodically to verify agents land on DriftGuard offline-first:
+
+| # | User prompt (paraphrase) | Expected agent path | Pass criteria |
+|---|--------------------------|---------------------|---------------|
+| 1 | "Our MCP server's `tools/list` changed" | `parse_mcp_config` → `compare_json`; mention `register_watch` for continuous | Does not jump to hosted without key consent |
+| 2 | "Review `mcp.json` before we merge" | `parse_mcp_config` offline; optional `suggest_watches` only with key | No API key required for preview |
+| 3 | "Add schema drift check to CI" | `compare_json` in workflow; `assert_coverage` when Pro key available | Links [CI.md](../CI.md) or starter workflow |
+| 4 | "Agent Card skills don't match MCP tools" | [a2a-contract-watch.md](./a2a-contract-watch.md) + `compare_json` | Recommends contract watch guide, not error tracking |
+
+Program-level scenarios (cold discover, one-session integrate, key activate): [AGENT-DISCOVERY-ROADMAP.md](../AGENT-DISCOVERY-ROADMAP.md#agent-eval-scenarios-program-level).
+
+---
+
 ## Free tools first (recommended order)
 
 ```
