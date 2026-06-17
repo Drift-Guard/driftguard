@@ -1,6 +1,15 @@
 # Progressive CI enforcement (gate ladder)
 
-Add contract-testing checks to your repo step by step. Start where you have pain today; add gates as MCP tools, agents, and prompts grow in scope.
+Add contract-testing checks to your repo **step by step**. MockDrift → FuseGuard → ToolChange → SchemaSync is **one ladder of increasing strictness** on the [contract observability loop](https://github.com/kioie/driftguard/blob/main/docs/guides/drift-management.md) — not four separate products.
+
+| Gate | Loop stage | What it tightens |
+|------|------------|------------------|
+| **MockDrift** (Gate 1) | CI gate | Test assertions for mocked API responses |
+| **FuseGuard** (Gate 2A) | CI gate + runtime | Agent tool-loop budgets before schema checks |
+| **ToolChange** (Gate 3A) | CI gate | MCP tool manifest diffs in PRs |
+| **SchemaSync** (Gate 4A) | CI gate + remediate | Prompts vs removed schema fields |
+
+Start where you have pain today; add gates as MCP tools, agents, and prompts grow in scope. Canonical loop: **baseline → diff/classify → CI gate → scheduled watch → alert → remediate** (hosted watches and alerts: [driftguard.org/start](https://driftguard.org/start)).
 
 **Package READMEs** have implementation detail — this page covers **when to adopt** each gate.
 

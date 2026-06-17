@@ -22,6 +22,23 @@ DriftGuard terms in plain language. For what's free vs paid see [OPEN_CORE.md](.
 
 ---
 
+## Contract observability loop (NARR-1)
+
+Canonical stages — same names in handbook, guides, and agent prompts:
+
+| Stage | Plain meaning |
+|-------|---------------|
+| **Baseline** | Capture or accept last known-good contract snapshot |
+| **Diff / classify** | Structural compare; breaking vs additive (`compare_json`, hosted drift pipeline) |
+| **CI gate** | Block merge when contracts break or deps unwatched (`assert_coverage`, gate packages) |
+| **Scheduled watch** | Poll live MCP/API URLs on an interval — **hosted only** |
+| **Alert** | Notify with structured context (webhook, console, `agentAction`) — **hosted** |
+| **Remediate** | Acknowledge, draft PR, or policy block (SchemaSync, `acknowledge_drift`, FuseGuard) |
+
+Flow: `baseline → diff/classify → CI gate → scheduled watch → alert → remediate`. Gate packages are **progressive strictness** on this loop — see [gate ladder](../policies/gate-ladder.md).
+
+---
+
 ## Client & deployment
 
 | DriftGuard term | Plain meaning | Notes |
