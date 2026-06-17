@@ -6,18 +6,29 @@ Get DriftGuard running locally for **schema diff** and **MCP integration**. Cont
 
 ## 1. Install
 
+**Recommended** — no clone required (Node.js 20+):
+
 ```bash
-git clone https://github.com/kioie/driftguard.git
-cd driftguard
-npm ci
-npm run build
+npx @driftguard/driftguard@latest version
 ```
+
+Pin a semver for reproducible CI (`@0.3.3`) or use `@latest` for convenience.
+
+> **Until `@driftguard` is published on npm:** build from source instead:
+>
+> ```bash
+> git clone https://github.com/kioie/driftguard.git
+> cd driftguard && npm ci && npm run build
+> npm run check -- version
+> ```
 
 ## 2. Try local diff (CLI)
 
 ```bash
-npm run check -- diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'
+npx @driftguard/driftguard@latest diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'
 ```
+
+From a local clone, use `npm run check -- diff …` instead.
 
 Exit code `1` means breaking changes were detected.
 

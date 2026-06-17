@@ -42,12 +42,12 @@ uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
 - [ ] Category: **Code quality** or **Monitoring**
 - [ ] Verify npm package `driftguard` publishes on every tag (release workflow `publish-npm` job)
 - [ ] Add Marketplace badge to README after publish
-- [ ] Pin all docs/examples to latest tag (`@v0.3.x`)
+- [x] Pin all docs/examples to latest tag (`@v0.3.3`)
 - [ ] Optional: verified creator / org transfer if listing under company account
 
 ### Post-launch
 
-- [ ] Action smoke in CI covers `drift-coverage-preview` with `scan-paths` (not only `drift-diff`)
+- [x] Action smoke in CI covers `drift-coverage-preview` with `scan-paths` (not only `drift-diff`)
 - [ ] Marketplace version sync with `driftguard version --json` → `ci.actionRef`
 
 ---

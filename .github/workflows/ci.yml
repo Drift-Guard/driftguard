@@ -71,3 +71,9 @@ jobs:
         uses: ./.github/actions/drift-agents-lint
         with:
           manifest: examples/a2a/agents.yaml
+      - name: drift-coverage-preview action scans scan-paths
+        uses: ./.github/actions/drift-coverage-preview
+        env:
+          DRIFTGUARD_MINT_TRIAL_SESSION: "0"
+        with:
+          scan-paths: examples/mcp-client-config.json
