@@ -17,11 +17,11 @@ import {
   VERSION,
 } from "./constants.js";
 import { parseLocalWatchPreviews } from "./parse-mcp-json.js";
+import { readHostedApiKey } from "./env-secrets.js";
 import { hostedApiErrorMessage, missingApiKeyMessage, parseJsonString } from "./tool-input.js";
 
 function hostedApiKey(): string | undefined {
-  const key = process.env.DRIFTGUARD_API_KEY?.trim();
-  return key || undefined;
+  return readHostedApiKey();
 }
 
 const server = new McpServer(
@@ -75,14 +75,16 @@ server.tool(
     after: z.string().describe("JSON string of the new payload"),
   },
   async ({ before, after }) => {
-    let parsedBefore: unknown;
-    let parsedAfter: unknown;
-    try {
-      parsedBefore = JSON.parse(before);
-      parsedAfter = JSON.parse(after);
-    } catch {
-      return jsonResult({ error: "Invalid JSON in before or after payload." }, true);
+    const parsedBeforeResult = parseJsonString(before, "before payload");
+    if (!parsedBeforeResult.ok) {
+      return jsonResult({ error: parsedBeforeResult.error }, true);
     }
+    const parsedAfterResult = parseJsonString(after, "after payload");
+    if (!parsedAfterResult.ok) {
+      return jsonResult({ error: parsedAfterResult.error }, true);
+    }
+    const parsedBefore = parsedBeforeResult.value;
+    const parsedAfter = parsedAfterResult.value;
     const result = diffSchemas(
       inferSchema(parsedBefore, "$", { markAllFieldsRequired: true }),
       inferSchema(parsedAfter, "$", { markAllFieldsRequired: true }),
@@ -102,11 +104,11 @@ server.tool(
   async ({ text, urls, mcpJson }) => {
     let parsed: unknown;
     if (mcpJson) {
-      try {
-        parsed = JSON.parse(mcpJson);
-      } catch {
-        return jsonResult({ error: "Invalid mcpJson — must be valid JSON." }, true);
+      const mcpParsed = parseJsonString(mcpJson, "mcpJson");
+      if (!mcpParsed.ok) {
+        return jsonResult({ error: mcpParsed.error }, true);
       }
+      parsed = mcpParsed.value;
     }
     const previews = parseLocalWatchPreviews({ text, urls, mcpJson: parsed });
     return jsonResult({
