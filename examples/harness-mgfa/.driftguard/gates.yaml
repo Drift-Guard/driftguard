@@ -1,0 +1,25 @@
+# Singapore / MGFA-oriented harness profile (E22 example)
+# Copy to your repo as .driftguard/gates.yaml — adjust advisory flags per gate maturity.
+# See docs/guides/singapore-agent-deployment-checklist.md
+version: 1
+gates:
+  mockdrift:
+    enabled: true
+    advisory: false
+  fuseguard:
+    enabled: true
+    max_tool_calls: 40
+  agents_lint:
+    enabled: true
+  toolchange:
+    enabled: true
+    advisory: true   # Gate 3A alpha — set false when PR-blocking GA
+  schemasync:
+    enabled: true
+    advisory: true   # literal blocking; semantic-hints remain advisory
+  evaluator:
+    enabled: true
+    advisory: false
+defaults:
+  failure_profile: bubble_to_orchestrator
+  runner: langgraph

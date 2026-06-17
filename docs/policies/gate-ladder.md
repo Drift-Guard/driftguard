@@ -156,6 +156,27 @@ JSON diff (`compare_json`) underpins all gates but is not a replacement for host
 
 ---
 
+## MGFA — pre-deploy contract test harness
+
+For Singapore [MGFA](https://www.imda.gov.sg/-/media/imda/files/about/emerging-tech-and-research/artificial-intelligence/mgf-for-agentic-ai.pdf) buyers, this ladder is the **pre-deploy evidence spine** (Dimension 3 — technical controls). DriftGuard does **not** certify MGFA compliance; it supplies structural contract checks and CI artifacts.
+
+| MGFA theme | Gate / surface | Evidence artifact |
+|------------|----------------|-------------------|
+| Pre-deployment safety testing | MockDrift + evaluator (H4) | `mockdrift.sensor/v1` JSON in CI |
+| Reproducible baselines | Harness bundle (H1) | `.driftguard/gates.yaml` + `harness.lock` |
+| Change management | ToolChange (3A) | PR lint on MCP tool manifest |
+| Instruction/tool consistency | SchemaSync (4A) | `lint-nl` literal mode |
+| Third-party linkage visibility | `assert_coverage` (hosted) | CI gate — deps must be watched |
+| Post-deploy monitoring | Hosted watches | Drift events + ack trail (see [drift management](../guides/drift-management.md)) |
+
+**CI funnel:** hook (`drift-diff`) → preview (`drift-coverage-preview`) → trial → Pro gate (`drift-coverage` + key). Trial covers **one** endpoint; multi-dep agents need Pro for full `assert_coverage`. See [CI.md](../CI.md).
+
+**Singapore checklist:** [singapore-agent-deployment-checklist.md](../guides/singapore-agent-deployment-checklist.md) · portable profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml).
+
+Full catalog: [SINGAPORE-MGFA-PRODUCT-FIT.md](../SINGAPORE-MGFA-PRODUCT-FIT.md).
+
+---
+
 ## Next steps
 
 | Goal | Doc |

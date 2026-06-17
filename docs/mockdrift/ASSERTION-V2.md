@@ -169,6 +169,28 @@ pytest tests/harness/
 
 `MockDriftResult.to_sensor_json()` and `to_sensor_dict()` are available for direct use outside pytest.
 
+### MGFA — producer ≠ evaluator (H4 / Gate 1b)
+
+Singapore MGFA and similar frameworks expect **independent review** of pre-deploy agent tests — the same model that generated scenarios should not be the sole judge of pass/fail.
+
+| Role | Job | Reads |
+|------|-----|-------|
+| **Producer** | MockDrift pytest / `mockdrift run` | Scenarios, mocks, raw responses |
+| **Evaluator** | `mockdrift evaluate` / `drift-evaluator` Action | **`mockdrift.sensor/v1` JSON only** — never raw mocks |
+
+CI pattern:
+
+```yaml
+- name: MockDrift sensor (job 1)
+  run: pytest tests/harness/ --mockdrift-sensor-report=./sensors/
+
+- uses: kioie/driftguard/.github/actions/drift-evaluator@v0.3.3
+  with:
+    sensor-path: ./sensors/
+```
+
+Rule-only evaluator is OSS; hosted LLM evaluator is Enterprise — do not imply regulatory attestation. See [SINGAPORE-MGFA-PRODUCT-FIT.md](../SINGAPORE-MGFA-PRODUCT-FIT.md) · [gate ladder](../policies/gate-ladder.md).
+
 ---
 
 ## CLI (planned)
