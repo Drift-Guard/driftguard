@@ -16,7 +16,7 @@ gates:
     advisory: true   # Gate 3A alpha — set false when tools.json + baseline are committed (see harness.lock manifests.toolchange)
   schemasync:
     enabled: true
-    advisory: true   # literal blocking; semantic-hints remain advisory
+    advisory: true   # set false when prompts + removed-fields are committed (see harness.lock manifests.schemasync)
   evaluator:
     enabled: true
     advisory: false

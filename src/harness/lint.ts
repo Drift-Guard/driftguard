@@ -33,15 +33,33 @@ function lintLockPaths(bundleDir: string, repoRoot: string, lock: HarnessLock): 
     }
   }
 
-  const pin = lock.manifests?.toolchange;
-  if (pin) {
+  const toolchangePin = lock.manifests?.toolchange;
+  if (toolchangePin) {
     for (const [label, rel] of [
-      ["manifest", pin.manifest],
-      ["baseline", pin.baseline],
+      ["manifest", toolchangePin.manifest],
+      ["baseline", toolchangePin.baseline],
     ] as const) {
       const abs = resolveFixturePath(bundleDir, repoRoot, rel);
       if (!existsSync(abs)) {
         errors.push(`manifests.toolchange.${label}: path not found (${rel})`);
+      }
+    }
+  }
+
+  const schemasyncPin = lock.manifests?.schemasync;
+  if (schemasyncPin) {
+    const promptsAbs = resolveFixturePath(bundleDir, repoRoot, schemasyncPin.prompts_dir);
+    if (!existsSync(promptsAbs)) {
+      errors.push(`manifests.schemasync.prompts_dir: path not found (${schemasyncPin.prompts_dir})`);
+    }
+    const removedAbs = resolveFixturePath(bundleDir, repoRoot, schemasyncPin.removed_fields);
+    if (!existsSync(removedAbs)) {
+      errors.push(`manifests.schemasync.removed_fields: path not found (${schemasyncPin.removed_fields})`);
+    }
+    if (schemasyncPin.synonyms) {
+      const synonymsAbs = resolveFixturePath(bundleDir, repoRoot, schemasyncPin.synonyms);
+      if (!existsSync(synonymsAbs)) {
+        errors.push(`manifests.schemasync.synonyms: path not found (${schemasyncPin.synonyms})`);
       }
     }
   }

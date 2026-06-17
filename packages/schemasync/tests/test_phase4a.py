@@ -60,3 +60,40 @@ def test_ss_n05_semantic_hints_never_exit_nonzero():
     assert code == 0
     hints = lint_semantic_hints("Maybe billing_address is still required?", ["billing_address"])
     assert hints
+
+
+def test_literal_mode_exits_nonzero_on_violation():
+    """Literal mode blocks CI when prompt references removed field."""
+    from schemasync.cli import main
+
+    code = main(
+        [
+            "lint-nl",
+            "--mode",
+            "literal",
+            "--prompt",
+            "Collect billing_address before charge.",
+            "--removed",
+            "billing_address",
+        ]
+    )
+    assert code == 1
+
+
+def test_literal_advisory_exits_zero_on_violation():
+    """Literal --advisory reports but does not block."""
+    from schemasync.cli import main
+
+    code = main(
+        [
+            "lint-nl",
+            "--mode",
+            "literal",
+            "--advisory",
+            "--prompt",
+            "Collect billing_address before charge.",
+            "--removed",
+            "billing_address",
+        ]
+    )
+    assert code == 0

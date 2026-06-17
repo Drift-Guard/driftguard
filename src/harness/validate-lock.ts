@@ -18,6 +18,12 @@ const toolchangeManifestPinSchema = z.object({
   baseline: z.string().min(1),
 });
 
+const schemasyncManifestPinSchema = z.object({
+  prompts_dir: z.string().min(1),
+  removed_fields: z.string().min(1),
+  synonyms: z.string().min(1).optional(),
+});
+
 export const harnessLockSchema = z.object({
   version: z.literal(1),
   fixtures: z.array(fixtureEntrySchema).min(1),
@@ -25,6 +31,7 @@ export const harnessLockSchema = z.object({
   manifests: z
     .object({
       toolchange: toolchangeManifestPinSchema.optional(),
+      schemasync: schemasyncManifestPinSchema.optional(),
     })
     .optional(),
 });

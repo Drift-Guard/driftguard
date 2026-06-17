@@ -20,6 +20,9 @@ Workflow: [agent-binding-manifest.md](./agent-binding-manifest.md) · CI templat
 | 4 | ToolChange on MCP manifest PRs | Dim 3 change management | PR check output |
 
 Workflow: [toolchange-change-management.md](./toolchange-change-management.md) · CI template: [examples/workflows/toolchange.yml](../../examples/workflows/toolchange.yml).
+| 5a | SchemaSync on agent prompts | Dim 3 instruction/tool consistency | PR check output |
+
+Workflow: [schemasync-prompt-schema-alignment.md](./schemasync-prompt-schema-alignment.md) · CI template: [examples/workflows/schemasync.yml](../../examples/workflows/schemasync.yml). Pair with ToolChange when manifest fields are removed.
 | 5 | `drift-diff` / `compare_json` on fixtures | Dim 3 structural controls | Breaking vs additive counts |
 
 Example harness profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml).

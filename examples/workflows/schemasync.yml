@@ -1,0 +1,44 @@
+# Example: SchemaSync literal lint on PRs (Gate 4A)
+# Copy into .github/workflows/schemasync.yml
+# MGFA Dim 3 instruction/tool consistency — see docs/guides/schemasync-prompt-schema-alignment.md
+
+name: SchemaSync
+
+on:
+  pull_request:
+    paths:
+      - "prompts/**"
+      - "schemasync/**"
+      - ".github/workflows/schemasync.yml"
+
+jobs:
+  prompt-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install SchemaSync
+        run: pip install "schemasync @ git+https://github.com/kioie/driftguard.git#subdirectory=packages/schemasync"
+      - name: Lint prompts (literal blocking)
+        run: |
+          set -euo pipefail
+          REMOVED="$(paste -sd, schemasync/removed-fields.txt)"
+          SYNONYMS_FLAG=()
+          if [ -f schemasync/schemasync.synonyms.yaml ]; then
+            SYNONYMS_FLAG=(--synonyms schemasync/schemasync.synonyms.yaml)
+          fi
+          shopt -s nullglob
+          files=(prompts/*.txt prompts/*.md prompts/**/*.txt prompts/**/*.md)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No prompt files under prompts/ — add prompts or adjust paths"
+            exit 1
+          fi
+          for f in "${files[@]}"; do
+            echo "==> $f"
+            schemasync lint-nl --mode literal \
+              --prompt-file "$f" \
+              --removed "$REMOVED" \
+              "${SYNONYMS_FLAG[@]}"
+          done

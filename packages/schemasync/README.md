@@ -4,6 +4,8 @@ Literal reference linter for schema-drift prompts (Gate 4).
 
 **Gate:** SchemaSync 4A (`lint-nl` literal + semantic-hints). Hosted GitHub App is in `driftguard-cloud`.
 
+**MGFA guide:** [schemasync-prompt-schema-alignment.md](../../docs/guides/schemasync-prompt-schema-alignment.md) · CI template: [examples/workflows/schemasync.yml](../../examples/workflows/schemasync.yml)
+
 ## Quick start
 
 ```bash
@@ -17,12 +19,18 @@ pytest tests/ -v
 
 ```bash
 schemasync lint-nl --mode literal \
-  --prompt "Collect billing_address before charge." \
-  --removed billing_address \
+  --prompt-file prompts/checkout-agent.txt \
+  --removed billing_address,shipping_method \
   --synonyms schemasync.synonyms.yaml
 ```
 
-`--mode semantic-hints` is advisory only — always exits 0.
+| Mode | Exit code on match | Use in CI |
+|------|-------------------|-----------|
+| `literal` | 1 | **Blocking** PR gate |
+| `literal --advisory` | 0 | Bootstrap / tune synonyms |
+| `semantic-hints` | 0 always | Draft PR human review only |
+
+`--mode semantic-hints` is advisory only — never use for MGFA blocking claims.
 
 ## Phase 4A status
 
@@ -33,5 +41,7 @@ schemasync lint-nl --mode literal \
 | SS-N03 | Synonyms map | Done |
 | SS-N04 | stripe prose FP (documented) | Done |
 | SS-N05 | semantic-hints non-failing | Done |
+
+Example fixtures: [examples/schemasync](../../examples/schemasync/).
 
 **Next (4B):** GitHub App webhook + draft PR (`schemasync_repo`).
