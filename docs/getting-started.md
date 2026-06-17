@@ -12,6 +12,35 @@ A step-by-step checklist from **your first local diff** to **optional hosted mon
 
 ---
 
+## First week (OSS) — default path
+
+If you are building **agents or MCP integrations**, follow this single track before choosing hosted monitoring. It is the same progressive ladder as the [gate ladder](./policies/gate-ladder.md) — MockDrift first, then optional CI gates.
+
+| Day | Action | Outcome |
+|-----|--------|---------|
+| 1 | `mockdrift init` in your agent repo | `.driftguard/gates.yaml`, harness bundle, test skeleton |
+| 2 | Run local harness | `pytest tests/harness/` or `mockdrift demo stripe/required-field` |
+| 3 | Wire CI | Sensor job → [`drift-evaluator`](../.github/actions/drift-evaluator/action.yml) → harness lint (see [examples/harness](../examples/harness/) or init output) |
+| 4 | Add GitHub Action | `mockdrift init` writes `.github/workflows/drift-harness.yml`; copy patterns from [examples/workflows](../examples/workflows/) |
+| 5+ | Optional hosted | [Free trial](https://driftguard.org/start) or [Founding Lab](https://driftguard.org/lab) when you need scheduled watches |
+
+**Bootstrap commands:**
+
+```bash
+pip install -e path/to/driftguard/packages/mockdrift
+cd your-agent-repo
+mockdrift init --runner langgraph --fixture stripe/required-field
+pytest tests/harness/ -q
+```
+
+Reference harness (no init required): [examples/harness](../examples/harness/) — `.driftguard/gates.yaml`, `agents.yaml`, and `harness.lock` you can copy into your repo.
+
+**When to add hosted:** After Gate 1 passes locally, register watches for production URLs — [step 6](#6-upgrade--trial-api-key-watches) below or [driftguard.org/start](https://driftguard.org/start).
+
+Guide detail: [mockdrift init + fixtures](./guides/mockdrift-init-fixtures.md) · [CI/CD](./guides/ci-cd.md).
+
+---
+
 ## 1. Install the free client
 
 Clone, install dependencies, and build.
@@ -162,6 +191,15 @@ Call **`hosted_info`** anytime to see which tools need an API key.
 
 ## Checklist summary
 
+**First week (OSS):**
+
+- [ ] `mockdrift init` (or copy [examples/harness](../examples/harness/))
+- [ ] Local harness tests green (`pytest tests/harness/`)
+- [ ] CI workflow with sensor → evaluator → harness lint
+- [ ] [Gate ladder](./policies/gate-ladder.md) understood for next gates
+
+**Full client path:**
+
 - [ ] `npm ci && npm run build`
 - [ ] First `diff` with breaking vs additive output understood
 - [ ] MCP client connected; `compare_json` works in agent
@@ -175,6 +213,8 @@ Call **`hosted_info`** anytime to see which tools need an API key.
 
 | Goal | Doc |
 |------|-----|
+| Gate ladder (MockDrift → SchemaSync) | [policies/gate-ladder.md](./policies/gate-ladder.md) |
+| Harness example bundle | [examples/harness](../examples/harness/) |
 | Guides by role | [guides/README.md](./guides/README.md) |
 | Term definitions | [Glossary](./glossary.md) |
 | MCP + CLI contracts | [Reference](./reference/README.md) |
