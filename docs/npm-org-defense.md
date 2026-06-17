@@ -1,8 +1,8 @@
 # npm org defense
 
-> **Publish deferred** — code ready on `main` ([#94](https://github.com/kioie/driftguard/pull/94)); unblock when org `NPM_TOKEN` is fixed.
-
 How DriftGuard protects scoped package names under the `@driftguard` npm organization.
+
+Org acquisition and publish checklist: [npm-org-chase.md](./npm-org-chase.md). Run `npm run check:npm-publish` before tagging.
 
 ## Why scoped packages
 

@@ -59,7 +59,6 @@ jobs:
     name: Publish to npm
     needs: github-release
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -68,7 +67,9 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: npm
       - run: npm ci
+      - run: npm run sync-version
       - run: npm run build
+      - run: npm run check:npm-publish
       - name: Publish @driftguard/driftguard
         run: npm publish --access public
         env:
