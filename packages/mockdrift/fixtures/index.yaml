@@ -1,4 +1,5 @@
 # OSS fixture marketplace index — vendor/scenario ids for mockdrift demo and harness.lock
+# Fixtures are structural examples for harness testing — not compliance or vendor certification.
 version: 1
 fixtures:
   stripe/required-field:
@@ -6,7 +7,9 @@ fixtures:
     path: stripe-refund-2026-06-04
     mockdrift_key: stripe-required-field
     vendor: stripe
-    tags: [payments, refund, write-tool]
+    lane: oss
+    content_kind: oss-curated
+    tags: [payments, refund, write-tool, pack:payments, fintech-example]
     description: billing_country becomes required on create_refund
 
   stripe/no-drift-two-step:
@@ -14,21 +17,27 @@ fixtures:
     path: no-drift-two-step
     mockdrift_key: no-drift-two-step
     vendor: stripe
-    tags: [payments, refund, happy-path]
+    lane: oss
+    content_kind: oss-curated
+    tags: [payments, refund, happy-path, pack:payments]
 
   stripe/idempotency-violation:
     version: "1.0.0"
     path: idempotency-violation-2026-06-02
     mockdrift_key: idempotency-violation
     vendor: stripe
-    tags: [payments, idempotency]
+    lane: oss
+    content_kind: oss-curated
+    tags: [payments, idempotency, pack:payments]
 
   stripe/loop-spiral:
     version: "1.0.0"
     path: stripe-refund-2026-06-04
     mockdrift_key: loop-spiral
     vendor: stripe
-    tags: [payments, loop-detect]
+    lane: oss
+    content_kind: oss-curated
+    tags: [payments, loop-detect, pack:payments]
     drift_target: stripe_create_refund
     match: every_call
 
@@ -37,37 +46,51 @@ fixtures:
     path: mcp-tool-removed-2026-06-01
     mockdrift_key: mcp-tool-removed
     vendor: mcp
-    tags: [mcp, tools-list]
+    lane: oss
+    content_kind: oss-curated
+    tags: [mcp, tools-list, pack:tools-protocol]
 
   slack/message-field-required:
     version: "1.0.0"
     path: slack-message-field-2026-06-10
     mockdrift_key: slack-message-field
     vendor: slack
-    tags: [slack, messaging, write-tool]
+    lane: oss
+    content_kind: oss-curated
+    tags: [slack, messaging, write-tool, pack:messaging]
     description: thread_ts becomes required on chat.postMessage
 
   openai/chat-completions-tool-required:
     version: "1.0.0"
     ref: driftguard/fixtures-openai@1.0.0
     vendor: openai
-    tags: [llm, tools, hosted-only]
-    description: Hosted catalog lane — install via driftguard.org when available
+    lane: hosted
+    content_kind: hosted-curated
+    tags: [llm, tools, hosted-only, pack:llm-tools]
+    description: Hosted catalog lane — install via mockdrift install
 
   github/issues-create-label-required:
     version: "1.0.0"
     ref: driftguard/fixtures-github@1.0.0
     vendor: github
-    tags: [github, issues, hosted-only]
+    lane: hosted
+    content_kind: hosted-curated
+    tags: [github, issues, hosted-only, pack:developer-tools]
 
   twilio/send-sms-body-format:
     version: "1.0.0"
     ref: driftguard/fixtures-twilio@1.0.0
     vendor: twilio
-    tags: [sms, hosted-only]
+    lane: hosted
+    content_kind: hosted-stub
+    tags: [sms, hosted-only, pack:messaging]
+    description: Structural placeholder — not vendor-verified
 
   notion/page-parent-required:
     version: "1.0.0"
     ref: driftguard/fixtures-notion@1.0.0
     vendor: notion
+    lane: hosted
+    content_kind: hosted-stub
     tags: [notion, hosted-only]
+    description: Structural placeholder — not vendor-verified

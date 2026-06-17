@@ -85,10 +85,16 @@ def _catalog() -> None:
         sys.exit(2)
 
     fixtures = data.get("fixtures", [])
+    disclaimer = data.get("disclaimer")
+    if disclaimer:
+        print(f"# {disclaimer}", file=sys.stderr)
     for row in fixtures:
         lane = row.get("lane", "?")
+        kind = row.get("contentKind", row.get("content_kind", "?"))
         tags = ",".join(row.get("tags", []))
-        print(f"{row.get('id')} [{lane}] {tags}")
+        installable = row.get("installable")
+        suffix = " [install]" if installable else ""
+        print(f"{row.get('id')} [{lane}/{kind}]{suffix} {tags}")
     sys.exit(0)
 
 
