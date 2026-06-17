@@ -54,6 +54,19 @@ Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) into 
 
 Set `"DRIFTGUARD_API_KEY": "dg_…"` when you upgrade. Pin the semver in `args` (shown) or use `@latest` for convenience.
 
+### Verify your key (hosted)
+
+After trial or checkout, confirm the key before registering watches:
+
+```bash
+export DRIFTGUARD_API_KEY="dg_…"
+
+curl -sf "https://driftguard.org/api/me" \
+  -H "Authorization: Bearer $DRIFTGUARD_API_KEY"
+```
+
+Expect HTTP 200 with `plan`, `apiKeyHint` (masked), and `status` — never the full key. Or run `driftguard login` locally (same endpoint). Details: [hosted API — authentication](./reference/hosted-api.md#authentication).
+
 **Contributors** editing this repo: use `npm run mcp` or `node dist/mcp/server.js` after `npm run build` — see [AGENTS.md](../AGENTS.md).
 
 ## 4. Typical agent workflows
