@@ -24,3 +24,6 @@ manifests:
     prompts_dir: examples/schemasync/prompts
     removed_fields: examples/schemasync/removed-fields.txt
     synonyms: examples/schemasync/schemasync.synonyms.yaml
+  mockdrift_replay:
+    watch_id: watch_REPLACE_ME
+    fixture_key: simulate-drift

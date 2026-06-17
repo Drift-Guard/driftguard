@@ -14,6 +14,9 @@ Use this checklist when deploying agentic apps in Singapore/APAC programmes that
 |------|--------|-----------|----------|
 | 1 | Pin harness bundle | Dim 3 reproducible baselines | `.driftguard/gates.yaml`, `harness.lock` |
 | 2 | Run MockDrift + evaluator | Dim 3 pre-deploy testing | `mockdrift.sensor/v1` JSON (producer ≠ reviewer) |
+| 2b | Replay open drift incident (optional Pro) | Dim 3 production-faithful pre-deploy | `--simulate-drift` cache under `.mockdrift/cache/` |
+
+Workflow: [mockdrift-cloud-replay.md](./mockdrift-cloud-replay.md) · CI template: [examples/workflows/mockdrift-replay.yml](../../examples/workflows/mockdrift-replay.yml).
 | 3 | Lint `agents.yaml` bindings | Dim 1 bound tool scope | CI log from `drift-agents-lint` |
 
 Workflow: [agent-binding-manifest.md](./agent-binding-manifest.md) · CI template: [examples/workflows/agents-lint.yml](../../examples/workflows/agents-lint.yml).

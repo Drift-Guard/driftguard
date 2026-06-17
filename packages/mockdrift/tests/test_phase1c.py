@@ -58,12 +58,20 @@ def test_md_c_002_product_required():
 
 def test_md_c_003_fixture_materialized(tmp_path: Path):
     """MD-C-003: cloud payload writes cache fixture files."""
+    response = {
+        **CLOUD_FIXTURE_RESPONSE,
+        "incident": {
+            "status": "open",
+            "driftEventId": "evt-drift-001",
+            "detectedAt": "2026-06-17T12:00:00Z",
+        },
+    }
     with mock.patch.dict(os.environ, {"DRIFTGUARD_API_KEY": "dg_live_test"}):
         with mock.patch("urllib.request.urlopen") as urlopen:
             resp = mock.Mock()
             resp.__enter__ = mock.Mock(return_value=resp)
             resp.__exit__ = mock.Mock(return_value=False)
-            resp.read.return_value = json.dumps(CLOUD_FIXTURE_RESPONSE).encode()
+            resp.read.return_value = json.dumps(response).encode()
             urlopen.return_value = resp
             body = fetch_fixture_from_watch("watch_test123")
 
@@ -71,6 +79,9 @@ def test_md_c_003_fixture_materialized(tmp_path: Path):
     assert (cache_dir / "before.schema.json").is_file()
     assert (cache_dir / "after.schema.json").is_file()
     assert (cache_dir / "mock-responses" / "stripe_create_refund.json").is_file()
+    cloud_meta = json.loads((cache_dir / "cloud-meta.json").read_text(encoding="utf-8"))
+    assert cloud_meta["incident"]["status"] == "open"
+    assert cloud_meta["incident"]["driftEventId"] == "evt-drift-001"
 
 
 def test_md_c_005_telemetry_opt_out():

@@ -1,0 +1,39 @@
+# Example: MockDrift cloud replay on PRs (Gate 1 M3)
+# Copy into .github/workflows/mockdrift-replay.yml
+# MGFA Dim 3 pre-deploy testing — see docs/guides/mockdrift-cloud-replay.md
+#
+# Prerequisites:
+#   - DRIFTGUARD_API_KEY repo secret (Pro trial or paid)
+#   - mockdrift_cloud product enabled on account
+#   - watchId from an open drift incident (console or list_drift_events)
+
+name: MockDrift replay
+
+on:
+  pull_request:
+    paths:
+      - "agents/**"
+      - "tests/**"
+      - "packages/mockdrift/**"
+      - ".github/workflows/mockdrift-replay.yml"
+
+jobs:
+  replay-open-incident:
+    runs-on: ubuntu-latest
+    env:
+      MOCKDRIFT_TELEMETRY: "0"
+      DRIFTGUARD_API_KEY: ${{ secrets.DRIFTGUARD_API_KEY }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install MockDrift
+        run: pip install -e "./packages/mockdrift[dev]"
+      - name: Replay hosted watch fixture
+        uses: ./.github/actions/mockdrift
+        with:
+          # Replace with your watch id from an open drift incident
+          simulate-drift: watch_REPLACE_ME
+          cache-fixture: "true"
+          pytest-args: tests/test_refund_drift.py -v
