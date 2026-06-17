@@ -47,7 +47,7 @@ async function main(): Promise<void> {
     const trialSession = process.env.DRIFTGUARD_TRIAL_SESSION;
     if (!apiKey && !trialSession) {
       console.error(`CI gate requires DRIFTGUARD_API_KEY (Pro) or DRIFTGUARD_TRIAL_SESSION (1 endpoint trial).`);
-      console.error(`Free hook: driftguard coverage-preview — ${HOSTED_TRIAL}`);
+      console.error(`Free hook: driftguard coverage-preview — Start a trial: ${HOSTED_TRIAL} · Pricing: ${HOSTED_PRICING}`);
       process.exit(1);
     }
     const { runAssertCoverage } = await import("./coverage-run.js");

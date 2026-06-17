@@ -17,7 +17,7 @@ import {
   VERSION,
 } from "./constants.js";
 import { parseLocalWatchPreviews } from "./parse-mcp-json.js";
-import { missingApiKeyMessage, parseJsonString } from "./tool-input.js";
+import { hostedApiErrorMessage, missingApiKeyMessage, parseJsonString } from "./tool-input.js";
 
 function hostedApiKey(): string | undefined {
   const key = process.env.DRIFTGUARD_API_KEY?.trim();
@@ -50,7 +50,7 @@ async function hostedRequest(path: string, init: RequestInit = {}): Promise<unkn
   });
   const body = await response.json();
   if (!response.ok) {
-    throw new Error((body as { error?: string }).error ?? `HTTP ${response.status}`);
+    throw new Error(hostedApiErrorMessage(body, response.status));
   }
   return body;
 }
