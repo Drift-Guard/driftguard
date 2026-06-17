@@ -596,7 +596,7 @@ Run periodically (manual or scripted):
 | OPS-001 | [cloud#346](https://github.com/kioie/driftguard-cloud/pull/346), [#96](https://github.com/kioie/driftguard/pull/96) | merged | 2026-06-17 |
 | E1 | [#100](https://github.com/kioie/driftguard/pull/100), [cloud#349](https://github.com/kioie/driftguard-cloud/pull/349) | merged | 2026-06-17 |
 | E4 | [#104](https://github.com/kioie/driftguard/pull/104), [cloud#354](https://github.com/kioie/driftguard-cloud/pull/354) | open | |
-| E22 | | open | |
+| E22 | [#111](https://github.com/kioie/driftguard/pull/111) | merged | 2026-06-17 |
 
 ---
 
