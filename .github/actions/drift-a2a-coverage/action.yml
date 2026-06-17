@@ -1,0 +1,45 @@
+name: DriftGuard A2A coverage assert
+description: CI gate — fail when agents.yaml watch URLs are not registered (Pro API key)
+branding:
+  icon: shield-check
+  color: purple
+inputs:
+  api-key:
+    description: DriftGuard Pro/Team API key (dg_…)
+    required: true
+  manifest:
+    description: Path to agents.yaml
+    required: false
+    default: ".driftguard/agents.yaml"
+  api:
+    description: Hosted API base URL override
+    required: false
+    default: ""
+  version:
+    description: DriftGuard client semver (optional)
+    required: false
+    default: ""
+  repo:
+    description: Repository slug for console deep link
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup-driftguard
+      with:
+        version: ${{ inputs.version }}
+    - shell: bash
+      env:
+        DRIFTGUARD_API_KEY: ${{ inputs.api-key }}
+        DRIFTGUARD_AGENTS_MANIFEST: ${{ inputs.manifest }}
+        DRIFTGUARD_API: ${{ inputs.api }}
+        DRIFTGUARD_ALLOW_CUSTOM_API: ${{ inputs.api != '' && '1' || '' }}
+        DRIFTGUARD_CI_REPO: ${{ inputs.repo }}
+      run: |
+        if [ -z "$DRIFTGUARD_API_KEY" ]; then
+          echo "::error::A2A coverage gate requires DRIFTGUARD_API_KEY (Pro/Team)."
+          echo "Offline first: drift-agents-lint — then register watches and add this gate."
+          exit 1
+        fi
+        driftguard assert-a2a-coverage

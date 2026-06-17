@@ -65,6 +65,18 @@ async function main(): Promise<void> {
     process.exit(code);
   }
 
+  if (command === "assert-a2a-coverage") {
+    const apiKey = readHostedApiKey();
+    if (!apiKey) {
+      console.error(`A2A coverage gate requires DRIFTGUARD_API_KEY (Pro/Team).`);
+      console.error(`Offline first: driftguard lint-agents — Start a trial: ${HOSTED_TRIAL} · Pricing: ${HOSTED_PRICING}`);
+      process.exit(1);
+    }
+    const { runAssertA2aCoverage } = await import("./a2a-coverage-run.js");
+    const code = await runAssertA2aCoverage({ manifestPath: args[0], apiKey });
+    process.exit(code);
+  }
+
   if (command === "openapi-diff") {
     const { runOpenApiDiff } = await import("./openapi-diff-run.js");
     process.exit(await runOpenApiDiff(args));
@@ -118,6 +130,7 @@ Usage:
   driftguard init [--yes]                                  Write .driftguard.yml
   driftguard coverage-preview                              Free — scan repo + console links
   driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
+  driftguard assert-a2a-coverage [path]                    Gate — manifest watches registered (Pro key)
   driftguard lint-agents [path]                            Validate .driftguard/agents.yaml (offline)
   driftguard lint-harness [bundle-dir]                   Validate harness bundle (gates + lock)
   driftguard version [--json]

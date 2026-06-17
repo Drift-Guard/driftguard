@@ -65,7 +65,22 @@ OSS lint validates structure only. Hosted DriftGuard resolves manifest `watches[
 | Register watches for each URL | Dim 3 dependency monitoring | Console / `register_watch` |
 | Sync manifest | Dim 1 bound scope inventory | Binding rows + `get_agent_status` |
 
-**Roadmap (not yet shipped):** `assert_a2a_coverage` CI gate correlating Agent Card skills with live MCP `tools/list`. See [A2A Contract Watch](./a2a-contract-watch.md).
+## A2A watch coverage gate (Pro/Team)
+
+After watches are registered, fail CI when manifest URLs are not on your account:
+
+| Surface | Blocks CI? | API key |
+|---------|------------|---------|
+| `driftguard assert-a2a-coverage` | Yes (exit 1) | Yes |
+| GitHub Action `drift-a2a-coverage` | Yes | Yes |
+| MCP `assert_a2a_coverage` | Yes | Yes |
+
+```bash
+export DRIFTGUARD_API_KEY=dg_…
+npm run build && driftguard assert-a2a-coverage .driftguard/agents.yaml
+```
+
+CI template: [examples/workflows/a2a-coverage.yml](../../examples/workflows/a2a-coverage.yml). Hosted API: `POST /api/a2a/coverage/assert` (read-only — does not sync bindings).
 
 ---
 

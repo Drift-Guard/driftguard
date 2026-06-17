@@ -1,0 +1,33 @@
+# Example: A2A coverage gate on PRs (Gate 2B)
+# Copy into .github/workflows/a2a-coverage.yml
+# Requires DRIFTGUARD_API_KEY — pair with agents-lint (offline, no key)
+
+name: A2A contract watch
+
+on:
+  pull_request:
+    paths:
+      - ".driftguard/agents.yaml"
+      - "**/*.agents.yaml"
+      - "mcp.json"
+      - ".cursor/mcp.json"
+      - ".github/workflows/a2a-coverage.yml"
+
+jobs:
+  manifest-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+        with:
+          manifest: .driftguard/agents.yaml
+
+  a2a-coverage:
+    needs: manifest-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: kioie/driftguard/.github/actions/drift-a2a-coverage@v0.3.3
+        with:
+          api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
+          manifest: .driftguard/agents.yaml
