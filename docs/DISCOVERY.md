@@ -41,7 +41,11 @@ Full index: [docs/llms.txt](./llms.txt).
 
 ## Cursor rule for consumer repos
 
-Copy [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.mdc) into `.cursor/rules/` when the repo has `mcp.json` or agent MCP configs. The rule applies to `**/mcp.json` and encodes offline-first tool order, the npx MCP template, and links to [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) plus [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md).
+Copy [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.mdc) into `.cursor/rules/` when the repo has `mcp.json` or agent MCP configs. The rule applies to `**/mcp.json` and encodes offline-first tool order, the npx MCP template, and links to [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) plus [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md). For Singapore/APAC deploys, also link [singapore-agent-deployment-checklist.md](./guides/singapore-agent-deployment-checklist.md).
+
+## Distribution playbooks (GTM)
+
+Dev.to and Hacker News post templates (npx MCP + key activation, UTM trial links) live in **`driftguard-cloud` `docs/LAUNCH/`** — internal GTM prep only; human posting required. See [AGENT-DISCOVERY-ROADMAP.md](./AGENT-DISCOVERY-ROADMAP.md) § DIST-002.
 
 ## Agent-readable docs
 
