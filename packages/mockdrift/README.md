@@ -2,7 +2,7 @@
 
 Gate 1 local drift-replay harness for AI agents.
 
-**Spec:** [docs/mockdrift/R3-API.md](../../docs/mockdrift/R3-API.md) · **Phase:** 1C (M3 — cloud replay + GitHub Action)
+**Spec:** [docs/mockdrift/R3-API.md](../../docs/mockdrift/R3-API.md) · **MGFA replay guide:** [docs/guides/mockdrift-cloud-replay.md](../../docs/guides/mockdrift-cloud-replay.md) · **Phase:** 1C (M3 — cloud replay + GitHub Action)
 
 ## Quick start
 
@@ -25,6 +25,8 @@ mockdrift run --pytest tests/test_layer1.py --simulate-drift watch_abc123 --cach
 ```
 
 Use `@drift_replay(fixture="simulate-drift", ...)` when the cloud fixture was materialized under `.mockdrift/cache/`.
+
+Full workflow (incident → replay → PR gate): [mockdrift-cloud-replay guide](../../docs/guides/mockdrift-cloud-replay.md).
 
 Disable CI telemetry: `MOCKDRIFT_TELEMETRY=0`.
 

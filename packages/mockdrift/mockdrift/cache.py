@@ -76,6 +76,9 @@ def write_cached_fixture(watch_id: str, cloud_response: dict[str, Any], *, root:
         "match": fixture.get("match", "first_call"),
         "failureProfile": fixture.get("failureProfile"),
     }
+    incident = cloud_response.get("incident")
+    if isinstance(incident, dict):
+        meta["incident"] = incident
     (fixture_dir / "cloud-meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
     return fixture_dir
 
