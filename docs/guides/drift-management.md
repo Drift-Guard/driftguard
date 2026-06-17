@@ -36,7 +36,7 @@ List watches: `list_watches`. Status: `get_watch_status` (ok, incident open, lat
 ## Review changes
 
 1. **Fetch history** — `list_drift_events` for the watch (or console drift timeline).
-2. **Classify** — breaking changes block consumers; additive changes are usually safe to absorb.
+2. **Classify** — breaking changes block consumers; additive changes are usually safe to absorb. Pro/Team may include **semantic** signals (`unit_suspect`, `enum_set_changed`) on the same event — see [semantic drift boundary](./semantic-drift-boundary.md).
 3. **Correlate** — link drift event to deploying PR, dependency version bump, or upstream API change.
 
 Terms: [Glossary — drift event, breaking](../glossary.md).
@@ -105,6 +105,7 @@ These are not in the public repo; use the console or MCP hosted tools with `DRIF
 
 - Alert routing (Slack, email, webhooks)
 - Drift history export and audit
+- Semantic drift classification (Pro/Team — structural boundary: [semantic drift guide](./semantic-drift-boundary.md))
 - Agent binding and ack-gated policies
 
 Upgrade: [driftguard.org/pricing](https://driftguard.org/pricing)
