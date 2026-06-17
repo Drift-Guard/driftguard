@@ -530,7 +530,7 @@ When an enhancement moves from this catalog to its own spec, create `docs/mgfa/<
 | Field | Value |
 |-------|-------|
 | **Created** | 2026-06 |
-| **Last expanded** | 2026-06 — E1 Refine: watch health SLO docs + API fields ([#TBD](https://github.com/kioie/driftguard/pull/TBD)) |
+| **Last expanded** | 2026-06 — E1 Refine: watch health SLO docs ([#100](https://github.com/kioie/driftguard/pull/100)) |
 | **MGFA version referenced** | v1.5 (Jan 2026 launch; iterative updates) |
 | **Review cadence** | Quarterly or when IMDA publishes MGFA revisions |
 | **Assessment backlog** | E1–E23 **Draft** — [assessments/mgfa/](./assessments/mgfa/) |
