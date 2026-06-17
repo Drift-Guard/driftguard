@@ -593,7 +593,7 @@ Run periodically (manual or scripted):
 | DES-004 | [#89](https://github.com/kioie/driftguard/pull/89) | merged | 2026-06-17 |
 | DIST-002 | | pending | |
 | DIST-003 | | deferred — pending npm (DISC-001) + registry (DISC-002) | |
-| OPS-001 | | pending | |
+| OPS-001 | [cloud#346](https://github.com/kioie/driftguard-cloud/pull/346) | pending | |
 
 ---
 
