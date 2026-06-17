@@ -79,15 +79,41 @@ Routes below are inferred from the OSS MCP proxy and CI client — authoritative
 
 MCP: `register_watch`, `check_watch`, `list_watches`, `get_watch_status`, `suggest_watches`.
 
+#### Watch health SLOs (Pro/Team)
+
+Scheduled checks run at each watch's `intervalMinutes` (plan minimum: Pro 15m, Critical 1m, Fleet 5m). **Contract drift** (`driftStatus: drifted`) and **poll health** are separate signals — a watch can be healthy while reporting drift, or degraded while the baseline is unchanged.
+
+| Field | Source | Meaning |
+|-------|--------|---------|
+| `driftStatus` | `list_watches`, `get_watch_status` | `ok` · `drifted` · `error` · `never_run` · `disabled` |
+| `health.band` | Same (Pro/Team) | `healthy` — recent successful poll · `degraded` — error, never run, or stale poll · `unknown` — disabled |
+| `health.isStaleCheck` | Same | `true` when `lastCheckedAt` is older than **2×** `intervalMinutes` (missed poll SLO) |
+| `failureClass` / `failureLabel` | `get_watch_status`, `list_watches` | Check failure taxonomy — e.g. `mcp_handshake_failed`, `timeout`, `http_error` |
+
+**Operational guidance:** Treat sustained `error` or `health.isStaleCheck: true` as upstream MCP/API reachability — not contract drift. Run `check_watch` after fixing URL, auth, or network. MCP `tools/list` polling depends on server implementation; handshake failures surface as `mcp_handshake_failed`.
+
+Console **Portfolio compass** (`GET /api/portfolio/compass`) lists `neverRun`, `error`, and long-idle watches for fleet triage. Pair with [drift management — incident lifecycle](../guides/drift-management.md#incident-lifecycle).
+
 ### Drift & incidents
 
 | Method | Route | Purpose |
 |--------|-------|---------|
 | `GET` | `/api/drift` | List drift events (`watchId`, `limit`) |
 | `POST` | `/api/drift/explain` | Remediation hints (public, no key) |
-| `POST` | `/api/watches/{id}/incident/ack` | Acknowledge open incident |
+| `POST` | `/api/watches/{id}/incident/ack` | Acknowledge open incident (unblocks ack-gated agents) |
+| `POST` | `/api/watches/{id}/incident/resolve` | Manually resolve open/acknowledged incident |
 
 MCP: `list_drift_events`, `explain_drift`, `acknowledge_drift`.
+
+#### Incident lifecycle states
+
+| `incident.status` | Set by | Next steps |
+|-------------------|--------|------------|
+| `open` | Drift detected on scheduled/manual check | Review `list_drift_events`; route webhook to SOAR |
+| `acknowledged` | `acknowledge_drift` / `POST …/incident/ack` | Human reviewed; ack-gated agent policies unblock |
+| `resolved` | Manual `POST …/incident/resolve`, or auto when breaking drift clears on next ok check | Incident closed; baseline may still differ if additive drift remains |
+
+Auto-resolve runs when a check finds no breaking changes vs baseline. Additive-only drift may remain while the incident closes — confirm in console or `get_watch_status`.
 
 #### Drift history and audit (Team)
 

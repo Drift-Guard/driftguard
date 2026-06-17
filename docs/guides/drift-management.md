@@ -77,10 +77,25 @@ Hosted watches move through a repeatable lifecycle — useful for governance buy
 | `drifted` | Open incident — breaking or additive drift recorded | Review `list_drift_events`; block deploy if breaking |
 | `error` / `never_run` | Check failed or not yet run | Fix watch URL/auth; run `check_watch` |
 | After `acknowledge_drift` | Human reviewed; ack-gated agent policies unblock | Resume deploy or agent run |
+| `resolved` incident | Closed manually or when breaking drift clears | Confirm baseline updated if change was intentional |
+
+**Incident transitions:** `open` → `acknowledged` (human ack) → `resolved` (manual resolve or auto when breaking count returns to zero). See [hosted API — incident lifecycle states](../reference/hosted-api.md#incident-lifecycle-states).
 
 **Evidence for audits:** drift events carry timestamps and structural diff summaries; acknowledgement records who reviewed and when (console or `POST /api/watches/{id}/incident/ack`). Pair with [webhook ack trail](../reference/webhooks-alerts.md#incident-acknowledgement-trail) for GRC/SOAR ingest. Team tier adds console export — [drift history and audit](../reference/hosted-api.md#drift-history-and-audit-team).
 
-**Watch health:** Pro/Team watches should report `ok` or `drifted` on schedule. Sustained `error` or missed polls indicate upstream MCP/API unreachability — treat as an operational signal separate from contract drift.
+### Watch health SLOs
+
+Pro/Team watches expose poll health alongside contract drift:
+
+| Signal | Healthy | Degraded |
+|--------|---------|----------|
+| `health.band` | Recent successful poll | `error`, `never_run`, or stale poll |
+| `health.isStaleCheck` | `false` | `true` when last check &gt; **2×** scheduled `intervalMinutes` |
+| `failureClass` | absent | e.g. `mcp_handshake_failed`, `timeout`, `http_error` |
+
+**Do not conflate** `drifted` (contract changed) with `error` (could not poll). MCP `tools/list` servers that fail handshake show `mcp_handshake_failed` — fix connectivity or auth before interpreting drift events.
+
+Fleet operators: use console portfolio compass or `GET /api/portfolio/compass` for watches in `neverRun`, `error`, or stale-check buckets.
 
 ---
 

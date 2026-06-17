@@ -47,10 +47,10 @@ Preview offline first: [Getting started step 4](../getting-started.md#4-preview-
 
 - **List** — `list_watches`
 - **Check now** — `check_watch`
-- **Status** — `get_watch_status` (health, open incidents)
+- **Status** — `get_watch_status` (drift, incident, poll health SLOs)
 - **History** — `list_drift_events`
 
-Scheduling and MCP `tools/list` polling run on hosted infrastructure — not configurable from this repo.
+Scheduling and MCP `tools/list` polling run on hosted infrastructure — not configurable from this repo. Poll health fields (`health.band`, `health.isStaleCheck`, `failureClass`) appear on Pro/Team API responses — see [hosted API — watch health SLOs](../reference/hosted-api.md#watch-health-slos-proteam).
 
 ### Retire
 

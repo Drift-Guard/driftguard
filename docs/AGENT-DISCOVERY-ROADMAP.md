@@ -594,6 +594,7 @@ Run periodically (manual or scripted):
 | DIST-002 | [cloud#347](https://github.com/kioie/driftguard-cloud/pull/347), [#98](https://github.com/kioie/driftguard/pull/98) | merged | 2026-06-17 |
 | DIST-003 | | deferred — pending npm (DISC-001) + registry (DISC-002) | |
 | OPS-001 | [cloud#346](https://github.com/kioie/driftguard-cloud/pull/346), [#96](https://github.com/kioie/driftguard/pull/96) | merged | 2026-06-17 |
+| E1 | | pending | Wave A Refine — watch health SLOs + incident lifecycle |
 
 ---
 

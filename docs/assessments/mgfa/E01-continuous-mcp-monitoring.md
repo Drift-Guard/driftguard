@@ -25,3 +25,13 @@
 ## Verdict
 
 **Refine** — Product exists and is the anchor MGFA story; investment should go to reliability, watch health SLOs, and buyer-facing incident lifecycle documentation rather than new capabilities.
+
+## Refine delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Watch health SLO docs (`health.band`, 2× interval stale detection, `failureClass`) | OSS [hosted-api](../../reference/hosted-api.md) · [drift-management](../../guides/drift-management.md) |
+| Incident lifecycle states (open → ack → resolve, auto-resolve on drift clear) | OSS docs + cloud `POST …/incident/resolve` |
+| API health fields on `list_watches` / `get_watch_status` | Cloud `computeWatchHealth` |
+
+Assessment remains **Draft** until E4 audit export Refine and buyer legal review. Verdict unchanged: **Refine** (docs + SLO fields shipped; full SLO dashboards remain CP-5.3).
