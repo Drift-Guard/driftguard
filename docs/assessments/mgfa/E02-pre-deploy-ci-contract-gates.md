@@ -25,3 +25,5 @@
 ## Verdict
 
 **Go** — Mostly narrative and template work on shipped gates; high MGFA directness and low engineering cost once npm/discovery blockers clear.
+
+**Wave C pairing:** [E22 harness ↔ gate orchestration](./E22-harness-gate-orchestration.md) — single `.driftguard/` profile toggling MockDrift, evaluator, ToolChange, SchemaSync per [Singapore checklist](../../guides/singapore-agent-deployment-checklist.md).

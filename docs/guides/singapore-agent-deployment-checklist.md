@@ -30,8 +30,11 @@ Workflow: [toolchange-change-management.md](./toolchange-change-management.md) �
 
 Workflow: [schemasync-prompt-schema-alignment.md](./schemasync-prompt-schema-alignment.md) · CI template: [examples/workflows/schemasync.yml](../../examples/workflows/schemasync.yml). Pair with ToolChange when manifest fields are removed.
 | 5 | `drift-diff` / `compare_json` on fixtures | Dim 3 structural controls | Breaking vs additive counts |
+| 1b | Lint harness bundle on PRs | Dim 3 reproducible baselines | CI log from `drift-harness-lint` |
 
-Example harness profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml).
+Workflow: [examples/workflows/drift-harness.yml](../../examples/workflows/drift-harness.yml) · profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml).
+
+Example harness profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml) (checklist step mapping in file header).
 
 ---
 

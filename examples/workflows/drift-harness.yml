@@ -1,0 +1,21 @@
+# Example: harness bundle lint on PRs (H1) — sensor/evaluator jobs optional
+# Copy into .github/workflows/drift-harness.yml
+# MGFA Dim 3 reproducible baselines — see docs/guides/singapore-agent-deployment-checklist.md
+# Full sensor → evaluator → lint funnel: mockdrift init or examples/harness-mgfa/
+
+name: Harness bundle
+
+on:
+  pull_request:
+    paths:
+      - ".driftguard/**"
+      - ".github/workflows/drift-harness.yml"
+
+jobs:
+  harness-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: kioie/driftguard/.github/actions/drift-harness-lint@v0.3.3
+        with:
+          bundle: .driftguard

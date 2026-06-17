@@ -1,23 +1,36 @@
 # Singapore / MGFA-oriented harness profile (E22 example)
 # Copy to your repo as .driftguard/gates.yaml — adjust advisory flags per gate maturity.
-# See docs/guides/singapore-agent-deployment-checklist.md
+# Checklist: docs/guides/singapore-agent-deployment-checklist.md
+#
+# | Checklist step | Gate(s)              | MGFA hook                          |
+# |----------------|----------------------|------------------------------------|
+# | 1 Pin bundle   | (this file + lock)   | Dim 3 reproducible baselines       |
+# | 2 MockDrift    | mockdrift, evaluator | Dim 3 pre-deploy safety testing    |
+# | 2b Replay      | harness.lock replay  | Dim 3 production-faithful pre-deploy |
+# | 2c Init/fixtures | mockdrift init     | Dim 3 reproducible scenario baselines |
+# | 3 Bindings     | agents_lint          | Dim 1 bound tool scope             |
+# | 4 ToolChange   | toolchange           | Dim 3 change management            |
+# | 5a SchemaSync  | schemasync           | Dim 3 instruction/tool consistency |
+# | 2A runtime     | fuseguard            | Dim 3 guardrails / runaway containment |
+#
+# Wave C pack: pairs E8 (portable bundle), E2 (CI gate spine), E15 (evaluator PGE)
 version: 1
 gates:
-  mockdrift:
+  mockdrift:          # checklist step 2
     enabled: true
     advisory: false
-  fuseguard:
+  fuseguard:          # checklist step 2A (Gate 2A)
     enabled: true
     max_tool_calls: 40
-  agents_lint:
+  agents_lint:        # checklist step 3 (Gate 2B)
     enabled: true
-  toolchange:
+  toolchange:         # checklist step 4 (Gate 3A)
     enabled: true
-    advisory: true   # Gate 3A alpha — set false when tools.json + baseline are committed (see harness.lock manifests.toolchange)
-  schemasync:
+    advisory: true   # alpha — set false when tools.json + baseline committed (harness.lock manifests.toolchange)
+  schemasync:         # checklist step 5a (Gate 4A)
     enabled: true
-    advisory: true   # set false when prompts + removed-fields are committed (see harness.lock manifests.schemasync)
-  evaluator:
+    advisory: true   # set false when prompts + removed-fields committed (harness.lock manifests.schemasync)
+  evaluator:          # checklist step 2 — producer ≠ reviewer (E15)
     enabled: true
     advisory: false
 defaults:

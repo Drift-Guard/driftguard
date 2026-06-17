@@ -25,3 +25,5 @@
 ## Verdict
 
 **Go** — Low engineering (mostly positioning + optional signing spike); strengthens pre-deploy MGFA narrative when paired with E22.
+
+**Wave C pairing:** [E22 harness ↔ gate orchestration](./E22-harness-gate-orchestration.md) — Singapore checklist profile in `examples/harness-mgfa/.driftguard/`.

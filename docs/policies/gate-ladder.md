@@ -106,6 +106,8 @@ Guide: [agent binding manifest](../guides/agent-binding-manifest.md) · [A2A Con
     bundle: .driftguard
 ```
 
+CI template: [examples/workflows/drift-harness.yml](../../examples/workflows/drift-harness.yml). Singapore profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml). Lint errors include MGFA control-phrase hints (`[MGFA: Dim N — …]`).
+
 ---
 
 ## Gate 1b — Evaluator (PGE, shipped)
