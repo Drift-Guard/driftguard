@@ -69,12 +69,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Publish @driftguard/driftguard
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Publish @driftguard/cli
-        run: npm publish --access public
-        working-directory: packages/cli
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
