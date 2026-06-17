@@ -15,8 +15,12 @@ async function main(): Promise<void> {
     const { diffSchemas, inferSchema } = await import("../core/diff.js");
     const beforeResult = parseJsonString(args[0], "before JSON");
     const afterResult = parseJsonString(args[1], "after JSON");
-    if (!beforeResult.ok || !afterResult.ok) {
-      console.error(beforeResult.ok ? afterResult.error : beforeResult.error);
+    if (!beforeResult.ok) {
+      console.error(beforeResult.error);
+      process.exit(1);
+    }
+    if (!afterResult.ok) {
+      console.error(afterResult.error);
       process.exit(1);
     }
     const result = diffSchemas(inferSchema(beforeResult.value), inferSchema(afterResult.value));
