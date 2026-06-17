@@ -71,3 +71,14 @@ jobs:
         uses: ./.github/actions/drift-agents-lint
         with:
           manifest: examples/a2a/agents.yaml
+      - name: drift-coverage-preview scan-paths wiring
+        shell: bash
+        run: |
+          export DRIFTGUARD_SCAN_PATHS=examples/mcp-client-config.json
+          node --input-type=module -e "
+            import { readFilesJsonForCi } from './dist/cli/ci-files.js';
+            const files = JSON.parse(readFilesJsonForCi());
+            if (!files.some((f) => f.path === 'examples/mcp-client-config.json')) {
+              throw new Error('scan-paths did not load example MCP config');
+            }
+          "

@@ -46,16 +46,16 @@ Use the OSS client to **try and integrate**. Upgrade when you need **always-on m
 ## Quick start
 
 ```bash
-git clone https://github.com/kioie/driftguard
-cd driftguard && npm ci && npm run build
+npx @driftguard/driftguard@latest version
+npx @driftguard/driftguard@latest diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
+# exit 1 if breaking changes
 ```
+
+Until `@driftguard` is on npm, clone and build — see [docs/QUICKSTART.md](docs/QUICKSTART.md#1-install).
 
 ### CLI
 
-```bash
-npm run check -- diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
-# exit 1 if breaking changes
-```
+Same commands as above; from a local clone use `npm run check -- diff …` after `npm run build`.
 
 ### MCP server (Cursor, Claude, Windsurf)
 
@@ -116,18 +116,18 @@ Pin the client version and follow the **hook → preview → trial → gate** fu
 
 ```yaml
 # 1. Hook (free)
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.2
+- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
   with:
     before: '{"id":1}'
     after: '{"id":1,"name":"x"}'
 
 # 2. Preview (free — links to console, non-blocking)
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.2
+- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     files-json: '[{"path":"mcp.json","content":"..."}]'
 
 # 3. Gate (Pro API key — blocks until all deps watched)
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.2
+- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
   with:
     api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
     files-json: '...'

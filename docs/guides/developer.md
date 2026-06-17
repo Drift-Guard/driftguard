@@ -2,7 +2,7 @@
 
 Compare JSON locally for fixtures, API snapshots, and pre-commit checks. No hosted account required for the steps below.
 
-**Before you start:** Node.js 20+, free client built (`npm ci && npm run build`). See [Getting started — install](../getting-started.md#1-install-the-oss-client).
+**Before you start:** Node.js 20+, DriftGuard CLI via `npx @driftguard/driftguard@latest` (or clone + build). See [Getting started — install](../getting-started.md#1-install-the-free-client).
 
 ---
 
