@@ -93,7 +93,7 @@ DriftGuard is **contract observability**, not a GRC platform. Integrate via:
 
 1. **Per-watch webhook** — POST to your SOAR ingestion URL; verify signing secret from console
 2. **`list_drift_events` MCP** — poll history for audit dashboards
-3. **Team console export** — drift timeline CSV/JSON (partial; see [hosted API](./hosted-api.md#drift-history-and-audit-team))
+3. **Team console export** — drift timeline CSV/JSON and signed audit JSON ([hosted API](./hosted-api.md#drift-history-and-audit-team))
 
 **Do not expect:** SOP/policy evaluation, HITL UI, WORM storage, or MGFA certification from this product alone. Export retention and immutability follow hosted Team terms — confirm on [driftguard.org/pricing](https://driftguard.org/pricing) before legal commitments.
 

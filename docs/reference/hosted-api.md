@@ -117,14 +117,33 @@ Auto-resolve runs when a check finds no breaking changes vs baseline. Additive-o
 
 #### Drift history and audit (Team)
 
-Team tier includes console export of drift events and acknowledgement metadata for governance workflows. **Status:** partial — export shape and retention are defined on the hosted site; this OSS index does not duplicate OpenAPI.
+Pro and Team tiers export drift events with watch lifecycle metadata for governance workflows. Fleet / legacy Team adds HMAC-signed audit JSON with incident acknowledgement trail.
 
 | Access | Auth | Scope |
 |--------|------|-------|
-| `list_drift_events` MCP / `GET /api/drift` | API key | Per-watch event list with structural diff summaries |
-| Console audit export | Team login | Bulk CSV/JSON for drift + ack trail (hosted UI) |
+| `GET /api/drift` / `list_drift_events` MCP | API key | Per-watch event list (50 rows max per request) |
+| `GET /api/drift/export?format=json` | API key (Pro+) | Structured JSON — schema `driftguard-drift-export-v1` |
+| `GET /api/drift/export?format=csv` | API key (Pro+) | CSV with `watchName`, `incidentStatus`, `changesJson` |
+| `GET /api/drift/export?format=audit` | API key (Fleet / Team) | Signed audit JSON — schema `driftguard-drift-audit-v1` + `ackTrail` |
+| `GET /api/drift/export/incident-packet?eventId=…` | API key (Fleet / Team) | Single-event evidence packet with trace + activity |
+| Console export | Session login | Same formats via Insights panel |
 
-Programmatic history today: paginate `GET /api/drift?watchId=…` or MCP `list_drift_events`. For governance evidence packs, pair scheduled monitoring with ack webhooks ([webhooks-alerts](./webhooks-alerts.md#incident-acknowledgement-trail)) — not a substitute for customer WORM/SIEM storage.
+**Query params:** `watchId` (optional filter), `limit` (capped by plan — 500 Pro, 5,000 Fleet/Team).
+
+**Retention (hosted):**
+
+| Plan | Drift history | Export row cap |
+|------|---------------|----------------|
+| Pro / Critical | 180 days | 500 |
+| Fleet / Fleet+ / Team (legacy) | 365 days | 5,000 |
+
+Drift rows are append-only for the retention window. Signed audit exports include an `immutabilityNote` — copy to your WORM/SIEM for long-term legal hold; DriftGuard does not provide WORM storage.
+
+**JSON export fields (per event):** `id`, `watchId`, `watchName`, `watchUrl`, `watchType`, `vendor`, `category`, `incidentStatus`, `breakingCount`, `warningCount`, `infoCount`, `detectedAt`, `changes`.
+
+**Signed audit extras:** `ackTrail[]` (`incident.opened` / `incident.acknowledged` / `incident.resolved`), `signature` (HMAC-SHA256), `retentionDays`, `exportedAt`.
+
+Programmatic history without bulk export: paginate `GET /api/drift?watchId=…` or MCP `list_drift_events`. Pair with ack webhooks ([webhooks-alerts](./webhooks-alerts.md#incident-acknowledgement-trail)) for SOAR ingest.
 
 ### Agents (orchestration)
 
