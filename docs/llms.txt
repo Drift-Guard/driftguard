@@ -34,7 +34,7 @@ Four design-time eval scenarios: [guides/agent-mcp.md#agent-eval-scenarios-desig
 
 ## Identity
 
-- Package: driftguard (clone + build; npm publish optional)
+- Package: @driftguard/driftguard (primary npm; @driftguard/cli alias; clone + build until published)
 - Role: JSON schema diff, mcp.json preview, proxy to hosted API
 - Boundary: OPEN_CORE.md — do not document hosted infrastructure in OSS repo
 

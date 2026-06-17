@@ -17,7 +17,7 @@ Add DriftGuard to pipelines in four steps: **hook → preview → trial → gate
 | **Trial gate** | Assert all deps watched | Trial session | Yes (1 endpoint) |
 | **Pro gate** | Assert all deps watched | `dg_…` key | Yes (plan limit) |
 
-**Pin policy:** `uses: kioie/driftguard/...@v0.3.3` or `npx driftguard@0.3.3` — never `@main`.
+**Pin policy:** `uses: kioie/driftguard/...@v0.3.3` or `npx @driftguard/driftguard@0.3.3` — never `@main`.
 
 ---
 
@@ -32,7 +32,7 @@ Fastest add: copy [examples/workflows/driftguard-starter.yml](../../examples/wor
     after: '{"status":"ok","data":{"id":1,"name":"test"}}'
 ```
 
-CLI equivalent: `npx driftguard@0.3.3 diff "$BEFORE" "$AFTER"`.
+CLI equivalent: `npx @driftguard/driftguard@0.3.3 diff "$BEFORE" "$AFTER"`.
 
 Details: [CI.md — Layer 1](../CI.md#layer-1--hook-free).
 

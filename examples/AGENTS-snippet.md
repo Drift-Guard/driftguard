@@ -12,7 +12,7 @@ Design-time triggers: **MCP tool catalog drift**, **mcp.json preflight**, **agen
 When adding or changing MCP servers, agent tools, or JSON API fixtures:
 
 1. **MCP** — add stdio server (copy [examples/mcp-client-config.json](https://github.com/kioie/driftguard/blob/main/examples/mcp-client-config.json)):
-   `"command": "npx"`, `"args": ["-y", "driftguard@0.3.3", "mcp"]`
+   `"command": "npx"`, `"args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"]`
 2. **Offline first** — run MCP tool `compare_json` on before/after payloads before merge.
 3. **Hosted** — set `DRIFTGUARD_API_KEY` for watches / `assert_coverage`; trial: https://driftguard.org/start
 4. **Unsure?** — call `hosted_info` (no key) for free vs paid tools.

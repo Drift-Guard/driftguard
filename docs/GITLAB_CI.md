@@ -2,7 +2,7 @@
 
 DriftGuard CI uses the same OSS CLI on GitLab — no GitHub Actions required. Hosted preview and Pro gate call the same API routes as GitHub.
 
-**Pin:** `npx driftguard@0.3.3` (never `@latest` in production pipelines).
+**Pin:** `npx @driftguard/driftguard@0.3.3` (never `@latest` in production pipelines).
 
 ---
 
@@ -54,7 +54,7 @@ curl -sX POST https://driftguard.org/api/trial/session \
 
 | | GitHub Actions | GitLab CI |
 |--|----------------|-----------|
-| Distribution | Composite actions on Marketplace | `npx driftguard@X.Y.Z` in `.gitlab-ci.yml` |
+| Distribution | Composite actions on Marketplace | `npx @driftguard/driftguard@X.Y.Z` in `.gitlab-ci.yml` |
 | Repo slug | `GITHUB_REPOSITORY` | `CI_PROJECT_PATH` |
 | Job summary | `GITHUB_STEP_SUMMARY` | `CI_JOB_SUMMARY` |
 | Scan paths | `scan-paths` action input | `DRIFTGUARD_SCAN_PATHS` env |

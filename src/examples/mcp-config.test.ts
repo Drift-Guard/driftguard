@@ -18,7 +18,7 @@ describe("examples/mcp-client-config.json", () => {
     const dg = config.mcpServers.driftguard;
     assert.equal(dg.command, "npx");
     assert.ok(dg.args.includes("-y"));
-    assert.ok(dg.args.some((arg) => arg === `driftguard@${VERSION}`));
+    assert.ok(dg.args.some((arg) => arg === `@driftguard/driftguard@${VERSION}`));
     assert.equal(dg.args.at(-1), "mcp");
     for (const arg of dg.args) {
       assert.ok(!arg.startsWith("/"), `arg must not be absolute path: ${arg}`);

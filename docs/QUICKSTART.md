@@ -43,7 +43,7 @@ Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) into 
   "mcpServers": {
     "driftguard": {
       "command": "npx",
-      "args": ["-y", "driftguard@0.3.3", "mcp"],
+      "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"],
       "env": {
         "DRIFTGUARD_API_KEY": ""
       }

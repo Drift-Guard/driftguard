@@ -15,7 +15,7 @@ driftguard-preview:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
-    - npm install -g driftguard@${DRIFTGUARD_VERSION}
+    - npm install -g @driftguard/driftguard@${DRIFTGUARD_VERSION}
     - driftguard coverage-preview
   allow_failure: true
 
@@ -28,5 +28,5 @@ driftguard-preview:
 #   rules:
 #     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 #   script:
-#     - npm install -g driftguard@${DRIFTGUARD_VERSION}
+#     - npm install -g @driftguard/driftguard@${DRIFTGUARD_VERSION}
 #     - driftguard assert-coverage

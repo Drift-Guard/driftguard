@@ -27,7 +27,7 @@ install_from_workspace() {
   fi
   local name
   name="$(node -p "require('$ROOT/package.json').name" 2>/dev/null || true)"
-  [ "$name" = "driftguard" ] || return 1
+  [ "$name" = "@driftguard/driftguard" ] || [ "$name" = "driftguard" ] || return 1
   if [ ! -d "$ROOT/dist/cli" ]; then
     echo "Building DriftGuard from workspace..."
     (cd "$ROOT" && npm ci && npm run build)
@@ -44,10 +44,12 @@ if [ -z "$VERSION" ]; then
   exit 1
 fi
 
-echo "Target driftguard@${VERSION}..."
+echo "Target @driftguard/driftguard@${VERSION}..."
 
 if install_from_workspace; then
   :
+elif npm view "@driftguard/driftguard@${VERSION}" version >/dev/null 2>&1; then
+  npm install -g "@driftguard/driftguard@${VERSION}"
 elif npm view "driftguard@${VERSION}" version >/dev/null 2>&1; then
   npm install -g "driftguard@${VERSION}"
 else
