@@ -38,6 +38,10 @@ Set `DRIFTGUARD_API_KEY` for continuous watches (`register_watch`, `assert_cover
 
 Drop the block from [examples/AGENTS-snippet.md](https://github.com/kioie/driftguard/blob/main/examples/AGENTS-snippet.md) into `AGENTS.md` or `.cursor/rules`.
 
+## Singapore deployment checklist
+
+For MGFA-aligned coverage gates: [singapore-agent-deployment-checklist.md](https://github.com/kioie/driftguard/blob/main/docs/guides/singapore-agent-deployment-checklist.md)
+
 ## Reference
 
 - Tool matrix and decision flow: [SYSTEM_PROMPT.md](https://github.com/kioie/driftguard/blob/main/SYSTEM_PROMPT.md)

@@ -70,3 +70,15 @@ fuseguard validate-trip-log .fuseguard/trip.json
 | FG-2A-6 | Trip log schema | Done |
 
 **Next (2B):** Cloud trip ingest + drift correlation (`fuseguard_prod`).
+
+## MGFA — loop and budget controls (separate from contract preflight)
+
+FuseGuard **loop detection** and **budget caps** address runaway or costly agent actions (MGFA Dimension 3 guardrails). This is **orthogonal** to contract preflight (E5) — preflight blocks tool calls when **watches** report open drift; loop/budget fuse stops **repeated or expensive** calls regardless of schema state.
+
+| Control | Trigger | Trip reason (examples) |
+|---------|---------|------------------------|
+| Loop detect | Same tool+args repeated | `loop_detected` |
+| Budget gate | Estimated cost exceeds cap | `budget_exceeded` |
+| Preflight (E5) | Open drift on bound watch | `contract_drift_blocked` |
+
+Document all three in runbooks; do not position loop fuse alone as full contract observability. See [gate ladder](../../docs/policies/gate-ladder.md) · [SINGAPORE-MGFA-PRODUCT-FIT.md](../../docs/SINGAPORE-MGFA-PRODUCT-FIT.md).

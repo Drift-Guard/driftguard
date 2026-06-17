@@ -62,6 +62,17 @@ When `breakingCount > 0`, call **`explain_drift`** with the `changes` array from
 
 Do not use `explain_drift` as a substitute for local diff or watch registration.
 
+### Operator vs end-user visibility (MGFA Dim 4)
+
+| Audience | What they see | Surface |
+|----------|---------------|---------|
+| **Operators / integrators** | Breaking change list, field-level remediation hints, watch incident state | `explain_drift`, console drift timeline, webhooks |
+| **End users of your agent product** | Whatever your app chooses to expose — DriftGuard does not train end users | Your UX + customer L&D |
+
+`explain_drift` is for **contract maintainers** after structural drift is detected — not a substitute for end-user disclosure programmes required by MGFA Dimension 4 tradecraft. Hosted watches may add richer context on Pro/Team; the public endpoint stays bounded and keyless.
+
+**MGFA buyers:** Pair operator transparency with post-deploy monitoring and ack trails — [drift management](./drift-management.md) · [SINGAPORE-MGFA-PRODUCT-FIT.md](../SINGAPORE-MGFA-PRODUCT-FIT.md).
+
 ---
 
 ## Preview dependencies (offline)
