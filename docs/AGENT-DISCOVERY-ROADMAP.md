@@ -84,7 +84,7 @@ flowchart TD
 |------|----------|---------|
 | **0** | INT-001, INT-004, DISC-005 | None |
 | **1** | INT-002, INT-003, DISC-004 | INT-002 template ships before npm; `npx` E2E verifies after DISC-001 |
-| **2** | DISC-001, DISC-002 | DISC-001: `NPM_TOKEN` + npm org; registry npm 0.3.3 (currently 0.1.1) |
+| **2** | DISC-001, DISC-002 | DISC-001: scoped npm name + `NPM_TOKEN`; unscoped `driftguard` taken (0.1.1) |
 | **3** | DISC-003, AGT-001 | Cloud deploy access |
 | **4** | ACT-002, ACT-003, ACT-001 | ACT-001 needs INT-002 + AGT-001 |
 | **5** | DES-001–004 | Mostly docs; DES-001 after DISC-005 |
@@ -99,7 +99,12 @@ flowchart TD
 ### [DISC-001] Publish npm package + `npx driftguard-mcp`
 
 - **Architecture note:** OSS only. `package.json` bins and `release.yml` publish job stay in public repo; `NPM_TOKEN` is GitHub secret — never committed. Hosted monitoring remains cloud-only per [OPEN_CORE.md](../OPEN_CORE.md).
-- **Prerequisites:** npm org `driftguard` access; `NPM_TOKEN` in GitHub repo secrets; semver tag `v0.3.3+`.
+- **Brand landscape (2026-06 scan):** ~154 GitHub repos named `driftguard`; **0 forks** of `kioie/driftguard`. npm unscoped names are **occupied** — do not publish as `driftguard` without resolution:
+  1. **`driftguard`** — [sjamcox](https://www.npmjs.com/package/driftguard) UI linter (unrelated).
+  2. **`driftguard-cli`** / npm user **`driftguard`** — [getdriftguard](https://www.npmjs.com/package/driftguard-cli) API schema CLI (different product).
+  3. **`driftguard-mcp`** — [jschoemaker](https://www.npmjs.com/package/driftguard-mcp) conversation-drift MCP (unrelated).
+- **Recommended publish path:** scoped **`@kioie/driftguard`** (matches GitHub org; avoids collisions) **or** negotiate transfer/deprecation with incumbent publishers. Update `package.json` `name`, `server.json` identifier, INT-002 npx template, and docs in the same release PR.
+- **Prerequisites:** `NPM_TOKEN` with publish rights to chosen scope/org; semver tag `v0.3.3+`.
 - **Implementation steps:**
   1. Verify `.github/workflows/release.yml` `publish-npm` job runs `npm publish --access public` on `v*` tags.
   2. Verify `package.json` declares bins `driftguard` → `dist/cli/check.js`, `driftguard-mcp` → `dist/mcp/server.js`; `files` includes `dist`, `server.json`, `examples/mcp-client-config.json`.
@@ -119,7 +124,7 @@ flowchart TD
 - **PR scope:** `.github/workflows/release.yml` (if fixes needed), `package.json`, `server.json`, post-publish doc files listed above
 - **Rollback:** Deprecate bad npm version via npm deprecate; yank only if security issue; revert doc claims if publish fails
 
-**Status:** Blocked — npm registry shows `0.1.1`; `0.3.3` not published. Unblock: set `NPM_TOKEN`, tag release.
+**Status:** Blocked — unscoped `driftguard` on npm is another product (`0.1.1`); `0.3.3` not published. Unblock: choose scoped name (`@kioie/driftguard`) or negotiate unscoped transfer, then set `NPM_TOKEN` and tag release.
 
 ---
 
