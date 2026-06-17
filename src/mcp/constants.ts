@@ -19,7 +19,7 @@ export function resolveHostedApi(env: NodeJS.ProcessEnv = process.env): {
   api: string;
   customBlocked: boolean;
 } {
-  const requested = env.DRIFTGUARD_API?.trim();
+  const requested = env.DRIFTGUARD_API?.trim(); // NOSONAR S5144 — https-only + DRIFTGUARD_ALLOW_CUSTOM_API gate below
   if (!requested) {
     return { api: DEFAULT_HOSTED_API, customBlocked: false };
   }
