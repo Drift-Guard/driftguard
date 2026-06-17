@@ -22,7 +22,7 @@ Many projects share the name **DriftGuard**. This repo ([kioie/driftguard](https
 - **[getdriftguard](https://www.npmjs.com/package/driftguard-cli)** — API schema CLI under npm user `driftguard`; different vendor and scope.
 - **GitHub orgs / ML libs** — assorted `driftguard` repos (GitOps, Python ML, etc.); verify `kioie/driftguard` or driftguard.org before integrating.
 
-See [docs/AGENT-DISCOVERY-ROADMAP.md](docs/AGENT-DISCOVERY-ROADMAP.md) § DISC-001 for npm publish path (`@kioie/driftguard` recommended).
+See [docs/AGENT-DISCOVERY-ROADMAP.md](docs/AGENT-DISCOVERY-ROADMAP.md) § DISC-001 for npm publish path (`@driftguard/driftguard` scoped package).
 
 ---
 
@@ -61,12 +61,27 @@ npm run check -- diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
 
 See [docs/QUICKSTART.md](docs/QUICKSTART.md), [examples/mcp-client-config.json](examples/mcp-client-config.json), and [examples/AGENTS-snippet.md](examples/AGENTS-snippet.md) for consumer repos.
 
+**From a local clone** (after `npm run build`):
+
 ```json
 {
   "mcpServers": {
     "driftguard": {
       "command": "node",
       "args": ["/absolute/path/to/driftguard/dist/mcp/server.js"]
+    }
+  }
+}
+```
+
+**Or via npx** (no clone — copy from [examples/mcp-client-config.json](examples/mcp-client-config.json)):
+
+```json
+{
+  "mcpServers": {
+    "driftguard": {
+      "command": "npx",
+      "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"]
     }
   }
 }
