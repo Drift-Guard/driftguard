@@ -24,4 +24,17 @@
 
 ## Verdict
 
-**Refine** — Lint alone is insufficient for MGFA storytelling; **hosted resolution + CI coverage gate** must land before Approved. Don't claim Dim 1 IAM coverage.
+**Refine** — Lint alone is insufficient for MGFA storytelling; **`assert_a2a_coverage` CI gate** must land before Approved. Hosted watch resolution from manifest is **shipped** (`POST /api/agents/manifest`). Do not claim Dim 1 IAM coverage.
+
+## Refine delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Semantic manifest lint (duplicate ids, A2A↔watch alignment, skillToolMap discipline) | OSS `src/agents/validate.ts` |
+| Manifest lint unit tests | OSS `src/agents/validate.test.ts` |
+| MGFA binding manifest guide (inventory, hosted sync path, evidence artifact) | [agent-binding-manifest.md](../../guides/agent-binding-manifest.md) |
+| CI workflow template (blocking lint on manifest PRs) | [examples/workflows/agents-lint.yml](../../../examples/workflows/agents-lint.yml) |
+| Harness MGFA profile `agents.yaml` + `agents_lint` gate | `examples/harness-mgfa/.driftguard/` |
+| Hosted watch URL → binding resolution | Cloud `POST /api/agents/manifest` · `missingWatchUrls` on 422 |
+
+Assessment remains **Draft** until `assert_a2a_coverage` ships. Verdict unchanged: **Refine** (lint hardening + docs shipped; A2A correlation gate remains roadmap).

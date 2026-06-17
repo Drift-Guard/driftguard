@@ -23,7 +23,7 @@ DriftGuard reconciles **declared vs actual**:
 
 ## Quick start (when shipped)
 
-1. Add manifest — see [examples/a2a/agents.yaml](../../examples/a2a/agents.yaml)
+1. Add manifest — see [examples/a2a/agents.yaml](../../examples/a2a/agents.yaml) and [agent binding manifest](./agent-binding-manifest.md)
 2. Register watches — `a2a_card` + `mcp` URLs from manifest (hosted Pro/Team)
 3. CI — `assert_a2a_coverage` GitHub Action on PRs touching manifest or `mcp.json`
 4. MCP — `parse_agent_card` (offline), `correlate_card_mcp` (hosted)

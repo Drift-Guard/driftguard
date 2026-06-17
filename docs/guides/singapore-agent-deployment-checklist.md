@@ -15,6 +15,8 @@ Use this checklist when deploying agentic apps in Singapore/APAC programmes that
 | 1 | Pin harness bundle | Dim 3 reproducible baselines | `.driftguard/gates.yaml`, `harness.lock` |
 | 2 | Run MockDrift + evaluator | Dim 3 pre-deploy testing | `mockdrift.sensor/v1` JSON (producer ≠ reviewer) |
 | 3 | Lint `agents.yaml` bindings | Dim 1 bound tool scope | CI log from `drift-agents-lint` |
+
+Workflow: [agent-binding-manifest.md](./agent-binding-manifest.md) · CI template: [examples/workflows/agents-lint.yml](../../examples/workflows/agents-lint.yml).
 | 4 | ToolChange on MCP manifest PRs | Dim 3 change management | PR check output |
 
 Workflow: [toolchange-change-management.md](./toolchange-change-management.md) · CI template: [examples/workflows/toolchange.yml](../../examples/workflows/toolchange.yml).

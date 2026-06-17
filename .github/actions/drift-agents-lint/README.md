@@ -24,7 +24,12 @@ Scan a directory for `agents.yaml` / `*.agents.yaml`:
 - `version: 1`, required `agents[]` entries
 - Policy preset names (`notify-only`, `production-guard`, …) or inline `policies` block
 - `runtime_webhook` must be HTTPS
+- Duplicate `id` / `slug`
+- `a2a.cardUrl` requires matching `a2a_card` watch + `mcp.skillToolMap`
+- `mcp` watch requires `mcp.configPath`
 - Watch entries (`type` + `url`) per [examples/a2a/agents.yaml](../../../examples/a2a/agents.yaml)
+
+Guide: [agent-binding-manifest.md](../../../docs/guides/agent-binding-manifest.md)
 
 ## CLI equivalent
 

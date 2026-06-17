@@ -1,0 +1,16 @@
+# MGFA harness profile — declared agent bindings for inventory lint (Gate 2B)
+# See docs/guides/agent-binding-manifest.md
+version: 1
+agents:
+  - id: billing-refund-mgfa
+    slug: billing-refund-mgfa
+    environment: staging
+    policy: staging-strict
+    mcp:
+      configPath: .cursor/mcp.json
+      skillToolMap:
+        process_refund:
+          - stripe_create_refund
+    watches:
+      - type: mcp
+        url: https://mcp.example.com/sse

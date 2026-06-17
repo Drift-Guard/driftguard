@@ -73,6 +73,55 @@ function validatePolicyReferences(manifest: AgentsManifest): string[] {
   return errors;
 }
 
+function validateManifestSemantics(manifest: AgentsManifest): string[] {
+  const errors: string[] = [];
+  const ids = new Set<string>();
+  const slugs = new Set<string>();
+
+  for (const agent of manifest.agents) {
+    if (ids.has(agent.id)) {
+      errors.push(`duplicate agent id "${agent.id}"`);
+    }
+    ids.add(agent.id);
+
+    const slug = agent.slug ?? agent.id;
+    if (slugs.has(slug)) {
+      errors.push(`duplicate agent slug "${slug}"`);
+    }
+    slugs.add(slug);
+
+    const skillToolMap = agent.mcp?.skillToolMap;
+    const hasSkillMap = skillToolMap && Object.keys(skillToolMap).length > 0;
+
+    if (hasSkillMap && !agent.mcp?.configPath) {
+      errors.push(`agent "${agent.id}": mcp.configPath required when skillToolMap is set`);
+    }
+
+    if (agent.a2a?.cardUrl) {
+      if (!hasSkillMap) {
+        errors.push(
+          `agent "${agent.id}": mcp.skillToolMap required when a2a.cardUrl is declared`,
+        );
+      }
+      const cardWatch = agent.watches.find(
+        (w) => w.type === "a2a_card" && w.url === agent.a2a!.cardUrl,
+      );
+      if (!cardWatch) {
+        errors.push(
+          `agent "${agent.id}": watches must include a2a_card with url matching a2a.cardUrl`,
+        );
+      }
+    }
+
+    const mcpWatch = agent.watches.find((w) => w.type === "mcp");
+    if (mcpWatch && !agent.mcp?.configPath) {
+      errors.push(`agent "${agent.id}": mcp.configPath required when an mcp watch is declared`);
+    }
+  }
+
+  return errors;
+}
+
 export function validateAgentsYamlText(yamlText: string): ValidateAgentsYamlResult {
   let parsed: unknown;
   try {
@@ -94,6 +143,9 @@ export function validateAgentsYamlText(yamlText: string): ValidateAgentsYamlResu
 
   const refErrors = validatePolicyReferences(result.data);
   if (refErrors.length) return { ok: false, errors: refErrors };
+
+  const semanticErrors = validateManifestSemantics(result.data);
+  if (semanticErrors.length) return { ok: false, errors: semanticErrors };
 
   return { ok: true, manifest: result.data };
 }

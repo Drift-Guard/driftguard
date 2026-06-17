@@ -79,7 +79,7 @@ Integration surfaces: MCP/HTTP proxy (`FuseProxy`), runner wrap (`wrap_agent`). 
 | **When** | Production agents declare bindings in `.driftguard/agents.yaml`; catch schema/policy errors in CI |
 | **When not** | Bindings managed only in hosted console with no manifest in Git |
 | **Surface** | `.driftguard/agents.yaml`, GitHub Action `drift-agents-lint`, `driftguard lint-agents` |
-| **Status** | **Shipped** (CP-2.1) — hosted watch resolution and `assert_a2a_coverage` remain roadmap |
+| **Status** | **Shipped** (CP-2.1) — hosted `POST /api/agents/manifest` watch resolution shipped; `assert_a2a_coverage` remains roadmap |
 
 ```yaml
 - uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
@@ -87,7 +87,7 @@ Integration surfaces: MCP/HTTP proxy (`FuseProxy`), runner wrap (`wrap_agent`). 
     manifest: .driftguard/agents.yaml
 ```
 
-Guide: [A2A Contract Watch](../guides/a2a-contract-watch.md) · Hosted: [agents.yaml reference](https://driftguard.org/docs/reference/agents-yaml).
+Guide: [agent binding manifest](../guides/agent-binding-manifest.md) · [A2A Contract Watch](../guides/a2a-contract-watch.md) · Hosted: [agents.yaml reference](https://driftguard.org/docs/reference/agents-yaml).
 
 ---
 
