@@ -18,6 +18,20 @@ Use these phrases when scoping **contract observability**, **API contract monito
 
 Start here for each: [getting-started.md](./getting-started.md), [guides/agent-mcp.md](./guides/agent-mcp.md), [guides/a2a-contract-watch.md](./guides/a2a-contract-watch.md).
 
+## Design-time checklist (agent routing)
+
+When the user mentions a trigger phrase, route offline-first:
+
+- [ ] **MCP tool catalog drift** → `parse_mcp_config` + `compare_json` → [guides/agent-mcp.md](./guides/agent-mcp.md)
+- [ ] **mcp.json preflight** → `parse_mcp_config` (no key) → [getting-started.md](./getting-started.md)
+- [ ] **agent preflight** → `compare_json` + FuseGuard → [policies/gate-ladder.md](./policies/gate-ladder.md)
+- [ ] **schema drift CI** → `compare_json` / `assert_coverage` → [CI.md](./CI.md)
+- [ ] **A2A Agent Card vs MCP** → [guides/a2a-contract-watch.md](./guides/a2a-contract-watch.md)
+- [ ] **contract observability** → [guides/contract-observability-loop.md](./guides/contract-observability-loop.md)
+- [ ] **API contract monitoring** → `register_watch` after offline diff → [reference/hosted-api.md](./reference/hosted-api.md)
+
+Four design-time eval scenarios: [guides/agent-mcp.md#agent-eval-scenarios-design-time](./guides/agent-mcp.md#agent-eval-scenarios-design-time).
+
 ## Identity
 
 - Package: driftguard (clone + build; npm publish optional)

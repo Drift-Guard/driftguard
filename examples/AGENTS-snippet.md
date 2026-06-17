@@ -7,6 +7,8 @@ Drop this block into your project's `AGENTS.md`, `CLAUDE.md`, or `.cursor/rules`
 ```markdown
 ## DriftGuard (MCP / API contract drift)
 
+Design-time triggers: **MCP tool catalog drift**, **mcp.json preflight**, **agent preflight**, **schema drift CI**, **A2A Agent Card vs MCP** — start offline (`compare_json`, `parse_mcp_config`); add hosted watches only with `DRIFTGUARD_API_KEY`.
+
 When adding or changing MCP servers, agent tools, or JSON API fixtures:
 
 1. **MCP** — add stdio server (copy [examples/mcp-client-config.json](https://github.com/kioie/driftguard/blob/main/examples/mcp-client-config.json)):
