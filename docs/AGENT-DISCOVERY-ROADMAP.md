@@ -594,7 +594,7 @@ Run periodically (manual or scripted):
 | DIST-002 | [cloud#347](https://github.com/kioie/driftguard-cloud/pull/347), [#98](https://github.com/kioie/driftguard/pull/98) | merged | 2026-06-17 |
 | DIST-003 | | deferred — pending npm (DISC-001) + registry (DISC-002) | |
 | OPS-001 | [cloud#346](https://github.com/kioie/driftguard-cloud/pull/346), [#96](https://github.com/kioie/driftguard/pull/96) | merged | 2026-06-17 |
-| E1 | [#100](https://github.com/kioie/driftguard/pull/100), [cloud#349](https://github.com/kioie/driftguard-cloud/pull/349) | pending | Wave A Refine — watch health SLOs + incident lifecycle |
+| E1 | [#100](https://github.com/kioie/driftguard/pull/100), [cloud#349](https://github.com/kioie/driftguard-cloud/pull/349) | merged | 2026-06-17 |
 
 ---
 
@@ -607,4 +607,5 @@ Run periodically (manual or scripted):
 | 2026-06-17 | DISC-001/DISC-002 deferred — npm publish track skipped until org token fixed |
 | 2026-06-17 | OPS-001 merged — PostHog `phc_` live in prod; FUNNEL-ANALYTICS.md aligned |
 | 2026-06-17 | DIST-002 merged — LAUNCH playbooks (Dev.to/HN prep); OSS DISCOVERY link |
+| 2026-06-17 | E1 Refine merged — watch health SLO docs ([#100](https://github.com/kioie/driftguard/pull/100)) + API fields ([cloud#349](https://github.com/kioie/driftguard-cloud/pull/349)) |
 | 2026-06-17 | MGFA Wave B/C Go docs ([#97](https://github.com/kioie/driftguard/pull/97)) — E2,E10,E15,E16,E20,E21,E22 |
