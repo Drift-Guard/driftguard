@@ -577,11 +577,11 @@ Run periodically (manual or scripted):
 | DISC-004 | [#82](https://github.com/kioie/driftguard/pull/82) | merged | 2026-06-17 |
 | DISC-005 | [#78](https://github.com/kioie/driftguard/pull/78) | merged | 2026-06-16 |
 | ACT-001 | | pending | |
-| ACT-002 | | pending | |
-| DES-001 | | pending | |
-| DES-002 | | pending | |
-| DES-003 | | pending | |
-| DES-004 | | pending | |
+| ACT-002 | [#85](https://github.com/kioie/driftguard/pull/85), [cloud#338](https://github.com/kioie/driftguard-cloud/pull/338) | merged | 2026-06-17 |
+| DES-001 | [#86](https://github.com/kioie/driftguard/pull/86) | merged | 2026-06-17 |
+| DES-002 | [#87](https://github.com/kioie/driftguard/pull/87) | merged | 2026-06-17 |
+| DES-003 | [#88](https://github.com/kioie/driftguard/pull/88) | merged | 2026-06-17 |
+| DES-004 | [#89](https://github.com/kioie/driftguard/pull/89) | in progress | |
 | DIST-002 | | pending | |
 | DIST-003 | | pending | |
 | OPS-001 | | pending | |

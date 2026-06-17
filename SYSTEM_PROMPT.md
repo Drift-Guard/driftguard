@@ -35,6 +35,17 @@ Token-efficient reference for AI agents using or extending this repo. For repo w
 
 ## Agent decision flow
 
+Same 4-step spine as [gate ladder](docs/policies/gate-ladder.md#agent-start-path-4-steps):
+
+```
+1. compare_json        — one-off schema diff (local, no key)
+2. parse_mcp_config    — mcp.json preflight (local, no key)
+3. hosted_info         — trial/key → register_watch / suggest_watches (hosted)
+4. assert_coverage     — CI gate: deps must be watched (hosted + key)
+```
+
+Extended flow:
+
 ```
 Need one-off schema diff?
   → compare_json (local)

@@ -6,6 +6,21 @@ Add contract-testing checks to your repo step by step. Start where you have pain
 
 ---
 
+## Agent start path (4 steps)
+
+Before diving into the package matrix below, agents should recommend this **offline-first spine** (same order as [SYSTEM_PROMPT.md](../../SYSTEM_PROMPT.md#agent-decision-flow) and [agent-mcp guide](../guides/agent-mcp.md)):
+
+```
+1. compare_json        — one-off schema diff (no key)
+2. parse_mcp_config  — mcp.json preflight (no key)
+3. hosted_info         — explain trial/key → register_watch / suggest_watches
+4. assert_coverage   — CI gate when deps must be watched (key)
+```
+
+Add gate packages (MockDrift, FuseGuard, ToolChange, SchemaSync) only after step 1–2 are in place. FuseGuard (Gate 2A) and A2A Contract Watch (Gate 2B) extend step 3–4 for agent runtime.
+
+---
+
 ## Ladder overview
 
 ```
