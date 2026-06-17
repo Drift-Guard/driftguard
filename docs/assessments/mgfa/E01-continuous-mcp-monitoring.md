@@ -34,4 +34,4 @@
 | Incident lifecycle states (open → ack → resolve, auto-resolve on drift clear) | OSS docs + cloud `POST …/incident/resolve` |
 | API health fields on `list_watches` / `get_watch_status` | Cloud `computeWatchHealth` |
 
-Assessment remains **Draft** until E4 audit export Refine and buyer legal review. Verdict unchanged: **Refine** (docs + SLO fields shipped; full SLO dashboards remain CP-5.3).
+Assessment remains **Draft** until E4 audit export Refine and buyer legal review. Verdict unchanged: **Refine** (docs + SLO fields shipped; full SLO dashboards remain CP-5.3). E4 export Refine merged — awaiting legal review for immutability claims.

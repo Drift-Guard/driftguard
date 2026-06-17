@@ -595,6 +595,7 @@ Run periodically (manual or scripted):
 | DIST-003 | | deferred — pending npm (DISC-001) + registry (DISC-002) | |
 | OPS-001 | [cloud#346](https://github.com/kioie/driftguard-cloud/pull/346), [#96](https://github.com/kioie/driftguard/pull/96) | merged | 2026-06-17 |
 | E1 | [#100](https://github.com/kioie/driftguard/pull/100), [cloud#349](https://github.com/kioie/driftguard-cloud/pull/349) | merged | 2026-06-17 |
+| E4 | | open | |
 
 ---
 

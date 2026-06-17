@@ -25,3 +25,14 @@
 ## Verdict
 
 **Refine** — High value for MGFA evidence pack but **requires hosted product completion** before Approved; do not over-promise immutability without legal/infra review.
+
+## Refine delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Structured CSV/JSON export (`GET /api/drift/export`) with watch lifecycle fields | Cloud `drift-export.ts` · integration tests |
+| Signed audit JSON (`format=audit`) with `ackTrail` + HMAC signature | Cloud Team/Fleet tier |
+| Retention + immutability buyer narrative | Cloud `docs/compliance/DRIFT-AUDIT-EXPORT.md` |
+| OSS API index aligned to shipped export schemas | [hosted-api](../../reference/hosted-api.md#drift-history-and-audit-team) |
+
+Assessment remains **Draft** until buyer legal review of immutability claims. Verdict unchanged: **Refine** (export + retention docs shipped; WORM/SIEM remains partner territory).
