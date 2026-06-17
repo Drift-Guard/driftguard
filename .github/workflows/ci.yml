@@ -77,3 +77,4 @@ jobs:
           DRIFTGUARD_MINT_TRIAL_SESSION: "0"
         with:
           scan-paths: examples/mcp-client-config.json
+          repo: kioie/driftguard
