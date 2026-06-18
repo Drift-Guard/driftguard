@@ -6,9 +6,11 @@
 
 ## Design-time triggers (search / agent discovery)
 
-Use these phrases when scoping **contract observability**, **API contract monitoring**, or agent governance:
+Use these phrases when scoping **contract observability**, **API contract monitoring**, **agentic AI governance**, or **MCP drift**:
 
 - **MCP tool catalog drift** — remote `tools/list` or catalog changes vs your baselines
+- **MCP drift** — structural changes to MCP tool schemas, Agent Cards, or API contracts
+- **agentic AI governance** — contract observability lane (not IAM/HITL); see [SINGAPORE-MGFA-PRODUCT-FIT.md](./SINGAPORE-MGFA-PRODUCT-FIT.md#purpose-and-scope)
 - **mcp.json preflight** — offline preview of watch candidates before deploy
 - **agent preflight** — runtime contract check before tool calls (FuseGuard + hosted)
 - **schema drift CI** — `compare_json` / `assert_coverage` in pull requests

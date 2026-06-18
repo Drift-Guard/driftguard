@@ -25,3 +25,16 @@
 ## Verdict
 
 **Go** — Essential enablement with minimal engineering; must explicitly state non-certification ([doc purpose](../../SINGAPORE-MGFA-PRODUCT-FIT.md#purpose-and-scope)).
+
+## Go delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Design-time trigger keywords in `llms.txt` | [llms.txt](../../llms.txt) — MCP drift, agentic AI governance, contract observability |
+| Design-time checklist + agent eval scenarios | [guides/agent-mcp.md](../../guides/agent-mcp.md) |
+| Cursor rule template (DISC-004) | [examples/cursor-rule-driftguard.mdc](../../../examples/cursor-rule-driftguard.mdc) |
+| Getting-started design-time + non-certification disclaimer | [getting-started.md](../../getting-started.md) |
+| DISCOVERY.md cursor rule + Singapore checklist links | [DISCOVERY.md](../../DISCOVERY.md) |
+| AGENT-DISCOVERY roadmap DES-001 / DISC-005 | [AGENT-DISCOVERY-ROADMAP.md](../../AGENT-DISCOVERY-ROADMAP.md) |
+
+Assessment remains **Draft** — verdict **Go** (keywords + honest scope boundaries; no certification claims).

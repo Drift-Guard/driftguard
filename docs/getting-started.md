@@ -6,7 +6,9 @@ A step-by-step checklist from **your first local diff** to **optional hosted mon
 
 **What's in this repo:** The free **client** (diff + MCP connector). Scheduled checks, MCP polling, alerts, and the console are [hosted Pro/Team](https://driftguard.org/pricing) — see [OPEN_CORE.md](../OPEN_CORE.md).
 
-**Design-time:** If you are evaluating **contract observability**, start with offline **mcp.json preflight** (`parse_mcp_config`) and **schema drift CI** (`compare_json` in CI). Add **API contract monitoring** when you need continuous hosted watches.
+**Design-time:** If you are evaluating **contract observability**, **agentic AI governance**, or **MCP drift**, start with offline **mcp.json preflight** (`parse_mcp_config`) and **schema drift CI** (`compare_json` in CI). Add **API contract monitoring** when you need continuous hosted watches.
+
+**Not MGFA certification:** DriftGuard provides contract observability evidence — not identity, HITL, or policy evaluation. See [Singapore MGFA product fit](./SINGAPORE-MGFA-PRODUCT-FIT.md#purpose-and-scope).
 
 **Positioning:** DriftGuard is **contract observability** for JSON APIs and MCP tool catalogs — not an error tracker (Sentry) and not pre-deploy OpenAPI lint only.
 
