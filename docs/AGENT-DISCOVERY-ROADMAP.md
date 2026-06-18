@@ -597,10 +597,18 @@ Run periodically (manual or scripted):
 | E1 | [#100](https://github.com/kioie/driftguard/pull/100), [cloud#349](https://github.com/kioie/driftguard-cloud/pull/349) | merged | 2026-06-17 |
 | E4 | [#104](https://github.com/kioie/driftguard/pull/104), [cloud#354](https://github.com/kioie/driftguard-cloud/pull/354) | merged | 2026-06-17 |
 | E22 | [#111](https://github.com/kioie/driftguard/pull/111) | merged | 2026-06-17 |
-| E5 | [#112](https://github.com/kioie/driftguard/pull/112) | merged | 2026-06-17 |
+| E5 | [#112](https://github.com/kioie/driftguard/pull/112), [cloud#358](https://github.com/kioie/driftguard-cloud/pull/358) | merged | 2026-06-17 |
 | E3 | [#105](https://github.com/kioie/driftguard/pull/105) | merged | 2026-06-17 |
+| E9 | [#107](https://github.com/kioie/driftguard/pull/107) | merged | 2026-06-17 |
+| E10 | [#97](https://github.com/kioie/driftguard/pull/97), [#122](https://github.com/kioie/driftguard/pull/122) | merged | 2026-06-18 |
+| E11 | [#92](https://github.com/kioie/driftguard/pull/92) | merged | 2026-06-17 |
+| E12 | [#123](https://github.com/kioie/driftguard/pull/123) | merged | 2026-06-18 |
+| E13 | [#113](https://github.com/kioie/driftguard/pull/113), [cloud#360](https://github.com/kioie/driftguard-cloud/pull/360) | merged | 2026-06-17 |
+| E17 | [#108](https://github.com/kioie/driftguard/pull/108), [cloud#355](https://github.com/kioie/driftguard-cloud/pull/355) | merged | 2026-06-17 |
+| E18 | [#109](https://github.com/kioie/driftguard/pull/109), [cloud#356](https://github.com/kioie/driftguard-cloud/pull/356) | merged | 2026-06-17 |
 | E23 | [#118](https://github.com/kioie/driftguard/pull/118) | merged | 2026-06-17 |
 | E6 | [#120](https://github.com/kioie/driftguard/pull/120), [cloud#384](https://github.com/kioie/driftguard-cloud/pull/384) | merged | 2026-06-18 |
+| E8 | [#125](https://github.com/kioie/driftguard/pull/125) | merged | 2026-06-18 |
 
 ---
 
@@ -618,3 +626,5 @@ Run periodically (manual or scripted):
 | 2026-06-17 | E5 Refine — runtime preflight reason taxonomy + MGFA pattern (Wave D) |
 | 2026-06-17 | E3 Refine merged — ToolChange manifest hardening + change-mgmt guide ([#105](https://github.com/kioie/driftguard/pull/105)) |
 | 2026-06-18 | E6 merged — `assert_a2a_coverage` OSS Action/CLI/MCP + cloud `POST /api/a2a/coverage/assert` ([#120](https://github.com/kioie/driftguard/pull/120), [cloud#384](https://github.com/kioie/driftguard-cloud/pull/384)) |
+| 2026-06-18 | E10/E12 enablement — coverage gate template ([#122](https://github.com/kioie/driftguard/pull/122)) + design-time MGFA keywords ([#123](https://github.com/kioie/driftguard/pull/123)) |
+| 2026-06-18 | MGFA execution log sync — E9, E11, E13, E17, E18, E5 cloud; E8 harness Go delivery |

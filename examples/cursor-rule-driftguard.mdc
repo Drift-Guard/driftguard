@@ -40,7 +40,15 @@ Drop the block from [examples/AGENTS-snippet.md](https://github.com/kioie/driftg
 
 ## Singapore deployment checklist
 
-For MGFA-aligned coverage gates: [singapore-agent-deployment-checklist.md](https://github.com/kioie/driftguard/blob/main/docs/guides/singapore-agent-deployment-checklist.md)
+For MGFA-aligned pre-deploy gates: [singapore-agent-deployment-checklist.md](https://github.com/kioie/driftguard/blob/main/docs/guides/singapore-agent-deployment-checklist.md)
+
+## Portable harness bundle (E8)
+
+When the repo has `.driftguard/gates.yaml`, pin gates with `harness.lock` and lint on PRs:
+
+- Profile: [examples/harness-mgfa/.driftguard/](https://github.com/kioie/driftguard/tree/main/examples/harness-mgfa/.driftguard)
+- CI template: [examples/workflows/drift-harness.yml](https://github.com/kioie/driftguard/blob/main/examples/workflows/drift-harness.yml)
+- Bootstrap: `mockdrift init` or copy the MGFA profile above
 
 ## Reference
 
