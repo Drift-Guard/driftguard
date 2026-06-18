@@ -37,10 +37,11 @@ uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
 
 ### Before first Marketplace publish
 
+- [ ] **OSS-2:** Publish `@driftguard/driftguard` — tag `v*` with `NPM_TOKEN` secret (see `.github/workflows/release.yml`)
 - [ ] Create Marketplace listing from repo **Releases → Publish Action to Marketplace** (or github.com/marketplace/new)
 - [ ] Listing description: hook → preview → Pro gate funnel; link to `docs/CI.md`
 - [ ] Category: **Code quality** or **Monitoring**
-- [ ] Verify npm package `driftguard` publishes on every tag (release workflow `publish-npm` job)
+- [ ] Verify npm package `@driftguard/driftguard` publishes on every tag (release workflow `publish-npm` job; requires `NPM_TOKEN`)
 - [ ] Add Marketplace badge to README after publish
 - [x] Pin all docs/examples to latest tag (`@v0.3.3`)
 - [ ] Optional: verified creator / org transfer if listing under company account
