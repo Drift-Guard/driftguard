@@ -1,0 +1,32 @@
+# Example: blocking coverage gate — all MCP/API deps must be watched (E10)
+# Copy to .github/workflows/driftguard-coverage.yml
+# Requires DRIFTGUARD_API_KEY (trial allows 1 endpoint; Pro for full gate)
+
+name: DriftGuard coverage gate
+
+on:
+  pull_request:
+    paths:
+      - "mcp.json"
+      - ".cursor/mcp.json"
+      - "package.json"
+  workflow_dispatch:
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+        with:
+          scan-paths: mcp.json,.cursor/mcp.json,package.json
+
+  gate:
+    needs: preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+        with:
+          api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
+          scan-paths: mcp.json,.cursor/mcp.json,package.json

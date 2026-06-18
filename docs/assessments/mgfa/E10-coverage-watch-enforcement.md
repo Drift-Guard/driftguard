@@ -25,3 +25,16 @@
 ## Verdict
 
 **Go** — Shipped capability + low-effort enablement; pairs with E2 CI narrative and E1 monitoring.
+
+## Go delivery (2026-06)
+
+| Deliverable | Status |
+|-------------|--------|
+| Singapore deployment checklist — dependency watch enforcement section | [singapore-agent-deployment-checklist.md](../../guides/singapore-agent-deployment-checklist.md) |
+| Cursor rule links checklist for coverage gates (DISC-004) | [examples/cursor-rule-driftguard.mdc](../../../examples/cursor-rule-driftguard.mdc) |
+| Coverage preview + gate workflow templates | [drift-coverage.yml](../../../examples/workflows/drift-coverage.yml) · [driftguard-coverage-gate.yml](../../../examples/workflows/driftguard-coverage-gate.yml) |
+| All-in-one starter (preview layer) | [driftguard-starter.yml](../../../examples/workflows/driftguard-starter.yml) |
+| DISCOVERY.md cursor rule + checklist cross-link | [DISCOVERY.md](../../DISCOVERY.md) |
+| Wave B/C enablement bundle ([#97](https://github.com/kioie/driftguard/pull/97)) | Singapore checklist + E2/E15/E16/E20/E21 cross-links |
+
+Assessment remains **Draft** — verdict **Go** (templates + checklist on shipped `assert_coverage`; no new hosted semantics).
