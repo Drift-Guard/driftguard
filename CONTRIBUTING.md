@@ -28,7 +28,7 @@ npm test
 ## Pull requests
 
 1. Keep changes focused — one concern per PR
-2. Run `npm test` before pushing
+2. Run **`npm run ci:local`** before pushing (mirrors required CI — see [AGENTS.md](AGENTS.md))
 3. Update [SYSTEM_PROMPT.md](SYSTEM_PROMPT.md) if MCP tools or env vars change
 4. Follow MCP tool description conventions in [AGENTS.md](AGENTS.md)
 
