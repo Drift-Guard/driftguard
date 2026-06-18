@@ -41,7 +41,7 @@ Full index: [docs/llms.txt](./llms.txt).
 
 ## Cursor rule for consumer repos
 
-Copy [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.mdc) into `.cursor/rules/` when the repo has `mcp.json` or agent MCP configs. The rule applies to `**/mcp.json` and encodes offline-first tool order, the npx MCP template, and links to [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) plus [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md). For Singapore/APAC deploys, also link [singapore-agent-deployment-checklist.md](./guides/singapore-agent-deployment-checklist.md).
+Copy [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.mdc) into `.cursor/rules/` when the repo has `mcp.json` or agent MCP configs. The rule applies to `**/mcp.json` and encodes offline-first tool order, the npx MCP template, and links to [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) plus [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md). For Singapore/APAC deploys, also link [singapore-agent-deployment-checklist.md](./guides/singapore-agent-deployment-checklist.md) (coverage gates, portable harness bundle under `.driftguard/`).
 
 ## Distribution playbooks (GTM)
 
@@ -54,6 +54,8 @@ Dev.to and Hacker News post templates (npx MCP + key activation, UTM trial links
 | [docs/llms.txt](./llms.txt) | Machine-readable doc sitemap (OSS source) |
 | **Canonical:** [https://driftguard.org/llms.txt](https://driftguard.org/llms.txt) | Production index (OSS + hosted sections; synced at cloud deploy) |
 | [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.mdc) | Cursor rule for repos with `mcp.json` |
+| [examples/harness-mgfa/.driftguard/](../examples/harness-mgfa/.driftguard/) | MGFA harness profile (`gates.yaml` + `harness.lock`) |
+| [examples/workflows/drift-harness.yml](../examples/workflows/drift-harness.yml) | Harness bundle lint CI template |
 | [examples/AGENTS-snippet.md](../examples/AGENTS-snippet.md) | Drop-in block for consumer `AGENTS.md` |
 | [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) | LLM codegen / tool selection |
 | [AGENTS.md](../AGENTS.md) | Agents editing this repo |
