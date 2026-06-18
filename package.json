@@ -46,10 +46,11 @@
     "check:npm-publish": "node scripts/npm-publish-prep.mjs",
     "test": "node --import tsx --test 'src/**/*.test.ts'",
     "test:coverage": "c8 --reporter=text --reporter=lcov --include='src/core/**' --include='src/mcp/**' node --import tsx --test 'src/**/*.test.ts'",
-    "ci:local": "bash scripts/ci-local.sh"
+    "ci:local": "bash scripts/ci-local.sh",
+    "prepush": "npm run ci:local"
   },
   "engines": {
-    "node": ">=20"
+    "node": "22"
   },
   "dependencies": {
     "@driftguard/diff-core": "file:packages/diff-core",

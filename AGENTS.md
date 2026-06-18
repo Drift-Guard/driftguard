@@ -2,11 +2,30 @@
 
 Guidance for AI coding agents working in this repository. For a compact tool/API cheat sheet, see [SYSTEM_PROMPT.md](SYSTEM_PROMPT.md).
 
+## Before you push
+
+Use **Node 22** (`.nvmrc`) — same as CI.
+
+```bash
+nvm use                 # or: fnm use
+npm run ci:local        # mirrors required CI before every PR
+```
+
+| Flag | When |
+|------|------|
+| `--with-changelog` | PR changes user-facing behavior |
+| `--packages packages/mockdrift` | Touched a path-filtered package |
+
+Optional hook (not required): `bash scripts/install-githooks.sh` runs `ci:local` on `git push`.
+
+GitHub-only checks (not in `ci:local`): CodeQL, Gitleaks, dependency review, SonarCloud, OpenRouter review.
+
 ## Commands
 
 | Command | Description |
 |---------|-------------|
 | `npm run ci:local` | **Pre-PR:** mirror required CI (`ci.yml` validate + action smoke) |
+| `npm run prepush` | Alias for `ci:local` |
 | `npm ci && npm run build` | Install and compile TypeScript → `dist/` |
 | `npm test` | Run unit tests (`node --test`) |
 | `npm run check -- diff '<before>' '<after>'` | Local JSON schema diff (exit 1 if breaking) |
@@ -78,22 +97,6 @@ gh pr create --fill
 ```
 
 **Parallel PR Processing**: For backlogs of >3 PRs, use the **Isolated Runner Pattern** (spawn up to 4 parallel subagents in unique scratch clones) to verify and merge concurrently.
-
-## CI expectations
-
-**Before opening a PR**, run:
-
-```bash
-npm run ci:local
-```
-
-This mirrors `.github/workflows/ci.yml` (**Build & test** + **CI action smoke**): `npm ci`, build, `check:agents-yaml`, coverage ≥60%, production `npm audit`, drift smoke, and composite-action wiring checks. Optional: `bash scripts/ci-local.sh --with-changelog` or `--packages packages/mockdrift` for path-filtered workflows.
-
-PRs should also pass (GitHub-only, not in `ci:local`): CodeQL, Gitleaks, dependency review, SonarCloud (when `SONAR_TOKEN` set), OpenRouter review (when `OPENROUTER_API_KEY` set).
-
-Workflows run in parallel where possible — **Build & test** consolidates build, unit tests, coverage, and audit in one job.
-
-Non-draft PRs with code changes receive an automated OpenRouter review when `OPENROUTER_API_KEY` is configured (`.github/workflows/openrouter-pr-review.yml`). Comment `/review` to re-run.
 
 ## Publishing
 

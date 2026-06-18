@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Optional pre-push hook — install: bash scripts/install-githooks.sh
+set -euo pipefail
+npm run ci:local
