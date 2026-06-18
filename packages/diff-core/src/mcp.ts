@@ -83,6 +83,18 @@ export function diffMcpTools(before: McpToolSnapshot[], after: McpToolSnapshot[]
       continue;
     }
     const prev = beforeMap.get(name)!;
+    const prevDescription = prev.description ?? "";
+    const nextDescription = tool.description ?? "";
+    if (prevDescription !== nextDescription) {
+      changes.push({
+        path: `tools.${name}.description`,
+        severity: "warning",
+        changeType: "type_changed",
+        before: prevDescription || undefined,
+        after: nextDescription || undefined,
+        message: `MCP tool '${name}' description changed`,
+      });
+    }
     if (prev.inputSchema && tool.inputSchema) {
       const schemaDiff = diffSchemas(prev.inputSchema, tool.inputSchema);
       for (const c of schemaDiff.changes) {

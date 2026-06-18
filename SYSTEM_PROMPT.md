@@ -4,7 +4,7 @@ Token-efficient reference for AI agents using or extending this repo. For repo w
 
 ## Identity
 
-- **Package:** `@driftguard/driftguard` (npm; alias `@driftguard/cli` — clone + build until published)
+- **Package:** `@driftguard/driftguard` (npm on tag via release workflow; alias `@driftguard/cli`)
 - **Role:** Open-source **local JSON schema diff** + **MCP connector** to hosted DriftGuard SaaS
 - **Not self-hostable:** continuous monitoring, MCP polling, alerts, and console are hosted-only
 
@@ -29,6 +29,7 @@ Token-efficient reference for AI agents using or extending this repo. For repo w
 | `register_watch` | Yes | Yes | Start continuous monitoring |
 | `check_watch` | Yes | Yes | Immediate check on a watch |
 | `list_watches` | Yes | Yes | List watches |
+| `get_watch_status` | Yes | Yes | Status plane: driftStatus, incident, agentActions |
 | `list_drift_events` | Yes | Yes | Drift history |
 | `suggest_watches` | Yes | Yes | Import mcp.json with catalog + optional create |
 | `assert_coverage` | Yes | Yes | CI gate — dependencies must be watched |
