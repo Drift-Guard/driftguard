@@ -1,6 +1,6 @@
 # ToolChange — MCP manifest change management
 
-**Status:** OSS Gate 3A (alpha). MGFA Dimension 3 — controlled evolution of tool surfaces.
+**Status:** OSS Gate 3A (blocking default in CI; harness MGFA profile advisory during bootstrap). MGFA Dimension 3 — controlled evolution of tool surfaces.
 
 **Related:** [gate ladder — Gate 3A](../policies/gate-ladder.md) · [packages/toolchange](../../packages/toolchange/README.md) · [Singapore checklist](./singapore-agent-deployment-checklist.md)
 
