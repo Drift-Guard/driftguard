@@ -23,6 +23,9 @@ Workflow: [mockdrift-init-fixtures.md](./mockdrift-init-fixtures.md). Fixtures a
 | 3 | Lint `agents.yaml` bindings | Dim 1 bound tool scope | CI log from `drift-agents-lint` |
 
 Workflow: [agent-binding-manifest.md](./agent-binding-manifest.md) · CI template: [examples/workflows/agents-lint.yml](../../examples/workflows/agents-lint.yml).
+| 3b | `assert_a2a_coverage` on manifest watch URLs | Dim 1 bound external linkage | CI log from `drift-a2a-coverage` |
+
+Workflow: [agent-binding-manifest.md](./agent-binding-manifest.md#a2a-watch-coverage-gate-proteam) · CI template: [examples/workflows/a2a-coverage.yml](../../examples/workflows/a2a-coverage.yml). Requires Pro/Team key.
 | 4 | ToolChange on MCP manifest PRs | Dim 3 change management | PR check output |
 
 Workflow: [toolchange-change-management.md](./toolchange-change-management.md) · CI template: [examples/workflows/toolchange.yml](../../examples/workflows/toolchange.yml).
@@ -44,6 +47,7 @@ Prove external MCP/API dependencies are monitored before production deploy:
 
 ```yaml
 # .github/workflows/driftguard-coverage.yml
+# Template: examples/workflows/driftguard-coverage-gate.yml
 - uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     scan-paths: mcp.json,.cursor/mcp.json,package.json

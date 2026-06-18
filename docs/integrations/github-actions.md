@@ -38,7 +38,7 @@ Copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftg
     scan-paths: mcp.json,.cursor/mcp.json,package.json
 ```
 
-**Gate:**
+**Gate** — full workflow: [examples/workflows/driftguard-coverage-gate.yml](../../examples/workflows/driftguard-coverage-gate.yml)
 
 ```yaml
 - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
