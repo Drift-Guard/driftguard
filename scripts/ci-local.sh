@@ -17,13 +17,12 @@ while [[ $# -gt 0 ]]; do
       cat <<'EOF'
 DriftGuard OSS — local CI parity
 
-  bash scripts/ci-local.sh              # validate + action-smoke (default)
-  bash scripts/ci-local.sh --with-changelog
-  bash scripts/ci-local.sh --packages packages/mockdrift
+  npm run ci:local                         # default (validate + action-smoke)
+  npm run ci:local -- --with-changelog     # + CHANGELOG validation
+  npm run ci:local -- --packages packages/mockdrift
 
 Matches .github/workflows/ci.yml (Build & test + CI action smoke).
-Does not run: Gitleaks, CodeQL, SonarCloud, OpenRouter review (need GitHub/secrets).
-Path-filtered package workflows (mockdrift, fuseguard, …) run only with --packages.
+Not run locally: Gitleaks, CodeQL, SonarCloud, OpenRouter review.
 EOF
       exit 0
       ;;
@@ -34,15 +33,19 @@ done
 step() { echo ""; echo "==> $*"; }
 
 need_node() {
-  local major ver
+  local want major ver
+  want="22"
+  if [[ -f .nvmrc ]]; then
+    want="$(tr -d '[:space:]' < .nvmrc)"
+  fi
   ver="$(node -v)"
   major="$(node -p "process.versions.node.split('.')[0]")"
-  if [[ "$major" -lt 20 ]]; then
-    echo "Node >=20 required (CI uses 22); got $ver" >&2
+  if [[ "$major" -lt "$want" ]]; then
+    echo "Node >=$want required to match CI; got $ver (run: nvm use)" >&2
     exit 1
   fi
-  if [[ "$major" != "22" ]]; then
-    echo "::warning::CI uses Node 22; local $ver may differ (use nvm/fnm to match)."
+  if [[ "$major" != "$want" ]]; then
+    echo "::warning::CI uses Node $want; local $ver may differ (run: nvm use)."
   fi
 }
 

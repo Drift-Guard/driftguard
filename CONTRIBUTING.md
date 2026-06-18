@@ -20,15 +20,26 @@ Out of scope:
 ## Setup
 
 ```bash
+nvm use          # Node 22 (.nvmrc)
 npm ci
 npm run build
 npm test
 ```
 
+## Before you push
+
+```bash
+npm run ci:local
+```
+
+Mirrors required CI (`validate` + `action-smoke`). See [AGENTS.md](AGENTS.md) for flags and agent workflow.
+
+Optional: `bash scripts/install-githooks.sh` to run `ci:local` automatically on `git push`.
+
 ## Pull requests
 
 1. Keep changes focused — one concern per PR
-2. Run **`npm run ci:local`** before pushing (mirrors required CI — see [AGENTS.md](AGENTS.md))
+2. Run **`npm run ci:local`** before pushing
 3. Update [SYSTEM_PROMPT.md](SYSTEM_PROMPT.md) if MCP tools or env vars change
 4. Follow MCP tool description conventions in [AGENTS.md](AGENTS.md)
 
