@@ -6,6 +6,7 @@ Guidance for AI coding agents working in this repository. For a compact tool/API
 
 | Command | Description |
 |---------|-------------|
+| `npm run ci:local` | **Pre-PR:** mirror required CI (`ci.yml` validate + action smoke) |
 | `npm ci && npm run build` | Install and compile TypeScript → `dist/` |
 | `npm test` | Run unit tests (`node --test`) |
 | `npm run check -- diff '<before>' '<after>'` | Local JSON schema diff (exit 1 if breaking) |
@@ -80,7 +81,15 @@ gh pr create --fill
 
 ## CI expectations
 
-PRs should pass: `npm ci`, `npm run build`, `npm test`, coverage threshold, `npm audit`, CodeQL, Gitleaks, and (on PRs) dependency review.
+**Before opening a PR**, run:
+
+```bash
+npm run ci:local
+```
+
+This mirrors `.github/workflows/ci.yml` (**Build & test** + **CI action smoke**): `npm ci`, build, `check:agents-yaml`, coverage ≥60%, production `npm audit`, drift smoke, and composite-action wiring checks. Optional: `bash scripts/ci-local.sh --with-changelog` or `--packages packages/mockdrift` for path-filtered workflows.
+
+PRs should also pass (GitHub-only, not in `ci:local`): CodeQL, Gitleaks, dependency review, SonarCloud (when `SONAR_TOKEN` set), OpenRouter review (when `OPENROUTER_API_KEY` set).
 
 Workflows run in parallel where possible — **Build & test** consolidates build, unit tests, coverage, and audit in one job.
 
