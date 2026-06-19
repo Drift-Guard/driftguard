@@ -2,7 +2,7 @@
 
 How to list DriftGuard in MCP directories and help agents find the server.
 
-**Name collisions:** npm and GitHub host unrelated `driftguard` packages (UI linter, conversation MCP, getdriftguard CLI, ML/GitOps repos). Canonical API/MCP schema drift product: [driftguard.org](https://driftguard.org) · repo `kioie/driftguard`. Blockers and scoped publish path: [AGENT-DISCOVERY-ROADMAP.md](./AGENT-DISCOVERY-ROADMAP.md) § DISC-001.
+**Name collisions:** npm and GitHub host unrelated `driftguard` packages (UI linter, conversation MCP, getdriftguard CLI, ML/GitOps repos). **[driftguard.co](https://www.driftguard.co/)** is a separate vendor (enterprise runtime AI-agent governance / policy gateway) — same brand name, different product from schema/MCP contract drift monitoring at [driftguard.org](https://driftguard.org). Not affiliated with `kioie/driftguard`. Canonical API/MCP schema drift product: driftguard.org · repo `kioie/driftguard`. Blockers and scoped publish path: [AGENT-DISCOVERY-ROADMAP.md](./AGENT-DISCOVERY-ROADMAP.md) § DISC-001.
 
 ## MCP Registry
 
