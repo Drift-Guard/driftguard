@@ -1,0 +1,22 @@
+{
+  "id": "n8n-normalized-lead",
+  "version": 1,
+  "requiredPolicy": "allProperties",
+  "normalization": {
+    "aliases": {
+      "email_address": "email",
+      "full_name": "name"
+    }
+  },
+  "schema": {
+    "type": "object",
+    "required": ["email", "name", "source"],
+    "properties": {
+      "email": { "type": "string", "minLength": 3 },
+      "name": { "type": "string", "minLength": 1 },
+      "source": { "type": "string", "enum": ["webhook", "form", "import"] },
+      "phone": { "type": "string" },
+      "company": { "type": "string" }
+    }
+  }
+}

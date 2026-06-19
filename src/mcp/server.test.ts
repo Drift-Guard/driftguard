@@ -27,7 +27,8 @@ const EXPECTED_TOOLS = [
   "parse_mcp_config",
   "register_watch",
   "suggest_watches",
-];
+  "validate_payload",
+] as const;
 
 describe("server.ts entry orchestration", { concurrency: 1 }, () => {
   let origConnect: typeof McpServer.prototype.connect;

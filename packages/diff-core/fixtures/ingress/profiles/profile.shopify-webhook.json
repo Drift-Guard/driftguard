@@ -1,0 +1,17 @@
+{
+  "id": "shopify-webhook",
+  "version": 1,
+  "requiredPolicy": "schemaOnly",
+  "schema": {
+    "type": "object",
+    "required": ["id", "email"],
+    "properties": {
+      "id": { "type": "integer" },
+      "email": { "type": "string", "minLength": 3 },
+      "first_name": { "type": "string" },
+      "last_name": { "type": "string" },
+      "tags": { "type": "string" },
+      "created_at": { "type": "string" }
+    }
+  }
+}

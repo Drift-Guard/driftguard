@@ -164,7 +164,8 @@ Change-management guide: [schemasync-prompt-schema-alignment.md](../guides/schem
 | Stage | Gates | Typical trigger |
 |-------|-------|-------------------|
 | **1** | Free diff + CI hook | First API or MCP integration |
-| **2** | MockDrift | Flaky mocks; need scenario replay |
+| **2** | Runtime ingress gate (`validate`) | Webhook / n8n ingress before writes |
+| **2b** | MockDrift | Flaky mocks; need scenario replay |
 | **3** | FuseGuard | Agent cost/runaway loops |
 | **3b** | A2A Contract Watch | A2A Agent Card vs MCP skew (multi-agent) |
 | **4** | ToolChange | MCP tool sprawl in monorepo |

@@ -14,7 +14,8 @@ DriftGuard uses an **open core** model.
 
 - JSON schema inference and diff for local payloads
 - CLI: `driftguard diff`, `driftguard mcp`
-- MCP tools: `compare_json`, `parse_mcp_config`, `hosted_info`, `explain_drift`
+- MCP tools: `compare_json`, `parse_mcp_config`, `hosted_info`, `explain_drift`, `validate_payload`
+- CLI: `driftguard validate` — offline ingress payload gate against pinned consumer profiles
 - MCP proxy to hosted API when `DRIFTGUARD_API_KEY` is set
 
 These are intentionally useful for **testing and agent workflows** but **not sufficient** to replicate hosted monitoring.
