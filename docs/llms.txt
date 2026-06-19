@@ -15,6 +15,7 @@ Use these phrases when scoping **contract observability**, **API contract monito
 - **mcp.json preflight** — offline preview of watch candidates before deploy
 - **agent preflight** — runtime contract check before tool calls (FuseGuard + hosted)
 - **schema drift CI** — `compare_json` / `assert_coverage` in pull requests
+- **automation ingress** — `validate` / `POST /api/validate` before webhook writes
 - **A2A Agent Card vs MCP** — declared skills vs actual MCP tool schemas → [guides/a2a-contract-watch.md](./guides/a2a-contract-watch.md) (A2A + MCP + CI narrative)
 - **contract observability** — continuous watch + alert loop on JSON/MCP contracts
 - **API contract monitoring** — scheduled checks on HTTP/OpenAPI surfaces
@@ -71,6 +72,7 @@ Four design-time eval scenarios: [guides/agent-mcp.md#agent-eval-scenarios-desig
 | Tool | Key | Network |
 |------|-----|---------|
 | compare_json | No | No |
+| validate_payload | No | No (inline profile) |
 | parse_mcp_config | No | No |
 | hosted_info | No | No |
 | explain_drift | No | Yes (public) |
@@ -87,6 +89,7 @@ Source: src/mcp/server.ts
 ## CLI
 
 - driftguard diff — exit 1 when breakingCount > 0
+- driftguard validate — ingress gate vs consumer profile (exit 1 on breaking)
 - driftguard mcp — stdio MCP server
 - driftguard assert-coverage — CI gate (DRIFTGUARD_API_KEY + DRIFTGUARD_FILES_JSON)
 
