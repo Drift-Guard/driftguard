@@ -1,0 +1,844 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "good-shopify-01",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1001,
+        "email": "user1@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-02",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1002,
+        "email": "user2@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-03",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1003,
+        "email": "user3@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-04",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1004,
+        "email": "user4@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-05",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1005,
+        "email": "user5@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-06",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1006,
+        "email": "user6@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-07",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1007,
+        "email": "user7@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-08",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1008,
+        "email": "user8@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-09",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1009,
+        "email": "user9@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-10",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1010,
+        "email": "user10@example.com",
+        "first_name": "A",
+        "last_name": "B"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-11",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 11,
+        "email": "x@y.z",
+        "tags": "vip",
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-12",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 12,
+        "email": "x@y.z",
+        "tags": "vip",
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-13",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 13,
+        "email": "x@y.z",
+        "tags": "vip",
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-14",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 14,
+        "email": "x@y.z",
+        "tags": "vip",
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-shopify-15",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 15,
+        "email": "x@y.z",
+        "tags": "vip",
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-n8n-01",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email_address": "lead1@co.io",
+        "full_name": "Lead 1",
+        "source": "webhook",
+        "phone": "555",
+        "company": "Acme"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-n8n-02",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email_address": "lead2@co.io",
+        "full_name": "Lead 2",
+        "source": "webhook",
+        "phone": "555",
+        "company": "Acme"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-n8n-03",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email_address": "lead3@co.io",
+        "full_name": "Lead 3",
+        "source": "webhook",
+        "phone": "555",
+        "company": "Acme"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-n8n-04",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email_address": "lead4@co.io",
+        "full_name": "Lead 4",
+        "source": "webhook",
+        "phone": "555",
+        "company": "Acme"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "good-n8n-05",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email_address": "lead5@co.io",
+        "full_name": "Lead 5",
+        "source": "webhook",
+        "phone": "555",
+        "company": "Acme"
+      },
+      "expect": {
+        "ok": true,
+        "severity": "none"
+      }
+    },
+    {
+      "id": "bad-missing-email",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    },
+    {
+      "id": "bad-missing-id",
+      "profile": "shopify-webhook",
+      "payload": {
+        "email": "a@b.c"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    },
+    {
+      "id": "bad-id-string",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": "not-int",
+        "email": "a@b.c"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-email-number",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1,
+        "email": 42
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-extra-shopify",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1,
+        "email": "a@b.c",
+        "unknown_field": true
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-null-email",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1,
+        "email": null
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-empty-email",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 1,
+        "email": ""
+      },
+      "expect": {
+        "ok": false,
+        "severity": "info",
+        "code": "min_length"
+      }
+    },
+    {
+      "id": "bad-n8n-missing-source",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "a@b.c",
+        "name": "X"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    },
+    {
+      "id": "bad-n8n-bad-enum",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "a@b.c",
+        "name": "X",
+        "source": "twitter"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "enum_invalid"
+      }
+    },
+    {
+      "id": "bad-n8n-extra",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "a@b.c",
+        "name": "X",
+        "source": "form",
+        "rogue": 1,
+        "phone": "555",
+        "company": "Co"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-11",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": "x",
+        "email": "v11@e.com"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-12",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 12,
+        "email": "v12@e.com",
+        "extra": 12
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-13",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "v13@e.com",
+        "name": "N",
+        "source": "import",
+        "junk": true,
+        "phone": "555",
+        "company": "Co"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-14",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": 14,
+        "name": "N",
+        "source": "webhook"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-15",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 15
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    },
+    {
+      "id": "bad-gen-16",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": "x",
+        "email": "v16@e.com"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-17",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 17,
+        "email": "v17@e.com",
+        "extra": 17
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-18",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "v18@e.com",
+        "name": "N",
+        "source": "import",
+        "junk": true,
+        "phone": "555",
+        "company": "Co"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-19",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": 19,
+        "name": "N",
+        "source": "webhook"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-20",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 20
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    },
+    {
+      "id": "bad-gen-21",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": "x",
+        "email": "v21@e.com"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-22",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 22,
+        "email": "v22@e.com",
+        "extra": 22
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-23",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "v23@e.com",
+        "name": "N",
+        "source": "import",
+        "junk": true,
+        "phone": "555",
+        "company": "Co"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-24",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": 24,
+        "name": "N",
+        "source": "webhook"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-25",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 25
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    },
+    {
+      "id": "bad-gen-26",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": "x",
+        "email": "v26@e.com"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-27",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 27,
+        "email": "v27@e.com",
+        "extra": 27
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-28",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "v28@e.com",
+        "name": "N",
+        "source": "import",
+        "junk": true,
+        "phone": "555",
+        "company": "Co"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-29",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": 29,
+        "name": "N",
+        "source": "webhook"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-30",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 30
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    },
+    {
+      "id": "bad-gen-31",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": "x",
+        "email": "v31@e.com"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-32",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 32,
+        "email": "v32@e.com",
+        "extra": 32
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-33",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "v33@e.com",
+        "name": "N",
+        "source": "import",
+        "junk": true,
+        "phone": "555",
+        "company": "Co"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-34",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": 34,
+        "name": "N",
+        "source": "webhook"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-35",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 35
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    },
+    {
+      "id": "bad-gen-36",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": "x",
+        "email": "v36@e.com"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-37",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 37,
+        "email": "v37@e.com",
+        "extra": 37
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-38",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": "v38@e.com",
+        "name": "N",
+        "source": "import",
+        "junk": true,
+        "phone": "555",
+        "company": "Co"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "warning",
+        "code": "extra_field"
+      }
+    },
+    {
+      "id": "bad-gen-39",
+      "profile": "n8n-normalized-lead",
+      "payload": {
+        "email": 39,
+        "name": "N",
+        "source": "webhook"
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "type_mismatch"
+      }
+    },
+    {
+      "id": "bad-gen-40",
+      "profile": "shopify-webhook",
+      "payload": {
+        "id": 40
+      },
+      "expect": {
+        "ok": false,
+        "severity": "breaking",
+        "code": "required_missing"
+      }
+    }
+  ]
+}

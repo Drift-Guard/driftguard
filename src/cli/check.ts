@@ -77,6 +77,11 @@ async function main(): Promise<void> {
     process.exit(code);
   }
 
+  if (command === "validate") {
+    const { runValidate } = await import("./validate-run.js");
+    process.exit(await runValidate(args));
+  }
+
   if (command === "openapi-diff") {
     const { runOpenApiDiff } = await import("./openapi-diff-run.js");
     process.exit(await runOpenApiDiff(args));
@@ -132,7 +137,7 @@ Usage:
   driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
   driftguard assert-a2a-coverage [path]                    Gate — manifest watches registered (Pro key)
   driftguard lint-agents [path]                            Validate .driftguard/agents.yaml (offline)
-  driftguard lint-harness [bundle-dir]                   Validate harness bundle (gates + lock)
+  driftguard validate --profile p.json --payload e.json   Free — ingress payload gate
   driftguard version [--json]
   driftguard mcp
 

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://driftguard.org/schemas/consumer.profile.schema.json",
+  "title": "DriftGuard Consumer Profile",
+  "description": "Pinned ingress contract for validate(payload, profile). Structural validation only — see semantic-drift-boundary.md.",
+  "type": "object",
+  "required": ["id", "version", "schema"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "schema": {
+      "type": "object",
+      "description": "JSON Schema draft 2020-12 subset (types, required, properties, enum, min/max). Local #/ $ref only in v1."
+    },
+    "requiredPolicy": {
+      "type": "string",
+      "enum": ["allProperties", "schemaOnly"],
+      "default": "schemaOnly"
+    },
+    "normalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "aliases": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "maxProperties": 20
+        }
+      }
+    },
+    "compatibility": {
+      "type": "string",
+      "enum": ["backward", "forward", "bidirectional"]
+    },
+    "watchUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Documentation-only link to upstream watch; no auto-fetch on validate hot path."
+    }
+  }
+}

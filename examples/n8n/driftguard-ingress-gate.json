@@ -1,0 +1,51 @@
+{
+  "name": "DriftGuard Ingress Gate",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "driftguard-ingress",
+        "responseMode": "responseNode"
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://driftguard.org/api/validate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.DRIFTGUARD_API_KEY}}" },
+            { "name": "X-DriftGuard-Source", "value": "n8n" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { payload: $json.body, profile: $env.DRIFTGUARD_PROFILE ? JSON.parse($env.DRIFTGUARD_PROFILE) : undefined, options: { mode: 'block' } } }}"
+      },
+      "name": "Validate",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [{ "value1": "={{$json.ok}}", "value2": true }]
+        }
+      },
+      "name": "IF ok",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [440, 0]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{ "node": "Validate", "type": "main", "index": 0 }]] },
+    "Validate": { "main": [[{ "node": "IF ok", "type": "main", "index": 0 }]] }
+  }
+}

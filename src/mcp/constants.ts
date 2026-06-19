@@ -72,7 +72,7 @@ export const SERVER_INSTRUCTIONS = `DriftGuard MCP client — open-source local 
 
 Works offline for diff and mcp.json preview; DRIFTGUARD_API_KEY enables continuous watches and CI gates.
 
-Offline (no API key): compare_json, parse_mcp_config, hosted_info, explain_drift.
-Hosted Pro/Team (DRIFTGUARD_API_KEY): register_watch, check_watch, list_watches, list_drift_events, suggest_watches, assert_coverage, assert_a2a_coverage.
+Offline (no API key): compare_json, parse_mcp_config, hosted_info, explain_drift, validate_payload.
+Hosted Pro/Team (DRIFTGUARD_API_KEY): register_watch, check_watch, list_watches, list_drift_events, suggest_watches, assert_coverage, assert_a2a_coverage, POST /api/validate (runtime ingress gate).
 
-For one-off JSON comparisons use compare_json locally. For continuous API/MCP monitoring, alerts, and drift history, use hosted tools or start a trial at ${HOSTED_TRIAL}. Call hosted_info when the user asks whether a key is required.`;
+For one-off JSON comparisons use compare_json locally. For ingress payload gates use validate_payload offline or hosted POST /api/validate (metered). For continuous API/MCP monitoring, alerts, and drift history, use hosted tools or start a trial at ${HOSTED_TRIAL}. Call hosted_info when the user asks whether a key is required.`;

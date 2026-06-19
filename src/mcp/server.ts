@@ -7,6 +7,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { compactDiffResult, diffSchemas, inferSchema } from "../core/diff.js";
+import { validateAgainstProfile } from "../core/validate.js";
 import {
   HOSTED_API,
   HOSTED_CONSOLE,
@@ -127,6 +128,28 @@ server.tool(
 );
 
 server.tool(
+  "validate_payload",
+  "Local: validate a JSON payload against a pinned consumer profile (ingress gate). Use before webhook writes, n8n branches, or agent tool ingress — no API key when profile is embedded. Pair with compare_json for producer schema diff; use hosted POST /api/validate for metered n8n HTTP path. Sibling: compare_json, parse_mcp_config.",
+  {
+    payload: z.string().describe("JSON string of the inbound payload"),
+    profile: z.string().describe("JSON string of consumer profile (id, version, schema)"),
+    mode: z.enum(["block", "warn"]).optional().describe("block exits non-zero on breaking; warn allows shadow mode"),
+    profileMode: z.enum(["cli", "hosted"]).optional(),
+  },
+  async ({ payload, profile, mode, profileMode }) => {
+    const payloadParsed = parseJsonString(payload, "payload");
+    if (!payloadParsed.ok) return jsonResult({ error: payloadParsed.error }, true);
+    const profileParsed = parseJsonString(profile, "profile");
+    if (!profileParsed.ok) return jsonResult({ error: profileParsed.error }, true);
+    const result = validateAgainstProfile(payloadParsed.value, profileParsed.value as import("@driftguard/diff-core").ConsumerProfile, {
+      mode: mode ?? "block",
+      profileMode,
+    });
+    return jsonResult(result, !result.ok && mode !== "warn");
+  },
+);
+
+server.tool(
   "hosted_info",
   "Local: explain which DriftGuard tools work offline vs hosted, pricing, and upgrade paths. Use when the user asks about self-hosting, API keys, trials, or why a hosted tool failed. Works offline — no API key. Prefer this before retrying hosted tools without a key.",
   {},
@@ -135,7 +158,7 @@ server.tool(
       repo: "https://github.com/kioie/driftguard",
       model: "open-core",
       primaryActivationEnv: "DRIFTGUARD_API_KEY",
-      offlineTools: ["compare_json", "parse_mcp_config", "hosted_info", "explain_drift"],
+      offlineTools: ["compare_json", "parse_mcp_config", "hosted_info", "explain_drift", "validate_payload"],
       hostedTools: [
         "register_watch",
         "check_watch",
