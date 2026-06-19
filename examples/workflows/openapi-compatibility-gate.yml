@@ -1,0 +1,25 @@
+name: OpenAPI compatibility gate
+on:
+  pull_request:
+    paths:
+      - "openapi/**"
+      - "schemas/**"
+      - ".github/workflows/openapi-compatibility-gate.yml"
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Compare OpenAPI spec against base branch
+        uses: kioie/driftguard/.github/actions/openapi-diff@v0.3.3
+        with:
+          base: openapi/base.json
+          target: openapi/openapi.json
+          fail-on-breaking: "true"
+
+# Notion-style producer CI: pin your public API schema in-repo and fail PRs on breaking
+# changes before clients and in-flight queue consumers break.
+# Analog: https://www.notion.com/blog/how-notion-catches-breaking-schema-changes

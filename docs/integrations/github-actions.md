@@ -14,6 +14,7 @@ DriftGuard ships composite actions under `.github/actions/` in the public repo. 
 | `drift-coverage-preview` | Preview | No (default) | No |
 | `drift-coverage` | Gate | Yes | Pro key or trial |
 | `drift-agents-lint` | Manifest lint | No | `.driftguard/agents.yaml` |
+| `validate` CLI / workflow | Runtime ingress gate | On invalid payload | No (local); hosted `POST /api/validate` for n8n |
 
 Marketplace names and listing status: [GITHUB_MARKETPLACE.md](../GITHUB_MARKETPLACE.md).
 
@@ -55,6 +56,26 @@ Copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftg
 ```
 
 Template: [examples/workflows/agents-lint.yml](../../examples/workflows/agents-lint.yml).
+
+**Ingress validate** (offline CLI — gate workflow exports or fixture outputs):
+
+```yaml
+- uses: kioie/driftguard/.github/actions/setup-driftguard@v0.3.3
+- run: driftguard validate --profile profiles/lead.json --payload fixtures/event.json
+```
+
+Template: [examples/workflows/ingress-validate.yml](../../examples/workflows/ingress-validate.yml). Hosted API for n8n: [validate-api.md](../reference/validate-api.md).
+
+**OpenAPI compatibility gate** (Notion-style producer CI):
+
+```yaml
+- uses: kioie/driftguard/.github/actions/openapi-diff@v0.3.3
+  with:
+    base: openapi/base.json
+    target: openapi/openapi.json
+```
+
+Template: [examples/workflows/openapi-compatibility-gate.yml](../../examples/workflows/openapi-compatibility-gate.yml).
 
 Per-action READMEs: `.github/actions/drift-diff/README.md`, `drift-coverage-preview/README.md`, `drift-coverage/README.md`, `drift-agents-lint/README.md`.
 

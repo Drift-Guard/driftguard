@@ -1,0 +1,30 @@
+name: Ingress validate
+on:
+  pull_request:
+    paths:
+      - "packages/diff-core/fixtures/ingress/**"
+      - "packages/diff-core/src/validate/**"
+      - "src/cli/validate-run.ts"
+      - ".github/workflows/ingress-validate.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: kioie/driftguard/.github/actions/setup-driftguard@v0.3.3
+      - name: Golden ingress fixture (expect ok)
+        run: |
+          set -euo pipefail
+          driftguard validate \
+            --profile packages/diff-core/fixtures/ingress/profiles/profile.shopify-webhook.json \
+            --payload '{"id":1,"email":"a@b.co"}'
+      - name: Golden ingress fixture (expect breaking)
+        run: |
+          set -euo pipefail
+          if driftguard validate \
+            --profile packages/diff-core/fixtures/ingress/profiles/profile.shopify-webhook.json \
+            --payload '{"id":"not-int"}'; then
+            echo "Expected validate to fail on type mismatch"
+            exit 1
+          fi

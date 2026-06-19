@@ -10,6 +10,9 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 
 ### Added
 
+- **Automation ingress:** `validateAgainstProfile` in `@driftguard/diff-core`, `driftguard validate` CLI, MCP `validate_payload`, golden ingress fixtures, consumer profile JSON Schema.
+- **Docs:** `docs/reference/validate-api.md`, `docs/guides/automation-ingress.md`, gate ladder L2.5 runtime ingress gate.
+- **Examples:** n8n `driftguard-ingress-gate.json` workflow, `ingress-validate.yml` and `openapi-compatibility-gate.yml` CI workflows.
 - CI: `scan-paths` on coverage actions — no manual `files-json` build step; starter workflow, GitLab guide, Marketplace checklist.
 - GitLab CI support: `CI_PROJECT_PATH`, `CI_JOB_SUMMARY`, `examples/gitlab-ci.yml`.
 
