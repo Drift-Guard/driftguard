@@ -69,5 +69,5 @@ export async function runValidate(argv: string[]): Promise<number> {
 
   if (result.ok) return 0;
   if (mode === "warn") return 0;
-  return result.severity === "breaking" ? 1 : 1;
+  return 1;
 }

@@ -207,9 +207,10 @@ function validateValue(
     const obj = value as Record<string, unknown>;
 
     for (const key of required) {
+      const fieldPath = path === "$" ? `/${key}` : `${path}/${key}`;
       if (!(key in obj) || obj[key] === undefined) {
         pushError(errors, maxErrors, {
-          path: `${path}/${key}`,
+          path: fieldPath,
           code: "required_missing",
           message: `Required field '${key}' is missing`,
         });
