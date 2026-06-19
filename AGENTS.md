@@ -33,6 +33,8 @@ npm run sonar:local
 
 Install scanner: `brew install sonar-scanner` (or the script uses `npx @sonarsource/sonar-scanner`). Project key: `kioie_driftguard` (`sonar-project.properties`).
 
+If scan fails with *Automatic Analysis is enabled*, disable it once: SonarCloud → **kioie_driftguard** → **Administration** → **Analysis Method** → off. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Commands
 
 | Command | Description |

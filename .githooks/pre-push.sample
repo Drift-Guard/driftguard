@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # Optional pre-push hook — install: bash scripts/install-githooks.sh
+# For src/ changes with SONAR_TOKEN: npm run ci:local -- --with-sonar
 set -euo pipefail
 npm run ci:local

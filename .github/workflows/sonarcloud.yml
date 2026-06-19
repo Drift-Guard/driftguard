@@ -1,4 +1,7 @@
 # SonarCloud scan for OSS client (src/ only). Mark hotspots Safe per docs/security/SONAR-HOTSPOTS.md before enabling PR quality gate.
+# Setup: SonarCloud → My Account → Security → Generate token → add repo secret SONAR_TOKEN
+# One-time: SonarCloud → project → Administration → Analysis Method → disable Automatic Analysis
+#   (required for sonar-scanner; conflicts with CI/local uploads — see CONTRIBUTING.md)
 name: SonarCloud
 
 on:
