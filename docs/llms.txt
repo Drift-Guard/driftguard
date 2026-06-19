@@ -1,5 +1,6 @@
 # DriftGuard — agent documentation index
 # Machine-readable sitemap. Humans: https://github.com/kioie/driftguard/tree/main/docs
+# Hosted developer portal: https://developers.driftguard.org/llms.txt
 
 > DriftGuard catches schema drift before integrations break.
 > Free client: local JSON diff + MCP connector. Continuous monitoring is hosted SaaS — not self-hostable from this repo.
@@ -49,6 +50,8 @@ Four design-time eval scenarios: [guides/agent-mcp.md#agent-eval-scenarios-desig
 
 ## Hub sections
 
+- https://developers.driftguard.org/ — developer portal (canonical hosted docs)
+- https://developers.driftguard.org/agent-setup/prompt.md — one-shot agent install prompt
 - docs/README.md — documentation hub, free vs paid matrix
 - docs/glossary.md — DriftGuard terms (watch, drift event, breaking, gate)
 - docs/guides/README.md — guides by role (developer, agent, CI, drift mgmt, platform)
@@ -94,6 +97,14 @@ Source: src/mcp/server.ts
 - DRIFTGUARD_ALLOW_CUSTOM_API=1 — required with custom DRIFTGUARD_API
 
 ## Hosted upgrade path (link only — no infra docs)
+
+- Developer portal: https://developers.driftguard.org/
+- Agent index: https://developers.driftguard.org/llms.txt
+- Trial: https://driftguard.org/start
+
+- Developer portal: https://developers.driftguard.org/
+- Agent index: https://developers.driftguard.org/llms.txt
+- Trial: https://driftguard.org/start
 
 - Trial: https://driftguard.org/start
 - Pricing: https://driftguard.org/pricing

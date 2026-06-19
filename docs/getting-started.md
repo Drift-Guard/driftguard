@@ -37,7 +37,7 @@ pytest tests/harness/ -q
 
 Reference harness (no init required): [examples/harness](../examples/harness/) — `.driftguard/gates.yaml`, `agents.yaml`, and `harness.lock` you can copy into your repo.
 
-**Full loop tutorial:** After the harness runs locally, continue with the [contract observability loop](https://driftguard.org/docs/guides/contract-observability-loop) on driftguard.org — baseline → CI gate → optional hosted watch and alerts.
+**Full loop tutorial:** After the harness runs locally, continue with the [contract observability loop](https://developers.driftguard.org/docs/guides/contract-observability-loop) — baseline → CI gate → optional hosted watch and alerts.
 
 **When to add hosted:** After Gate 1 passes locally, register watches for production URLs — [step 6](#6-upgrade--trial-api-key-watches) below or [driftguard.org/start](https://driftguard.org/start).
 
