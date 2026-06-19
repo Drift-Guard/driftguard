@@ -15,16 +15,30 @@ npm run ci:local        # mirrors required CI before every PR
 |------|------|
 | `--with-changelog` | PR changes user-facing behavior |
 | `--packages packages/mockdrift` | Touched a path-filtered package |
+| `--with-sonar` | Code changes — local SonarCloud upload (needs `SONAR_TOKEN`) |
 
 Optional hook (not required): `bash scripts/install-githooks.sh` runs `ci:local` on `git push`.
 
-GitHub-only checks (not in `ci:local`): CodeQL, Gitleaks, dependency review, SonarCloud, OpenRouter review.
+GitHub-only checks (not in `ci:local` by default): CodeQL, Gitleaks, dependency review, OpenRouter review.
+
+### SonarCloud (optional, before push)
+
+For `src/` changes, run a local scan to catch issues before the PR **SonarCloud Code Analysis** gate:
+
+```bash
+export SONAR_TOKEN=...    # SonarCloud → My Account → Security → Generate token
+# or add SONAR_TOKEN=... to .env or .dev.vars (gitignored)
+npm run sonar:local
+```
+
+Install scanner: `brew install sonar-scanner` (or the script uses `npx @sonarsource/sonar-scanner`). Project key: `kioie_driftguard` (`sonar-project.properties`).
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
 | `npm run ci:local` | **Pre-PR:** mirror required CI (`ci.yml` validate + action smoke) |
+| `npm run sonar:local` | Local SonarCloud upload (`SONAR_TOKEN` required) |
 | `npm run prepush` | Alias for `ci:local` |
 | `npm ci && npm run build` | Install and compile TypeScript → `dist/` |
 | `npm test` | Run unit tests (`node --test`) |

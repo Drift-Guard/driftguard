@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 # Mirror required OSS CI jobs locally (.github/workflows/ci.yml).
-# Usage: bash scripts/ci-local.sh [--with-changelog] [--packages PATH,...]
+# Usage: bash scripts/ci-local.sh [--with-changelog] [--with-sonar] [--packages PATH,...]
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 WITH_CHANGELOG=0
+WITH_SONAR=0
 PACKAGES=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --with-changelog) WITH_CHANGELOG=1; shift ;;
+    --with-sonar) WITH_SONAR=1; shift ;;
     --packages) PACKAGES="${2:-}"; shift 2 ;;
     -h|--help)
       cat <<'EOF'
@@ -19,10 +21,13 @@ DriftGuard OSS — local CI parity
 
   npm run ci:local                         # default (validate + action-smoke)
   npm run ci:local -- --with-changelog     # + CHANGELOG validation
+  npm run ci:local -- --with-sonar         # + SonarCloud upload (needs SONAR_TOKEN)
+  npm run sonar:local                      # Sonar only (same prerequisites as SonarCloud workflow)
   npm run ci:local -- --packages packages/mockdrift
 
 Matches .github/workflows/ci.yml (Build & test + CI action smoke).
-Not run locally: Gitleaks, CodeQL, SonarCloud, OpenRouter review.
+Not run locally by default: Gitleaks, CodeQL, OpenRouter review.
+SonarCloud: npm run sonar:local or --with-sonar (requires SONAR_TOKEN).
 EOF
       exit 0
       ;;
@@ -122,6 +127,11 @@ if [[ -n "$PACKAGES" ]]; then
       exit 1
     fi
   done
+fi
+
+if [[ "$WITH_SONAR" == "1" ]]; then
+  step "SonarCloud local scan"
+  SKIP_NPM_CI=1 bash scripts/sonar-local.sh --skip-prereqs
 fi
 
 echo ""

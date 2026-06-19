@@ -34,6 +34,16 @@ npm run ci:local
 
 Mirrors required CI (`validate` + `action-smoke`). See [AGENTS.md](AGENTS.md) for flags and agent workflow.
 
+For `src/` code changes, optionally run SonarCloud locally before opening a PR:
+
+```bash
+export SONAR_TOKEN=...    # SonarCloud → My Account → Security → Generate token
+# or add SONAR_TOKEN=... to .env or .dev.vars (gitignored)
+npm run sonar:local
+```
+
+Install `sonar-scanner` via Homebrew (`brew install sonar-scanner`) or rely on the script's `npx` fallback. Never commit `SONAR_TOKEN`.
+
 Optional: `bash scripts/install-githooks.sh` to run `ci:local` automatically on `git push`.
 
 ## Pull requests
