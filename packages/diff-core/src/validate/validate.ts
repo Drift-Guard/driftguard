@@ -220,10 +220,9 @@ function validateValue(
       const childSchema = props[key];
       const childPath = path === "$" ? `/${key}` : `${path}/${key}`;
       if (!childSchema) {
-        const code = markAllRequired ? "extra_field" : "extra_field";
         pushError(errors, maxErrors, {
           path: childPath,
-          code,
+          code: "extra_field",
           message: `Unexpected field '${key}'`,
         });
         continue;
