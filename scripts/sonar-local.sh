@@ -28,6 +28,10 @@ Install sonar-scanner (pick one):
 
 Prerequisites match .github/workflows/sonarcloud.yml: npm ci, build, test.
 Project: sonar-project.properties (kioie_driftguard @ kioie).
+
+If sonar-scanner fails with "Automatic Analysis is enabled", disable it once in
+SonarCloud → project kioie_driftguard → Administration → Analysis Method.
+See CONTRIBUTING.md (CI-based analysis; no scanner property workaround).
 EOF
       exit 0
       ;;
@@ -63,15 +67,48 @@ need_node() {
     echo "Node >=$want required to match CI; got $ver (run: nvm use)" >&2
     exit 1
   fi
+  if [[ "$major" != "$want" ]]; then
+    echo "Node $want required to match CI; got $ver (run: nvm use, or PATH=\$(brew --prefix node@22)/bin:\$PATH)" >&2
+    exit 1
+  fi
+}
+
+sonar_auto_analysis_hint() {
+  cat >&2 <<'EOF'
+
+SonarCloud rejected CI/manual analysis because Automatic Analysis is enabled.
+
+Fix (one-time; project admin):
+  1. https://sonarcloud.io/project/analysis_method?id=kioie_driftguard
+     (or: project → Administration → Analysis Method)
+  2. Turn OFF Automatic Analysis (unselect "Enabled for this project")
+
+DriftGuard uses CI-based scans (sonar-project.properties, src/ only). Automatic
+Analysis ignores that file and conflicts with npm run sonar:local and the SonarCloud
+workflow when SONAR_TOKEN is set. There is no sonar.scanner.* workaround.
+
+Docs: CONTRIBUTING.md
+EOF
 }
 
 run_sonar_scanner() {
+  local log rc
+  log="$(mktemp)"
+  trap 'rm -f "$log"' RETURN
+  set +e
   if command -v sonar-scanner >/dev/null 2>&1; then
-    sonar-scanner
+    sonar-scanner 2>&1 | tee "$log"
+    rc=${PIPESTATUS[0]}
   else
     step "sonar-scanner (npx @sonarsource/sonar-scanner)"
-    npx --yes @sonarsource/sonar-scanner
+    npx --yes @sonarsource/sonar-scanner 2>&1 | tee "$log"
+    rc=${PIPESTATUS[0]}
   fi
+  set -e
+  if [[ $rc -ne 0 ]] && grep -Fq "Automatic Analysis is enabled" "$log"; then
+    sonar_auto_analysis_hint
+  fi
+  return "$rc"
 }
 
 load_sonar_token

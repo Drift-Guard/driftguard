@@ -50,7 +50,8 @@ need_node() {
     exit 1
   fi
   if [[ "$major" != "$want" ]]; then
-    echo "::warning::CI uses Node $want; local $ver may differ (run: nvm use)."
+    echo "Node $want required to match CI; got $ver (run: nvm use, or PATH=\$(brew --prefix node@22)/bin:\$PATH)" >&2
+    exit 1
   fi
 }
 

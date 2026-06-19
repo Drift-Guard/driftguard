@@ -40,9 +40,12 @@ For `src/` code changes, optionally run SonarCloud locally before opening a PR:
 export SONAR_TOKEN=...    # SonarCloud → My Account → Security → Generate token
 # or add SONAR_TOKEN=... to .env or .dev.vars (gitignored)
 npm run sonar:local
+# or after unit checks: npm run ci:local -- --with-sonar
 ```
 
 Install `sonar-scanner` via Homebrew (`brew install sonar-scanner`) or rely on the script's `npx` fallback. Never commit `SONAR_TOKEN`.
+
+**Automatic Analysis:** DriftGuard uses CI-based analysis (`sonar-project.properties`, `npm run sonar:local`). If the scanner fails with *Automatic Analysis is enabled*, disable it once: SonarCloud → [kioie_driftguard](https://sonarcloud.io/project/analysis_method?id=kioie_driftguard) → **Administration** → **Analysis Method** → off. There is no `sonar.scanner.*` workaround.
 
 Optional: `bash scripts/install-githooks.sh` to run `ci:local` automatically on `git push`.
 
