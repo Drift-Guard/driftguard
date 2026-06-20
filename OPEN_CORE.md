@@ -30,6 +30,7 @@ The following are **not published** and constitute the product:
 - Billing, API keys, and customer provisioning
 - Alert delivery, drift history, web console
 - **Product roadmap, GTM, pricing strategy, handbook, and control-plane task specs** (`driftguard-cloud` repo only — never in the public repo)
+- **Competitive design research, moat analysis, and “parity with [vendor]” positioning** (cloud only — see [docs/policies/IP-BOUNDARY-POLICY.md](docs/policies/IP-BOUNDARY-POLICY.md))
 
 ## Funnel
 

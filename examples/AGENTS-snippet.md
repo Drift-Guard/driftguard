@@ -24,4 +24,4 @@ Docs: https://driftguard.org/docs/quickstart · MCP guide: https://github.com/ki
 
 **Line count:** 8 lines inside the fenced block (≤20). No repo-specific paths.
 
-See [AGENT-DISCOVERY-ROADMAP.md](../docs/AGENT-DISCOVERY-ROADMAP.md) task INT-003.
+See [DISCOVERY.md](../docs/DISCOVERY.md) · task INT-003 (private cloud spec).

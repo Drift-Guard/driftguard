@@ -71,7 +71,7 @@ Do not use `explain_drift` as a substitute for local diff or watch registration.
 
 `explain_drift` is for **contract maintainers** after structural drift is detected — not a substitute for end-user disclosure programmes required by MGFA Dimension 4 tradecraft. Hosted watches may add richer context on Pro/Team; the public endpoint stays bounded and keyless.
 
-**MGFA buyers:** Pair operator transparency with post-deploy monitoring and ack trails — [drift management](./drift-management.md) · [SINGAPORE-MGFA-PRODUCT-FIT.md](../SINGAPORE-MGFA-PRODUCT-FIT.md).
+**MGFA buyers:** Pair operator transparency with post-deploy monitoring and ack trails — [drift management](./drift-management.md) · [Singapore deployment checklist](./singapore-agent-deployment-checklist.md).
 
 ---
 

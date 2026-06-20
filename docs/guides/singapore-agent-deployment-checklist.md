@@ -2,7 +2,7 @@
 
 **Status:** OSS enablement template (E10). Not MGFA certification or legal advice.
 
-**Related:** [SINGAPORE-MGFA-PRODUCT-FIT.md](../SINGAPORE-MGFA-PRODUCT-FIT.md) · [gate ladder](../policies/gate-ladder.md) · [CI.md](../CI.md)
+**Related:** [Singapore deployment checklist](./singapore-agent-deployment-checklist.md) · [gate ladder](../policies/gate-ladder.md) · [CI.md](../CI.md)
 
 Use this checklist when deploying agentic apps in Singapore/APAC programmes that reference IMDA MGFA Dimension 1 (bound risks) and Dimension 3 (technical controls). DriftGuard covers **contract observability** — MCP tools, API schemas, Agent Cards, and declared bindings — not identity, HITL, or policy/SOP evaluation.
 
@@ -106,4 +106,4 @@ Repos with `mcp.json` should copy [examples/cursor-rule-driftguard.mdc](../../ex
 
 ## What we do not cover
 
-Identity/IAM, HITL approval queues, behavioural anomaly detection, NL policy compliance, OTel-native APM — integrate with partners per [SINGAPORE-MGFA-PRODUCT-FIT.md § partner list](../SINGAPORE-MGFA-PRODUCT-FIT.md#what-we-explicitly-will-not-build-partner-list).
+Identity/IAM, HITL approval queues, behavioural anomaly detection, NL policy compliance, OTel-native APM — integrate with partners per [hosted API — integration boundaries](../reference/hosted-api.md#integration-boundaries).

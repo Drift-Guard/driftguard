@@ -24,7 +24,7 @@ pytest tests/ -v
 
 Disable fuse: `DRIFTGUARD_FUSE=0`.
 
-## Contract drift gate (CP-3.1)
+## Contract drift gate (hosted preflight)
 
 Before each outbound tool call, FuseGuard can call hosted `POST /api/preflight` when configured:
 
@@ -113,4 +113,4 @@ FuseGuard **loop detection** and **budget caps** address runaway or costly agent
 | Budget gate | Estimated cost exceeds cap | `budget_exceeded` |
 | Preflight (E5) | Open drift on bound watch | `contract_drift_blocked` |
 
-Document all three in runbooks; do not position loop fuse alone as full contract observability. See [gate ladder](../../docs/policies/gate-ladder.md) · [SINGAPORE-MGFA-PRODUCT-FIT.md](../../docs/SINGAPORE-MGFA-PRODUCT-FIT.md).
+Document all three in runbooks; do not position loop fuse alone as full contract observability. See [gate ladder](../../docs/policies/gate-ladder.md) · [runtime preflight](../../docs/guides/runtime-contract-preflight.md).

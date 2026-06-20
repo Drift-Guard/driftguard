@@ -53,5 +53,5 @@ Older internal specs referenced `@kioie/driftguard-mcp`. **Do not** publish unde
 ## Related
 
 - [npm-org-defense.md](./npm-org-defense.md) — squatting defense and token hygiene
-- [AGENT-DISCOVERY-ROADMAP.md](./AGENT-DISCOVERY-ROADMAP.md) § DISC-001 / OSS-2
+- [DISCOVERY.md](./DISCOVERY.md) · [npm-org-chase.md](./npm-org-chase.md) § OSS-2
 - [DISCOVERY.md](./DISCOVERY.md) — MCP client npx template

@@ -2,7 +2,7 @@
 
 **Status:** OSS partner-integration guide (E23). Not a compliance certification or attestation.
 
-**Related:** [sensor v1 schema](../mockdrift/sensor-v1.schema.yaml) · [ASSERTION-V2](../mockdrift/ASSERTION-V2.md) · [evaluator / PGE (E15)](../assessments/mgfa/E15-evaluator-pge-sensor-loop.md) · [Singapore MGFA product fit](../SINGAPORE-MGFA-PRODUCT-FIT.md)
+**Related:** [sensor v1 schema](../mockdrift/sensor-v1.schema.yaml) · [ASSERTION-V2](../mockdrift/ASSERTION-V2.md) · [evaluator / PGE](./mockdrift-init-fixtures.md) · [Singapore deployment checklist](./singapore-agent-deployment-checklist.md)
 
 DriftGuard does **not** ship a full observability or SIEM stack. MockDrift emits **structured, PII-minimal CI artifacts** that security and compliance teams can forward to their existing SIEM, GRC, or OTel pipeline (Datadog, Splunk, Grafana, etc.).
 
@@ -110,7 +110,7 @@ Pair with hosted drift exports ([hosted API — audit export](../reference/hoste
 
 ## MGFA evidence lane
 
-Singapore MGFA Dimension 3 expects evidence of pre-deployment safety testing. Sensor JSON + evaluator separation documents **that tests ran and were independently reviewed** — not that agents are certified compliant. See [E23 assessment](../assessments/mgfa/E23-mockdrift-ci-telemetry.md).
+Singapore MGFA Dimension 3 expects evidence of pre-deployment safety testing. Sensor JSON + evaluator separation documents **that tests ran and were independently reviewed** — not that agents are certified compliant. See [mockdrift CI telemetry](./mockdrift-init-fixtures.md) and [gate ladder](../policies/gate-ladder.md).
 
 ---
 

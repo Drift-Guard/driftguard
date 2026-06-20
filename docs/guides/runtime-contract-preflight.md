@@ -1,8 +1,8 @@
 # Runtime contract preflight (FuseGuard + hosted)
 
-**Status:** OSS + hosted (E5, Wave D). Not MGFA certification or legal advice.
+**Status:** OSS + hosted. Not MGFA certification or legal advice.
 
-**Related:** [packages/fuseguard](../../packages/fuseguard/README.md) · [E05 assessment](../assessments/mgfa/E05-runtime-contract-preflight.md) · [preflight guide on driftguard.org](https://driftguard.org/docs/guides/preflight) · [webhooks — ack trail](../reference/webhooks-alerts.md#incident-acknowledgement-trail)
+**Related:** [packages/fuseguard](../../packages/fuseguard/README.md) · [preflight guide on driftguard.org](https://driftguard.org/docs/guides/preflight) · [webhooks — ack trail](../reference/webhooks-alerts.md#incident-acknowledgement-trail)
 
 Block **irreversible or high-impact tool calls** when upstream contracts have open breaking drift — before the HTTP/MCP request leaves your agent, not after a failed response.
 
@@ -18,12 +18,12 @@ Singapore [MGFA](https://www.imda.gov.sg/-/media/imda/files/about/emerging-tech-
 | Runs when drift policy enforces `block_new_runs` / `kill_in_flight` | HITL approval queues or override UX |
 | Calls gated by FuseGuard `wrap_agent` / `FuseProxy` with preflight configured | Every network call unless you wire the fuse |
 
-**Evidence pairing (Wave A + D):** Preflight **blocks** unsafe calls; [webhook ack trail](../reference/webhooks-alerts.md#incident-acknowledgement-trail) (E11) records **human review** before ack-gated agents resume. Together they support an oversight narrative — not standalone MGFA compliance.
+**Evidence pairing:** Preflight **blocks** unsafe calls; [webhook ack trail](../reference/webhooks-alerts.md#incident-acknowledgement-trail) records **human review** before ack-gated agents resume. Together they support an oversight narrative — not standalone MGFA compliance.
 
 ```
   watch detects drift → webhook (incident.open) → agent blocked at preflight
                               ↓
-                    human acknowledges (E11)
+                    human acknowledges incident
                               ↓
                     preflight allowed → tool call proceeds
 ```
@@ -48,7 +48,7 @@ Singapore [MGFA](https://www.imda.gov.sg/-/media/imda/files/about/emerging-tech-
 | **FuseGuard `DriftPreflightGate`** | HTTP client, in-process TTL cache, trip on block |
 | **Trip log** | Local JSON at `FUSEGUARD_TRIP_LOG` with `contract_drift_blocked` + full preflight payload |
 
-Preflight requires Pro watches (or agent binding with org API key). OSS loop/budget fuse works without a key — see [E20 loop/budget](../assessments/mgfa/E20-fuseguard-loop-budget-controls.md).
+Preflight requires Pro watches (or agent binding with org API key). OSS loop/budget fuse works without a key — see [FuseGuard loop/budget](../../packages/fuseguard/README.md).
 
 ---
 
@@ -156,8 +156,8 @@ Add runtime preflight for production agents that call financial, identity, or de
 | Topic | Status |
 |-------|--------|
 | HITL approval UI | **Out of scope** — partner territory; we supply block + ack evidence |
-| Trip ↔ drift correlation in console | Roadmap FG-2B (E14) — trip log is local until ingest ships |
+| Trip ↔ drift correlation in console | Hosted roadmap — trip log is local until ingest ships |
 | Cache staleness | Default 30s TTL; call `DriftPreflightGate.clear_cache()` after ack in long-lived processes |
 | MGFA certification | DriftGuard does not certify compliance |
 
-**Next in Wave D:** [E20 loop/budget controls](../assessments/mgfa/E20-fuseguard-loop-budget-controls.md) (separate control plane). **Defer:** E7 A2A watch, E14 trip ingest.
+**See also:** [FuseGuard loop/budget controls](../../packages/fuseguard/README.md) (separate from preflight). A2A Contract Watch and hosted trip ingest are hosted complements — [a2a-contract-watch](./a2a-contract-watch.md).

@@ -78,15 +78,15 @@ Aligns with [policies/gate-ladder.md](./policies/gate-ladder.md) — MockDrift r
 
 Semantic / NL drift classification for hosted Pro/Team remains on the **hosted** product. Local OSS diff is structural (JSON schema) only.
 
-Boundary docs (structural vs semantic; no SOP compliance claims; MGFA Dim 3 policy-adjacent only): [guides/semantic-drift-boundary.md](./guides/semantic-drift-boundary.md). Assessment: [E13](./assessments/mgfa/E13-semantic-nl-drift-classification.md).
+Boundary docs (structural vs semantic; no SOP compliance claims): [guides/semantic-drift-boundary.md](./guides/semantic-drift-boundary.md).
 
-## Singapore MGFA product fit (guiding doc)
+## Singapore / APAC agent deployments
 
-Strategic orientation for MGFA-aligned enhancements across the **full ecosystem** (Core CLI/MCP, diff-core, MockDrift, FuseGuard, ToolChange, SchemaSync, harness bundle, evaluator/PGE, A2A Contract Watch, hosted watches and complements — contract observability lane, not compliance certification): [SINGAPORE-MGFA-PRODUCT-FIT.md](./SINGAPORE-MGFA-PRODUCT-FIT.md).
+Operational checklist (not compliance certification): [guides/singapore-agent-deployment-checklist.md](./guides/singapore-agent-deployment-checklist.md). Integration boundaries: [hosted API — integration boundaries](./reference/hosted-api.md#integration-boundaries).
 
-## Agent discoverability (PostHog parity)
+## Agent discoverability
 
-Implementation specs for agent discovery, one-session MCP install, and single-key activation: [AGENT-DISCOVERY-ROADMAP.md](./AGENT-DISCOVERY-ROADMAP.md).
+Public discovery and npm scope: [DISCOVERY.md](./DISCOVERY.md) · [npm org chase](./npm-org-chase.md) · [guides/agent-mcp.md](./guides/agent-mcp.md).
 
 ## Documentation hub
 

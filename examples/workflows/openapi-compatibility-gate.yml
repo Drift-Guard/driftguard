@@ -20,6 +20,6 @@ jobs:
           target: openapi/openapi.json
           fail-on-breaking: "true"
 
-# Notion-style producer CI: pin your public API schema in-repo and fail PRs on breaking
+# Producer CI: pin your public API schema in-repo and fail PRs on breaking
 # changes before clients and in-flight queue consumers break.
-# Analog: https://www.notion.com/blog/how-notion-catches-breaking-schema-changes
+# Pattern reference (public): OpenAPI diff in CI on pull requests.

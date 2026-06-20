@@ -213,11 +213,27 @@ Hosted watches run **structural** diff first (`@driftguard/diff-core`), then an 
 
 **Signal classes** (when classifier fires): `unit_suspect`, `enum_set_changed`, `distribution_shift`, NL tool-metadata shifts (roadmap). Same breaking / warning / info severity discipline as structural diff.
 
-**MGFA posture:** Dimension 3 **policy-adjacent change detection** — not SOP compliance, NL policy evaluation, or regulatory certification. Lead MGFA pitches with structural monitoring (E1/E4/E11); use semantic as supplement only.
+**MGFA posture:** Dimension 3 **policy-adjacent change detection** — not SOP compliance, NL policy evaluation, or regulatory certification.
 
-**Not in scope:** agent behavioural eval (LangSmith lane), prompt injection safety, internal SOP documents, GRC policy engines — see [partner list](../SINGAPORE-MGFA-PRODUCT-FIT.md#what-we-explicitly-will-not-build-partner-list).
+**Not in scope:** agent behavioural eval, prompt injection safety, internal SOP documents, GRC policy engines — see [integration boundaries](#integration-boundaries).
 
-Guide: [semantic drift — structural boundary](../guides/semantic-drift-boundary.md) · hosted buyer reference: `driftguard-cloud/docs/compliance/SEMANTIC-DRIFT-BOUNDARY.md`.
+Guide: [semantic drift — structural boundary](../guides/semantic-drift-boundary.md).
+
+---
+
+## Integration boundaries
+
+DriftGuard **feeds** partner systems (webhooks, drift exports, trip logs, sensor JSON) but does not replace full governance or observability stacks.
+
+| Need | Integrate with |
+|------|----------------|
+| Agent identity / IAM | IdP (Okta, Azure AD), SPIFFE, cloud IAM |
+| Human-in-the-loop approvals | ServiceNow, Jira, workflow tools |
+| Runtime anomaly / behavioural detection | OTel → Datadog, Grafana; LLM security vendors |
+| Policy / SOP evaluation | GRC platforms, model safety eval suites |
+| Full OpenTelemetry APM | OTel collectors → your observability vendor |
+
+Same boundary pattern: [A2A Contract Watch — Not covered](https://driftguard.org/docs/guides/a2a-contract-watch#not-covered).
 
 ---
 

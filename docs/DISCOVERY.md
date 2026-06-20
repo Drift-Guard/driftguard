@@ -2,7 +2,7 @@
 
 How to list DriftGuard in MCP directories and help agents find the server.
 
-**Name collisions:** npm and GitHub host unrelated `driftguard` packages (UI linter, conversation MCP, getdriftguard CLI, ML/GitOps repos). **[driftguard.co](https://www.driftguard.co/)** is a separate vendor (enterprise runtime AI-agent governance / policy gateway) — same brand name, different product from schema/MCP contract drift monitoring at [driftguard.org](https://driftguard.org). Not affiliated with `kioie/driftguard`. Canonical API/MCP schema drift product: driftguard.org · repo `kioie/driftguard`. Blockers and scoped publish path: [AGENT-DISCOVERY-ROADMAP.md](./AGENT-DISCOVERY-ROADMAP.md) § DISC-001.
+**Name collisions:** npm and GitHub host unrelated `driftguard` packages (UI linter, conversation MCP, getdriftguard CLI, ML/GitOps repos). **[driftguard.co](https://www.driftguard.co/)** is a separate vendor (enterprise runtime AI-agent governance / policy gateway) — same brand name, different product from schema/MCP contract drift monitoring at [driftguard.org](https://driftguard.org). Not affiliated with `kioie/driftguard`. Canonical API/MCP schema drift product: driftguard.org · repo `kioie/driftguard`. Scoped npm publish path: [npm-org-chase.md](./npm-org-chase.md).
 
 ## MCP Registry
 
@@ -45,7 +45,7 @@ Copy [examples/cursor-rule-driftguard.mdc](../examples/cursor-rule-driftguard.md
 
 ## Distribution playbooks (GTM)
 
-Dev.to and Hacker News post templates (npx MCP + key activation, UTM trial links) live in **`driftguard-cloud` `docs/LAUNCH/`** — internal GTM prep only; human posting required. See [AGENT-DISCOVERY-ROADMAP.md](./AGENT-DISCOVERY-ROADMAP.md) § DIST-002.
+Dev.to and Hacker News post templates live in **`driftguard-cloud` `docs/LAUNCH/`** — internal GTM prep only; human posting required.
 
 ## Agent-readable docs
 

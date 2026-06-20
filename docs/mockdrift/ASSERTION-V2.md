@@ -189,7 +189,7 @@ CI pattern:
     sensor-path: ./sensors/
 ```
 
-Rule-only evaluator is OSS; hosted LLM evaluator is Enterprise — do not imply regulatory attestation. See [SINGAPORE-MGFA-PRODUCT-FIT.md](../SINGAPORE-MGFA-PRODUCT-FIT.md) · [gate ladder](../policies/gate-ladder.md).
+Rule-only evaluator is OSS; hosted LLM evaluator is Enterprise — do not imply regulatory attestation. See [gate ladder](../policies/gate-ladder.md).
 
 ---
 

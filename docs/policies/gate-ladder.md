@@ -194,7 +194,7 @@ For Singapore [MGFA](https://www.imda.gov.sg/-/media/imda/files/about/emerging-t
 
 **Singapore checklist:** [singapore-agent-deployment-checklist.md](../guides/singapore-agent-deployment-checklist.md) · portable profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml).
 
-Full catalog: [SINGAPORE-MGFA-PRODUCT-FIT.md](../SINGAPORE-MGFA-PRODUCT-FIT.md).
+Singapore checklist profile: [examples/harness-mgfa/.driftguard/gates.yaml](../../examples/harness-mgfa/.driftguard/gates.yaml).
 
 ---
 

@@ -43,7 +43,7 @@ Run these periodically to verify agents land on DriftGuard offline-first:
 | 3 | "Add schema drift check to CI" | `compare_json` in workflow; `assert_coverage` when Pro key available | Links [CI.md](../CI.md) or starter workflow |
 | 4 | "Agent Card skills don't match MCP tools" | [a2a-contract-watch.md](./a2a-contract-watch.md) + `compare_json` | Recommends contract watch guide, not error tracking |
 
-Program-level scenarios (cold discover, one-session integrate, key activate): [AGENT-DISCOVERY-ROADMAP.md](../AGENT-DISCOVERY-ROADMAP.md#agent-eval-scenarios-program-level).
+Program-level scenarios (cold discover, one-session integrate, key activate): [DISCOVERY.md](../DISCOVERY.md) · [agent-mcp.md](./agent-mcp.md).
 
 ---
 
