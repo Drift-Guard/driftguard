@@ -1,6 +1,6 @@
 # DriftGuard design philosophy
 
-Inspired by infrastructure-grade product sites (Cloudflare, Linear, Vercel) — **not** a visual clone. We borrow the *discipline*, not the palette or marks.
+Infrastructure-grade product discipline (dark UI, scarce accent, geometry-led mark) — **not** a visual clone of any third-party product. We borrow *patterns*, not palettes or trademarks.
 
 ## What we take from that school of design
 
@@ -15,7 +15,7 @@ Inspired by infrastructure-grade product sites (Cloudflare, Linear, Vercel) — 
 
 ## What we deliberately avoid
 
-- Orange / cloud motifs (Cloudflare-owned territory)
+- Orange / cloud motifs associated with major CDN brands
 - Tagline stacks under every logo lockup
 - Stock “shield” clipart or busy gradients
 - Replacing the existing minimal page layout with marketing chrome

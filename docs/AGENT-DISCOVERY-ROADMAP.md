@@ -1,5 +1,7 @@
 # Agent discovery roadmap — PostHog parity for DriftGuard
 
+> **IP notice:** This document contains competitive framing and hosted task references. **Planned migration** to `driftguard-cloud` per [policies/IP-BOUNDARY-POLICY.md](./policies/IP-BOUNDARY-POLICY.md). Do not expand until relocated; new discovery specs belong in cloud only.
+
 **Status:** Implementation spec (OSS). Derived from PostHog parity analysis (2026-06).
 
 **Related:** [DISCOVERY.md](./DISCOVERY.md) · [OPEN_CORE.md](../OPEN_CORE.md) · [SYSTEM_PROMPT.md](../SYSTEM_PROMPT.md) · Hosted product roadmap (private): `driftguard-cloud/docs/PRODUCT-ROADMAP.md`

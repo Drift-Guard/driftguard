@@ -14,6 +14,10 @@ Do **not** add product intellectual property to this public repository.
 | GTM, founding lab, enterprise playbooks | Gate ladder, MockDrift/CI docs |
 | Handbook (mission, ICP, operating metrics) | Hosted API index with link-outs |
 | Hosted implementation specs | Technical ADRs for OSS client |
+| Design research / UX audits of named products | Generic UX pattern names only |
+| Competitive positioning & moat analysis | Factual integration coexistence guides |
+
+**Naming:** Do not use branch names, PR titles, commits, or public docs that say DriftGuard is "modeled after", "inspired by", or "parity with" a specific commercial product. See [IP-BOUNDARY-POLICY.md](../../docs/policies/IP-BOUNDARY-POLICY.md).
 
 When asked to document roadmap, GTM, or pricing — work in **`driftguard-cloud`**. Link to [driftguard.org](https://driftguard.org) for public users.
 

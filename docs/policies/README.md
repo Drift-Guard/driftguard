@@ -15,6 +15,7 @@ What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md).
 | **Breaking-change** | CLI/MCP diff exits 1 on breaking | Watch alerts + history | [Developer guide](../guides/developer.md) |
 | **Coverage** | Preview lists gaps (non-blocking) | `assert_coverage` fails CI | [CI/CD guide](../guides/ci-cd.md) |
 | **Gate ladder** | MockDrift → SchemaSync packages | Trip ingest / GitHub App (cloud) | [gate-ladder.md](./gate-ladder.md) |
+| **IP & public disclosure** | OSS scope vs cloud moat; PR naming | — | [IP-BOUNDARY-POLICY.md](./IP-BOUNDARY-POLICY.md) |
 
 ---
 

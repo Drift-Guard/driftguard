@@ -16,6 +16,7 @@ Out of scope:
 - Hosted worker, console, billing, or deployment code
 - Replicating continuous MCP polling locally
 - Product roadmap, GTM, pricing strategy, handbook, or other intellectual property (use **`driftguard-cloud`** only)
+- Docs that position DriftGuard as modeled on or in parity with a named commercial product ([IP boundary policy](docs/policies/IP-BOUNDARY-POLICY.md))
 
 ## Setup
 

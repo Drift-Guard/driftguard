@@ -4,7 +4,7 @@ Audit of [kioie/driftguard](https://github.com/kioie/driftguard) for proprietary
 
 ## Current HEAD — clean
 
-At the latest commit, the public repo contains only the open-source client:
+At the latest commit, the public repo should contain only the open-source client and user-facing docs per [IP-BOUNDARY-POLICY.md](../policies/IP-BOUNDARY-POLICY.md).
 
 - Local JSON diff + MCP connector
 - Public docs (`docs/CI.md`, `QUICKSTART.md`, etc.)
@@ -36,6 +36,8 @@ No literal API keys were found in history (env var names only), but **rotate** L
 2. Follow [SECRET-ROTATION-CHECKLIST.md](./SECRET-ROTATION-CHECKLIST.md).
 
 3. Enable GitHub **secret scanning** on the public repo.
+
+4. Enforce [IP-BOUNDARY-POLICY.md](../policies/IP-BOUNDARY-POLICY.md) on new PRs; work through § **Known OSS remediation backlog** for legacy leaks.
 
 ## Private cloud repo
 

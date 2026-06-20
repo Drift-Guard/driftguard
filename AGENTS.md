@@ -81,8 +81,11 @@ Do not document or implement hosted infrastructure in this repo. Funnel continuo
 - GTM, founding lab, distribution, and enterprise sales playbooks
 - Hosted implementation specs beyond user-facing API/MCP reference docs
 - Internal handbook (mission, ICP narrative, operating metrics)
+- UX audits or feature roadmaps framed against named commercial products
 
 This repo may include **user-facing** OSS docs (quick start, guides, gate ladder, hosted API index with link-outs). When in doubt, put specs in `driftguard-cloud`.
+
+**Public disclosure:** Do not imply DriftGuard surfaces are modeled on a specific third-party product in PRs, commits, issues, or docs. Full rules: [docs/policies/IP-BOUNDARY-POLICY.md](docs/policies/IP-BOUNDARY-POLICY.md).
 
 ## MCP tool conventions
 

@@ -10,4 +10,4 @@ Product roadmap, GTM specs, pricing architecture, control-plane task IDs (CP-*, 
 - **Open core boundary:** [OPEN_CORE.md](../OPEN_CORE.md)
 - **Try hosted monitoring:** [free trial](https://driftguard.org/start) · [pricing](https://driftguard.org/pricing)
 
-Do not add product strategy, GTM, pricing COGS, or internal task specs to this public repo. See [AGENTS.md](../AGENTS.md) § Intellectual property.
+Do not add product strategy, GTM, pricing COGS, or internal task specs to this public repo. See [AGENTS.md](../AGENTS.md) § Intellectual property and [policies/IP-BOUNDARY-POLICY.md](./policies/IP-BOUNDARY-POLICY.md).
