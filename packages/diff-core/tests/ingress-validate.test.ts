@@ -23,12 +23,15 @@ const manifest = JSON.parse(readFileSync(join(fixturesRoot, "cases.json"), "utf8
 };
 
 test("ingress golden corpus", () => {
-  assert.equal(manifest.cases.filter((c) => c.expect.ok).length, 20);
-  assert.equal(manifest.cases.filter((c) => !c.expect.ok).length, 40);
+  const good = manifest.cases.filter((c) => c.expect.ok);
+  const bad = manifest.cases.filter((c) => !c.expect.ok);
+  assert.equal(good.length, 27, "good case count");
+  assert.equal(bad.length, 49, "bad case count");
 
   for (const c of manifest.cases) {
     const profile = loadProfile(c.profile);
-    const profileMode = c.profile === "n8n-normalized-lead" ? "cli" : "hosted";
+    const profileMode =
+      c.profile === "n8n-normalized-lead" ? "cli" : "hosted";
     const result = validateAgainstProfile(c.payload, profile, { profileMode });
     assert.equal(result.ok, c.expect.ok, `${c.id}: ok`);
     assert.equal(result.severity, c.expect.severity, `${c.id}: severity`);
@@ -52,6 +55,16 @@ test("profile depth limit rejects oversized schema", () => {
   );
   assert.equal(result.ok, false);
   assert.ok(result.errors.some((e) => e.code === "profile_invalid"));
+});
+
+test("tool_call_envelope returns extracted arguments in normalized", () => {
+  const profile = loadProfile("mcp-tool-call");
+  const result = validateAgainstProfile(
+    { name: "search_docs", arguments: { query: "ingress" } },
+    profile,
+  );
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.normalized, { query: "ingress" });
 });
 
 test("normalization maps aliases before validate", () => {

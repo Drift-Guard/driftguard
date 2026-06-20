@@ -1,0 +1,15 @@
+{
+  "id": "openai-tool-call",
+  "version": 1,
+  "profileKind": "tool_call_envelope",
+  "envelope": { "preset": "openai_functions" },
+  "requiredPolicy": "schemaOnly",
+  "schema": {
+    "type": "object",
+    "required": ["recipient", "amount_cents"],
+    "properties": {
+      "recipient": { "type": "string", "minLength": 1 },
+      "amount_cents": { "type": "integer", "minimum": 1 }
+    }
+  }
+}

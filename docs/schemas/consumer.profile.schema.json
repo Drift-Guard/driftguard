@@ -17,6 +17,30 @@
       "type": "integer",
       "minimum": 1
     },
+    "profileKind": {
+      "type": "string",
+      "enum": ["ingress", "llm_structured_output", "tool_call_envelope"],
+      "default": "ingress",
+      "description": "ingress: validate full payload (default). llm_structured_output: validate LLM JSON object output. tool_call_envelope: extract inner object from MCP/A2A/OpenAI tool-call shape before validating against schema."
+    },
+    "envelope": {
+      "type": "object",
+      "description": "When profileKind is tool_call_envelope, selects which nested object to validate. preset mcp: { name, arguments } or { tool, input }; openai_functions: { function: { name, arguments } }; raw: use extractPath dot path (e.g. arguments, input, function.arguments).",
+      "additionalProperties": false,
+      "properties": {
+        "preset": {
+          "type": "string",
+          "enum": ["mcp", "openai_functions", "raw"],
+          "default": "mcp"
+        },
+        "extractPath": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Dot path into payload when preset is raw."
+        }
+      }
+    },
     "schema": {
       "type": "object",
       "description": "JSON Schema draft 2020-12 subset (types, required, properties, enum, min/max). Local #/ $ref only in v1."

@@ -1,5 +1,6 @@
 import { resolveMarkAllFieldsRequired } from "../profiles.js";
 import type { ChangeSeverity, JsonSchema } from "../types.js";
+import { resolveEnvelopePayload } from "./envelope.js";
 import {
   VALIDATE_LIMITS,
   type ConsumerProfile,
@@ -8,9 +9,21 @@ import {
   type ValidateResult,
 } from "./types.js";
 
+const PROFILE_KINDS = new Set(["ingress", "llm_structured_output", "tool_call_envelope"]);
+const ENVELOPE_PRESETS = new Set(["mcp", "openai_functions", "raw"]);
+
 function severityFromErrors(errors: ValidateError[]): ChangeSeverity | "none" {
   if (errors.length === 0) return "none";
-  if (errors.some((e) => e.code === "required_missing" || e.code === "type_mismatch" || e.code === "enum_invalid" || e.code === "null_disallowed")) {
+  if (
+    errors.some(
+      (e) =>
+        e.code === "required_missing" ||
+        e.code === "type_mismatch" ||
+        e.code === "enum_invalid" ||
+        e.code === "null_disallowed" ||
+        e.code === "envelope_extract_failed",
+    )
+  ) {
     return "breaking";
   }
   if (errors.some((e) => e.code === "extra_field")) return "warning";
@@ -97,6 +110,31 @@ export function validateProfileStructure(profile: ConsumerProfile): ValidateErro
       code: "profile_invalid",
       message: `Alias count exceeds limit ${VALIDATE_LIMITS.maxNormalizationAliases}`,
     });
+  }
+  const kind = profile.profileKind ?? "ingress";
+  if (!PROFILE_KINDS.has(kind)) {
+    errors.push({
+      path: "/profileKind",
+      code: "profile_invalid",
+      message: `profileKind must be ingress, llm_structured_output, or tool_call_envelope`,
+    });
+  }
+  if (kind === "tool_call_envelope") {
+    const preset = profile.envelope?.preset ?? "mcp";
+    if (!ENVELOPE_PRESETS.has(preset)) {
+      errors.push({
+        path: "/envelope/preset",
+        code: "profile_invalid",
+        message: `envelope.preset must be mcp, openai_functions, or raw`,
+      });
+    }
+    if (preset === "raw" && !profile.envelope?.extractPath?.trim()) {
+      errors.push({
+        path: "/envelope/extractPath",
+        code: "profile_invalid",
+        message: "envelope.extractPath is required when preset is raw",
+      });
+    }
   }
   return errors;
 }
@@ -257,10 +295,22 @@ export function validateAgainstProfile(
       resolveMarkAllFieldsRequired({ profile: options.profileMode ?? "hosted" }));
 
   const normalized = applyNormalization(payload, profile);
+  const envelopeResult = resolveEnvelopePayload(normalized, profile);
+  if (envelopeResult.errors.length > 0) {
+    return {
+      ok: false,
+      severity: "breaking",
+      errors: envelopeResult.errors.slice(0, maxErrors),
+      normalized: null,
+      truncated: envelopeResult.errors.length > maxErrors,
+      explainUrl: options.explainUrl,
+    };
+  }
+
   const errors: ValidateError[] = [];
   const rootSchema = { ...profile.schema, type: profile.schema.type ?? "object" };
 
-  validateValue(normalized, rootSchema, "$", markAll, errors, maxErrors, 0);
+  validateValue(envelopeResult.value, rootSchema, "$", markAll, errors, maxErrors, 0);
 
   const severity = severityFromErrors(errors);
   const ok = severity === "none";
@@ -269,7 +319,12 @@ export function validateAgainstProfile(
     ok,
     severity,
     errors,
-    normalized: errors.length === 0 ? normalized : null,
+    normalized:
+      errors.length === 0
+        ? profile.profileKind === "tool_call_envelope"
+          ? envelopeResult.value
+          : normalized
+        : null,
     truncated: errors.length >= maxErrors,
     explainUrl: options.explainUrl,
   };

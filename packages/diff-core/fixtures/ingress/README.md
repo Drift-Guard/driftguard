@@ -6,8 +6,8 @@ Golden corpus for `validateAgainstProfile` parity (OSS CLI, MCP, hosted `POST /a
 
 | Path | Purpose |
 |------|---------|
-| `profiles/` | Consumer profile pins (`profile.shopify-webhook.json`, `profile.n8n-normalized-lead.json`) |
-| `cases.json` | 60 cases: 20 good, 40 bad — expected `ok`, `severity`, primary `code` |
+| `profiles/` | Consumer profile pins (webhook, n8n lead, agent structured output, MCP/OpenAI tool-call envelopes) |
+| `cases.json` | 76 cases: 27 good, 49 bad — expected `ok`, `severity`, primary `code` |
 
 ## Case categories (bad)
 
