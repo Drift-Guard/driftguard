@@ -58,3 +58,8 @@ OpenAPI watch + ingress bundle: [n8n OpenAPI watch guide](n8n-openapi-watch.md).
 | Hosted API | n8n convenience, quota analytics, future profile registry |
 
 Reference: [validate API](../reference/validate-api.md) · Gate ladder: [L2.5 Runtime ingress](../policies/gate-ladder.md)
+
+## Positioning boundaries
+
+- [Confluent Schema Registry coexistence](confluent-coexistence.md) — partner, not competitor
+- [BI / warehouse drift boundary](bi-warehouse-boundary.md) — what we do and do not solve
