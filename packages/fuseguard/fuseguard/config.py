@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 from dataclasses import dataclass
 
@@ -21,9 +22,17 @@ class FuseConfig:
     api_base: str = "https://driftguard.org"
     preflight_cache_ttl_sec: float = 30.0
     preflight_timeout_sec: float = 15.0
+    ingress_profile_id: str | None = None
+    ingress_profile: dict | None = None
+    ingress_mode: str = "block"
+    ingress_webhook_url: str | None = None
+    ingress_timeout_sec: float = 15.0
 
     def has_drift_gate(self) -> bool:
         return bool(self.api_key and (self.watch_ids or self.agent_id))
+
+    def has_ingress_gate(self) -> bool:
+        return bool(self.api_key and (self.ingress_profile_id or self.ingress_profile))
 
     @classmethod
     def from_env(cls) -> FuseConfig:
@@ -35,6 +44,17 @@ class FuseConfig:
         api_base = os.environ.get("DRIFTGUARD_API", "https://driftguard.org").strip() or "https://driftguard.org"
         cache_ttl = os.environ.get("FUSEGUARD_PREFLIGHT_CACHE_TTL_SEC", "30").strip()
         preflight_timeout = os.environ.get("FUSEGUARD_PREFLIGHT_TIMEOUT_SEC", "15").strip()
+        ingress_profile_id = os.environ.get("FUSEGUARD_INGRESS_PROFILE_ID", "").strip() or None
+        ingress_profile_raw = os.environ.get("FUSEGUARD_INGRESS_PROFILE_JSON", "").strip()
+        ingress_profile: dict | None = None
+        if ingress_profile_raw:
+            try:
+                ingress_profile = json.loads(ingress_profile_raw)
+            except json.JSONDecodeError:
+                ingress_profile = None
+        ingress_mode = os.environ.get("FUSEGUARD_INGRESS_MODE", "block").strip() or "block"
+        ingress_webhook = os.environ.get("FUSEGUARD_INGRESS_WEBHOOK_URL", "").strip() or None
+        ingress_timeout = os.environ.get("FUSEGUARD_INGRESS_TIMEOUT_SEC", "15").strip()
         return cls(
             max_identical_tool_hashes=int(os.environ.get("FUSEGUARD_MAX_IDENTICAL_HASHES", "3")),
             window_steps=int(os.environ.get("FUSEGUARD_WINDOW_STEPS", "10")),
@@ -47,4 +67,9 @@ class FuseConfig:
             api_base=api_base,
             preflight_cache_ttl_sec=float(cache_ttl) if cache_ttl else 30.0,
             preflight_timeout_sec=float(preflight_timeout) if preflight_timeout else 15.0,
+            ingress_profile_id=ingress_profile_id,
+            ingress_profile=ingress_profile,
+            ingress_mode=ingress_mode,
+            ingress_webhook_url=ingress_webhook,
+            ingress_timeout_sec=float(ingress_timeout) if ingress_timeout else 15.0,
         )

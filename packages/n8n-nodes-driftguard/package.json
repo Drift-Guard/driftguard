@@ -1,0 +1,24 @@
+{
+  "name": "n8n-nodes-driftguard",
+  "version": "0.1.0",
+  "description": "DriftGuard validate and preflight operations for n8n",
+  "license": "MIT",
+  "homepage": "https://driftguard.org",
+  "author": "DriftGuard",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "files": ["dist"],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": ["dist/credentials/DriftGuardApi.credentials.js"],
+    "nodes": ["dist/nodes/DriftGuard/DriftGuard.node.js"]
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "n8n-workflow": "^1.70.0",
+    "typescript": "^5.7.2"
+  }
+}

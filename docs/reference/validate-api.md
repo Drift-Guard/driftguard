@@ -42,7 +42,9 @@ X-DriftGuard-Source: n8n
 | `payload` | Inbound JSON (max 256KB body) |
 | `profile` | Consumer profile (max 64KB) — see [consumer.profile.schema.json](../schemas/consumer.profile.schema.json) |
 | `options.profileMode` | `cli` (strict) or `hosted` (schema-only required) |
-| `options.mode` | `block` (default) or `warn` (HTTP 200 with `ok: false`) |
+| `options.mode` | `block` (default), `warn` (HTTP 200 with `ok: false`), or `quarantine` (422 + webhook) |
+| `options.webhookUrl` | HTTPS URL for quarantine events when `mode: quarantine` |
+| `profileId` | Hosted profile registry id (API key required; alternative to inline `profile`) |
 
 Trial: `X-DriftGuard-Trial` header instead of API key (500 validations/month).
 
@@ -91,5 +93,9 @@ Upgrade URLs mirror [CI.md](../CI.md#upgrade-urls): `upgrade.start`, `upgrade.pr
 | Contract watches | Upstream drift detection |
 
 **Ephemeral:** payloads are not stored. Only metadata (ok, severity, error count, latency) is metered.
+
+**Quarantine:** when `options.mode` is `quarantine`, failed validations POST an [ingress.quarantine event](../schemas/ingress.quarantine-event.schema.json) to `options.webhookUrl` (HTTPS only).
+
+**Profile registry:** `PUT /api/ingress-profiles/:id` pins a profile; validate with `"profileId": "…"` instead of inline schema.
 
 Guides: [automation ingress](../guides/automation-ingress.md) · Pricing: [driftguard.org/pricing](https://driftguard.org/pricing)

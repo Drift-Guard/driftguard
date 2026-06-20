@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://driftguard.org/schemas/ingress.quarantine-event.schema.json",
+  "title": "IngressQuarantineEvent",
+  "type": "object",
+  "required": ["event", "correlationId", "profileId", "severity", "errors", "ts"],
+  "additionalProperties": false,
+  "properties": {
+    "event": { "const": "ingress.quarantine" },
+    "correlationId": { "type": "string", "minLength": 1 },
+    "profileId": { "type": "string", "minLength": 1 },
+    "severity": { "type": "string", "enum": ["none", "info", "warning", "breaking"] },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "code", "message"],
+        "properties": {
+          "path": { "type": "string" },
+          "code": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "ts": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" }
+  }
+}

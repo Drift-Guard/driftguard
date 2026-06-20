@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from typing import Any, Protocol
 
 from fuseguard.config import FuseConfig
@@ -17,6 +18,9 @@ def wrap_agent(runner: ToolRunner, config: FuseConfig | None = None) -> ToolRunn
 
     class WrappedRunner:
         def invoke_tool(self, tool: str, args: dict[str, Any], *, estimated_cost_usd: float = 0.0) -> Any:
+            ingress_key = os.environ.get("FUSEGUARD_INGRESS_PAYLOAD_ARG", "").strip()
+            if ingress_key and isinstance(args.get(ingress_key), dict):
+                monitor.assert_ingress_valid(args[ingress_key])
             monitor.assert_pre_call_budget(estimated_cost_usd)
             try:
                 result = runner.invoke_tool(tool, args)
