@@ -2,10 +2,21 @@ import type { ChangeSeverity, DiffProfile, JsonSchema } from "../types.js";
 
 export type RequiredPolicy = "allProperties" | "schemaOnly";
 
+export type ProfileKind = "ingress" | "llm_structured_output" | "tool_call_envelope";
+
+export type EnvelopePreset = "mcp" | "openai_functions" | "raw";
+
 export interface ConsumerProfile {
   id: string;
   version: number;
   schema: JsonSchema;
+  profileKind?: ProfileKind;
+  envelope?: {
+    /** Dot path into payload when preset is raw (e.g. arguments, input, function.arguments). */
+    extractPath?: string;
+    /** mcp: { name, arguments } or { tool, input }; openai_functions: { function: { name, arguments } }; raw: extractPath */
+    preset?: EnvelopePreset;
+  };
   requiredPolicy?: RequiredPolicy;
   normalization?: {
     aliases?: Record<string, string>;
@@ -20,6 +31,7 @@ export type ValidateErrorCode =
   | "extra_field"
   | "null_disallowed"
   | "profile_invalid"
+  | "envelope_extract_failed"
   | "array_items_invalid"
   | "min_length"
   | "max_length"

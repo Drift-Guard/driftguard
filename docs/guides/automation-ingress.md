@@ -61,7 +61,7 @@ OpenAPI watch + ingress bundle: [n8n OpenAPI watch guide](n8n-openapi-watch.md).
 | OSS CLI/MCP | High volume, self-hosted, zero marginal cost |
 | Hosted API | n8n convenience, quota analytics, future profile registry |
 
-Reference: [validate API](../reference/validate-api.md) · Gate ladder: [L2.5 Runtime ingress](../policies/gate-ladder.md)
+Reference: [validate API](../reference/validate-api.md) · Gate ladder: [L2.5 Runtime ingress](../policies/gate-ladder.md) · Agent harness: [agent output contracts](agent-output-contracts.md)
 
 ## Positioning boundaries
 

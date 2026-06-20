@@ -839,6 +839,131 @@
         "severity": "breaking",
         "code": "required_missing"
       }
+    },
+    {
+      "id": "good-agent-01",
+      "profile": "agent-structured-output",
+      "payload": {
+        "answer": "Paris is the capital of France.",
+        "citations": ["doc-1", "doc-2"]
+      },
+      "expect": { "ok": true, "severity": "none" }
+    },
+    {
+      "id": "good-agent-02",
+      "profile": "agent-structured-output",
+      "payload": {
+        "answer": "Use schemaOnly for optional fields.",
+        "citations": [],
+        "confidence": 0.92
+      },
+      "expect": { "ok": true, "severity": "none" }
+    },
+    {
+      "id": "good-agent-03",
+      "profile": "agent-structured-output",
+      "payload": {
+        "answer": "Structured output validated before tool dispatch.",
+        "citations": ["runbook-7"]
+      },
+      "expect": { "ok": true, "severity": "none" }
+    },
+    {
+      "id": "good-mcp-01",
+      "profile": "mcp-tool-call",
+      "payload": {
+        "name": "search_docs",
+        "arguments": { "query": "ingress validate", "limit": 10 }
+      },
+      "expect": { "ok": true, "severity": "none" }
+    },
+    {
+      "id": "good-mcp-02",
+      "profile": "mcp-tool-call",
+      "payload": {
+        "tool": "search_docs",
+        "input": { "query": "fuseguard ingress" }
+      },
+      "expect": { "ok": true, "severity": "none" }
+    },
+    {
+      "id": "good-mcp-03",
+      "profile": "mcp-tool-call",
+      "payload": {
+        "name": "search_docs",
+        "arguments": { "query": "schema sync" }
+      },
+      "expect": { "ok": true, "severity": "none" }
+    },
+    {
+      "id": "good-openai-01",
+      "profile": "openai-tool-call",
+      "payload": {
+        "function": {
+          "name": "transfer_funds",
+          "arguments": { "recipient": "acct_123", "amount_cents": 5000 }
+        }
+      },
+      "expect": { "ok": true, "severity": "none" }
+    },
+    {
+      "id": "bad-agent-missing-citations",
+      "profile": "agent-structured-output",
+      "payload": { "answer": "Missing citations array." },
+      "expect": { "ok": false, "severity": "breaking", "code": "required_missing" }
+    },
+    {
+      "id": "bad-agent-empty-answer",
+      "profile": "agent-structured-output",
+      "payload": { "answer": "", "citations": [] },
+      "expect": { "ok": false, "severity": "info", "code": "min_length" }
+    },
+    {
+      "id": "bad-agent-citations-type",
+      "profile": "agent-structured-output",
+      "payload": { "answer": "Valid text", "citations": "not-an-array" },
+      "expect": { "ok": false, "severity": "breaking", "code": "type_mismatch" }
+    },
+    {
+      "id": "bad-mcp-missing-args",
+      "profile": "mcp-tool-call",
+      "payload": { "name": "search_docs" },
+      "expect": { "ok": false, "severity": "breaking", "code": "envelope_extract_failed" }
+    },
+    {
+      "id": "bad-mcp-missing-query",
+      "profile": "mcp-tool-call",
+      "payload": { "name": "search_docs", "arguments": { "limit": 5 } },
+      "expect": { "ok": false, "severity": "breaking", "code": "required_missing" }
+    },
+    {
+      "id": "bad-mcp-limit-type",
+      "profile": "mcp-tool-call",
+      "payload": { "name": "search_docs", "arguments": { "query": "x", "limit": "ten" } },
+      "expect": { "ok": false, "severity": "breaking", "code": "type_mismatch" }
+    },
+    {
+      "id": "bad-mcp-empty-query",
+      "profile": "mcp-tool-call",
+      "payload": { "name": "search_docs", "arguments": { "query": "" } },
+      "expect": { "ok": false, "severity": "info", "code": "min_length" }
+    },
+    {
+      "id": "bad-openai-missing-function",
+      "profile": "openai-tool-call",
+      "payload": { "name": "transfer_funds", "arguments": { "recipient": "acct_123", "amount_cents": 1 } },
+      "expect": { "ok": false, "severity": "breaking", "code": "envelope_extract_failed" }
+    },
+    {
+      "id": "bad-openai-missing-amount",
+      "profile": "openai-tool-call",
+      "payload": {
+        "function": {
+          "name": "transfer_funds",
+          "arguments": { "recipient": "acct_123" }
+        }
+      },
+      "expect": { "ok": false, "severity": "breaking", "code": "required_missing" }
     }
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "id": "mcp-tool-call",
+  "version": 1,
+  "profileKind": "tool_call_envelope",
+  "envelope": { "preset": "mcp" },
+  "requiredPolicy": "schemaOnly",
+  "schema": {
+    "type": "object",
+    "required": ["query"],
+    "properties": {
+      "query": { "type": "string", "minLength": 1 },
+      "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+    }
+  }
+}
