@@ -22,7 +22,11 @@ Block bad webhook and automation payloads **before** CRM/DB writes — same brea
 
 ### Shadow (`mode: warn`)
 
-Hosted validate with `options.mode: warn` returns HTTP 200 and `ok: false` — log metrics without blocking (quarantine in v1.1).
+Hosted validate with `options.mode: warn` returns HTTP 200 and `ok: false` — log metrics without blocking.
+
+### Quarantine (`mode: quarantine`)
+
+On validation failure, DriftGuard POSTs a structured event to `options.webhookUrl` (schema: [ingress.quarantine-event.schema.json](../schemas/ingress.quarantine-event.schema.json)) and returns HTTP 422. Route the webhook to a review queue instead of dropping silently.
 
 ### Watch + Validate
 
@@ -41,6 +45,10 @@ Exit 0 when `ok: true`; exit 1 on breaking errors.
 ## n8n
 
 Import [examples/n8n/driftguard-ingress-gate.json](../../examples/n8n/driftguard-ingress-gate.json) — HTTP Request to `/api/validate` with env `DRIFTGUARD_API_KEY`.
+
+Community node (optional): [packages/n8n-nodes-driftguard](../../packages/n8n-nodes-driftguard/README.md) — **Validate Payload** and **Check Preflight** operations.
+
+OpenAPI watch + ingress bundle: [n8n OpenAPI watch guide](n8n-openapi-watch.md).
 
 ## When to use hosted vs OSS
 

@@ -6,6 +6,7 @@ from typing import Any
 from fuseguard.budget import BudgetGate
 from fuseguard.config import FuseConfig, fuse_enabled
 from fuseguard.drift_gate import DriftPreflightGate
+from fuseguard.ingress_gate import IngressValidateGate
 from fuseguard.loop_bridge import LoopDetector, tool_args_hash
 from fuseguard.streak import counts_toward_loop, effective_error_class
 from fuseguard.trip import CallRecord, FuseTrip, Trip, new_trip_id, utc_now_iso, write_trip_log
@@ -29,6 +30,9 @@ class FuseMonitor:
             self.budget = BudgetGate(cap_usd=self.config.budget_cap_usd)
         self._drift_gate: DriftPreflightGate | None = (
             DriftPreflightGate(self.config) if self.config.has_drift_gate() else None
+        )
+        self._ingress_gate: IngressValidateGate | None = (
+            IngressValidateGate(self.config) if self.config.has_ingress_gate() else None
         )
 
     @classmethod
@@ -61,6 +65,23 @@ class FuseMonitor:
                 "agentActions": agent_actions,
                 "policyBlocked": result.get("policyBlocked"),
             },
+        )
+        self._persist_trip(trip)
+        raise FuseTrip(trip)
+
+    def assert_ingress_valid(self, payload: dict[str, Any]) -> None:
+        """Ingress gate — validate inbound payload before tool execution (pairs with egress preflight)."""
+        if not self.enabled or self._ingress_gate is None:
+            return
+        result = self._ingress_gate.validate_payload(payload)
+        if result.ok:
+            return
+        trip = Trip(
+            trip_id=new_trip_id(),
+            reason="ingress_validate_blocked",
+            created_at=utc_now_iso(),
+            calls=list(self.calls),
+            metadata={"validate": result.payload, "statusCode": result.status_code},
         )
         self._persist_trip(trip)
         raise FuseTrip(trip)

@@ -65,6 +65,23 @@ Runnable sample: [examples/fuseguard/preflight_wrap.py](../../examples/fuseguard
 
 On block, `FuseTrip.trip.metadata` includes the full preflight payload. Pair ack-gated unblocks with [webhook ack trail](../../docs/reference/webhooks-alerts.md#incident-acknowledgement-trail) (E11).
 
+## Ingress validate (optional)
+
+Validate **inbound** request bodies before tool execution — complements egress preflight (`contract_drift_blocked`).
+
+| Env | Purpose |
+|-----|---------|
+| `FUSEGUARD_INGRESS_PROFILE_ID` | Hosted profile registry id |
+| `FUSEGUARD_INGRESS_PROFILE_JSON` | Inline consumer profile (alternative to id) |
+| `FUSEGUARD_INGRESS_MODE` | `block`, `warn`, or `quarantine` (default `block`) |
+| `FUSEGUARD_INGRESS_WEBHOOK_URL` | Quarantine webhook when mode is `quarantine` |
+| `FUSEGUARD_INGRESS_PAYLOAD_ARG` | Tool arg key containing payload dict (e.g. `body`) |
+| `FUSEGUARD_INGRESS_TIMEOUT_SEC` | HTTP timeout (default 15) |
+
+Blocked ingress trips use reason `ingress_validate_blocked`. Boundary: ingress validates consumer shape; egress preflight gates on upstream contract drift.
+
+Guide: [automation ingress](../../docs/guides/automation-ingress.md).
+
 ## Trip log
 
 On trip, optional JSON log at `FUSEGUARD_TRIP_LOG` (schema: `fuseguard/trip_log.schema.json`).
