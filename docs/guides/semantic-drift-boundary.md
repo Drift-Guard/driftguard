@@ -2,7 +2,7 @@
 
 **Status:** Hosted Pro/Team (partial — value/enum classification pipeline; NL tool-metadata classification on roadmap). MGFA Dimension 3 — **policy-adjacent** change detection only.
 
-**Related:** [drift management](./drift-management.md) · [hosted API — semantic drift](../reference/hosted-api.md#semantic-drift-proteam) · [SchemaSync](./schemasync-prompt-schema-alignment.md) · [Singapore MGFA product fit](../SINGAPORE-MGFA-PRODUCT-FIT.md)
+**Related:** [drift management](./drift-management.md) · [hosted API — semantic drift](../reference/hosted-api.md#semantic-drift-proteam) · [SchemaSync](./schemasync-prompt-schema-alignment.md) · [Singapore deployment checklist](./singapore-agent-deployment-checklist.md)
 
 DriftGuard classifies **contract-adjacent** changes on watched APIs and MCP tool catalogs. This guide draws a hard line between **structural** diff (shipped everywhere) and **semantic** classification (hosted only) — and what we **do not** claim.
 
@@ -95,9 +95,9 @@ For Singapore [MGFA](https://www.imda.gov.sg/-/media/imda/files/about/emerging-t
 |------------|--------------------------|
 | Post-deploy monitoring | Surfaces metadata/value shifts on watched contracts |
 | Change management | Same incident + ack trail as structural drift |
-| Policy / SOP evaluation | **Partner territory** — see [partner list](../SINGAPORE-MGFA-PRODUCT-FIT.md#what-we-explicitly-will-not-build-partner-list) |
+| Policy / SOP evaluation | **Partner territory** — see [integration boundaries](../reference/hosted-api.md#integration-boundaries) |
 
-**Lead with structural evidence** (E1 continuous watches, E4 audit export, E11 ack trail) before foregrounding semantic classification in MGFA pitches. Semantic drift supplements the evidence pack — it does not replace it.
+**Lead with structural evidence** (continuous watches, audit export, ack trail) before foregrounding semantic classification in MGFA pitches. Semantic drift supplements the evidence pack — it does not replace it.
 
 ---
 
@@ -140,7 +140,7 @@ SchemaSync literal mode and hosted semantic drift both touch "NL" surfaces — b
 
 - [Drift management](./drift-management.md) — find → review → fix
 - [Platform admin](./platform-admin.md) — watches and alerts
-- [Assessment E13](../assessments/mgfa/E13-semantic-nl-drift-classification.md)
+- [Hosted API — semantic drift](../reference/hosted-api.md#semantic-drift-proteam)
 - Hosted buyer boundary (private): `driftguard-cloud/docs/compliance/SEMANTIC-DRIFT-BOUNDARY.md`
 
 DriftGuard does **not** certify MGFA compliance. Semantic drift is **policy-adjacent change detection** on watched contracts — not NL policy or SOP evaluation.

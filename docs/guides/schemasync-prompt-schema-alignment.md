@@ -121,4 +121,4 @@ DriftGuard does **not** certify MGFA compliance. SchemaSync is **literal structu
 
 ## Hosted complement (Gate 4B)
 
-Draft-PR prompt updates on schema drift: hosted GitHub App (`schemasync_repo`) — see [E19 assessment](../assessments/mgfa/E19-schemasync-github-app.md). OSS literal lint is the interim gate until 4B ships.
+Draft-PR prompt updates on schema drift: hosted GitHub App (`schemasync_repo`) on Pro/Team. OSS literal lint is the interim gate until the hosted app ships.

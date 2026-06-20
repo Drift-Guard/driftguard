@@ -111,19 +111,15 @@ Reviewers and agents should block merge if the diff adds or expands:
 
 ## Known OSS remediation backlog (2026-06 audit)
 
-Migrate, scrub, or rewrite in follow-up PRs — do not expand these patterns:
+**Completed 2026-06-20:** MGFA assessments, `SINGAPORE-MGFA-PRODUCT-FIT`, `AGENT-DISCOVERY-ROADMAP`, and ADR 0002 moved to `driftguard-cloud`; OSS stubs + link rewrites.
 
-| Area | Risk | Action |
-|------|------|--------|
-| `docs/AGENT-DISCOVERY-ROADMAP.md` | PostHog parity framing, cloud task refs | Move spec to cloud; OSS stub + link |
-| `docs/SINGAPORE-MGFA-PRODUCT-FIT.md` | CP-* roadmap density, GTM | Move to cloud `docs/product/` or scrub IDs |
-| `docs/assessments/mgfa/*` | Moat, competitor, revenue verdicts | Cloud-only assessments |
-| `docs/adr/0002-watch-surface-console-kernel.md` | Hosted pipeline + console kernel | Move to cloud ADRs |
-| `docs/DESIGN.md` | Named competitor as design reference | Use generic discipline (see fix in tree) |
-| `examples/workflows/openapi-compatibility-gate.yml` | “Notion-style” comment | Generic “producer CI gate” wording |
-| MGFA / discovery docs citing **private** cloud paths | IP leak | Link to driftguard.org only |
+Ongoing hygiene:
 
-`docs/PRODUCT-ROADMAP.md` and `docs/handbook/README.md` are **intentional stubs** — keep them short.
+| Area | Action |
+|------|--------|
+| New PRs | Run [pre-merge checklist](#pre-merge-checklist-oss-prs) |
+| `scratch/` | Do not commit; local experiments only |
+| Package READMEs | Avoid internal task IDs (`CP-*`, `FG-*`) — use gate ladder names |
 
 ---
 

@@ -60,7 +60,7 @@ Fix suggestions: `explain_drift` (public endpoint, no API key) — [Developer gu
 
 ## Incident lifecycle
 
-Hosted watches move through a repeatable lifecycle — useful for governance buyers mapping **post-deploy monitoring** to oversight workflows (see [Singapore MGFA product fit](../SINGAPORE-MGFA-PRODUCT-FIT.md); DriftGuard does **not** certify MGFA compliance).
+Hosted watches move through a repeatable lifecycle — useful for governance buyers mapping **post-deploy monitoring** to oversight workflows (see [Singapore deployment checklist](./singapore-agent-deployment-checklist.md); DriftGuard does **not** certify MGFA compliance).
 
 ```
   Monitor          Detect              Triage              Resolve
