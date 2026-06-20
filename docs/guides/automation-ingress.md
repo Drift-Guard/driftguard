@@ -32,6 +32,10 @@ On validation failure, DriftGuard POSTs a structured event to `options.webhookUr
 
 Pin `driftguard.profiles.yaml` beside workflow code; open PR when watch detects upstream breaking change.
 
+### Producer CI (Notion-style)
+
+Pin OpenAPI or JSON Schema in-repo and fail PRs on breaking changes before clients break — same mental model as [Notion's API compatibility CI](https://www.notion.com/blog/how-notion-catches-breaking-schema-changes). Template: [openapi-compatibility-gate.yml](../../examples/workflows/openapi-compatibility-gate.yml).
+
 ## CLI
 
 ```bash
