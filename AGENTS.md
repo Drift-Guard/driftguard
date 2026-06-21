@@ -149,8 +149,8 @@ For targeted failures, `npm test -- packages/diff-core/tests/mcp.test.ts` is fin
 
 | User says | Read skill |
 |-----------|------------|
-| commit, git commit, save changes | [.cursor/skills/git-commit/SKILL.md](.cursor/skills/git-commit/SKILL.md) |
-| open PR, create PR, push and PR | [.cursor/skills/create-pull-request/SKILL.md](.cursor/skills/create-pull-request/SKILL.md) |
+| commit, git commit, save changes | `~/.cursor/skills/git-commit/SKILL.md` |
+| open PR, create PR, push and PR | `~/.cursor/skills/create-pull-request/SKILL.md` |
 | split work, multiple PRs | Cursor skill `split-to-prs` |
 | babysit PR / fix CI | Cursor skill `babysit` |
 
