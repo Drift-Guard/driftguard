@@ -1,4 +1,4 @@
-export type ChangeSeverity = "breaking" | "warning" | "info";
+export type ChangeSeverity = "breaking" | "suspicious" | "warning" | "info";
 
 export interface SchemaChange {
   path: string;
@@ -12,6 +12,7 @@ export interface SchemaChange {
 export interface DiffResult {
   hasChanges: boolean;
   breakingCount: number;
+  suspiciousCount: number;
   warningCount: number;
   infoCount: number;
   changes: SchemaChange[];

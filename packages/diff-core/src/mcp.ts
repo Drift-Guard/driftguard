@@ -1,6 +1,31 @@
 import { diffSchemas, summarize } from "./diff.js";
 import type { DiffResult, JsonSchema, SchemaChange } from "./types.js";
 
+/** Word-overlap similarity for MCP tool description drift (0–1). */
+export function descriptionSimilarity(before: string, after: string): number {
+  const norm = (s: string) =>
+    s
+      .toLowerCase()
+      .replace(/[^\w\s]/g, " ")
+      .split(/\s+/)
+      .filter(Boolean);
+  const a = new Set(norm(before));
+  const b = new Set(norm(after));
+  if (!a.size && !b.size) return 1;
+  if (!a.size || !b.size) return 0;
+  let inter = 0;
+  for (const w of a) if (b.has(w)) inter++;
+  return inter / Math.max(a.size, b.size);
+}
+
+function classifyDescriptionChange(before: string, after: string): SchemaChange["severity"] {
+  if (before === after) return "info";
+  const sim = descriptionSimilarity(before, after);
+  const minLen = Math.min(before.length, after.length);
+  if (minLen >= 12 && sim < 0.45) return "suspicious";
+  return "warning";
+}
+
 export interface McpToolSnapshot {
   name: string;
   description?: string;
@@ -88,7 +113,7 @@ export function diffMcpTools(before: McpToolSnapshot[], after: McpToolSnapshot[]
     if (prevDescription !== nextDescription) {
       changes.push({
         path: `tools.${name}.description`,
-        severity: "warning",
+        severity: classifyDescriptionChange(prevDescription, nextDescription),
         changeType: "type_changed",
         before: prevDescription || undefined,
         after: nextDescription || undefined,

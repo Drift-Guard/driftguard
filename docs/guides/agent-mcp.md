@@ -18,13 +18,46 @@ What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md).
 
 ---
 
+## CI plus continuous monitoring
+
+MCP schema drift has **two halves**. Use both — they are complementary, not either/or.
+
+```mermaid
+flowchart LR
+  subgraph half1 [Half 1 — your deploy]
+    A[PR merge] --> B[driftguard check / compare_json]
+    B --> C[Lockfile or snapshot diff at deploy time]
+  end
+  subgraph half2 [Half 2 — vendor changes]
+    D[Hosted watch polls tools/list] --> E[Breaking or suspicious alert]
+    E --> F[Ack / SchemaSync PR / preflight block]
+  end
+  C -.->|"baseline frozen"| D
+```
+
+| Half | When it runs | What it catches | DriftGuard surface |
+|------|----------------|-----------------|-------------------|
+| **1 — Pre-deploy** | Your CI on every PR | Your code vs **current** catalog | `compare_json`, planned `driftguard lock` / `check` ([lockfile bridge spec](./mcp-lockfile-bridge.md)) |
+| **2 — Post-deploy** | Schedule (hourly/daily) | Vendor catalog vs **your last baseline** | `register_watch` (`watchType: mcp`), webhooks, console |
+
+**Why CI alone is insufficient:** A third-party MCP server can change `tools/list` on Saturday night. Your pipeline does not run; agents may get empty results and hallucinate — with no HTTP error. Continuous monitoring closes that gap.
+
+**Builder vs consumer:**
+
+- **Building** an MCP server → pair lockfile CI with a conformance harness ([mcp-conformance-partners.md](./mcp-conformance-partners.md)) to catch schema-vs-implementation mismatches.
+- **Depending** on MCP servers → hosted watch + preflight (`get_watch_status`, FuseGuard gate) + ack/remediation loop.
+
+**Severity tiers** (hosted + lockfile): `breaking` · `suspicious` (large description / enum semantic shift → Needs Review) · `warning` · `info`.
+
+---
+
 ## Design-time triggers
 
 When a user or agent mentions these phrases during **design or planning** (before production monitoring), route offline-first — then hosted only when they opt in.
 
 | Trigger phrase | User intent | First action (offline) | Hosted next step | Doc |
 |----------------|-------------|------------------------|------------------|-----|
-| **MCP tool catalog drift** | Remote `tools/list` or catalog changed vs baseline | `parse_mcp_config` → `compare_json` on before/after tool output | `register_watch` (`watchType: mcp`) | This guide |
+| **MCP tool catalog drift** | Remote `tools/list` or catalog changed vs baseline | `parse_mcp_config` → `compare_json` on before/after tool output | `register_watch` (`watchType: mcp`) | This guide · [lockfile bridge](./mcp-lockfile-bridge.md) |
 | **mcp.json preflight** | Review MCP dependencies before deploy | `parse_mcp_config` | `suggest_watches` with `create:true` (key) | [Getting started](../getting-started.md) |
 | **agent preflight** | Gate agent runs on contract health | `compare_json` + FuseGuard (gate ladder) | `get_agent_status` (key) | [Gate ladder](../policies/gate-ladder.md) |
 | **schema drift CI** | Fail PRs on breaking JSON/schema changes | `compare_json` in CI | `assert_coverage` (key) | [CI.md](../CI.md) |
@@ -152,6 +185,9 @@ For repos with `mcp.json`, copy [examples/cursor-rule-driftguard.mdc](../../exam
 | Goal | Doc |
 |------|-----|
 | Human onboarding | [Getting started](../getting-started.md) |
+| CI + continuous monitoring | This guide § CI plus continuous monitoring |
+| MCP conformance (builders) | [mcp-conformance-partners.md](./mcp-conformance-partners.md) |
+| Lockfile spec (planned CLI) | [mcp-lockfile-bridge.md](./mcp-lockfile-bridge.md) |
 | Registry / discovery | [DISCOVERY.md](../DISCOVERY.md) |
 | Machine-readable index | [llms.txt](../llms.txt) |
 | Contributing to this repo | [AGENTS.md](../../AGENTS.md) |
