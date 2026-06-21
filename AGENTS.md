@@ -107,12 +107,26 @@ Follow the **when / when-not / siblings** pattern in tool descriptions (see [tin
 
 Keep agent sessions lean by default. Long threads and broad exploration burn context fast.
 
+### Scope and reads
+
 - **Scope first:** `@`-mention specific files; avoid repo-wide search unless the path is unknown.
 - **Read minimally:** open only files needed for the task; do not load unrelated packages or docs.
-- **Work directly:** no `Task` subagents, Bugbot, or council unless the user explicitly asks.
-- **Batch shell:** one `npm run ci:local` or `npm test` — not many small commands (each may trigger review overhead).
 - **One task per chat:** start a fresh thread when scope shifts; summarize decisions instead of carrying full history.
 - **`scratch/` is excluded** (`.cursorignore`) — do not create runner clones unless clearing a PR backlog (see below).
+
+### Mode and delegation
+
+- **Ask mode** for exploration, questions, and code review — no edits, no shell unless necessary.
+- **Agent mode** only when implementing (edits, commits, running verification).
+- **Work directly** in the main agent — no `Task` subagents, LLM council, Bugbot, or Security Review unless the user explicitly asks or the task truly needs parallelism.
+
+### Reduce review triggers
+
+Each shell command, fetch, or MCP call in Agent mode may spawn an `agent_review` pass. Minimize tool churn:
+
+- **Batch shell:** one `npm run ci:local` or `npm test` — not many small commands.
+- **Prefer `@file` + Read** over repeated grep/glob loops when the path is known.
+- **Disable unused MCP servers** for the session when not needed.
 
 ## Git workflow
 
