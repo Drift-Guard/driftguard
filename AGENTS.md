@@ -103,6 +103,17 @@ Follow the **when / when-not / siblings** pattern in tool descriptions (see [tin
 - MCP logs go to **stderr** only (stdio is the protocol)
 - Match existing patterns in `src/core/diff.ts` for tests
 
+## Token budget
+
+Keep agent sessions lean by default. Long threads and broad exploration burn context fast.
+
+- **Scope first:** `@`-mention specific files; avoid repo-wide search unless the path is unknown.
+- **Read minimally:** open only files needed for the task; do not load unrelated packages or docs.
+- **Work directly:** no `Task` subagents, Bugbot, or council unless the user explicitly asks.
+- **Batch shell:** one `npm run ci:local` or `npm test` — not many small commands (each may trigger review overhead).
+- **One task per chat:** start a fresh thread when scope shifts; summarize decisions instead of carrying full history.
+- **`scratch/` is excluded** (`.cursorignore`) — do not create runner clones unless clearing a PR backlog (see below).
+
 ## Git workflow
 
 **Do not push to `main`.** Branch from `main`, open a pull request, and merge after CI passes. `main` is branch-protected (PR required).
@@ -115,7 +126,7 @@ git push -u origin feat/your-change
 gh pr create --fill
 ```
 
-**Parallel PR Processing**: For backlogs of >3 PRs, use the **Isolated Runner Pattern** (spawn up to 4 parallel subagents in unique scratch clones) to verify and merge concurrently.
+**Parallel PR Processing** (exception to token budget): For backlogs of >3 PRs only, use the **Isolated Runner Pattern** (spawn up to 4 parallel subagents in unique scratch clones) to verify and merge concurrently.
 
 ## Publishing
 
