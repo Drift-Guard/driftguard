@@ -1,0 +1,22 @@
+# Parallel PR runner clones — full duplicate repos (~2.3GB); never index for agents
+scratch/
+
+# Dependencies and build output
+node_modules/
+**/node_modules/
+dist/
+coverage/
+.mockdrift/cache/
+
+# Python / tooling caches
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Test artifacts
+test-results/
+playwright-report/
+blob-report/
+
+# Source maps (large, low signal for agents)
+**/*.map

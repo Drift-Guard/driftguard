@@ -10,6 +10,8 @@ Step-by-step guides by role. For exact tool contracts see [Reference](../referen
 |-------|-------|----------|
 | **Developer** | [developer.md](./developer.md) | Running diffs, pre-commit checks, reading output, fixing issues |
 | **Agent / MCP** | [agent-mcp.md](./agent-mcp.md) | Picking tools (free first), `SYSTEM_PROMPT` companion |
+| **MCP lockfile (planned CLI)** | [mcp-lockfile-bridge.md](./mcp-lockfile-bridge.md) | `driftguard lock` / `check` for catalog baselines in CI |
+| **MCP conformance (builders)** | [mcp-conformance-partners.md](./mcp-conformance-partners.md) | Schema-vs-implementation CI; partner harness pattern |
 | **CI/CD** | [ci-cd.md](./ci-cd.md) | Adding hook → preview → trial → gate to pipelines |
 | **Change management** | [toolchange-change-management.md](./toolchange-change-management.md) · [schemasync-prompt-schema-alignment.md](./schemasync-prompt-schema-alignment.md) | MCP manifest lint · prompt↔schema alignment |
 | **Pre-deploy replay** | [mockdrift-cloud-replay.md](./mockdrift-cloud-replay.md) | Replay open drift incidents in MockDrift CI (`--simulate-drift`) |

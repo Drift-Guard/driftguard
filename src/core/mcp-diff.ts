@@ -2,14 +2,16 @@ import { diffSchemas, type DiffResult, type SchemaChange } from "./diff.js";
 
 function summarize(changes: SchemaChange[]): DiffResult {
   let breakingCount = 0;
+  let suspiciousCount = 0;
   let warningCount = 0;
   let infoCount = 0;
   for (const c of changes) {
     if (c.severity === "breaking") breakingCount++;
+    else if (c.severity === "suspicious") suspiciousCount++;
     else if (c.severity === "warning") warningCount++;
     else infoCount++;
   }
-  return { hasChanges: changes.length > 0, breakingCount, warningCount, infoCount, changes };
+  return { hasChanges: changes.length > 0, breakingCount, suspiciousCount, warningCount, infoCount, changes };
 }
 
 function toolsListToRequiredSchema(tools: unknown): Record<string, unknown> {

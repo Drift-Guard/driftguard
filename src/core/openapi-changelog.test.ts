@@ -7,6 +7,7 @@ function diff(partial: Partial<DiffResult>): DiffResult {
   return {
     hasChanges: partial.hasChanges ?? true,
     breakingCount: partial.breakingCount ?? 0,
+    suspiciousCount: partial.suspiciousCount ?? 0,
     warningCount: partial.warningCount ?? 0,
     infoCount: partial.infoCount ?? 0,
     changes: partial.changes ?? [],

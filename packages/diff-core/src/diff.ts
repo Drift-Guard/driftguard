@@ -24,6 +24,54 @@ function diffRecursive(before: JsonSchema, after: JsonSchema, changes: SchemaCha
     return;
   }
 
+  const beforeEnum = before.enum as unknown[] | undefined;
+  const afterEnum = after.enum as unknown[] | undefined;
+  if (Array.isArray(beforeEnum) || Array.isArray(afterEnum)) {
+    const prev = Array.isArray(beforeEnum) ? beforeEnum.map(String) : [];
+    const next = Array.isArray(afterEnum) ? afterEnum.map(String) : [];
+    const prevSet = new Set(prev);
+    const nextSet = new Set(next);
+    const removed = prev.filter((v) => !nextSet.has(v));
+    const added = next.filter((v) => !prevSet.has(v));
+    if (removed.length || added.length) {
+      if (removed.length && added.length) {
+        changes.push({
+          path,
+          severity: "suspicious",
+          changeType: "type_changed",
+          before: prev,
+          after: next,
+          message: "Enum values changed (possible semantic shift)",
+        });
+      } else if (removed.length) {
+        changes.push({
+          path,
+          severity: "breaking",
+          changeType: "type_changed",
+          before: prev,
+          after: next,
+          message:
+            removed.length === 1
+              ? `Enum value '${removed[0]}' was removed`
+              : `Enum value(s) removed: ${removed.join(", ")}`,
+        });
+      } else {
+        changes.push({
+          path,
+          severity: "info",
+          changeType: "added",
+          before: prev,
+          after: next,
+          message:
+            added.length === 1
+              ? `Enum value '${added[0]}' was added`
+              : `Enum value(s) added: ${added.join(", ")}`,
+        });
+      }
+    }
+    return;
+  }
+
   if (beforeType.startsWith("array") && afterType.startsWith("array")) {
     const beforeItems = before.items as JsonSchema | undefined;
     const afterItems = after.items as JsonSchema | undefined;
@@ -95,16 +143,19 @@ function diffRecursive(before: JsonSchema, after: JsonSchema, changes: SchemaCha
 
 export function summarize(changes: SchemaChange[]): DiffResult {
   let breakingCount = 0;
+  let suspiciousCount = 0;
   let warningCount = 0;
   let infoCount = 0;
   for (const c of changes) {
     if (c.severity === "breaking") breakingCount++;
+    else if (c.severity === "suspicious") suspiciousCount++;
     else if (c.severity === "warning") warningCount++;
     else infoCount++;
   }
   return {
     hasChanges: changes.length > 0,
     breakingCount,
+    suspiciousCount,
     warningCount,
     infoCount,
     changes,

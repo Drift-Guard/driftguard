@@ -103,19 +103,83 @@ Follow the **when / when-not / siblings** pattern in tool descriptions (see [tin
 - MCP logs go to **stderr** only (stdio is the protocol)
 - Match existing patterns in `src/core/diff.ts` for tests
 
+## Token budget
+
+Keep agent sessions lean by default. Long threads and broad exploration burn context fast.
+
+### Scope and reads
+
+- **Scope first:** `@`-mention specific files; avoid repo-wide search unless the path is unknown.
+- **Read minimally:** open only files needed for the task; do not load unrelated packages or docs.
+- **One task per chat:** start a fresh thread when scope shifts; summarize decisions instead of carrying full history.
+- **`scratch/` is excluded** (`.cursorignore`) — do not create runner clones unless clearing a PR backlog (see below).
+
+### Mode and delegation
+
+- **Ask mode** for exploration, questions, and code review — no edits, no shell unless necessary.
+- **Agent mode** only when implementing (edits, commits, running verification).
+- **Work directly** in the main agent — no `Task` subagents, LLM council, Bugbot, or Security Review unless the user explicitly asks or the task truly needs parallelism.
+
+### Reduce review triggers
+
+Each shell command, fetch, or MCP call in Agent mode may spawn an `agent_review` pass. Minimize tool churn:
+
+- **Batch shell:** one `npm run ci:local` or `npm test` — not many small commands.
+- **Prefer `@file` + Read** over repeated grep/glob loops when the path is known.
+- **Disable unused MCP servers** for the session when not needed.
+- **No fix-and-reprobe loops:** after a code change, run verification once; read stderr/stdout only — do not re-search the repo between attempts.
+
+### Verify locally (not agent loops)
+
+Let the **terminal** run CI; the agent reads **failure output only**:
+
+```bash
+npm run ci:local    # pre-PR gate — mirrors required CI
+```
+
+1. Run **once** after edits (or ask the user to run it).
+2. On failure: read the error lines, patch the cited files, re-run **once**.
+3. Do **not** broad `SemanticSearch` / glob sweeps after each failed attempt.
+
+For targeted failures, `npm test -- packages/diff-core/tests/mcp.test.ts` is fine — still batch, don't chain many one-liners.
+
+### Workflows on demand
+
+**Do not** load full commit or PR protocols unless the user asks:
+
+| User says | Read skill |
+|-----------|------------|
+| commit, git commit, save changes | `~/.cursor/skills/git-commit/SKILL.md` |
+| open PR, create PR, push and PR | `~/.cursor/skills/create-pull-request/SKILL.md` |
+| split work, multiple PRs | Cursor skill `split-to-prs` |
+| babysit PR / fix CI | Cursor skill `babysit` |
+
+### Workspace (single root)
+
+`cloud/` is a **separate git repo** nested inside this tree (gitignored here). Opening **both** `driftguard` and `driftguard/cloud` as workspace roots **duplicates** indexing and rules.
+
+| Work | Open |
+|------|------|
+| OSS (diff-core, CLI, MCP, public docs) | `driftguard` only |
+| Hosted (Workers, console, product specs) | `driftguard/cloud` only |
+| Rare cross-repo edit | two windows, or multi-root temporarily |
+
+Multi-root `driftguard-cloud-workspace.code-workspace` is viable for short cross-repo tasks only — not as the daily default.
+
 ## Git workflow
 
 **Do not push to `main`.** Branch from `main`, open a pull request, and merge after CI passes. `main` is branch-protected (PR required).
 
+For commit/PR steps, use the **on-demand skills** above — not inlined checklists here.
+
 ```bash
 git checkout main && git pull
 git checkout -b feat/your-change
-# … commits …
-git push -u origin feat/your-change
-gh pr create --fill
+# … implement … npm run ci:local …
+git push -u origin feat/your-change   # when user asks
 ```
 
-**Parallel PR Processing**: For backlogs of >3 PRs, use the **Isolated Runner Pattern** (spawn up to 4 parallel subagents in unique scratch clones) to verify and merge concurrently.
+**Parallel PR Processing** (exception to token budget): For backlogs of >3 PRs only, use the **Isolated Runner Pattern** (spawn up to 4 parallel subagents in unique scratch clones) to verify and merge concurrently.
 
 ## Publishing
 
