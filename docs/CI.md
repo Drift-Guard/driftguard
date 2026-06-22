@@ -37,6 +37,7 @@ DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a versi
 | Tier | Action / command | API key | Blocks CI? | Endpoint limit |
 |------|------------------|---------|------------|----------------|
 | **Hook** | `drift-diff` | No | On breaking diff only | Unlimited diff |
+| **MCP lockfile** | `mcp-lockfile` / `driftguard lock` + `check` | No | On configured severity (default breaking) | Per MCP server in lockfile |
 | **Preview** | `drift-coverage-preview` | No | Optional (`fail-on-missing`) | Shows all; covers 0 |
 | **Trial gate** | `drift-coverage` + trial session | Trial header | Yes | **1 endpoint** |
 | **Pro gate** | `drift-coverage` + API key | `dg_…` | Yes | Plan limit (50 Pro) |
@@ -53,7 +54,50 @@ DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a versi
 ```
 
 ```bash
-npx @driftguard/driftguard@0.3.2 diff "$BEFORE" "$AFTER"
+npx @driftguard/driftguard@0.3.3 diff "$BEFORE" "$AFTER"
+```
+
+---
+
+## MCP lockfile + hosted watch (dual path)
+
+Use **lockfile check in CI** (your deploy) and **hosted watches** (vendor drift between deploys). See [agent-mcp.md](./guides/agent-mcp.md) and [mcp-lockfile-bridge.md](./guides/mcp-lockfile-bridge.md).
+
+```mermaid
+flowchart LR
+  subgraph ci [Your CI on every PR]
+    L[driftguard lock --update] --> C[driftguard check]
+    C --> M[Merge when clean]
+  end
+  subgraph prod [Production schedule]
+    W[register_watch MCP] --> P[Poll tools/list]
+    P --> A[Alert breaking / suspicious]
+  end
+  M -.->|baseline frozen| W
+```
+
+**Snapshot baseline (no API key):**
+
+```yaml
+- uses: actions/checkout@v4
+- uses: kioie/driftguard/.github/actions/mcp-lockfile@v0.3.3
+  with:
+    lockfile: driftguard-lock.json
+    fail-on: breaking
+```
+
+**Refresh lockfile after reviewed drift:**
+
+```bash
+driftguard lock --config mcp.json -o driftguard-lock.json
+# or: driftguard lock --url https://mcp.example.com/mcp
+driftguard lock --update
+```
+
+**Governance-heavy repos** — fail on semantic drift:
+
+```bash
+driftguard check --lock driftguard-lock.json --fail-on suspicious
 ```
 
 ---
@@ -154,8 +198,9 @@ Typical progression:
 
 1. Add `drift-diff` on PRs (immediate value).
 2. Add `drift-coverage-preview` (shows gap, links to console).
-3. Start trial from CI link → first watch in console.
-4. Add `DRIFTGUARD_API_KEY` → switch preview to `drift-coverage` gate.
+3. For MCP dependencies: `driftguard lock` + `mcp-lockfile` action on PRs; `register_watch` in production.
+4. Start trial from CI link → first watch in console.
+5. Add `DRIFTGUARD_API_KEY` → switch preview to `drift-coverage` gate.
 
 ---
 
