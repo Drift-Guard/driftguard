@@ -10,6 +10,7 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 
 ### Added
 
+- **MCP lockfile:** `driftguard lock` / `driftguard check` for offline HTTP `tools/list` baselines; `mcp-lockfile` GitHub Action; diff-core lockfile normalizer and severity matrix tests.
 - **Automation ingress:** `validateAgainstProfile` in `@driftguard/diff-core`, `driftguard validate` CLI, MCP `validate_payload`, golden ingress fixtures, consumer profile JSON Schema.
 - **Docs:** `docs/reference/validate-api.md`, `docs/guides/automation-ingress.md`, gate ladder L2.5 runtime ingress gate.
 - **Examples:** n8n `driftguard-ingress-gate.json` workflow, `ingress-validate.yml` and `openapi-compatibility-gate.yml` CI workflows.
