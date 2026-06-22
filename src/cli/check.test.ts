@@ -106,4 +106,16 @@ describe("check.ts CLI routing", () => {
     assert.match(result.stderr, /\/start/);
     assert.match(result.stderr, /\/pricing/);
   });
+
+  it("CLI-RT-001: driftguard lock --help", () => {
+    const result = runCheck("lock", "--help");
+    assert.equal(result.status, 0);
+    assert.match(result.stdout, /driftguard lock/);
+    assert.match(result.stdout, /--url/);
+  });
+
+  it("CLI-RT-002: lock unknown flag → exit 2", () => {
+    const result = runCheck("lock", "--not-a-flag");
+    assert.equal(result.status, 2);
+  });
 });

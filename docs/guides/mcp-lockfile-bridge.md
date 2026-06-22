@@ -96,8 +96,8 @@ Prod:   register_watch (MCP) → alert when vendor drifts between your deploys
 
 ## Definition of done
 
-- [ ] `driftguard lock` writes `driftguard-lock.json` from a live MCP HTTP endpoint
-- [ ] `driftguard check` exits 1 on breaking drift vs lockfile
-- [ ] Unit tests mirror `packages/diff-core/tests/mcp.test.ts` severity cases
-- [ ] [CI.md](../CI.md) documents lockfile + watch dual diagram
-- [ ] [agent-mcp.md](./agent-mcp.md) links lockfile as step 2a before hosted watch
+- [x] `driftguard lock` writes `driftguard-lock.json` from a live MCP HTTP endpoint
+- [x] `driftguard check` exits 1 on breaking drift vs lockfile
+- [x] Unit tests mirror `packages/diff-core/tests/mcp.test.ts` severity cases
+- [x] [CI.md](../CI.md) documents lockfile + watch dual diagram
+- [x] [agent-mcp.md](./agent-mcp.md) links lockfile as step 2a before hosted watch

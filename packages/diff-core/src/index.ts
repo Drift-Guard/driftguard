@@ -3,4 +3,5 @@ export * from "./profiles.js";
 export * from "./infer.js";
 export * from "./diff.js";
 export * from "./mcp.js";
+export * from "./lockfile.js";
 export * from "./validate/index.js";

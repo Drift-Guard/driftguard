@@ -37,7 +37,7 @@ flowchart LR
 
 | Half | When it runs | What it catches | DriftGuard surface |
 |------|----------------|-----------------|-------------------|
-| **1 — Pre-deploy** | Your CI on every PR | Your code vs **current** catalog | `compare_json`, planned `driftguard lock` / `check` ([lockfile bridge spec](./mcp-lockfile-bridge.md)) |
+| **1 — Pre-deploy** | Your CI on every PR | Your code vs **current** catalog | `driftguard lock` / `check`, `compare_json` ([lockfile bridge](./mcp-lockfile-bridge.md)) |
 | **2 — Post-deploy** | Schedule (hourly/daily) | Vendor catalog vs **your last baseline** | `register_watch` (`watchType: mcp`), webhooks, console |
 
 **Why CI alone is insufficient:** A third-party MCP server can change `tools/list` on Saturday night. Your pipeline does not run; agents may get empty results and hallucinate — with no HTTP error. Continuous monitoring closes that gap.
@@ -85,6 +85,7 @@ Program-level scenarios (cold discover, one-session integrate, key activate): [D
 ```
 1. compare_json        — one-off before/after JSON diff (no key)
 2. parse_mcp_config    — preview URLs from mcp.json (no key)
+2a. driftguard lock / check — MCP tools/list baseline in CI (no key) — see [lockfile bridge](./mcp-lockfile-bridge.md)
 3. hosted_info         — explain free vs paid, trial, pricing (no key)
 4. explain_drift       — fix suggestions after breaking diff (public endpoint, no key)
 
@@ -187,7 +188,7 @@ For repos with `mcp.json`, copy [examples/cursor-rule-driftguard.mdc](../../exam
 | Human onboarding | [Getting started](../getting-started.md) |
 | CI + continuous monitoring | This guide § CI plus continuous monitoring |
 | MCP conformance (builders) | [mcp-conformance-partners.md](./mcp-conformance-partners.md) |
-| Lockfile spec (planned CLI) | [mcp-lockfile-bridge.md](./mcp-lockfile-bridge.md) |
+| Lockfile CLI | [mcp-lockfile-bridge.md](./mcp-lockfile-bridge.md) |
 | Registry / discovery | [DISCOVERY.md](../DISCOVERY.md) |
 | Machine-readable index | [llms.txt](../llms.txt) |
 | Contributing to this repo | [AGENTS.md](../../AGENTS.md) |

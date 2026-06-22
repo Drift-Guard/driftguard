@@ -112,6 +112,16 @@ async function main(): Promise<void> {
     process.exit(runHarnessLint(args));
   }
 
+  if (command === "lock") {
+    const { runLock } = await import("./lock-run.js");
+    process.exit(await runLock(args));
+  }
+
+  if (command === "check") {
+    const { runCheckLock } = await import("./check-lock-run.js");
+    process.exit(await runCheckLock(args));
+  }
+
   if (command === "version") {
     const { printVersionJson, printVersionPlain } = await import("./version.js");
     if (args[0] === "--json") printVersionJson();
@@ -137,6 +147,8 @@ Usage:
   driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
   driftguard assert-a2a-coverage [path]                    Gate — manifest watches registered (Pro key)
   driftguard lint-agents [path]                            Validate .driftguard/agents.yaml (offline)
+  driftguard lock [--url URL | --config mcp.json]          Snapshot MCP tools/list to driftguard-lock.json
+  driftguard check [--lock driftguard-lock.json]           Diff live MCP catalog vs lockfile (offline)
   driftguard validate --profile p.json --payload e.json   Free — ingress payload gate
   driftguard version [--json]
   driftguard mcp
