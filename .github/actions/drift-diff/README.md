@@ -5,7 +5,7 @@ Offline JSON schema diff — fails the job on breaking changes. No API key, no n
 ## Usage
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.3
   with:
     before: '{"status":"ok","data":{"id":1,"name":"x"}}'
     after: '{"status":"ok","data":{"id":1}}'
@@ -21,4 +21,4 @@ Offline JSON schema diff — fails the job on breaking changes. No API key, no n
 
 Part of the DriftGuard CI funnel — pair with [coverage preview](../drift-coverage-preview/README.md) for hosted monitoring.
 
-Docs: [docs/CI.md](https://github.com/kioie/driftguard/blob/main/docs/CI.md)
+Docs: [docs/CI.md](https://github.com/Drift-Guard/driftguard/blob/main/docs/CI.md)

@@ -6,7 +6,7 @@ Offline CI validation for `.driftguard/agents.yaml` (CP-2.1 / RES-4.2). No API k
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-agents-lint@v0.3.3
   with:
     manifest: .driftguard/agents.yaml
 ```
@@ -14,7 +14,7 @@ Offline CI validation for `.driftguard/agents.yaml` (CP-2.1 / RES-4.2). No API k
 Scan a directory for `agents.yaml` / `*.agents.yaml`:
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-agents-lint@v0.3.3
   with:
     manifest: .driftguard
 ```

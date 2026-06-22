@@ -17,7 +17,7 @@ Do **not** list `setup-driftguard` — internal dependency only.
 **Consumer ref:**
 
 ```yaml
-uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
 ```
 
 ---
@@ -65,7 +65,7 @@ Marketplace listing should highlight this three-line preview step:
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     scan-paths: mcp.json,.cursor/mcp.json,package.json
 ```
@@ -80,6 +80,6 @@ Marketplace is GitHub-only. GitLab users use `npx @driftguard/driftguard@X.Y.Z` 
 
 ## Support links for listing
 
-- Documentation: https://github.com/kioie/driftguard/blob/main/docs/CI.md
+- Documentation: https://github.com/Drift-Guard/driftguard/blob/main/docs/CI.md
 - Pricing (Pro gate): https://driftguard.org/pricing
-- Issues: https://github.com/kioie/driftguard/issues
+- Issues: https://github.com/Drift-Guard/driftguard/issues

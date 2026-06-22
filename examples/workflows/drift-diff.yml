@@ -13,7 +13,7 @@ jobs:
   json-drift:
     runs-on: ubuntu-latest
     steps:
-      - uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1
+      - uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.1
         with:
           before: '{"user":{"id":1,"email":"a@b.com"}}'
           after: '{"user":{"id":1}}'

@@ -184,7 +184,7 @@ CI pattern:
 - name: MockDrift sensor (job 1)
   run: pytest tests/harness/ --mockdrift-sensor-report=./sensors/
 
-- uses: kioie/driftguard/.github/actions/drift-evaluator@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-evaluator@v0.3.3
   with:
     sensor-path: ./sensors/
 ```

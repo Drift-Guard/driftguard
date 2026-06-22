@@ -9,7 +9,7 @@ When this repo has `mcp.json` or agent tool manifests, use **DriftGuard** for co
 
 ## MCP client config
 
-Add the stdio server (copy [examples/mcp-client-config.json](https://github.com/kioie/driftguard/blob/main/examples/mcp-client-config.json)):
+Add the stdio server (copy [examples/mcp-client-config.json](https://github.com/Drift-Guard/driftguard/blob/main/examples/mcp-client-config.json)):
 
 ```json
 {
@@ -36,21 +36,21 @@ Set `DRIFTGUARD_API_KEY` for continuous watches (`register_watch`, `assert_cover
 
 ## Agent instructions snippet
 
-Drop the block from [examples/AGENTS-snippet.md](https://github.com/kioie/driftguard/blob/main/examples/AGENTS-snippet.md) into `AGENTS.md` or `.cursor/rules`.
+Drop the block from [examples/AGENTS-snippet.md](https://github.com/Drift-Guard/driftguard/blob/main/examples/AGENTS-snippet.md) into `AGENTS.md` or `.cursor/rules`.
 
 ## Singapore deployment checklist
 
-For MGFA-aligned pre-deploy gates: [singapore-agent-deployment-checklist.md](https://github.com/kioie/driftguard/blob/main/docs/guides/singapore-agent-deployment-checklist.md)
+For MGFA-aligned pre-deploy gates: [singapore-agent-deployment-checklist.md](https://github.com/Drift-Guard/driftguard/blob/main/docs/guides/singapore-agent-deployment-checklist.md)
 
 ## Portable harness bundle (E8)
 
 When the repo has `.driftguard/gates.yaml`, pin gates with `harness.lock` and lint on PRs:
 
-- Profile: [examples/harness-mgfa/.driftguard/](https://github.com/kioie/driftguard/tree/main/examples/harness-mgfa/.driftguard)
-- CI template: [examples/workflows/drift-harness.yml](https://github.com/kioie/driftguard/blob/main/examples/workflows/drift-harness.yml)
+- Profile: [examples/harness-mgfa/.driftguard/](https://github.com/Drift-Guard/driftguard/tree/main/examples/harness-mgfa/.driftguard)
+- CI template: [examples/workflows/drift-harness.yml](https://github.com/Drift-Guard/driftguard/blob/main/examples/workflows/drift-harness.yml)
 - Bootstrap: `mockdrift init` or copy the MGFA profile above
 
 ## Reference
 
-- Tool matrix and decision flow: [SYSTEM_PROMPT.md](https://github.com/kioie/driftguard/blob/main/SYSTEM_PROMPT.md)
-- MCP guide: [docs/guides/agent-mcp.md](https://github.com/kioie/driftguard/blob/main/docs/guides/agent-mcp.md)
+- Tool matrix and decision flow: [SYSTEM_PROMPT.md](https://github.com/Drift-Guard/driftguard/blob/main/SYSTEM_PROMPT.md)
+- MCP guide: [docs/guides/agent-mcp.md](https://github.com/Drift-Guard/driftguard/blob/main/docs/guides/agent-mcp.md)

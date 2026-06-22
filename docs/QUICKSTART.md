@@ -17,7 +17,7 @@ Pin a semver for reproducible CI (`@0.3.3`) or use `@latest` for convenience.
 > **Until `@driftguard` is published on npm:** build from source instead:
 >
 > ```bash
-> git clone https://github.com/kioie/driftguard.git
+> git clone https://github.com/Drift-Guard/driftguard.git
 > cd driftguard && npm ci && npm run build
 > npm run check -- version
 > ```

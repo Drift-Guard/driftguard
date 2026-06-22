@@ -72,7 +72,7 @@ Disable CI telemetry: `MOCKDRIFT_TELEMETRY=0`.
 Copy [examples/workflows/mockdrift-replay.yml](../../examples/workflows/mockdrift-replay.yml):
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/mockdrift@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/mockdrift@v0.3.3
   env:
     DRIFTGUARD_API_KEY: ${{ secrets.DRIFTGUARD_API_KEY }}
     MOCKDRIFT_TELEMETRY: "0"

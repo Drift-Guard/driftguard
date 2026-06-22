@@ -14,7 +14,7 @@ Release notes for the **free client** and its MCP/CLI surface. For maintainer-or
 | MCP tool names & inputs | Stable within minor; breaking renames rare | See policy below |
 | Diff rules (`@driftguard/diff-core`) | Contract vectors in repo | Rule changes ship with minor bump + changelog callout |
 
-Full tag history: [GitHub releases](https://github.com/kioie/driftguard/releases).
+Full tag history: [GitHub releases](https://github.com/Drift-Guard/driftguard/releases).
 
 ---
 
@@ -56,7 +56,7 @@ Summaries from [CHANGELOG.md](../../CHANGELOG.md). Patch lines omitted unless us
 
 ### Unreleased
 
-See [CHANGELOG.md — Unreleased](https://github.com/kioie/driftguard/blob/main/CHANGELOG.md#unreleased) for in-flight free client changes (e.g. GitLab CI parity, `scan-paths` on coverage actions).
+See [CHANGELOG.md — Unreleased](https://github.com/Drift-Guard/driftguard/blob/main/CHANGELOG.md#unreleased) for in-flight free client changes (e.g. GitLab CI parity, `scan-paths` on coverage actions).
 
 ---
 

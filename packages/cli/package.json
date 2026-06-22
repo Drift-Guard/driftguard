@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kioie/driftguard.git",
+    "url": "git+https://github.com/Drift-Guard/driftguard.git",
     "directory": "packages/cli"
   },
-  "homepage": "https://github.com/kioie/driftguard#readme",
+  "homepage": "https://github.com/Drift-Guard/driftguard#readme",
   "bugs": {
-    "url": "https://github.com/kioie/driftguard/issues"
+    "url": "https://github.com/Drift-Guard/driftguard/issues"
   },
   "bin": {
     "driftguard": "./bin/driftguard.js",

@@ -38,4 +38,4 @@ open https://driftguard.org/signup
 gitleaks detect --source . --verbose --log-opts='--all'
 ```
 
-Run on both `kioie/driftguard` (after history scrub) and `kioie/driftguard-cloud`.
+Run on both `Drift-Guard/driftguard` (after history scrub) and `kioie/driftguard-cloud`.

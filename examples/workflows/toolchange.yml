@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       # Blocking mode (default): omit advisory or set advisory: "false"
-      - uses: kioie/driftguard/.github/actions/toolchange@v0.3.3
+      - uses: Drift-Guard/driftguard/.github/actions/toolchange@v0.3.3
         with:
           manifest: tools.json
           baseline: tools.baseline.json

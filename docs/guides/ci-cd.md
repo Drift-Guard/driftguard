@@ -17,7 +17,7 @@ Add DriftGuard to pipelines in four steps: **hook → preview → trial → gate
 | **Trial gate** | Assert all deps watched | Trial session | Yes (1 endpoint) |
 | **Pro gate** | Assert all deps watched | `dg_…` key | Yes (plan limit) |
 
-**Pin policy:** `uses: kioie/driftguard/...@v0.3.3` or `npx @driftguard/driftguard@0.3.3` — never `@main`.
+**Pin policy:** `uses: Drift-Guard/driftguard/...@v0.3.3` or `npx @driftguard/driftguard@0.3.3` — never `@main`.
 
 ---
 
@@ -26,7 +26,7 @@ Add DriftGuard to pipelines in four steps: **hook → preview → trial → gate
 Fastest add: copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftguard-starter.yml) to `.github/workflows/driftguard.yml`.
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.3
   with:
     before: '{"status":"ok","data":{"id":1}}'
     after: '{"status":"ok","data":{"id":1,"name":"test"}}'
@@ -43,7 +43,7 @@ Details: [CI.md — Layer 1](../CI.md#layer-1--hook-free).
 Discover endpoints from `mcp.json`, OpenAPI, and URLs in repo files. Writes GitHub Step Summary (or GitLab job summary) with trial deep links — **does not block** by default.
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     scan-paths: mcp.json,.cursor/mcp.json,package.json
 ```
@@ -65,7 +65,7 @@ Start: [driftguard.org/start](https://driftguard.org/start) (use `?from=ci` when
 ## Step 4 — Gate (trial or Pro)
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.3
   env:
     DRIFTGUARD_API_KEY: ${{ secrets.DRIFTGUARD_API_KEY }}
 ```

@@ -1,6 +1,6 @@
 # Progressive CI enforcement (gate ladder)
 
-Add contract-testing checks to your repo **step by step**. MockDrift → FuseGuard → ToolChange → SchemaSync is **one ladder of increasing strictness** on the [contract observability loop](https://github.com/kioie/driftguard/blob/main/docs/guides/drift-management.md) — not four separate products.
+Add contract-testing checks to your repo **step by step**. MockDrift → FuseGuard → ToolChange → SchemaSync is **one ladder of increasing strictness** on the [contract observability loop](https://github.com/Drift-Guard/driftguard/blob/main/docs/guides/drift-management.md) — not four separate products.
 
 | Gate | Loop stage | What it tightens |
 |------|------------|------------------|
@@ -82,7 +82,7 @@ Integration surfaces: MCP/HTTP proxy (`FuseProxy`), runner wrap (`wrap_agent`). 
 | **Status** | **Shipped** (CP-2.1) — hosted `POST /api/agents/manifest` watch resolution; `assert_a2a_coverage` CI gate shipped (`drift-a2a-coverage`) |
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-agents-lint@v0.3.3
   with:
     manifest: .driftguard/agents.yaml
 ```
@@ -101,7 +101,7 @@ Guide: [agent binding manifest](../guides/agent-binding-manifest.md) · [A2A Con
 | **Status** | **Shipped** (H1) — see [adr/0003-harness-bundle.md](../adr/0003-harness-bundle.md) |
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-harness-lint@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-harness-lint@v0.3.3
   with:
     bundle: .driftguard
 ```

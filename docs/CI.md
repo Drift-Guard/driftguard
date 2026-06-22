@@ -2,7 +2,7 @@
 
 DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a version pin in your pipeline, get value immediately, then upgrade when you need full coverage gates.
 
-**Pin policy:** `uses: kioie/driftguard/...@v0.3.3` or `npx @driftguard/driftguard@0.3.3` — never `@main`.
+**Pin policy:** `uses: Drift-Guard/driftguard/...@v0.3.3` or `npx @driftguard/driftguard@0.3.3` — never `@main`.
 
 **Simplest add:** copy [examples/workflows/driftguard-starter.yml](../examples/workflows/driftguard-starter.yml) to `.github/workflows/driftguard.yml` — no manual JSON scan step.
 
@@ -47,7 +47,7 @@ DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a versi
 ## Layer 1 — Hook (free)
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.3
   with:
     before: '{"status":"ok","data":{"id":1,"name":"test"}}'
     after: '{"status":"ok","data":{"id":1}}'
@@ -80,7 +80,7 @@ flowchart LR
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: kioie/driftguard/.github/actions/mcp-lockfile@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/mcp-lockfile@v0.3.3
   with:
     lockfile: driftguard-lock.json
     fail-on: breaking
@@ -108,7 +108,7 @@ Scans `mcp.json`, OpenAPI specs, and URLs in repo files via **`scan-paths`** (no
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     scan-paths: mcp.json,.cursor/mcp.json,package.json
     # fail-on-missing: true   # optional — turn on after upgrading
@@ -118,7 +118,7 @@ Scans `mcp.json`, OpenAPI specs, and URLs in repo files via **`scan-paths`** (no
 <summary>Advanced: explicit files-json</summary>
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     files-json: ${{ steps.scan.outputs.files-json }}
 ```
@@ -143,7 +143,7 @@ For CI gate with trial (1 endpoint only):
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.3
   with:
     trial-session: ${{ secrets.DRIFTGUARD_TRIAL_SESSION }}
     scan-paths: mcp.json,.cursor/mcp.json,package.json
@@ -167,7 +167,7 @@ Add `DRIFTGUARD_API_KEY` (from [pricing](https://driftguard.org/pricing) → act
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.3
   with:
     api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
     scan-paths: mcp.json,.cursor/mcp.json,package.json

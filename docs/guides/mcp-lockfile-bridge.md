@@ -1,6 +1,6 @@
 # Lockfile bridge (`driftguard lock` / `check`)
 
-**Status:** Spec (implementation tracked in OSS `kioie/driftguard`)  
+**Status:** Spec (implementation tracked in OSS `Drift-Guard/driftguard`)  
 **Goal:** Git-friendly MCP tool-schema baselines for CI without a hosted API key; optional hosted `register_watch` for post-deploy monitoring.
 
 ## Problem
@@ -68,7 +68,7 @@ Default `check` failure threshold: `breaking`. `--fail-on suspicious` for govern
 ### GitHub Actions (planned)
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/mcp-lockfile@v1
+- uses: Drift-Guard/driftguard/.github/actions/mcp-lockfile@v1
   with:
     lockfile: driftguard-lock.json
     fail-on: breaking

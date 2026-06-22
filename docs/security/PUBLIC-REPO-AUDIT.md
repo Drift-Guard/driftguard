@@ -1,6 +1,6 @@
 # Public repository security audit (May 2026)
 
-Audit of [kioie/driftguard](https://github.com/kioie/driftguard) for proprietary content, credentials, and strategy documents.
+Audit of [Drift-Guard/driftguard](https://github.com/Drift-Guard/driftguard) for proprietary content, credentials, and strategy documents.
 
 ## Current HEAD — clean
 
@@ -45,4 +45,4 @@ Hosted strategy docs and operator runbooks live in the private `kioie/driftguard
 
 ## Reporting
 
-Security issues in the public client: GitHub Issues on `kioie/driftguard`. Do not file hosted infrastructure details publicly.
+Security issues in the public client: GitHub Issues on `Drift-Guard/driftguard`. Do not file hosted infrastructure details publicly.

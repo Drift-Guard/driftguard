@@ -25,7 +25,7 @@ Marketplace names and listing status: [GITHUB_MARKETPLACE.md](../GITHUB_MARKETPL
 Copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftguard-starter.yml) to `.github/workflows/driftguard.yml`.
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.3
   with:
     before: '{"status":"ok","data":{"id":1}}'
     after: '{"status":"ok","data":{"id":1,"name":"test"}}'
@@ -34,7 +34,7 @@ Copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftg
 **Preview** (scan `mcp.json` and repo paths):
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     scan-paths: mcp.json,.cursor/mcp.json,package.json
 ```
@@ -42,7 +42,7 @@ Copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftg
 **Gate** — full workflow: [examples/workflows/driftguard-coverage-gate.yml](../../examples/workflows/driftguard-coverage-gate.yml)
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.3
   env:
     DRIFTGUARD_API_KEY: ${{ secrets.DRIFTGUARD_API_KEY }}
 ```
@@ -50,7 +50,7 @@ Copy [examples/workflows/driftguard-starter.yml](../../examples/workflows/driftg
 **agents.yaml lint** (offline, no API key) — see [agent binding manifest guide](../guides/agent-binding-manifest.md):
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-agents-lint@v0.3.3
   with:
     manifest: .driftguard/agents.yaml
 ```
@@ -60,7 +60,7 @@ Template: [examples/workflows/agents-lint.yml](../../examples/workflows/agents-l
 **Ingress validate** (offline CLI — gate workflow exports or fixture outputs):
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/setup-driftguard@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/setup-driftguard@v0.3.3
 - run: driftguard validate --profile profiles/lead.json --payload fixtures/event.json
 ```
 
@@ -69,7 +69,7 @@ Template: [examples/workflows/ingress-validate.yml](../../examples/workflows/ing
 **OpenAPI compatibility gate** (Notion-style producer CI):
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/openapi-diff@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/openapi-diff@v0.3.3
   with:
     base: openapi/base.json
     target: openapi/openapi.json

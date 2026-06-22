@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before filing, check [docs/QUICKSTART.md](https://github.com/kioie/driftguard/blob/main/docs/QUICKSTART.md) and [SYSTEM_PROMPT.md](https://github.com/kioie/driftguard/blob/main/SYSTEM_PROMPT.md).
+        Before filing, check [docs/QUICKSTART.md](https://github.com/Drift-Guard/driftguard/blob/main/docs/QUICKSTART.md) and [SYSTEM_PROMPT.md](https://github.com/Drift-Guard/driftguard/blob/main/SYSTEM_PROMPT.md).
         Hosted monitoring issues (watches, billing, console) are **not** in this repo — use DriftGuard support or the hosted service.
   - type: textarea
     id: description

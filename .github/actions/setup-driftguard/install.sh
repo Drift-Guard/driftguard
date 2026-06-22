@@ -53,7 +53,7 @@ elif npm view "@driftguard/driftguard@${VERSION}" version >/dev/null 2>&1; then
 elif npm view "driftguard@${VERSION}" version >/dev/null 2>&1; then
   npm install -g "driftguard@${VERSION}"
 else
-  TGZ="https://github.com/kioie/driftguard/releases/download/v${VERSION}/driftguard-${VERSION}.tgz"
+  TGZ="https://github.com/Drift-Guard/driftguard/releases/download/v${VERSION}/driftguard-${VERSION}.tgz"
   echo "Installing from GitHub Release: ${TGZ}"
   curl -fsSL "$TGZ" -o /tmp/driftguard-"${VERSION}".tgz
   npm install -g /tmp/driftguard-"${VERSION}".tgz

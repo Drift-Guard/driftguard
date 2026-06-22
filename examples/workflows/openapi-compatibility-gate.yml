@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Compare OpenAPI spec against base branch
-        uses: kioie/driftguard/.github/actions/openapi-diff@v0.3.3
+        uses: Drift-Guard/driftguard/.github/actions/openapi-diff@v0.3.3
         with:
           base: openapi/base.json
           target: openapi/openapi.json

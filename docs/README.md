@@ -132,7 +132,7 @@ Step-by-step guides by role — [guides index](./guides/README.md).
 
 ## Changelog & releases
 
-[Product changelog](./changelog/README.md) — release notes, version numbers, and breaking MCP/diff policy. Maintainer history: [CHANGELOG.md](../CHANGELOG.md) · [GitHub releases](https://github.com/kioie/driftguard/releases).
+[Product changelog](./changelog/README.md) — release notes, version numbers, and breaking MCP/diff policy. Maintainer history: [CHANGELOG.md](../CHANGELOG.md) · [GitHub releases](https://github.com/Drift-Guard/driftguard/releases).
 
 ---
 

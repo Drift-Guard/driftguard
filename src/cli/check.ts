@@ -153,7 +153,7 @@ Usage:
   driftguard version [--json]
   driftguard mcp
 
-CI funnel: https://github.com/kioie/driftguard/blob/main/docs/CI.md
+CI funnel: https://github.com/Drift-Guard/driftguard/blob/main/docs/CI.md
 Trial: ${HOSTED_TRIAL}
 Pricing: ${HOSTED_PRICING}
 `);

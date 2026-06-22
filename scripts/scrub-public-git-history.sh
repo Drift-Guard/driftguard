@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Scrub proprietary content from the PUBLIC kioie/driftguard git history.
+# Scrub proprietary content from the PUBLIC Drift-Guard/driftguard git history.
 #
 # Run only on a fresh clone after backing up. Rewrites history — coordinate with
 # anyone who has forked or cloned the repo before force-pushing main.

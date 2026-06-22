@@ -9,11 +9,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kioie/driftguard.git"
+    "url": "git+https://github.com/Drift-Guard/driftguard.git"
   },
-  "homepage": "https://github.com/kioie/driftguard#readme",
+  "homepage": "https://github.com/Drift-Guard/driftguard#readme",
   "bugs": {
-    "url": "https://github.com/kioie/driftguard/issues"
+    "url": "https://github.com/Drift-Guard/driftguard/issues"
   },
   "keywords": [
     "mcp",

@@ -1,6 +1,6 @@
 # Intellectual property & public disclosure policy
 
-**Applies to:** `kioie/driftguard` (public OSS) and `kioie/driftguard-cloud` (private product)  
+**Applies to:** `Drift-Guard/driftguard` (public OSS) and `kioie/driftguard-cloud` (private product)  
 **Status:** Active — review quarterly or before major launches  
 **Canonical:** This file in the OSS repo (contributor-facing). Cloud copy: `driftguard-cloud/docs/policies/IP-BOUNDARY-POLICY.md`.
 
