@@ -1,0 +1,30 @@
+name: MCP lockfile check
+description: Fail the job when live MCP tools/list drifts from driftguard-lock.json (offline, no API key)
+branding:
+  icon: git-compare
+  color: green
+inputs:
+  lockfile:
+    description: Path to driftguard-lock.json
+    required: false
+    default: driftguard-lock.json
+  fail-on:
+    description: Severity threshold — breaking, suspicious, warning, or info
+    required: false
+    default: breaking
+  version:
+    description: DriftGuard client semver (optional; defaults from action ref tag v*)
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup-driftguard
+      with:
+        version: ${{ inputs.version }}
+    - shell: bash
+      run: |
+        set -euo pipefail
+        LOCKFILE='${{ inputs.lockfile }}'
+        FAIL_ON='${{ inputs.fail-on }}'
+        driftguard check --lock "$LOCKFILE" --fail-on "$FAIL_ON"
