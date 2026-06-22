@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-11/server.schema.json",
   "name": "io.github.drift-guard/driftguard",
-  "description": "Local JSON schema diff and hosted API/MCP drift monitoring connector. Offline tools work without an API key; continuous watches require DriftGuard Pro/Team.",
+  "description": "Offline JSON/MCP schema diff and hosted API drift monitoring connector (driftguard.org).",
   "version": "0.3.3",
   "repository": {
     "url": "https://github.com/Drift-Guard/driftguard",
