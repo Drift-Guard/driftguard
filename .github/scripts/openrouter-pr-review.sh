@@ -12,7 +12,7 @@ if [[ -z "${PR_NUMBER:-}" ]]; then
   exit 1
 fi
 
-MODEL="${OPENROUTER_MODEL:-anthropic/claude-3.5-haiku}"
+MODEL="${OPENROUTER_MODEL:-openrouter/free}"
 REPO="${GITHUB_REPOSITORY}"
 MAX_DIFF_CHARS="${OPENROUTER_MAX_DIFF_CHARS:-60000}"
 EXCLUDE_DIFF_PATHS="${OPENROUTER_EXCLUDE_DIFF_PATHS:-package-lock.json yarn.lock}"
