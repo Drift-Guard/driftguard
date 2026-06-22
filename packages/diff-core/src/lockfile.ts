@@ -33,11 +33,21 @@ export interface McpLockfileV1 {
 }
 
 function slugServerName(key: string): string {
-  return key
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
+  let slug = "";
+  let pendingDash = false;
+  for (const ch of key.toLowerCase()) {
+    const isAlnum = (ch >= "a" && ch <= "z") || (ch >= "0" && ch <= "9");
+    if (isAlnum) {
+      slug += ch;
+      pendingDash = false;
+    } else if (slug.length > 0 && !pendingDash) {
+      slug += "-";
+      pendingDash = true;
+    }
+  }
+  while (slug.startsWith("-")) slug = slug.slice(1);
+  while (slug.endsWith("-")) slug = slug.slice(0, -1);
+  return slug.slice(0, 80);
 }
 
 function normalizeSchema(schema: unknown): JsonSchema | undefined {
@@ -59,7 +69,7 @@ export function normalizeLockTool(raw: unknown): McpLockTool {
   }
   const description = typeof tool.description === "string" ? tool.description : undefined;
   const schemaRaw = tool.inputSchema ?? tool.input_schema;
-  const inputSchema = schemaRaw === undefined ? undefined : normalizeSchema(schemaRaw);
+  const inputSchema = schemaRaw !== undefined ? normalizeSchema(schemaRaw) : undefined;
   return { name, ...(description !== undefined ? { description } : {}), ...(inputSchema ? { inputSchema } : {}) };
 }
 

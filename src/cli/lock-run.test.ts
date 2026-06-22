@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
@@ -65,7 +65,8 @@ describe("lock-run", () => {
 
     const code = await runLock(["--config", configPath, "-o", out], deps);
     assert.equal(code, 0);
-    assert.deepEqual(fetched.sort(), ["https://alpha.example/mcp", "https://beta.example/mcp"]);
+    const sortedUrls = [...fetched].sort((a, b) => a.localeCompare(b));
+    assert.deepEqual(sortedUrls, ["https://alpha.example/mcp", "https://beta.example/mcp"]);
     rmSync(dir, { recursive: true, force: true });
   });
 
@@ -103,14 +104,14 @@ describe("lock-run", () => {
   });
 
   it("CLI-LOCK-004: succeeds without DRIFTGUARD_API_KEY", async () => {
+    const dir = mkdtempSync(join(tmpdir(), "dg-lock-"));
+    const out = join(dir, "driftguard-lock.json");
     const deps: LockRunDeps = {
       fetchTools: async () => [{ name: "ping", inputSchema: { type: "object" } }],
       writeFile: () => {},
     };
-    const code = await runLock(
-      ["--url", "https://mcp.example.com/mcp", "-o", "/tmp/dg-lock-test.json"],
-      deps,
-    );
+    const code = await runLock(["--url", "https://mcp.example.com/mcp", "-o", out], deps);
     assert.equal(code, 0);
+    rmSync(dir, { recursive: true, force: true });
   });
 });

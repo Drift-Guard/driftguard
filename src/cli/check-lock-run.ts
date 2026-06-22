@@ -6,8 +6,8 @@ import {
   toolsFromProbe,
   type ChangeSeverity,
   type DiffResult,
+  type McpToolSnapshot,
 } from "@driftguard/diff-core";
-import type { McpToolSnapshot } from "@driftguard/diff-core";
 import { VERSION } from "../mcp/constants.js";
 import { fetchMcpToolsList } from "../core/mcp-probe.js";
 

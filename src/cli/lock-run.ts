@@ -8,8 +8,8 @@ import {
   parseLockfile,
   serializeLockfile,
   toolsFromProbe,
+  type McpToolSnapshot,
 } from "@driftguard/diff-core";
-import type { McpToolSnapshot } from "@driftguard/diff-core";
 import { VERSION } from "../mcp/constants.js";
 import { fetchMcpToolsList } from "../core/mcp-probe.js";
 
@@ -61,6 +61,25 @@ export function lockUsage(): string {
 Snapshot MCP tools/list into a deterministic driftguard-lock.json (no API key).`;
 }
 
+function collectLockTargets(
+  opts: ReturnType<typeof parseLockArgs>,
+  readFile: (path: string) => string,
+): Array<{ name: string; url: string }> {
+  if (opts.update) {
+    const existing = parseLockfile(JSON.parse(readFile(opts.outputPath)));
+    return existing.servers.map((server) => ({ name: server.name, url: server.url }));
+  }
+  if (opts.configPath) {
+    const configText = readFile(opts.configPath);
+    return listMcpJsonHttpServers(JSON.parse(configText));
+  }
+  if (opts.url) {
+    const name = opts.serverName ?? new URL(opts.url).hostname.replace(/^www\./, "");
+    return [{ name, url: opts.url }];
+  }
+  return [];
+}
+
 export async function runLock(argv: string[], deps: LockRunDeps = defaultDeps): Promise<number> {
   if (argv.includes("--help") || argv.includes("-h")) {
     console.log(lockUsage());
@@ -81,21 +100,7 @@ export async function runLock(argv: string[], deps: LockRunDeps = defaultDeps): 
   }
 
   try {
-    const targets: Array<{ name: string; url: string }> = [];
-
-    if (opts.update) {
-      const existing = parseLockfile(JSON.parse(deps.readFile!(opts.outputPath)));
-      for (const server of existing.servers) {
-        targets.push({ name: server.name, url: server.url });
-      }
-    } else if (opts.configPath) {
-      const configText = deps.readFile!(opts.configPath);
-      targets.push(...listMcpJsonHttpServers(JSON.parse(configText)));
-    } else if (opts.url) {
-      const name = opts.serverName ?? new URL(opts.url).hostname.replace(/^www\./, "");
-      targets.push({ name, url: opts.url });
-    }
-
+    const targets = collectLockTargets(opts, deps.readFile!);
     const servers = [];
     for (const target of targets) {
       const tools = await deps.fetchTools(target.url);

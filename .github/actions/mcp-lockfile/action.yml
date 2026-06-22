@@ -23,8 +23,9 @@ runs:
       with:
         version: ${{ inputs.version }}
     - shell: bash
+      env:
+        LOCKFILE: ${{ inputs.lockfile }}
+        FAIL_ON: ${{ inputs.fail-on }}
       run: |
         set -euo pipefail
-        LOCKFILE='${{ inputs.lockfile }}'
-        FAIL_ON='${{ inputs.fail-on }}'
         driftguard check --lock "$LOCKFILE" --fail-on "$FAIL_ON"
