@@ -230,6 +230,22 @@ Gate package schemas: [mockdrift/ASSERTION-V2.md](../mockdrift/ASSERTION-V2.md).
 
 ---
 
+## Contract Manifest (`.driftguard/`)
+
+Git-native bundle for MCP lockfiles, gate ladder, and agent bindings. ADR: [0004-contract-manifest.md](../adr/0004-contract-manifest.md).
+
+| File | Purpose |
+|------|---------|
+| `manifest.yaml` | Adoption level (1–3), scan roots, lockfile policy |
+| `gates.yaml` | Gate ladder toggles |
+| `harness.lock` | Fixture pins + `manifests.mcp_lock` paths |
+| `agents.yaml` | Agent ↔ MCP ↔ watch graph (`mcp.lockServers`) |
+| `mcp/driftguard-lock.json` | Pinned `tools/list` baseline |
+
+Lint codes: [manifest-lint-codes.md](./manifest-lint-codes.md) · CLI: `driftguard lint-harness .driftguard`
+
+---
+
 ## Hosted API & alerts (link only)
 
 REST routes for watches, coverage, drift, and notifications are **not** duplicated as OpenAPI in this repo per [OPEN_CORE.md](../../OPEN_CORE.md).

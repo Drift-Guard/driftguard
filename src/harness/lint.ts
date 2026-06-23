@@ -1,6 +1,9 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { parseLockfile, LockfileError } from "@driftguard/diff-core";
 import { validateAgentsYamlText } from "../agents/validate.js";
+import { formatLintCode, DG_LOCK } from "../manifest/lint-codes.js";
+import { validateManifestYamlText } from "../manifest/validate.js";
 import { formatHarnessLintError } from "./mgfa-phrases.js";
 import { validateGatesYamlText } from "./validate-gates.js";
 import { validateHarnessLockText, type HarnessLock } from "./validate-lock.js";
@@ -65,6 +68,44 @@ function lintLockPaths(bundleDir: string, repoRoot: string, lock: HarnessLock): 
     }
   }
 
+  const mcpLockPins = lock.manifests?.mcp_lock;
+  if (mcpLockPins) {
+    for (const pin of mcpLockPins) {
+      const abs = resolveFixturePath(bundleDir, repoRoot, pin.path);
+      if (!existsSync(abs)) {
+        errors.push(
+          formatLintCode(
+            DG_LOCK.MCP_LOCK_PATH,
+            `manifests.mcp_lock path not found (${pin.path})`,
+          ),
+        );
+        continue;
+      }
+      try {
+        const raw = JSON.parse(readFileSync(abs, "utf8")) as unknown;
+        const parsed = parseLockfile(raw);
+        if (pin.servers?.length) {
+          const names = new Set(parsed.servers.map((s) => s.name));
+          for (const name of pin.servers) {
+            if (!names.has(name)) {
+              errors.push(
+                formatLintCode(
+                  DG_LOCK.SERVER_NAME,
+                  `manifests.mcp_lock server "${name}" not in lockfile (${pin.path})`,
+                ),
+              );
+            }
+          }
+        }
+      } catch (err) {
+        const detail = err instanceof LockfileError ? err.message : String(err);
+        errors.push(
+          formatLintCode(DG_LOCK.PARSE_FAILED, `manifests.mcp_lock invalid (${pin.path}): ${detail}`),
+        );
+      }
+    }
+  }
+
   return errors;
 }
 
@@ -94,13 +135,22 @@ function lintDefaultsConsistency(
 
 export function lintHarnessBundle(bundleDir: string, repoRoot = process.cwd()): LintHarnessResult {
   const errors: string[] = [];
+  const manifestPath = join(bundleDir, "manifest.yaml");
   const agentsPath = join(bundleDir, "agents.yaml");
   const gatesPath = join(bundleDir, "gates.yaml");
   const lockPath = join(bundleDir, "harness.lock");
 
+  const manifestYaml = readOptional(manifestPath);
   const agentsYaml = readOptional(agentsPath);
   const gatesYaml = readOptional(gatesPath);
   const lockYaml = readOptional(lockPath);
+
+  if (manifestYaml) {
+    const manifest = validateManifestYamlText(manifestYaml);
+    if (!manifest.ok) {
+      for (const err of manifest.errors) errors.push(err);
+    }
+  }
 
   if (!gatesYaml) {
     errors.push("missing gates.yaml");

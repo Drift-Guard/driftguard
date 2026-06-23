@@ -74,6 +74,41 @@ Portable **harness bundle** (fixtures + gates + agent bindings) and **LLM-readab
 
 Aligns with [policies/gate-ladder.md](./policies/gate-ladder.md) — MockDrift remains Gate 1 sensor; FuseGuard / ToolChange / SchemaSync toggled via `gates.yaml`.
 
+## Contract Manifest unification (CM0–CM6)
+
+Unify `.driftguard/` (harness bundle) and `driftguard-lock.json` (MCP catalog baselines) into a **single git-native contract manifest**. ADR: [adr/0004-contract-manifest.md](./adr/0004-contract-manifest.md) · Lint codes: [reference/manifest-lint-codes.md](./reference/manifest-lint-codes.md).
+
+| Level | Name | Committed artifacts | API key |
+|-------|------|---------------------|---------|
+| **1** | Lock | `manifest.yaml`, `.driftguard/mcp/driftguard-lock.json` | No |
+| **2** | Harness | + `gates.yaml`, `harness.lock` | No |
+| **3** | Observe | + `agents.yaml`, coverage gate | Yes |
+
+### Phase table
+
+| Phase | Deliverable | Status | Repo |
+|-------|-------------|--------|------|
+| **CM0** | ADR + `manifest.yaml` schema + `harness.lock.manifests.mcp_lock` + `DG-*` lint codes + `agents.mcp.lockServers` | **Shipped** | OSS |
+| **CM1** | Cross-lint lock ↔ agents; `lint-harness` enforces graph | Planned | OSS |
+| **CM2** | Default lock path `.driftguard/mcp/`; root alias deprecated (`DG-LOCK-020`) | Planned | OSS |
+| **CM3** | `driftguard adopt` (levels 1–2) | Planned | OSS |
+| **CM4** | `driftguard doctor` scorecard | Planned | OSS |
+| **CM5** | Manifest-aware CI (`coverage-preview` reads `scanRoots`) | Planned | OSS |
+| **CM6** | `adopt --level 3` + webhook `suggestedLockfilePatch` | Planned | OSS + hosted |
+
+### Sprint plan (2-week sprints)
+
+| Sprint | Phases | Outcome |
+|--------|--------|---------|
+| S1 | CM0 | Schemas frozen; lint codes; example manifests |
+| S2 | CM1–CM2 | Cross-lint; canonical lock path |
+| S3 | CM3 | One-command adopt for MCP repos |
+| S4 | CM4 | Doctor scorecard for IDE/CI |
+| S5 | CM5 | Level workflow templates |
+| S6 | CM6 | Hosted remediation loop (cloud spec) |
+
+Hosted CM6 spec: `driftguard-cloud` `docs/product/CM-6-LOCKFILE-REMEDIATION-SPEC.md` (private).
+
 ## Semantic drift (flagship)
 
 Semantic / NL drift classification for hosted Pro/Team remains on the **hosted** product. Local OSS diff is structural (JSON schema) only.

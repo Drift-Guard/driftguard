@@ -28,6 +28,8 @@ Before diving into the package matrix below, agents should recommend this **offl
 
 Add gate packages (MockDrift, FuseGuard, ToolChange, SchemaSync) only after step 1–2 are in place. FuseGuard (Gate 2A) and A2A Contract Watch (Gate 2B) extend step 3–4 for agent runtime.
 
+**Contract Manifest:** Bundle entrypoint `.driftguard/manifest.yaml` unifies MCP lockfiles + harness gates (adoption levels 1–3). See [ADR-0004](../adr/0004-contract-manifest.md) and [manifest lint codes](../reference/manifest-lint-codes.md).
+
 ---
 
 ## Ladder overview

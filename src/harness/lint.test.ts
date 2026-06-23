@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import { lintHarnessBundle } from "../harness/lint.js";
 import { validateGatesYamlText } from "../harness/validate-gates.js";
 import { validateHarnessLockText } from "../harness/validate-lock.js";
+import { validateManifestYamlText } from "../manifest/validate.js";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -19,6 +20,12 @@ describe("harness bundle lint", () => {
   it("validates example harness.lock", () => {
     const yaml = readFileSync(join(bundleDir, "harness.lock"), "utf8");
     const result = validateHarnessLockText(yaml);
+    assert.equal(result.ok, true);
+  });
+
+  it("validates example manifest.yaml in harness bundle", () => {
+    const yaml = readFileSync(join(bundleDir, "manifest.yaml"), "utf8");
+    const result = validateManifestYamlText(yaml);
     assert.equal(result.ok, true);
   });
 
