@@ -91,7 +91,7 @@ Unify `.driftguard/` (harness bundle) and `driftguard-lock.json` (MCP catalog ba
 | **CM0** | ADR + `manifest.yaml` schema + `harness.lock.manifests.mcp_lock` + `DG-*` lint codes + `agents.mcp.lockServers` | **Shipped** | OSS |
 | **CM1** | Cross-lint lock ↔ agents; `lint-harness` enforces graph | **Shipped** | OSS |
 | **CM2** | Default lock path `.driftguard/mcp/`; root alias deprecated (`DG-LOCK-020`) | **Shipped** | OSS |
-| **CM3** | `driftguard adopt` (levels 1–2) | Planned | OSS |
+| **CM3** | `driftguard adopt` (levels 1–2) | **Shipped** | OSS |
 | **CM4** | `driftguard doctor` scorecard | Planned | OSS |
 | **CM5** | Manifest-aware CI (`coverage-preview` reads `scanRoots`) | Planned | OSS |
 | **CM6** | `adopt --level 3` + webhook `suggestedLockfilePatch` | Planned | OSS + hosted |
@@ -102,7 +102,7 @@ Unify `.driftguard/` (harness bundle) and `driftguard-lock.json` (MCP catalog ba
 |--------|--------|---------|
 | S1 | CM0 | Schemas frozen; lint codes; example manifests — **done** |
 | S2 | CM1–CM2 | Cross-lint; canonical lock path — **done** |
-| S3 | CM3 | One-command adopt for MCP repos |
+| S3 | CM3 | One-command adopt for MCP repos — **done** |
 | S4 | CM4 | Doctor scorecard for IDE/CI |
 | S5 | CM5 | Level workflow templates |
 | S6 | CM6 | Hosted remediation loop (cloud spec) |

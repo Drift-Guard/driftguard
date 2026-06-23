@@ -40,7 +40,7 @@ Adopt `.driftguard/manifest.yaml` as the bundle **entrypoint**. Keep separate fi
 | **CM0** | ADR, `manifest.yaml` schema, `harness.lock.manifests.mcp_lock`, lint codes, `agents.mcp.lockServers` | OSS | **Shipped** |
 | **CM1** | Cross-lint lock ↔ agents; default lock path `.driftguard/mcp/` | OSS | Planned |
 | **CM2** | Root lockfile deprecation warn (`DG-LOCK-020`) | OSS | Planned |
-| **CM3** | `driftguard adopt` (levels 1–2) | OSS | Planned |
+| **CM3** | `driftguard adopt` (levels 1–2) | OSS | **Shipped** |
 | **CM4** | `driftguard doctor` scorecard | OSS | Planned |
 | **CM5** | Manifest-aware CI templates | OSS | Planned |
 | **CM6** | `adopt --level 3`, webhook `suggestedLockfilePatch` | OSS + cloud | Planned |

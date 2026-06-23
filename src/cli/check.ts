@@ -112,6 +112,11 @@ async function main(): Promise<void> {
     process.exit(runHarnessLint(args));
   }
 
+  if (command === "adopt") {
+    const { runAdopt } = await import("./adopt-run.js");
+    process.exit(await runAdopt(args));
+  }
+
   if (command === "manifest") {
     const sub = args[0];
     if (sub === "lockfile-path") {
@@ -153,6 +158,7 @@ Usage:
   driftguard openapi-changelog base.yaml target.yaml       Release notes from OpenAPI diff
   driftguard login --api-key dg_…                          Verify hosted API key
   driftguard init [--yes]                                  Write .driftguard.yml
+  driftguard adopt [--level 1|2] [--dry-run]               Bootstrap Contract Manifest (.driftguard/)
   driftguard coverage-preview                              Free — scan repo + console links
   driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
   driftguard assert-a2a-coverage [path]                    Gate — manifest watches registered (Pro key)
