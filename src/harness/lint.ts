@@ -3,7 +3,9 @@ import { join, resolve } from "node:path";
 import { parseLockfile, LockfileError } from "@driftguard/diff-core";
 import { validateAgentsYamlText } from "../agents/validate.js";
 import { formatLintCode, DG_LOCK } from "../manifest/lint-codes.js";
+import { isDeprecatedLockPath } from "../manifest/paths.js";
 import { validateManifestYamlText } from "../manifest/validate.js";
+import { lintAgentsAgainstLockfiles } from "./lint-agents-lock.js";
 import { formatHarnessLintError } from "./mgfa-phrases.js";
 import { validateGatesYamlText } from "./validate-gates.js";
 import { validateHarnessLockText, type HarnessLock } from "./validate-lock.js";
@@ -176,6 +178,25 @@ export function lintHarnessBundle(bundleDir: string, repoRoot = process.cwd()): 
     const agents = validateAgentsYamlText(agentsYaml);
     if (!agents.ok) {
       for (const err of agents.errors) errors.push(`agents.yaml: ${err}`);
+    } else if (lockYaml) {
+      const lock = validateHarnessLockText(lockYaml);
+      if (lock.ok) {
+        errors.push(...lintAgentsAgainstLockfiles(repoRoot, bundleDir, lock.lock, agents.manifest));
+      }
+    }
+  }
+
+  const deprecatedLockAtRoot = resolve(repoRoot, "driftguard-lock.json");
+  if (existsSync(deprecatedLockAtRoot)) {
+    const bundleLock = resolve(repoRoot, ".driftguard/mcp/driftguard-lock.json");
+    if (!existsSync(bundleLock)) {
+      errors.push(
+        formatLintCode(
+          DG_LOCK.DEPRECATED_ROOT,
+          `repo-root driftguard-lock.json is deprecated — use ${bundleLock}`,
+          "warn",
+        ),
+      );
     }
   }
 

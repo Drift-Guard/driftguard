@@ -2,7 +2,6 @@ import { readFileSync, writeFileSync } from "node:fs";
 import {
   buildLockServer,
   buildLockfile,
-  DEFAULT_LOCKFILE_PATH,
   listMcpJsonHttpServers,
   LockfileError,
   parseLockfile,
@@ -12,6 +11,8 @@ import {
 } from "@driftguard/diff-core";
 import { VERSION } from "../mcp/constants.js";
 import { fetchMcpToolsList } from "../core/mcp-probe.js";
+import { BUNDLE_LOCKFILE_DEFAULT, isDeprecatedLockPath } from "../manifest/paths.js";
+import { resolveLockfilePathFromRepo } from "../manifest/resolve-lockfile.js";
 
 export type LockRunDeps = {
   fetchTools: (url: string) => Promise<McpToolSnapshot[]>;
@@ -33,7 +34,6 @@ export function parseLockArgs(argv: string[]): {
   serverName?: string;
 } {
   const flags = new Set(argv.filter((a) => a.startsWith("--")));
-  const positional = argv.filter((a) => !a.startsWith("--"));
   const valueAfter = (flag: string): string | undefined => {
     const index = argv.indexOf(flag);
     if (index === -1) return undefined;
@@ -41,10 +41,16 @@ export function parseLockArgs(argv: string[]): {
   };
 
   const update = flags.has("--update");
-  const outputPath =
-    valueAfter("-o") ??
-    valueAfter("--output") ??
-    (update ? DEFAULT_LOCKFILE_PATH : positional[0] ?? DEFAULT_LOCKFILE_PATH);
+  const explicitOutput = valueAfter("-o") ?? valueAfter("--output");
+
+  let outputPath: string;
+  if (explicitOutput) {
+    outputPath = explicitOutput;
+  } else if (update) {
+    outputPath = resolveLockfilePathFromRepo();
+  } else {
+    outputPath = BUNDLE_LOCKFILE_DEFAULT;
+  }
 
   return {
     url: valueAfter("--url"),
@@ -56,9 +62,17 @@ export function parseLockArgs(argv: string[]): {
 }
 
 export function lockUsage(): string {
-  return `Usage: driftguard lock [--url URL] [--config mcp.json] [--name NAME] [-o driftguard-lock.json] [--update]
+  return `Usage: driftguard lock [--url URL] [--config mcp.json] [--name NAME] [-o ${BUNDLE_LOCKFILE_DEFAULT}] [--update]
 
-Snapshot MCP tools/list into a deterministic driftguard-lock.json (no API key).`;
+Snapshot MCP tools/list into a deterministic lockfile (no API key).`;
+}
+
+function warnDeprecatedLockPath(outputPath: string): void {
+  if (isDeprecatedLockPath(outputPath)) {
+    console.warn(
+      `DG-LOCK-020 [warn]: ${outputPath} is deprecated — prefer ${BUNDLE_LOCKFILE_DEFAULT}`,
+    );
+  }
 }
 
 function collectLockTargets(
@@ -118,6 +132,7 @@ export async function runLock(argv: string[], deps: LockRunDeps = defaultDeps): 
       generatedAt: new Date().toISOString(),
     });
     deps.writeFile!(opts.outputPath, serializeLockfile(lockfile));
+    warnDeprecatedLockPath(opts.outputPath);
     console.log(`Wrote ${opts.outputPath} (${lockfile.servers.length} server(s), ${VERSION})`);
     return 0;
   } catch (err) {

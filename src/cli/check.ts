@@ -112,6 +112,16 @@ async function main(): Promise<void> {
     process.exit(runHarnessLint(args));
   }
 
+  if (command === "manifest") {
+    const sub = args[0];
+    if (sub === "lockfile-path") {
+      const { runManifestLockfilePath } = await import("./manifest-lockfile-path-run.js");
+      process.exit(runManifestLockfilePath(args.slice(1)));
+    }
+    console.error("Usage: driftguard manifest lockfile-path");
+    process.exit(2);
+  }
+
   if (command === "lock") {
     const { runLock } = await import("./lock-run.js");
     process.exit(await runLock(args));

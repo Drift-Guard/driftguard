@@ -7,6 +7,11 @@ import { parseLockfile } from "@driftguard/diff-core";
 import { parseLockArgs, runLock, type LockRunDeps } from "./lock-run.js";
 
 describe("lock-run", () => {
+  it("parseLockArgs defaults output to bundle lock path", () => {
+    const opts = parseLockArgs(["--url", "https://mcp.example.com/mcp"]);
+    assert.equal(opts.outputPath, ".driftguard/mcp/driftguard-lock.json");
+  });
+
   it("parseLockArgs reads url, config, and output", () => {
     const opts = parseLockArgs(["--url", "https://mcp.example.com/mcp", "-o", "out.json"]);
     assert.equal(opts.url, "https://mcp.example.com/mcp");

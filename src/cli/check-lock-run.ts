@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import {
   diffMcpTools,
-  DEFAULT_LOCKFILE_PATH,
   parseLockfile,
   toolsFromProbe,
   type ChangeSeverity,
@@ -10,6 +9,8 @@ import {
 } from "@driftguard/diff-core";
 import { VERSION } from "../mcp/constants.js";
 import { fetchMcpToolsList } from "../core/mcp-probe.js";
+import { BUNDLE_LOCKFILE_DEFAULT, isDeprecatedLockPath } from "../manifest/paths.js";
+import { resolveLockfilePathFromRepo } from "../manifest/resolve-lockfile.js";
 
 export type CheckLockRunDeps = {
   fetchTools: (url: string) => Promise<McpToolSnapshot[]>;
@@ -40,7 +41,7 @@ export function parseCheckLockArgs(argv: string[]): {
   }
 
   return {
-    lockPath: valueAfter("--lock") ?? positional[0] ?? DEFAULT_LOCKFILE_PATH,
+    lockPath: valueAfter("--lock") ?? positional[0] ?? resolveLockfilePathFromRepo(),
     failOn: failOnRaw as ChangeSeverity,
     json: flags.has("--json"),
   };
@@ -79,9 +80,17 @@ export function mergeDiffResults(parts: DiffResult[]): DiffResult {
 }
 
 export function checkUsage(): string {
-  return `Usage: driftguard check [--lock driftguard-lock.json] [--fail-on breaking|suspicious|warning|info] [--json]
+  return `Usage: driftguard check [--lock ${BUNDLE_LOCKFILE_DEFAULT}] [--fail-on breaking|suspicious|warning|info] [--json]
 
 Diff live MCP tools/list catalogs against a lockfile (no API key).`;
+}
+
+function warnDeprecatedLockPath(lockPath: string): void {
+  if (isDeprecatedLockPath(lockPath)) {
+    console.warn(
+      `DG-LOCK-020 [warn]: ${lockPath} is deprecated — prefer ${BUNDLE_LOCKFILE_DEFAULT}`,
+    );
+  }
 }
 
 export async function runCheckLock(argv: string[], deps: CheckLockRunDeps = defaultDeps): Promise<number> {
@@ -99,6 +108,7 @@ export async function runCheckLock(argv: string[], deps: CheckLockRunDeps = defa
   }
 
   try {
+    warnDeprecatedLockPath(opts.lockPath);
     const lockfile = parseLockfile(JSON.parse(deps.readFile!(opts.lockPath)));
     const perServer: DiffResult[] = [];
 
