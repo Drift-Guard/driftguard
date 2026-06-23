@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, appendFileSync } from "node:fs";
 import {
   diffMcpTools,
   parseLockfile,
@@ -26,6 +26,7 @@ export function parseCheckLockArgs(argv: string[]): {
   lockPath: string;
   failOn: ChangeSeverity;
   json: boolean;
+  writeSummary: boolean;
 } {
   const flags = new Set(argv.filter((a) => a.startsWith("--")));
   const positional = argv.filter((a) => !a.startsWith("--"));
@@ -44,6 +45,7 @@ export function parseCheckLockArgs(argv: string[]): {
     lockPath: valueAfter("--lock") ?? positional[0] ?? resolveLockfilePathFromRepo(),
     failOn: failOnRaw as ChangeSeverity,
     json: flags.has("--json"),
+    writeSummary: flags.has("--write-summary"),
   };
 }
 
@@ -91,6 +93,34 @@ function warnDeprecatedLockPath(lockPath: string): void {
       `DG-LOCK-020 [warn]: ${lockPath} is deprecated — prefer ${BUNDLE_LOCKFILE_DEFAULT}`,
     );
   }
+}
+
+export function formatLockCheckMarkdown(lockPath: string, result: DiffResult): string {
+  const lines = [
+    "## MCP lockfile check",
+    "",
+    `Lockfile: \`${lockPath}\``,
+    "",
+    `| Severity | Count |`,
+    `|----------|-------|`,
+    `| breaking | ${result.breakingCount} |`,
+    `| suspicious | ${result.suspiciousCount} |`,
+    `| warning | ${result.warningCount} |`,
+    `| info | ${result.infoCount} |`,
+    "",
+  ];
+  if (result.changes.length) {
+    lines.push("### Changes", "");
+    for (const change of result.changes.slice(0, 20)) {
+      lines.push(`- **${change.severity}** \`${change.path}\`: ${change.message}`);
+    }
+    if (result.changes.length > 20) {
+      lines.push(`- …and ${result.changes.length - 20} more`);
+    }
+  } else {
+    lines.push("No drift detected.");
+  }
+  return lines.join("\n");
 }
 
 export async function runCheckLock(argv: string[], deps: CheckLockRunDeps = defaultDeps): Promise<number> {
@@ -144,6 +174,14 @@ export async function runCheckLock(argv: string[], deps: CheckLockRunDeps = defa
       }
     } else {
       console.log("No drift detected");
+    }
+
+    if (opts.writeSummary && process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(
+        process.env.GITHUB_STEP_SUMMARY,
+        `${formatLockCheckMarkdown(opts.lockPath, result)}\n`,
+        "utf8",
+      );
     }
 
     return shouldFailCheck(result, opts.failOn) ? 1 : 0;

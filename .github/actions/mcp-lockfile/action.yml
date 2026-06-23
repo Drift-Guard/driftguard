@@ -32,4 +32,4 @@ runs:
         if [ -z "$LOCKFILE" ]; then
           LOCKFILE="$(driftguard manifest lockfile-path)"
         fi
-        driftguard check --lock "$LOCKFILE" --fail-on "$FAIL_ON"
+        driftguard check --lock "$LOCKFILE" --fail-on "$FAIL_ON" --write-summary

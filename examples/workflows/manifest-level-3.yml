@@ -1,0 +1,51 @@
+# Contract Manifest level 3 — level 2 + agents lint + optional coverage gate
+
+```yaml
+name: DriftGuard Contract Manifest (level 3)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  mcp-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/mcp-lockfile@v0.3.3
+
+  harness-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/drift-harness-lint@v0.3.3
+        with:
+          bundle: .driftguard
+
+  agents-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/drift-agents-lint@v0.3.3
+        with:
+          manifest: .driftguard/agents.yaml
+
+  coverage-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+
+  # coverage-gate:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.3
+  #       with:
+  #         api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
+```
+
+Bootstrap: `driftguard adopt --level 3` (requires `DRIFTGUARD_API_KEY` for `suggest_watches`).
+
+Saturday-night remediation: apply webhook patch with `driftguard manifest export --format lockfile-patch --input drift.json`.

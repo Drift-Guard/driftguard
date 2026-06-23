@@ -112,6 +112,11 @@ async function main(): Promise<void> {
     process.exit(runHarnessLint(args));
   }
 
+  if (command === "doctor") {
+    const { runDoctor } = await import("./doctor-run.js");
+    process.exit(await runDoctor(args));
+  }
+
   if (command === "adopt") {
     const { runAdopt } = await import("./adopt-run.js");
     process.exit(await runAdopt(args));
@@ -123,7 +128,11 @@ async function main(): Promise<void> {
       const { runManifestLockfilePath } = await import("./manifest-lockfile-path-run.js");
       process.exit(runManifestLockfilePath(args.slice(1)));
     }
-    console.error("Usage: driftguard manifest lockfile-path");
+    if (sub === "export") {
+      const { runManifestExport } = await import("./manifest-export-run.js");
+      process.exit(runManifestExport(args.slice(1)));
+    }
+    console.error("Usage: driftguard manifest lockfile-path | manifest export --format lockfile-patch");
     process.exit(2);
   }
 
@@ -158,7 +167,10 @@ Usage:
   driftguard openapi-changelog base.yaml target.yaml       Release notes from OpenAPI diff
   driftguard login --api-key dg_…                          Verify hosted API key
   driftguard init [--yes]                                  Write .driftguard.yml
-  driftguard adopt [--level 1|2] [--dry-run]               Bootstrap Contract Manifest (.driftguard/)
+  driftguard adopt [--level 1|2|3] [--dry-run]               Bootstrap Contract Manifest (.driftguard/)
+  driftguard doctor [bundleDir] [--json] [--check-hosted]    Manifest health scorecard
+  driftguard manifest lockfile-path                          Print lockfile path from manifest
+  driftguard manifest export --format lockfile-patch         Apply webhook lockfile patch (CM6)
   driftguard coverage-preview                              Free — scan repo + console links
   driftguard assert-coverage                               Gate — Pro key or trial (1 endpoint)
   driftguard assert-a2a-coverage [path]                    Gate — manifest watches registered (Pro key)

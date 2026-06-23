@@ -34,6 +34,28 @@ describe("ci-files", () => {
     assert.equal(readFilesJsonForCi(), process.env.DRIFTGUARD_FILES_JSON);
   });
 
+  it("readFilesJsonForCi uses manifest scanRoots when env empty", () => {
+    const manifestDir = path.join(tmpDir, ".driftguard");
+    fs.mkdirSync(manifestDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(manifestDir, "manifest.yaml"),
+      `version: 1
+kind: agent-repo
+adoptionLevel: 1
+scanRoots:
+  - custom/mcp.json
+lockfiles:
+  dir: .driftguard/mcp
+  primary: driftguard-lock.json
+`,
+    );
+    fs.mkdirSync(path.join(tmpDir, "custom"), { recursive: true });
+    fs.writeFileSync(path.join(tmpDir, "custom/mcp.json"), '{"mcpServers":{}}');
+    const parsed = JSON.parse(readFilesJsonForCi()) as Array<{ path: string }>;
+    assert.equal(parsed.length, 1);
+    assert.equal(parsed[0]?.path, "custom/mcp.json");
+  });
+
   it("readFilesJsonForCi scans when env empty", () => {
     fs.writeFileSync("package.json", "{}");
     const parsed = JSON.parse(readFilesJsonForCi()) as unknown[];

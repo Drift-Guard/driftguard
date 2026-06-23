@@ -1,0 +1,34 @@
+# Contract Manifest level 1 — lock + coverage preview
+# Copy to .github/workflows/manifest-level-1.yml or use: driftguard adopt --level 1
+
+Copy from [driftguard adopt](../src/adopt/templates.ts) output or run:
+
+```bash
+driftguard adopt --level 1 --dry-run
+```
+
+See [manifest-level-2.yml](./manifest-level-2.yml) for harness lint and [manifest-level-3.yml](./manifest-level-3.yml) for agents + coverage gate.
+
+```yaml
+name: DriftGuard Contract Manifest (level 1)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  mcp-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/mcp-lockfile@v0.3.3
+
+  coverage-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+```
+
+`mcp-lockfile` resolves the lock path from `.driftguard/manifest.yaml` when present. `coverage-preview` uses manifest `scanRoots` when `scan-paths` is omitted (DriftGuard ≥0.3.3).

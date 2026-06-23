@@ -60,4 +60,22 @@ describe("adopt-run", () => {
     assert.equal(existsSync(join(root, ".driftguard/gates.yaml")), true);
     assert.equal(existsSync(join(root, ".driftguard/harness.lock")), true);
   });
+
+  it("level 3 dry-run includes agents.yaml", async () => {
+    const root = mkdtempSync(join(tmpdir(), "dg-adopt-"));
+    writeFileSync(
+      join(root, "mcp.json"),
+      JSON.stringify({ mcpServers: { demo: { url: "https://demo.example/mcp" } } }),
+    );
+
+    const code = await runAdopt(["--dry-run", "--level", "3"], root);
+    assert.equal(code, 0);
+    const planned = planAdopt(root, {
+      level: 3,
+      force: false,
+      dryRun: true,
+      fixtureId: "mcp/tool-removed",
+    });
+    assert.ok(planned.some((p) => p.path.endsWith("agents.yaml") && p.action === "write"));
+  });
 });
