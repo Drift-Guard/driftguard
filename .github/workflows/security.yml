@@ -26,9 +26,17 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v3
+      - name: Secret scan
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.24.2/gitleaks_8.24.2_linux_x64.tar.gz | tar xz gitleaks
+          if [[ "${{ github.event_name }}" == "pull_request" && -n "$BASE_SHA" ]]; then
+            ./gitleaks git --log-opts="${BASE_SHA}..${HEAD_SHA}" --redact --verbose
+          else
+            ./gitleaks git --redact --verbose
+          fi
 
   dependency-review:
     name: Dependency review

@@ -16,6 +16,8 @@ For **agent preflight**, pair offline `compare_json` with FuseGuard runtime chec
 
 What's free vs paid: [OPEN_CORE.md](../../OPEN_CORE.md).
 
+**Hosted console:** Connect Cursor, Claude, or production agents from the [Agent Protection Hub](https://driftguard.org/docs/how-tos/connect-cursor) — step-by-step Connect wizard, activity feed, and direct runtime updates.
+
 ---
 
 ## CI plus continuous monitoring
