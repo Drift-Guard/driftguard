@@ -50,7 +50,7 @@ runs:
       run: |
         if [ -z "$DRIFTGUARD_API_KEY" ] && [ -z "$DRIFTGUARD_TRIAL_SESSION" ]; then
           echo "::warning::No API key — run drift-coverage-preview first, then add DRIFTGUARD_API_KEY or DRIFTGUARD_TRIAL_SESSION."
-          echo "Free preview: uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3"
+          echo "Free preview: uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3"
           exit 1
         fi
         driftguard assert-coverage

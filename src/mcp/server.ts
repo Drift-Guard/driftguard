@@ -155,7 +155,7 @@ server.tool(
   {},
   async () =>
     jsonResult({
-      repo: "https://github.com/kioie/driftguard",
+      repo: "https://github.com/Drift-Guard/driftguard",
       model: "open-core",
       primaryActivationEnv: "DRIFTGUARD_API_KEY",
       offlineTools: ["compare_json", "parse_mcp_config", "hosted_info", "explain_drift", "validate_payload"],

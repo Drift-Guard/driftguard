@@ -125,4 +125,21 @@ agents:
     assert.equal(result.ok, false);
     if (!result.ok) assert.ok(result.errors.some((e) => e.includes("mcp.configPath")));
   });
+
+  it("accepts optional mcp.lockServers", () => {
+    const result = validateAgentsYamlText(`
+version: 1
+agents:
+  - id: billing-refund
+    environment: staging
+    policy: staging-strict
+    mcp:
+      configPath: .cursor/mcp.json
+      lockServers: [stripe, github]
+    watches:
+      - type: mcp
+        url: https://mcp.stripe.com/mcp
+`);
+    assert.equal(result.ok, true);
+  });
 });

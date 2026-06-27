@@ -1,0 +1,33 @@
+# Contract Manifest level 2 — level 1 + harness bundle lint
+
+```yaml
+name: DriftGuard Contract Manifest (level 2)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  mcp-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/mcp-lockfile@v0.3.3
+
+  harness-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/drift-harness-lint@v0.3.3
+        with:
+          bundle: .driftguard
+
+  coverage-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+```
+
+Bootstrap: `driftguard adopt --level 2`

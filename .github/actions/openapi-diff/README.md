@@ -3,7 +3,7 @@
 Fail CI when an OpenAPI spec introduces breaking changes.
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/openapi-diff@v0
+- uses: Drift-Guard/driftguard/.github/actions/openapi-diff@v0
   with:
     base: openapi/base.yaml
     target: openapi/openapi.yaml

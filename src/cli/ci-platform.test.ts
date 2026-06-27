@@ -37,8 +37,8 @@ describe("ci-platform", () => {
   });
 
   it("ciRepo falls back to GITHUB_REPOSITORY", () => {
-    process.env.GITHUB_REPOSITORY = "kioie/driftguard";
-    assert.equal(ciRepo(), "kioie/driftguard");
+    process.env.GITHUB_REPOSITORY = "Drift-Guard/driftguard";
+    assert.equal(ciRepo(), "Drift-Guard/driftguard");
   });
 
   it("ciRunId reads GitHub run id", () => {

@@ -58,7 +58,7 @@ Pin `@0.3.3` or use `@latest`. See [npm org chase](./npm-org-chase.md) for publi
 > **Clone fallback** (contributors or until `@driftguard` is on npm):
 >
 > ```bash
-> git clone https://github.com/kioie/driftguard.git
+> git clone https://github.com/Drift-Guard/driftguard.git
 > cd driftguard && npm ci && npm run build
 > npm run check -- version
 > ```
@@ -154,7 +154,7 @@ Pin a version and add breaking-diff detection to your pipeline. Start with the f
 **Simplest path:** copy [examples/workflows/driftguard-starter.yml](../examples/workflows/driftguard-starter.yml) to `.github/workflows/driftguard.yml`.
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.3
   with:
     before: '{"status":"ok","data":{"id":1}}'
     after: '{"status":"ok","data":{"id":1,"name":"test"}}'

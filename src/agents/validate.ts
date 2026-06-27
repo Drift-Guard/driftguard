@@ -29,6 +29,7 @@ const agentSchema = z.object({
   mcp: z
     .object({
       configPath: z.string().min(1),
+      lockServers: z.array(z.string().min(1)).optional(),
       skillToolMap: z.record(z.array(z.string().min(1))).optional(),
     })
     .optional(),

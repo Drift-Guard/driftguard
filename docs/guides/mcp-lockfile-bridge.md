@@ -1,13 +1,13 @@
 # Lockfile bridge (`driftguard lock` / `check`)
 
-**Status:** Spec (implementation tracked in OSS `kioie/driftguard`)  
+**Status:** Shipped in `@driftguard/driftguard` ≥0.3.3  
 **Goal:** Git-friendly MCP tool-schema baselines for CI without a hosted API key; optional hosted `register_watch` for post-deploy monitoring.
 
 ## Problem
 
 CI validates *your code against the current server* at deploy time. It cannot catch a third-party MCP server changing `tools/list` on Saturday night. Lockfile tools address the **pre-deploy half**; DriftGuard hosted watches address the **post-deploy half**.
 
-## Commands (planned)
+## Commands
 
 | Command | API key | Purpose |
 |---------|---------|---------|
@@ -65,16 +65,17 @@ Default `check` failure threshold: `breaking`. `--fail-on suspicious` for govern
 
 ## CI integration
 
-### GitHub Actions (planned)
+### GitHub Actions
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/mcp-lockfile@v1
+- uses: actions/checkout@v4
+- uses: Drift-Guard/driftguard/.github/actions/mcp-lockfile@v0.3.3
   with:
     lockfile: driftguard-lock.json
     fail-on: breaking
 ```
 
-Reuses existing drift-diff Action patterns; SARIF/Markdown report output is a follow-up.
+See [CI.md](../CI.md) for the dual lockfile + hosted-watch diagram and governance `--fail-on suspicious` example.
 
 ### Pair with hosted watch
 
@@ -101,3 +102,4 @@ Prod:   register_watch (MCP) → alert when vendor drifts between your deploys
 - [x] Unit tests mirror `packages/diff-core/tests/mcp.test.ts` severity cases
 - [x] [CI.md](../CI.md) documents lockfile + watch dual diagram
 - [x] [agent-mcp.md](./agent-mcp.md) links lockfile as step 2a before hosted watch
+- [x] GitHub Action `mcp-lockfile` ships with `@v0.3.3` pin in examples

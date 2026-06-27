@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install SchemaSync
-        run: pip install "schemasync @ git+https://github.com/kioie/driftguard.git#subdirectory=packages/schemasync"
+        run: pip install "schemasync @ git+https://github.com/Drift-Guard/driftguard.git#subdirectory=packages/schemasync"
       - name: Lint prompts (literal blocking)
         run: |
           set -euo pipefail

@@ -48,12 +48,12 @@ Prove external MCP/API dependencies are monitored before production deploy:
 ```yaml
 # .github/workflows/driftguard-coverage.yml
 # Template: examples/workflows/driftguard-coverage-gate.yml
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     scan-paths: mcp.json,.cursor/mcp.json,package.json
 
 # After trial or Pro key:
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.3
   env:
     DRIFTGUARD_API_KEY: ${{ secrets.DRIFTGUARD_API_KEY }}
   with:

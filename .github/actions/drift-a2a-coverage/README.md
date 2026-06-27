@@ -8,10 +8,10 @@ Pair with offline `drift-agents-lint` on every PR; add this gate after watches a
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: kioie/driftguard/.github/actions/drift-agents-lint@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-agents-lint@v0.3.3
   with:
     manifest: .driftguard/agents.yaml
-- uses: kioie/driftguard/.github/actions/drift-a2a-coverage@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-a2a-coverage@v0.3.3
   with:
     api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
     manifest: .driftguard/agents.yaml

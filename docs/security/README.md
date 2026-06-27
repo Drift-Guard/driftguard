@@ -2,7 +2,7 @@
 
 Public posture for the **open-source client** and how it relates to **hosted DriftGuard**. No hosted infrastructure secrets or operator runbooks in this repo — see [OPEN_CORE.md](../../OPEN_CORE.md).
 
-**Report client vulnerabilities:** [GitHub Issues](https://github.com/kioie/driftguard/issues) on `kioie/driftguard`. Do not disclose hosted control-plane details publicly.
+**Report client vulnerabilities:** [GitHub Issues](https://github.com/Drift-Guard/driftguard/issues) on `Drift-Guard/driftguard`. Do not disclose hosted control-plane details publicly.
 
 ---
 

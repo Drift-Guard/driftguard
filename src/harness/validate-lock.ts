@@ -13,6 +13,11 @@ const fixtureEntrySchema = z
   })
   .refine((f) => f.path || f.ref, { message: "fixture entry requires path or ref" });
 
+const mcpLockPinSchema = z.object({
+  path: z.string().min(1),
+  servers: z.array(z.string().min(1)).optional(),
+});
+
 const toolchangeManifestPinSchema = z.object({
   manifest: z.string().min(1),
   baseline: z.string().min(1),
@@ -30,8 +35,15 @@ export const harnessLockSchema = z.object({
   packages: z.record(z.string().min(1)).optional(),
   manifests: z
     .object({
+      mcp_lock: z.array(mcpLockPinSchema).min(1).optional(),
       toolchange: toolchangeManifestPinSchema.optional(),
       schemasync: schemasyncManifestPinSchema.optional(),
+      mockdrift_replay: z
+        .object({
+          watch_id: z.string().min(1),
+          fixture_key: z.string().min(1),
+        })
+        .optional(),
     })
     .optional(),
 });

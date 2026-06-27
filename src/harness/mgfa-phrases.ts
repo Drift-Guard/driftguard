@@ -5,6 +5,18 @@
 
 const RULES: ReadonlyArray<{ test: (error: string) => boolean; phrase: string }> = [
   {
+    test: (e) => e.startsWith("DG-LOCK-"),
+    phrase: "Dim 3 — MCP catalog baseline",
+  },
+  {
+    test: (e) => e.startsWith("DG-AGENT-"),
+    phrase: "Dim 1 — bound tool scope (declared bindings)",
+  },
+  {
+    test: (e) => e.startsWith("DG-MAN-"),
+    phrase: "Dim 3 — contract manifest",
+  },
+  {
     test: (e) => e === "missing gates.yaml" || e.startsWith("gates.yaml:"),
     phrase: "Dim 3 — reproducible pre-deploy baselines",
   },
@@ -19,6 +31,10 @@ const RULES: ReadonlyArray<{ test: (error: string) => boolean; phrase: string }>
   {
     test: (e) => e.startsWith("fixture "),
     phrase: "Dim 3 — pre-deployment safety testing",
+  },
+  {
+    test: (e) => e.startsWith("manifests.mcp_lock") || e.includes("manifests.mcp_lock"),
+    phrase: "Dim 3 — MCP catalog baseline",
   },
   {
     test: (e) => e.startsWith("manifests.toolchange"),

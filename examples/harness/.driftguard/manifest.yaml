@@ -1,0 +1,14 @@
+version: 1
+kind: agent-repo
+adoptionLevel: 2
+scanRoots:
+  - mcp.json
+  - .cursor/mcp.json
+lockfiles:
+  dir: .driftguard/mcp
+  primary: driftguard-lock.json
+  failOn: breaking
+  staleAfterDays: 30
+hosted:
+  required: false
+  minWatchCoverage: 1

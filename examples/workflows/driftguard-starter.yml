@@ -15,7 +15,7 @@ jobs:
   schema-hook:
     runs-on: ubuntu-latest
     steps:
-      - uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
+      - uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.3
         with:
           before: '{"status":"ok","data":{"id":1,"name":"test"}}'
           after: '{"status":"ok","data":{"id":1}}'
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+      - uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
         with:
           scan-paths: mcp.json,.cursor/mcp.json,package.json
 
@@ -34,7 +34,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v4
-  #     - uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+  #     - uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.3
   #       with:
   #         api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
   #         scan-paths: mcp.json,.cursor/mcp.json,package.json

@@ -5,9 +5,9 @@ branding:
   color: green
 inputs:
   lockfile:
-    description: Path to driftguard-lock.json
+    description: Path to driftguard-lock.json (defaults via manifest lockfile-path when manifest present)
     required: false
-    default: driftguard-lock.json
+    default: ""
   fail-on:
     description: Severity threshold — breaking, suspicious, warning, or info
     required: false
@@ -28,4 +28,8 @@ runs:
         FAIL_ON: ${{ inputs.fail-on }}
       run: |
         set -euo pipefail
-        driftguard check --lock "$LOCKFILE" --fail-on "$FAIL_ON"
+        LOCKFILE="${{ inputs.lockfile }}"
+        if [ -z "$LOCKFILE" ]; then
+          LOCKFILE="$(driftguard manifest lockfile-path)"
+        fi
+        driftguard check --lock "$LOCKFILE" --fail-on "$FAIL_ON" --write-summary

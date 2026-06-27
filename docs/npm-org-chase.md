@@ -16,7 +16,7 @@ Async playbook for securing and operating the **`@driftguard`** scoped namespace
 
 1. **Create or verify** npm org `driftguard` with 2FA required for all members.
 2. **Add maintainers** with publish access only — no personal publish tokens on laptops.
-3. **Create Automation token** scoped to publish; store as GitHub secret `NPM_TOKEN` on `kioie/driftguard`.
+3. **Create Automation token** scoped to publish; store as GitHub secret `NPM_TOKEN` on `Drift-Guard/driftguard`.
 4. **Run publish prep** before every tag:
 
    ```bash
@@ -48,7 +48,7 @@ If npm grants transfer of unscoped `driftguard`:
 
 ## Migration from legacy scoped names
 
-Older internal specs referenced `@kioie/driftguard-mcp`. **Do not** publish under `@kioie/*` — all consumer docs use `@driftguard/driftguard`.
+Older internal specs referenced `@Drift-Guard/driftguard-mcp`. **Do not** publish under `@kioie/*` — all consumer docs use `@driftguard/driftguard`.
 
 ## Related
 

@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: kioie/driftguard/.github/actions/setup-driftguard@v0.3.3
+      - uses: Drift-Guard/driftguard/.github/actions/setup-driftguard@v0.3.3
       - name: Golden ingress fixture (expect ok)
         run: |
           set -euo pipefail

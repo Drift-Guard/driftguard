@@ -1,6 +1,6 @@
 # DriftGuard — agent documentation index (repo root pointer)
 # Canonical sitemap: docs/llms.txt — edit that file only; do not duplicate here.
-# https://github.com/kioie/driftguard/blob/main/docs/llms.txt
+# https://github.com/Drift-Guard/driftguard/blob/main/docs/llms.txt
 
 > Repo-root crawlers: load docs/llms.txt for the full machine-readable index.
 > DriftGuard OSS client — structural diff + MCP. Continuous monitoring is hosted SaaS.

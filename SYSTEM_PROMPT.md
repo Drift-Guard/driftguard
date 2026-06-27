@@ -96,9 +96,9 @@ Exit code: `driftguard diff` exits **1** when `breakingCount > 0`.
 
 | Pin | Example |
 |-----|---------|
-| GitHub Action | `uses: kioie/driftguard/.github/actions/drift-diff@v0.3.1` |
+| GitHub Action | `uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.1` |
 | npx | `npx @driftguard/driftguard@0.3.3 diff '…' '…'` |
-| Coverage action | `uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.1` |
+| Coverage action | `uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.1` |
 
 See [docs/CI.md](docs/CI.md).
 

@@ -1,5 +1,5 @@
 # DriftGuard — agent documentation index
-# Machine-readable sitemap. Humans: https://github.com/kioie/driftguard/tree/main/docs
+# Machine-readable sitemap. Humans: https://github.com/Drift-Guard/driftguard/tree/main/docs
 # Hosted developer portal: https://developers.driftguard.org/llms.txt
 
 > DriftGuard catches schema drift before integrations break.

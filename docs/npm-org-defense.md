@@ -49,7 +49,7 @@ Release workflow publishes **`@driftguard/driftguard` first**, then **`@driftgua
 After scoped packages are live, deprecate the old third-party unscoped CLI name (not owned by this org):
 
 ```bash
-npm deprecate driftguard-cli@0.1.1 "Use @driftguard/cli or @driftguard/driftguard — https://github.com/kioie/driftguard"
+npm deprecate driftguard-cli@0.1.1 "Use @driftguard/cli or @driftguard/driftguard — https://github.com/Drift-Guard/driftguard"
 ```
 
 (Requires npm credentials if you own that package; otherwise document the migration path only.)

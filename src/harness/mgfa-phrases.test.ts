@@ -24,6 +24,15 @@ describe("harness lint MGFA phrase mapping", () => {
     );
   });
 
+  it("maps DG-LOCK codes to Dim 3 MCP catalog baseline", () => {
+    assert.equal(
+      mgfaPhraseForHarnessLintError(
+        "DG-LOCK-001 [error]: manifests.mcp_lock path not found (x.json)",
+      ),
+      "Dim 3 — MCP catalog baseline",
+    );
+  });
+
   it("maps manifest pins to Dim 3 change management themes", () => {
     assert.equal(
       mgfaPhraseForHarnessLintError("manifests.toolchange.manifest: path not found (x.json)"),

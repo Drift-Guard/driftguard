@@ -1,7 +1,6 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, appendFileSync } from "node:fs";
 import {
   diffMcpTools,
-  DEFAULT_LOCKFILE_PATH,
   parseLockfile,
   toolsFromProbe,
   type ChangeSeverity,
@@ -10,6 +9,8 @@ import {
 } from "@driftguard/diff-core";
 import { VERSION } from "../mcp/constants.js";
 import { fetchMcpToolsList } from "../core/mcp-probe.js";
+import { BUNDLE_LOCKFILE_DEFAULT, isDeprecatedLockPath } from "../manifest/paths.js";
+import { resolveLockfilePathFromRepo } from "../manifest/resolve-lockfile.js";
 
 export type CheckLockRunDeps = {
   fetchTools: (url: string) => Promise<McpToolSnapshot[]>;
@@ -25,6 +26,7 @@ export function parseCheckLockArgs(argv: string[]): {
   lockPath: string;
   failOn: ChangeSeverity;
   json: boolean;
+  writeSummary: boolean;
 } {
   const flags = new Set(argv.filter((a) => a.startsWith("--")));
   const positional = argv.filter((a) => !a.startsWith("--"));
@@ -40,9 +42,10 @@ export function parseCheckLockArgs(argv: string[]): {
   }
 
   return {
-    lockPath: valueAfter("--lock") ?? positional[0] ?? DEFAULT_LOCKFILE_PATH,
+    lockPath: valueAfter("--lock") ?? positional[0] ?? resolveLockfilePathFromRepo(),
     failOn: failOnRaw as ChangeSeverity,
     json: flags.has("--json"),
+    writeSummary: flags.has("--write-summary"),
   };
 }
 
@@ -79,9 +82,45 @@ export function mergeDiffResults(parts: DiffResult[]): DiffResult {
 }
 
 export function checkUsage(): string {
-  return `Usage: driftguard check [--lock driftguard-lock.json] [--fail-on breaking|suspicious|warning|info] [--json]
+  return `Usage: driftguard check [--lock ${BUNDLE_LOCKFILE_DEFAULT}] [--fail-on breaking|suspicious|warning|info] [--json]
 
 Diff live MCP tools/list catalogs against a lockfile (no API key).`;
+}
+
+function warnDeprecatedLockPath(lockPath: string): void {
+  if (isDeprecatedLockPath(lockPath)) {
+    console.warn(
+      `DG-LOCK-020 [warn]: ${lockPath} is deprecated — prefer ${BUNDLE_LOCKFILE_DEFAULT}`,
+    );
+  }
+}
+
+export function formatLockCheckMarkdown(lockPath: string, result: DiffResult): string {
+  const lines = [
+    "## MCP lockfile check",
+    "",
+    `Lockfile: \`${lockPath}\``,
+    "",
+    `| Severity | Count |`,
+    `|----------|-------|`,
+    `| breaking | ${result.breakingCount} |`,
+    `| suspicious | ${result.suspiciousCount} |`,
+    `| warning | ${result.warningCount} |`,
+    `| info | ${result.infoCount} |`,
+    "",
+  ];
+  if (result.changes.length) {
+    lines.push("### Changes", "");
+    for (const change of result.changes.slice(0, 20)) {
+      lines.push(`- **${change.severity}** \`${change.path}\`: ${change.message}`);
+    }
+    if (result.changes.length > 20) {
+      lines.push(`- …and ${result.changes.length - 20} more`);
+    }
+  } else {
+    lines.push("No drift detected.");
+  }
+  return lines.join("\n");
 }
 
 export async function runCheckLock(argv: string[], deps: CheckLockRunDeps = defaultDeps): Promise<number> {
@@ -99,6 +138,7 @@ export async function runCheckLock(argv: string[], deps: CheckLockRunDeps = defa
   }
 
   try {
+    warnDeprecatedLockPath(opts.lockPath);
     const lockfile = parseLockfile(JSON.parse(deps.readFile!(opts.lockPath)));
     const perServer: DiffResult[] = [];
 
@@ -134,6 +174,14 @@ export async function runCheckLock(argv: string[], deps: CheckLockRunDeps = defa
       }
     } else {
       console.log("No drift detected");
+    }
+
+    if (opts.writeSummary && process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(
+        process.env.GITHUB_STEP_SUMMARY,
+        `${formatLockCheckMarkdown(opts.lockPath, result)}\n`,
+        "utf8",
+      );
     }
 
     return shouldFailCheck(result, opts.failOn) ? 1 : 0;

@@ -10,7 +10,7 @@ Part of the **hook → preview → Pro gate** funnel — non-blocking by default
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     scan-paths: mcp.json,.cursor/mcp.json,package.json
 ```
@@ -18,7 +18,7 @@ Part of the **hook → preview → Pro gate** funnel — non-blocking by default
 **Explicit payloads** — when files are generated in an earlier step:
 
 ```yaml
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     files-json: '[{"path":"mcp.json","content":"..."}]'
 ```
@@ -50,4 +50,4 @@ Stdout is JSON with `missingCount`, discovered endpoints, and `upgrade` links. W
 
 Non-blocking by default → Step Summary → trial secret → [Pro gate](./drift-coverage/README.md).
 
-Docs: [docs/CI.md](https://github.com/kioie/driftguard/blob/main/docs/CI.md) · Marketplace path: [docs/GITHUB_MARKETPLACE.md](https://github.com/kioie/driftguard/blob/main/docs/GITHUB_MARKETPLACE.md)
+Docs: [docs/CI.md](https://github.com/Drift-Guard/driftguard/blob/main/docs/CI.md) · Marketplace path: [docs/GITHUB_MARKETPLACE.md](https://github.com/Drift-Guard/driftguard/blob/main/docs/GITHUB_MARKETPLACE.md)

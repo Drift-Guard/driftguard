@@ -1,6 +1,6 @@
 # DriftGuard
 
-[![CI](https://github.com/kioie/driftguard/actions/workflows/ci.yml/badge.svg)](https://github.com/kioie/driftguard/actions/workflows/ci.yml)
+[![CI](https://github.com/Drift-Guard/driftguard/actions/workflows/ci.yml/badge.svg)](https://github.com/Drift-Guard/driftguard/actions/workflows/ci.yml)
 
 **Catch API and schema changes before your integrations break.**
 
@@ -15,12 +15,12 @@ Use **schema drift CI** (`compare_json`, GitHub Actions) before merge; use hoste
 
 ### Not to be confused with
 
-Many projects share the name **DriftGuard**. This repo ([kioie/driftguard](https://github.com/kioie/driftguard)) is **API and MCP schema drift** monitoring — canonical product: [driftguard.org](https://driftguard.org).
+Many projects share the name **DriftGuard**. This repo ([Drift-Guard/driftguard](https://github.com/Drift-Guard/driftguard)) is **API and MCP schema drift** monitoring — canonical product: [driftguard.org](https://driftguard.org).
 
 - **[npm `driftguard`](https://www.npmjs.com/package/driftguard)** — UI linter (sjamcox), not schema drift.
 - **[npm `driftguard-mcp`](https://www.npmjs.com/package/driftguard-mcp)** — conversation-drift MCP (jschoemaker), not contract monitoring.
 - **[getdriftguard](https://www.npmjs.com/package/driftguard-cli)** — API schema CLI under npm user `driftguard`; different vendor and scope.
-- **GitHub orgs / ML libs** — assorted `driftguard` repos (GitOps, Python ML, etc.); verify `kioie/driftguard` or driftguard.org before integrating.
+- **GitHub orgs / ML libs** — assorted `driftguard` repos (GitOps, Python ML, etc.); verify `Drift-Guard/driftguard` or driftguard.org before integrating.
 
 See [docs/DISCOVERY.md](docs/DISCOVERY.md) and [docs/npm-org-chase.md](docs/npm-org-chase.md) for the `@driftguard` scoped npm publish path.
 
@@ -116,18 +116,18 @@ Pin the client version and follow the **hook → preview → trial → gate** fu
 
 ```yaml
 # 1. Hook (free)
-- uses: kioie/driftguard/.github/actions/drift-diff@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-diff@v0.3.3
   with:
     before: '{"id":1}'
     after: '{"id":1,"name":"x"}'
 
 # 2. Preview (free — links to console, non-blocking)
-- uses: kioie/driftguard/.github/actions/drift-coverage-preview@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
   with:
     files-json: '[{"path":"mcp.json","content":"..."}]'
 
 # 3. Gate (Pro API key — blocks until all deps watched)
-- uses: kioie/driftguard/.github/actions/drift-coverage@v0.3.3
+- uses: Drift-Guard/driftguard/.github/actions/drift-coverage@v0.3.3
   with:
     api-key: ${{ secrets.DRIFTGUARD_API_KEY }}
     files-json: '...'
