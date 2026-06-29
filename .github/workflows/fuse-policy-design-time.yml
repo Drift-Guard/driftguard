@@ -1,0 +1,84 @@
+name: FuseGuard policy (design-time)
+
+on:
+  pull_request:
+    paths:
+      - "examples/fuseguard/**"
+      - "**/fuse.policy.yaml"
+      - "**/fuse.policy.yml"
+      - "**/*policy*.json"
+      - "packages/fuseguard/fuseguard/policy_lint.py"
+      - ".github/actions/drift-fuse-policy-lint/**"
+      - ".github/workflows/fuse-policy-design-time.yml"
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lint:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/drift-fuse-policy-lint
+        with:
+          policy-path: examples/fuseguard/fuse.policy.yaml
+          simulate-tool: delete_file
+          simulate-environment: production
+
+  simulate-comment:
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '/fuse-simulate')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Run simulate from comment
+        id: sim
+        shell: bash
+        env:
+          BODY: ${{ github.event.comment.body }}
+        run: |
+          set -euo pipefail
+          pip install -e packages/fuseguard
+          TOOL=$(echo "$BODY" | sed -n 's/.*tool=\([^[:space:]]*\).*/\1/p' | head -1)
+          POLICY=$(echo "$BODY" | sed -n 's/.*policy=\([^[:space:]]*\).*/\1/p' | head -1)
+          ENV=$(echo "$BODY" | sed -n 's/.*environment=\([^[:space:]]*\).*/\1/p' | head -1)
+          TOOL=${TOOL:-delete_file}
+          POLICY=${POLICY:-examples/fuseguard/fuse.policy.yaml}
+          ENV=${ENV:-production}
+          echo "tool=$TOOL" >> "$GITHUB_OUTPUT"
+          echo "policy=$POLICY" >> "$GITHUB_OUTPUT"
+          OUT=$(fuseguard policy simulate "$POLICY" --tool "$TOOL" --environment "$ENV" 2>&1 || true)
+          {
+            echo 'result<<EOF'
+            echo "$OUT"
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+      - name: Comment simulate result
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ steps.sim.outputs.result }}
+          TOOL: ${{ steps.sim.outputs.tool }}
+          POLICY: ${{ steps.sim.outputs.policy }}
+        run: |
+          BODY=$(cat <<EOF
+          ### FuseGuard policy simulate
+
+          **tool:** \`${TOOL}\`
+          **policy:** \`${POLICY}\`
+
+          \`\`\`json
+          ${RESULT}
+          \`\`\`
+          EOF
+          )
+          gh api "repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" \
+            -f body="$BODY"

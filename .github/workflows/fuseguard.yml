@@ -6,13 +6,19 @@ on:
     paths:
       - "packages/fuseguard/**"
       - "packages/mockdrift/mockdrift/loop_detect.py"
+      - "extensions/fuseguard-vscode/**"
       - ".github/workflows/fuseguard.yml"
+      - ".github/workflows/fuse-policy-design-time.yml"
+      - ".github/actions/drift-fuse-policy-lint/**"
   pull_request:
     branches: [main]
     paths:
       - "packages/fuseguard/**"
       - "packages/mockdrift/mockdrift/loop_detect.py"
+      - "extensions/fuseguard-vscode/**"
       - ".github/workflows/fuseguard.yml"
+      - ".github/workflows/fuse-policy-design-time.yml"
+      - ".github/actions/drift-fuse-policy-lint/**"
   workflow_dispatch:
 
 permissions:

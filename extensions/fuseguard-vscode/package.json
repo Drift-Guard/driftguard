@@ -10,6 +10,16 @@
     "commands": [
       { "command": "fuseguard.showStatus", "title": "FuseGuard: Show status" },
       { "command": "fuseguard.enroll", "title": "FuseGuard: Enroll device" }
-    ]
+    ],
+    "configuration": {
+      "title": "FuseGuard",
+      "properties": {
+        "fuseguard.refreshIntervalSec": {
+          "type": "number",
+          "default": 60,
+          "description": "Status bar refresh interval (seconds)"
+        }
+      }
+    }
   }
 }

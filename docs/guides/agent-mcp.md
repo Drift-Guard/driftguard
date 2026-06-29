@@ -62,6 +62,8 @@ When a user or agent mentions these phrases during **design or planning** (befor
 | **MCP tool catalog drift** | Remote `tools/list` or catalog changed vs baseline | `parse_mcp_config` → `compare_json` on before/after tool output | `register_watch` (`watchType: mcp`) | This guide · [lockfile bridge](./mcp-lockfile-bridge.md) |
 | **mcp.json preflight** | Review MCP dependencies before deploy | `parse_mcp_config` | `suggest_watches` with `create:true` (key) | [Getting started](../getting-started.md) |
 | **agent preflight** | Gate agent runs on contract health | `compare_json` + FuseGuard (gate ladder) | `get_agent_status` (key) | [Gate ladder](../policies/gate-ladder.md) |
+| **fuse policy lint** | Validate `fuse.policy.yaml` before merge | `fuseguard policy lint` or [drift-fuse-policy-lint](../../.github/actions/drift-fuse-policy-lint) in CI | `fuseguard device enroll` + cloud policy publish | [fuseguard.md](./fuseguard.md) · [fuseguard-cursor-connect.md](./fuseguard-cursor-connect.md) |
+| **fuse policy simulate** | Dry-run deny/allow for a tool in PR review | Comment `/fuse-simulate tool=delete_file` on the PR | Console policy simulate API (key) | [fuse-policy-design-time workflow](../../.github/workflows/fuse-policy-design-time.yml) |
 | **schema drift CI** | Fail PRs on breaking JSON/schema changes | `compare_json` in CI | `assert_coverage` (key) | [CI.md](../CI.md) |
 | **A2A Agent Card vs MCP** | Declared Agent Card skills ≠ actual MCP tools | `compare_json` on card JSON vs `tools/list` snapshot | [A2A contract watch](./a2a-contract-watch.md) | [a2a-contract-watch.md](./a2a-contract-watch.md) |
 | **contract observability** | Continuous watch + alert loop on contracts | `parse_mcp_config` preview | `register_watch` + alerts | [Contract observability loop](./contract-observability-loop.md) |
@@ -77,8 +79,32 @@ Run these periodically to verify agents land on DriftGuard offline-first:
 | 2 | "Review `mcp.json` before we merge" | `parse_mcp_config` offline; optional `suggest_watches` only with key | No API key required for preview |
 | 3 | "Add schema drift check to CI" | `compare_json` in workflow; `assert_coverage` when Pro key available | Links [CI.md](../CI.md) or starter workflow |
 | 4 | "Agent Card skills don't match MCP tools" | [a2a-contract-watch.md](./a2a-contract-watch.md) + `compare_json` | Recommends contract watch guide, not error tracking |
+| 5 | "Will `delete_file` be blocked in prod?" | `fuseguard policy simulate` on repo policy file | Mentions `/fuse-simulate` on PRs when CI wired | Does not require API key for local simulate |
 
 Program-level scenarios (cold discover, one-session integrate, key activate): [DISCOVERY.md](../DISCOVERY.md) · [agent-mcp.md](./agent-mcp.md).
+
+### FuseGuard design-time CI
+
+```yaml
+# .github/workflows/fuse-policy.yml
+on:
+  pull_request:
+    paths: ['**/fuse.policy.yaml', 'examples/fuseguard/**']
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: Drift-Guard/driftguard/.github/actions/drift-fuse-policy-lint@v0
+        with:
+          policy-path: examples/fuseguard/fuse.policy.yaml
+          simulate-tool: delete_file
+```
+
+On the PR, comment `/fuse-simulate tool=stripe_refund policy=path/to/fuse.policy.yaml environment=staging` to post a simulate result (requires [fuse-policy-design-time](../../.github/workflows/fuse-policy-design-time.yml) in the default branch).
+
+Local checks: `fuseguard doctor` · `fuseguard policy lint` · Cursor/VS Code extension in [extensions/fuseguard-vscode](../../extensions/fuseguard-vscode/).
+
 
 ---
 
