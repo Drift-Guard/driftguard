@@ -12,7 +12,7 @@ if [[ -z "${PR_NUMBER:-}" ]]; then
   exit 1
 fi
 
-MODEL="${OPENROUTER_MODEL:-anthropic/claude-3.5-haiku}"
+MODEL="${OPENROUTER_MODEL:-openrouter/free}"
 REPO="${GITHUB_REPOSITORY}"
 MAX_DIFF_CHARS="${OPENROUTER_MAX_DIFF_CHARS:-60000}"
 EXCLUDE_DIFF_PATHS="${OPENROUTER_EXCLUDE_DIFF_PATHS:-package-lock.json yarn.lock}"
@@ -125,11 +125,15 @@ http_code="$(curl -sS -o "$response_file" -w '%{http_code}' \
 if [[ "$http_code" != "200" ]]; then
   echo "OpenRouter API failed with HTTP ${http_code}:"
   cat "$response_file"
-  if [[ "$http_code" == "402" || "$http_code" == "413" ]]; then
+  if [[ "$http_code" == "402" || "$http_code" == "413" || "$http_code" == "429" ]]; then
+    skip_reason="the prompt exceeded OpenRouter limits (HTTP ${http_code})"
+    if [[ "$http_code" == "429" ]]; then
+      skip_reason="OpenRouter free-tier rate limits were hit (HTTP 429) — retry later or set \`OPENROUTER_MODEL\` to a paid model"
+    fi
     gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$(cat <<EOF
 ## OpenRouter PR review skipped
 
-Automated review was skipped because the prompt exceeded OpenRouter limits (HTTP ${http_code}).
+Automated review was skipped because ${skip_reason}.
 
 Lockfile-only churn is excluded from review diffs; re-run after shortening the PR or upgrading OpenRouter credits. Comment \`/review\` to retry.
 EOF
