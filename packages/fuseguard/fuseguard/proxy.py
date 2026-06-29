@@ -17,7 +17,10 @@ class FuseProxy:
         self.monitor = FuseMonitor(config=config or FuseConfig.from_env())
 
     def invoke(self, tool: str, args: dict[str, Any], *, estimated_cost_usd: float = 0.0) -> Any:
-        self.monitor.assert_pre_call_gates(tool, args, estimated_cost_usd=estimated_cost_usd)
+        resolved_cost = estimated_cost_usd
+        if resolved_cost <= 0 and self.monitor.policy_bundle is not None:
+            resolved_cost = self.monitor.policy_bundle.cost_for_tool(tool)
+        self.monitor.assert_pre_call_gates(tool, args, estimated_cost_usd=resolved_cost)
         try:
             result = self.handler(tool, args)
         except FuseTrip:
@@ -38,5 +41,5 @@ class FuseProxy:
             self.monitor.record_call(tool=tool, args=args, status_code=status_code, error_class=error_class)
             return result
         self.monitor.assert_response_valid(tool, result)
-        self.monitor.record_spend(estimated_cost_usd)
+        self.monitor.record_spend(resolved_cost)
         return result

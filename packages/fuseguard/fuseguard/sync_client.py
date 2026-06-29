@@ -28,6 +28,26 @@ def save_device(data: dict[str, Any]) -> None:
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
 
+def _policy_cache_paths() -> tuple[Path, Path]:
+    base = Path.home() / ".fuseguard"
+    return base / "policy.bundle.json", base / "policy.etag"
+
+
+def _cache_policy_bundle(bundle: PolicyBundle, etag: str | None) -> None:
+    cache_path, etag_path = _policy_cache_paths()
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    cache_path.write_text(json.dumps(bundle.raw, indent=2) + "\n", encoding="utf-8")
+    if etag:
+        etag_path.write_text(etag.strip(), encoding="utf-8")
+
+
+def _load_cached_policy_bundle() -> PolicyBundle | None:
+    cache_path, _ = _policy_cache_paths()
+    if not cache_path.is_file():
+        return None
+    return PolicyBundle.load_path(cache_path)
+
+
 class SyncClient:
     def __init__(
         self,
@@ -41,6 +61,7 @@ class SyncClient:
         self.api_key = api_key or os.environ.get("DRIFTGUARD_API_KEY", "").strip() or None
         self.device_credential = device_credential
         self.store = store or LocalStore.open()
+        self._policy_cdn_url: str | None = None
         device = load_device()
         if not self.device_credential:
             self.device_credential = device.get("credential")
@@ -54,6 +75,33 @@ class SyncClient:
         return headers
 
     def pull_policy_bundle(self, etag: str | None = None) -> PolicyBundle | None:
+        _, etag_path = _policy_cache_paths()
+        if etag is None and etag_path.is_file():
+            etag = etag_path.read_text(encoding="utf-8").strip() or None
+        if self._policy_cdn_url:
+            cdn_bundle = self._pull_policy_from_cdn(self._policy_cdn_url, etag)
+            if cdn_bundle is not None:
+                return cdn_bundle
+        return self._pull_policy_from_api(etag)
+
+    def _pull_policy_from_cdn(self, url: str, etag: str | None) -> PolicyBundle | None:
+        req = urllib.request.Request(url, method="GET", headers={"Accept": "application/json", "User-Agent": "FuseGuard/0.2"})
+        if etag:
+            req.add_header("If-None-Match", etag)
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                raw = resp.read().decode("utf-8")
+                data = json.loads(raw)
+                bundle = PolicyBundle.from_dict(data if isinstance(data, dict) else {})
+                new_etag = resp.headers.get("ETag")
+                _cache_policy_bundle(bundle, new_etag)
+                return bundle
+        except urllib.error.HTTPError as exc:
+            if exc.code == 304:
+                return _load_cached_policy_bundle()
+            return None
+
+    def _pull_policy_from_api(self, etag: str | None) -> PolicyBundle | None:
         url = f"{self.api_base}/v1/fuseguard/policy/bundle"
         req = urllib.request.Request(url, method="GET", headers=self._headers())
         if etag:
@@ -63,18 +111,12 @@ class SyncClient:
                 raw = resp.read().decode("utf-8")
                 data = json.loads(raw)
                 bundle = PolicyBundle.from_dict(data.get("bundle") or data)
-                cache_path = Path.home() / ".fuseguard" / "policy.bundle.json"
-                cache_path.parent.mkdir(parents=True, exist_ok=True)
-                cache_path.write_text(json.dumps(bundle.raw, indent=2) + "\n", encoding="utf-8")
                 new_etag = resp.headers.get("ETag")
-                if new_etag:
-                    (Path.home() / ".fuseguard" / "policy.etag").write_text(new_etag.strip(), encoding="utf-8")
+                _cache_policy_bundle(bundle, new_etag)
                 return bundle
         except urllib.error.HTTPError as exc:
             if exc.code == 304:
-                cache_path = Path.home() / ".fuseguard" / "policy.bundle.json"
-                if cache_path.is_file():
-                    return PolicyBundle.load_path(cache_path)
+                return _load_cached_policy_bundle()
             return None
 
     def push_pending(self) -> int:
@@ -102,14 +144,18 @@ class SyncClient:
             with urllib.request.urlopen(req, timeout=15) as resp:
                 if path.endswith("/heartbeat"):
                     payload = json.loads(resp.read().decode("utf-8"))
-                    if isinstance(payload, dict) and "killSwitchActive" in payload:
-                        self.apply_cloud_kill_switch(bool(payload["killSwitchActive"]))
+                    if isinstance(payload, dict):
+                        if "killSwitchActive" in payload:
+                            self.apply_cloud_kill_switch(bool(payload["killSwitchActive"]))
+                        cdn_url = payload.get("policyCdnUrl")
+                        if isinstance(cdn_url, str) and cdn_url.strip():
+                            self._policy_cdn_url = cdn_url.strip()
                 return 200 <= resp.status < 300
         except urllib.error.HTTPError:
             return False
 
     def apply_cloud_kill_switch(self, active: bool) -> None:
-        cache_path = Path.home() / ".fuseguard" / "policy.bundle.json"
+        cache_path, _ = _policy_cache_paths()
         if not cache_path.is_file():
             return
         data = json.loads(cache_path.read_text(encoding="utf-8"))

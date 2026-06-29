@@ -73,10 +73,13 @@ class FuseMonitor:
     def assert_pre_call_gates(self, tool: str, args: dict[str, Any], *, estimated_cost_usd: float = 0.0) -> None:
         if not self.enabled:
             return
+        resolved_cost = estimated_cost_usd
+        if resolved_cost <= 0 and self.policy_bundle is not None:
+            resolved_cost = self.policy_bundle.cost_for_tool(tool)
         self._assert_kill_switch()
         self._assert_policy(tool, args)
         self._assert_rate()
-        self.assert_pre_call_budget(estimated_cost_usd)
+        self.assert_pre_call_budget(resolved_cost)
         self.assert_contract_drift_clear()
 
     def _assert_kill_switch(self) -> None:
