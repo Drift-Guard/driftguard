@@ -14,13 +14,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - name: Apply fg-test labels from diff
         id: apply
         env:
           GH_TOKEN: ${{ github.token }}
           FG_LABEL_REPO: oss
         run: |
-          FILES="$(gh pr diff "${{ github.event.pull_request.number }}" --name-only)"
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          FILES="$(git diff --name-only "$BASE" "$HEAD")"
           LABELS="$(printf '%s\n' "$FILES" | node scripts/fg-pr-label-from-diff.mjs)"
           {
             echo "computed<<EOF"
