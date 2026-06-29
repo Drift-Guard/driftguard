@@ -21,7 +21,10 @@ def wrap_agent(runner: ToolRunner, config: FuseConfig | None = None) -> ToolRunn
             ingress_key = os.environ.get("FUSEGUARD_INGRESS_PAYLOAD_ARG", "").strip()
             if ingress_key and isinstance(args.get(ingress_key), dict):
                 monitor.assert_ingress_valid(args[ingress_key], tool=tool)
-            monitor.assert_pre_call_gates(tool, args, estimated_cost_usd=estimated_cost_usd)
+            resolved_cost = estimated_cost_usd
+            if resolved_cost <= 0 and monitor.policy_bundle is not None:
+                resolved_cost = monitor.policy_bundle.cost_for_tool(tool)
+            monitor.assert_pre_call_gates(tool, args, estimated_cost_usd=resolved_cost)
             try:
                 result = runner.invoke_tool(tool, args)
             except FuseTrip:
@@ -35,7 +38,7 @@ def wrap_agent(runner: ToolRunner, config: FuseConfig | None = None) -> ToolRunn
                     raise
                 raise
             monitor.assert_response_valid(tool, result)
-            monitor.record_spend(estimated_cost_usd)
+            monitor.record_spend(resolved_cost)
             return result
 
         @property

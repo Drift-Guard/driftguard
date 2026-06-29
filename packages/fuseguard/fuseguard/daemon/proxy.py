@@ -20,7 +20,10 @@ class DaemonProxy:
         self.monitor = monitor or FuseMonitor.from_env()
 
     def invoke(self, tool: str, args: dict[str, Any], *, estimated_cost_usd: float = 0.0) -> Any:
-        self.monitor.assert_pre_call_gates(tool, args, estimated_cost_usd=estimated_cost_usd)
+        resolved_cost = estimated_cost_usd
+        if resolved_cost <= 0 and self.monitor.policy_bundle is not None:
+            resolved_cost = self.monitor.policy_bundle.cost_for_tool(tool)
+        self.monitor.assert_pre_call_gates(tool, args, estimated_cost_usd=resolved_cost)
         ingress_key = None
         if isinstance(args.get("arguments"), dict):
             self.monitor.assert_ingress_valid(args["arguments"], tool=tool)
@@ -42,7 +45,7 @@ class DaemonProxy:
             self.monitor.record_call(tool=tool, args=args, status_code=status_code, error_class=err_class)
             return result
         self.monitor.assert_response_valid(tool, result)
-        self.monitor.record_spend(estimated_cost_usd)
+        self.monitor.record_spend(resolved_cost)
         return result
 
     def serve(self, host: str = "127.0.0.1", port: int = 9477) -> None:

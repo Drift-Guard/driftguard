@@ -102,6 +102,25 @@
     "profiles": {
       "type": "object",
       "additionalProperties": { "type": "object" }
+    },
+    "costs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "defaultUsdPerBlock": { "type": "number", "minimum": 0 },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["toolPattern", "usdPerCall"],
+            "additionalProperties": false,
+            "properties": {
+              "toolPattern": { "type": "string", "minLength": 1 },
+              "usdPerCall": { "type": "number", "minimum": 0 }
+            }
+          }
+        }
+      }
     }
   }
 }
