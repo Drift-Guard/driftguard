@@ -15,21 +15,29 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Apply fg-test labels from diff
+        id: apply
         env:
           GH_TOKEN: ${{ github.token }}
           FG_LABEL_REPO: oss
         run: |
           FILES="$(gh pr diff "${{ github.event.pull_request.number }}" --name-only)"
+          LABELS="$(printf '%s\n' "$FILES" | node scripts/fg-pr-label-from-diff.mjs)"
+          {
+            echo "computed<<EOF"
+            echo "$LABELS"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
           while IFS= read -r label; do
             [[ -n "$label" ]] || continue
             gh pr edit "${{ github.event.pull_request.number }}" --add-label "$label" || true
-          done < <(printf '%s\n' "$FILES" | node scripts/fg-pr-label-from-diff.mjs)
+          done <<< "$LABELS"
       - name: Require at least one fg-test/* label
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          LABELS="$(gh pr view "${{ github.event.pull_request.number }}" --json labels -q '.labels[].name')"
-          if ! grep -q '^fg-test/' <<< "$LABELS"; then
+          PR_LABELS="$(gh pr view "${{ github.event.pull_request.number }}" --json labels -q '.labels[].name')"
+          COMBINED="${PR_LABELS}"$'\n'"${{ steps.apply.outputs.computed }}"
+          if ! grep -q '^fg-test/' <<< "$COMBINED"; then
             echo "::error::PR must have at least one fg-test/* label (see docs/FG-PR-LABELS.md)"
             exit 1
           fi
