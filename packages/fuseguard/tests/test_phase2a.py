@@ -116,7 +116,7 @@ def test_fg_t07_trip_log_schema(tmp_path: Path):
     """FG-T07: trip log validates against JSON schema."""
     jsonschema = pytest.importorskip("jsonschema")
     schema = json.loads(
-        (Path(__file__).resolve().parents[1] / "fuseguard" / "trip_log.schema.json").read_text()
+        (Path(__file__).resolve().parents[1] / "fuseguard" / "trip_log.v2.schema.json").read_text()
     )
     log_path = tmp_path / "trip.json"
     monitor = FuseMonitor(config=FuseConfig(max_identical_tool_hashes=1, trip_log_path=str(log_path)))

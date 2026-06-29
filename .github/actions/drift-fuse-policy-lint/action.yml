@@ -1,0 +1,14 @@
+name: drift-fuse-policy-lint
+description: Lint FuseGuard policy bundle (fuse.policy.yaml or JSON)
+inputs:
+  policy-path:
+    description: Path to policy file
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Lint policy
+      shell: bash
+      run: |
+        pip install -e packages/fuseguard
+        fuseguard policy lint "${{ inputs.policy-path }}"

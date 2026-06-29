@@ -1,0 +1,38 @@
+version: 1
+bundleVersion: "1"
+orgId: local-dev
+features:
+  policy:
+    enabled: true
+    defaultMode: enforce
+  driftPreflight:
+    enabled: false
+  killSwitch:
+    active: false
+rules:
+  - id: deny-destructive
+    action: deny
+    match:
+      toolPattern: "*delete*"
+  - id: deny-shell
+    action: deny
+    match:
+      toolPattern: "bash_*"
+assignments:
+  - priority: 100
+    rules: [deny-destructive, deny-shell]
+    match:
+      environment: production
+profiles:
+  search:
+    schema:
+      type: object
+      required: [query]
+      properties:
+        query: { type: string }
+  search:response:
+    schema:
+      type: object
+      required: [results]
+      properties:
+        results: { type: array }

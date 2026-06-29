@@ -50,6 +50,8 @@ Install `sonar-scanner` via Homebrew (`brew install sonar-scanner`) or rely on t
 
 Optional: `bash scripts/install-githooks.sh` to run `ci:local` automatically on `git push`.
 
+**FuseGuard program PRs:** apply `fg-test/*` labels per [cloud FG-PR-LABELS](https://github.com/kioie/driftguard-cloud/blob/main/docs/FG-PR-LABELS.md) (private repo); OSS uses `fg-test/oss-pytest`, `fg-test/oss-ci-local`, `fg-test/oss-schema`, `fg-test/oss-ip-audit`.
+
 ## Pull requests
 
 1. Keep changes focused — one concern per PR
