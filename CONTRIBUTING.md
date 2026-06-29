@@ -50,7 +50,7 @@ Install `sonar-scanner` via Homebrew (`brew install sonar-scanner`) or rely on t
 
 Optional: `bash scripts/install-githooks.sh` to run `ci:local` automatically on `git push`.
 
-**FuseGuard program PRs:** apply `fg-test/*` labels per [cloud FG-PR-LABELS](https://github.com/kioie/driftguard-cloud/blob/main/docs/FG-PR-LABELS.md) (private repo); OSS uses `fg-test/oss-pytest`, `fg-test/oss-ci-local`, `fg-test/oss-schema`, `fg-test/oss-ip-audit`.
+**FuseGuard program PRs:** every PR needs at least one `fg-test/*` label — see [docs/FG-PR-LABELS.md](docs/FG-PR-LABELS.md). The [fg-pr-labeler](.github/workflows/fg-pr-labeler.yml) workflow applies labels from the diff automatically.
 
 ## Pull requests
 
@@ -58,6 +58,7 @@ Optional: `bash scripts/install-githooks.sh` to run `ci:local` automatically on 
 2. Run **`npm run ci:local`** before pushing
 3. Update [SYSTEM_PROMPT.md](SYSTEM_PROMPT.md) if MCP tools or env vars change
 4. Follow MCP tool description conventions in [AGENTS.md](AGENTS.md)
+5. FuseGuard changes: confirm `fg-test/*` labels on the PR (auto-applied or manual per [docs/FG-PR-LABELS.md](docs/FG-PR-LABELS.md))
 
 ## AI agents
 

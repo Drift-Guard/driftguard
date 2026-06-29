@@ -72,6 +72,9 @@ SKIP_NPM_CI=1 bash .github/scripts/check-coverage.sh 60
 step "npm audit (production, high+)"
 npm audit --audit-level=high --omit=dev
 
+step "OSS IP boundary audit (FG-S18)"
+bash scripts/audit-oss-boundary.sh
+
 step "Drift detection smoke"
 BEFORE='{"status":"ok","data":{"id":1,"name":"test"}}'
 AFTER='{"status":"ok","data":{"id":1}}'
