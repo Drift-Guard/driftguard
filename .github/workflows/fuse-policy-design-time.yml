@@ -47,7 +47,7 @@ jobs:
           BODY: ${{ github.event.comment.body }}
         run: |
           set -euo pipefail
-          pip install -e packages/fuseguard
+          pip install -e packages/mockdrift -e "packages/fuseguard[dev]"
           TOOL=$(echo "$BODY" | sed -n 's/.*tool=\([^[:space:]]*\).*/\1/p' | head -1)
           POLICY=$(echo "$BODY" | sed -n 's/.*policy=\([^[:space:]]*\).*/\1/p' | head -1)
           ENV=$(echo "$BODY" | sed -n 's/.*environment=\([^[:space:]]*\).*/\1/p' | head -1)

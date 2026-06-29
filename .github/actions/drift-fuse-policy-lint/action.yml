@@ -29,7 +29,7 @@ runs:
         SIM_ENV: ${{ inputs.simulate-environment }}
       run: |
         set -euo pipefail
-        pip install -e packages/fuseguard
+        pip install -e packages/mockdrift -e "packages/fuseguard[dev]"
         fuseguard policy lint "$POLICY_PATH"
         if [ -n "$SIM_TOOL" ]; then
           fuseguard policy simulate "$POLICY_PATH" --tool "$SIM_TOOL" --environment "$SIM_ENV"
