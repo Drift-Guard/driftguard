@@ -9,6 +9,7 @@ from typing import Any
 
 from fuseguard.local_store import LocalStore
 from fuseguard.policy_bundle import PolicyBundle
+from fuseguard.trace_upload import MAX_TRACE_PAYLOAD_BYTES, build_trace_upload_payload, trim_trips_to_size_cap
 
 
 def device_json_path() -> Path:
@@ -150,9 +151,24 @@ class SyncClient:
                         cdn_url = payload.get("policyCdnUrl")
                         if isinstance(cdn_url, str) and cdn_url.strip():
                             self._policy_cdn_url = cdn_url.strip()
+                        trace_req = payload.get("traceRequest")
+                        if isinstance(trace_req, dict):
+                            req_id = trace_req.get("traceRequestId")
+                            since = trace_req.get("since")
+                            if isinstance(req_id, str) and isinstance(since, str):
+                                self.upload_trace(req_id, since)
                 return 200 <= resp.status < 300
         except urllib.error.HTTPError:
             return False
+
+    def upload_trace(self, trace_request_id: str, since_iso: str) -> bool:
+        if self.store is None:
+            self.store = LocalStore.open()
+        trips, byte_size = build_trace_upload_payload(self.store, since_iso)
+        if byte_size > MAX_TRACE_PAYLOAD_BYTES:
+            trips = trim_trips_to_size_cap(trips)
+        body = {"traceRequestId": trace_request_id, "trips": trips}
+        return self._post_json("/v1/fuseguard/devices/trace", body)
 
     def apply_cloud_kill_switch(self, active: bool) -> None:
         cache_path, _ = _policy_cache_paths()

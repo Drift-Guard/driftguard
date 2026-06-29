@@ -58,6 +58,12 @@ def main() -> None:
     doctor = sub.add_parser("doctor", help="Diagnose local fuse setup")
     doctor.add_argument("--json", action="store_true", help="Emit JSON report")
 
+    trace = sub.add_parser("trace", help="Hosted trace pull upload")
+    trace_sub = trace.add_subparsers(dest="trace_command", required=True)
+    trace_upload = trace_sub.add_parser("upload", help="Upload local trips for a trace request")
+    trace_upload.add_argument("--request-id", required=True)
+    trace_upload.add_argument("--since", required=True)
+
     args = parser.parse_args()
 
     if args.command == "validate-trip-log":
@@ -82,6 +88,8 @@ def main() -> None:
         _export_cef(args.since)
     elif args.command == "doctor":
         _doctor(json_output=args.json)
+    elif args.command == "trace" and args.trace_command == "upload":
+        _trace_upload(args.request_id, args.since)
     else:
         parser.print_help()
         sys.exit(2)
@@ -196,6 +204,15 @@ def _doctor(*, json_output: bool = False) -> None:
     else:
         print(format_doctor_report_text(report))
     sys.exit(0 if report.get("ok") else 1)
+
+
+def _trace_upload(request_id: str, since: str) -> None:
+    client = SyncClient()
+    ok = client.upload_trace(request_id, since)
+    if not ok:
+        print("trace upload failed", file=sys.stderr)
+        sys.exit(1)
+    print(json.dumps({"ok": True, "traceRequestId": request_id}))
 
 
 if __name__ == "__main__":
