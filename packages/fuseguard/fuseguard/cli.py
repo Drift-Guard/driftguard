@@ -50,6 +50,10 @@ def main() -> None:
     export_sub = export.add_subparsers(dest="export_command", required=True)
     trips = export_sub.add_parser("trips", help="Export trips since timestamp")
     trips.add_argument("--since", required=True)
+    otel = export_sub.add_parser("otel", help="Export trips as OTel span JSONL")
+    otel.add_argument("--since", required=True)
+    cef = export_sub.add_parser("cef", help="Export trips as CEF lines")
+    cef.add_argument("--since", required=True)
 
     doctor = sub.add_parser("doctor", help="Diagnose local fuse setup")
 
@@ -71,6 +75,10 @@ def main() -> None:
             _device_show()
     elif args.command == "export" and args.export_command == "trips":
         _export_trips(args.since)
+    elif args.command == "export" and args.export_command == "otel":
+        _export_otel(args.since)
+    elif args.command == "export" and args.export_command == "cef":
+        _export_cef(args.since)
     elif args.command == "doctor":
         _doctor()
     else:
@@ -158,6 +166,24 @@ def _export_trips(since: str) -> None:
     store = LocalStore.open()
     for row in store.export_trips_since(since):
         print(json.dumps(row))
+
+
+def _export_otel(since: str) -> None:
+    from fuseguard.local_store import LocalStore
+    from fuseguard.otel_export import trip_to_otel_span
+
+    store = LocalStore.open()
+    for row in store.export_trips_since(since):
+        print(json.dumps(trip_to_otel_span(row)))
+
+
+def _export_cef(since: str) -> None:
+    from fuseguard.local_store import LocalStore
+    from fuseguard.otel_export import trip_to_cef
+
+    store = LocalStore.open()
+    for row in store.export_trips_since(since):
+        print(trip_to_cef(row))
 
 
 def _doctor() -> None:

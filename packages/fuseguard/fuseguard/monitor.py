@@ -256,6 +256,7 @@ class FuseMonitor:
                     "createdAt": trip.created_at,
                     "evalTrace": trip.eval_trace,
                     "policyRuleIds": trip.policy_rule_ids,
+                    "idempotencyKey": trip.trip_id,
                 }
                 self.store.enqueue_sync("block", index_row)
                 try:
