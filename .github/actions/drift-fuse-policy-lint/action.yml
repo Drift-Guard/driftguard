@@ -32,5 +32,9 @@ runs:
         pip install -e packages/mockdrift -e "packages/fuseguard[dev]"
         fuseguard policy lint "$POLICY_PATH"
         if [ -n "$SIM_TOOL" ]; then
-          fuseguard policy simulate "$POLICY_PATH" --tool "$SIM_TOOL" --environment "$SIM_ENV"
+          fuseguard policy simulate "$POLICY_PATH" --tool "$SIM_TOOL" --environment "$SIM_ENV" || {
+            ec=$?
+            # exit 1 = policy_denied (expected for destructive tools in demo policy)
+            if [ "$ec" -ne 1 ]; then exit "$ec"; fi
+          }
         fi
