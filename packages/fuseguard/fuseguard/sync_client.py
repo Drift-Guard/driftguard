@@ -100,9 +100,30 @@ class SyncClient:
         req = urllib.request.Request(url, data=data, method="POST", headers=self._headers())
         try:
             with urllib.request.urlopen(req, timeout=15) as resp:
+                if path.endswith("/heartbeat"):
+                    payload = json.loads(resp.read().decode("utf-8"))
+                    if isinstance(payload, dict) and "killSwitchActive" in payload:
+                        self.apply_cloud_kill_switch(bool(payload["killSwitchActive"]))
                 return 200 <= resp.status < 300
         except urllib.error.HTTPError:
             return False
+
+    def apply_cloud_kill_switch(self, active: bool) -> None:
+        cache_path = Path.home() / ".fuseguard" / "policy.bundle.json"
+        if not cache_path.is_file():
+            return
+        data = json.loads(cache_path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            return
+        features = data.setdefault("features", {})
+        if not isinstance(features, dict):
+            return
+        kill = features.setdefault("killSwitch", {})
+        if not isinstance(kill, dict):
+            kill = {}
+            features["killSwitch"] = kill
+        kill["active"] = bool(active)
+        cache_path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
     def enroll(self, token: str, device_meta: dict[str, Any]) -> dict[str, Any]:
         payload = {"token": token, **device_meta}
