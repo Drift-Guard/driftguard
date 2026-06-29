@@ -36,6 +36,19 @@ Point Cursor MCP at `http://127.0.0.1:9477` (see [fuseguard-cursor-connect](./fu
 
 Within ~60s of a block, the **Fuse → Activity** feed shows an index row (trip id, reason, device — no raw args).
 
+## 6. Optional — FuseGuard Edge (premium overlay)
+
+When your workspace has the **FuseGuard Edge** overlay enabled, configure hosted relay and LLM proxy URLs from the console **Fuse → Edge** tab.
+
+Environment variables for OSS clients (values come from the console — do not commit secrets):
+
+```bash
+export FUSEGUARD_RELAY_URL="…"          # Hosted MCP relay URL
+export OPENAI_BASE_URL="…"              # LLM proxy openai base from console
+```
+
+See [FuseGuard overview](./fuseguard.md) and [driftguard.org/features/fuseguard](https://driftguard.org/features/fuseguard).
+
 ## Related
 
 - [FuseGuard overview](./fuseguard.md)

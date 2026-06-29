@@ -74,6 +74,8 @@ Integration surfaces: MCP/HTTP proxy (`FuseProxy`), runner wrap (`wrap_agent`), 
 
 **FuseGuard Cloud** (hosted, GA): device enroll, fleet activity, policy publish, metrics, diagnostics — [quickstart](../guides/fuseguard-cloud-quickstart.md) · [console](https://driftguard.org/console?view=fuse) · [features](https://driftguard.org/features/fuseguard).
 
+**FuseGuard Edge** (hosted premium overlay): optional hosted MCP relay and LLM token proxy with policy enforcement — configure from the console when enabled on your plan; OSS clients use env vars documented in the quickstart (no proprietary endpoint URLs in this repo).
+
 ---
 
 ## Gate 2B — agents.yaml lint (shipped)
