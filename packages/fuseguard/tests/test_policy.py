@@ -115,3 +115,20 @@ def test_fg_u_015_policy_perf():
         evaluate_policy(bundle, EvalContext(tool="tool_50"))
     elapsed = time.perf_counter() - start
     assert elapsed < 1.0
+
+
+def test_fg_u_055_kill_switch_in_bundle():
+    bundle = PolicyBundle.from_dict(
+        {
+            "version": 1,
+            "bundleVersion": "1",
+            "features": {"killSwitch": {"active": True}, "policy": {"enabled": True}},
+            "rules": [],
+            "assignments": [],
+            "profiles": {},
+        }
+    )
+    assert bundle.kill_switch_active()
+    result = evaluate_policy(bundle, EvalContext(tool="delete_file"))
+    assert not result.allowed
+    assert result.reason == "kill_switch_active"
