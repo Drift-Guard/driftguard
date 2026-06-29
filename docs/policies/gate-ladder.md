@@ -72,7 +72,7 @@ Assertion v2 scenarios replay expected vs drifted responses in tests.
 
 Integration surfaces: MCP/HTTP proxy (`FuseProxy`), runner wrap (`wrap_agent`), local daemon (`fuseguard daemon start`). Disable: `DRIFTGUARD_FUSE=0`.
 
-**FuseGuard Cloud** (hosted): device enroll, fleet activity, policy publish, diagnostics — [quickstart](../guides/fuseguard-cloud-quickstart.md) · [driftguard.org](https://driftguard.org/console).
+**FuseGuard Cloud** (hosted, GA): device enroll, fleet activity, policy publish, metrics, diagnostics — [quickstart](../guides/fuseguard-cloud-quickstart.md) · [console](https://driftguard.org/console?view=fuse) · [features](https://driftguard.org/features/fuseguard).
 
 ---
 

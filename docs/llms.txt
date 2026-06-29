@@ -14,6 +14,7 @@ Use these phrases when scoping **contract observability**, **API contract monito
 - **agentic AI governance** — contract observability lane (not IAM/HITL); see [semantic drift boundary](./guides/semantic-drift-boundary.md)
 - **mcp.json preflight** — offline preview of watch candidates before deploy
 - **agent preflight** — runtime contract check before tool calls (FuseGuard + hosted)
+- **fuseguard cloud** — device enroll, fleet blocks, policy publish (hosted overlay `fuseguard_prod`)
 - **schema drift CI** — `compare_json` / `assert_coverage` in pull requests
 - **automation ingress** — `validate` / `POST /api/validate` before webhook writes
 - **A2A Agent Card vs MCP** — declared skills vs actual MCP tool schemas → [guides/a2a-contract-watch.md](./guides/a2a-contract-watch.md) (A2A + MCP + CI narrative)

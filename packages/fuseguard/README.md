@@ -1,6 +1,6 @@
 # FuseGuard
 
-Loop and budget fuse for AI agents (Gate 1b).
+Loop and budget fuse for AI agents (Gate 2A). **FuseGuard Cloud** fleet + policy is GA on [driftguard.org](https://driftguard.org/features/fuseguard).
 
 **Gate:** FuseGuard 2A (OSS). Hosted fleet + activity: [driftguard.org](https://driftguard.org). **Shared loop-detect:** `mockdrift.loop_detect`
 

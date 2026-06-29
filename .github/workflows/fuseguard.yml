@@ -42,3 +42,6 @@ jobs:
             packages/mockdrift/pyproject.toml
       - run: pip install -e "../mockdrift" -e ".[dev]"
       - run: pytest tests/ -v --tb=short
+      - name: OSS IP boundary audit
+        working-directory: .
+        run: bash scripts/audit-oss-boundary.sh
