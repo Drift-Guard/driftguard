@@ -56,6 +56,7 @@ def main() -> None:
     cef.add_argument("--since", required=True)
 
     doctor = sub.add_parser("doctor", help="Diagnose local fuse setup")
+    doctor.add_argument("--json", action="store_true", help="Emit JSON report")
 
     args = parser.parse_args()
 
@@ -80,7 +81,7 @@ def main() -> None:
     elif args.command == "export" and args.export_command == "cef":
         _export_cef(args.since)
     elif args.command == "doctor":
-        _doctor()
+        _doctor(json_output=args.json)
     else:
         parser.print_help()
         sys.exit(2)
@@ -186,23 +187,15 @@ def _export_cef(since: str) -> None:
         print(trip_to_cef(row))
 
 
-def _doctor() -> None:
-    config = FuseConfig.from_env()
-    device = ensure_device_id()
-    policy_path = config.policy_path or Path.home() / ".fuseguard" / "policy.bundle.json"
-    lines = [
-        f"fuse enabled: {config.api_key is not None or True}",
-        f"deviceId: {device.get('deviceId')}",
-        f"policy: {policy_path if Path(str(policy_path)).is_file() else 'missing'}",
-        f"db: {config.local_db_path or LocalStore_path()}",
-    ]
-    print("\n".join(lines))
+def _doctor(*, json_output: bool = False) -> None:
+    from fuseguard.doctor import build_doctor_report, format_doctor_report_text
 
-
-def LocalStore_path() -> str:
-    from fuseguard.local_store import default_db_path
-
-    return str(default_db_path())
+    report = build_doctor_report()
+    if json_output:
+        print(json.dumps(report, indent=2))
+    else:
+        print(format_doctor_report_text(report))
+    sys.exit(0 if report.get("ok") else 1)
 
 
 if __name__ == "__main__":

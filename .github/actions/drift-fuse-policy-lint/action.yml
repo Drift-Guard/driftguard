@@ -1,14 +1,40 @@
 name: drift-fuse-policy-lint
-description: Lint FuseGuard policy bundle (fuse.policy.yaml or JSON)
+description: Lint FuseGuard policy bundle and optionally simulate a tool call (design-time CI)
+branding:
+  icon: shield
+  color: blue
 inputs:
   policy-path:
-    description: Path to policy file
+    description: Path to policy file (YAML or JSON)
     required: true
+  simulate-tool:
+    description: Optional tool name to run policy simulate after lint
+    required: false
+    default: ""
+  simulate-environment:
+    description: Environment tag for simulate (e.g. production, staging)
+    required: false
+    default: "production"
 runs:
   using: composite
   steps:
+    - uses: actions/setup-python@v6
+      with:
+        python-version: "3.12"
     - name: Lint policy
       shell: bash
+      env:
+        POLICY_PATH: ${{ inputs.policy-path }}
+        SIM_TOOL: ${{ inputs.simulate-tool }}
+        SIM_ENV: ${{ inputs.simulate-environment }}
       run: |
-        pip install -e packages/fuseguard
-        fuseguard policy lint "${{ inputs.policy-path }}"
+        set -euo pipefail
+        pip install -e packages/mockdrift -e "packages/fuseguard[dev]"
+        fuseguard policy lint "$POLICY_PATH"
+        if [ -n "$SIM_TOOL" ]; then
+          fuseguard policy simulate "$POLICY_PATH" --tool "$SIM_TOOL" --environment "$SIM_ENV" || {
+            ec=$?
+            # exit 1 = policy_denied (expected for destructive tools in demo policy)
+            if [ "$ec" -ne 1 ]; then exit "$ec"; fi
+          }
+        fi
