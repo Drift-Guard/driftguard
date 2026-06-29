@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "bundleVersion": "1",
+  "features": {
+    "policy": { "enabled": true, "defaultMode": "enforce" }
+  },
+  "rules": [],
+  "assignments": [],
+  "profiles": {}
+}

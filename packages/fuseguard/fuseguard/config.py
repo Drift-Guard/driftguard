@@ -27,6 +27,12 @@ class FuseConfig:
     ingress_mode: str = "block"
     ingress_webhook_url: str | None = None
     ingress_timeout_sec: float = 15.0
+    policy_path: str | None = None
+    rate_max_per_minute: int | None = None
+    local_db_path: str | None = None
+    environment: str | None = None
+    agent_type: str | None = None
+    sync_on_trip: bool = True
 
     def has_drift_gate(self) -> bool:
         return bool(self.api_key and (self.watch_ids or self.agent_id))
@@ -55,6 +61,7 @@ class FuseConfig:
         ingress_mode = os.environ.get("FUSEGUARD_INGRESS_MODE", "block").strip() or "block"
         ingress_webhook = os.environ.get("FUSEGUARD_INGRESS_WEBHOOK_URL", "").strip() or None
         ingress_timeout = os.environ.get("FUSEGUARD_INGRESS_TIMEOUT_SEC", "15").strip()
+        rate_raw = os.environ.get("FUSEGUARD_RATE_MAX_PER_MINUTE", "").strip()
         return cls(
             max_identical_tool_hashes=int(os.environ.get("FUSEGUARD_MAX_IDENTICAL_HASHES", "3")),
             window_steps=int(os.environ.get("FUSEGUARD_WINDOW_STEPS", "10")),
@@ -72,4 +79,10 @@ class FuseConfig:
             ingress_mode=ingress_mode,
             ingress_webhook_url=ingress_webhook,
             ingress_timeout_sec=float(ingress_timeout) if ingress_timeout else 15.0,
+            policy_path=os.environ.get("FUSEGUARD_POLICY_PATH", "").strip() or None,
+            rate_max_per_minute=int(rate_raw) if rate_raw else None,
+            local_db_path=os.environ.get("FUSEGUARD_DB_PATH", "").strip() or None,
+            environment=os.environ.get("FUSEGUARD_ENVIRONMENT", "").strip() or None,
+            agent_type=os.environ.get("FUSEGUARD_AGENT_TYPE", "").strip() or None,
+            sync_on_trip=os.environ.get("FUSEGUARD_SYNC_ON_TRIP", "1").strip() != "0",
         )

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://driftguard.org/schemas/fuse/policy-bundle.v1.json",
+  "title": "FuseGuardPolicyBundleV1",
+  "type": "object",
+  "required": ["version", "features"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "bundleVersion": { "type": "string", "minLength": 1 },
+    "orgId": { "type": "string" },
+    "features": {
+      "type": "object",
+      "properties": {
+        "loop": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "maxIdenticalHashes": { "type": "integer", "minimum": 1 },
+            "windowSteps": { "type": "integer", "minimum": 1 },
+            "sameErrorStreak": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "budget": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "capUsdPerRun": { "type": "number", "minimum": 0 }
+          }
+        },
+        "rate": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "maxPerMinute": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "defaultMode": { "enum": ["enforce", "audit", "warn"] }
+          }
+        },
+        "driftPreflight": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" }
+          }
+        },
+        "killSwitch": {
+          "type": "object",
+          "properties": {
+            "active": { "type": "boolean" },
+            "mode": { "enum": ["read_only", "block_all"] }
+          }
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "action"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "action": { "enum": ["allow", "deny", "audit", "warn"] },
+          "match": {
+            "type": "object",
+            "properties": {
+              "toolPattern": { "type": "string" },
+              "endpointPattern": { "type": "string" },
+              "agentType": { "type": "string" },
+              "environment": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["priority", "rules"],
+        "properties": {
+          "priority": { "type": "integer" },
+          "match": {
+            "type": "object",
+            "properties": {
+              "agentType": { "type": "string" },
+              "environment": { "type": "string" },
+              "deviceTag": { "type": "string" }
+            }
+          },
+          "rules": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": { "type": "object" }
+    }
+  }
+}

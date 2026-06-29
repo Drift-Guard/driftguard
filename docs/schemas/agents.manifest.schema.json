@@ -54,6 +54,11 @@
           "type": "array",
           "minItems": 1,
           "items": { "$ref": "#/$defs/watch" }
+        },
+        "tool_costs": {
+          "type": "object",
+          "description": "Optional per-tool USD estimate for blocked calls (Agent Protection savings). Use _default for unlisted tools.",
+          "additionalProperties": { "type": "number", "minimum": 0 }
         }
       }
     },

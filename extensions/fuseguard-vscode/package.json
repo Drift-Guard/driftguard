@@ -1,0 +1,15 @@
+{
+  "name": "fuseguard-vscode",
+  "displayName": "FuseGuard",
+  "description": "FuseGuard device status and enroll (MVP)",
+  "version": "0.1.0",
+  "engines": { "vscode": "^1.85.0" },
+  "activationEvents": ["onStartupFinished"],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "fuseguard.showStatus", "title": "FuseGuard: Show status" },
+      { "command": "fuseguard.enroll", "title": "FuseGuard: Enroll device" }
+    ]
+  }
+}

@@ -7,7 +7,18 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal
 
-TripReason = Literal["loop_detected", "budget_exceeded", "contract_drift_blocked"]
+TripReason = Literal[
+    "loop_detected",
+    "budget_exceeded",
+    "contract_drift_blocked",
+    "policy_denied",
+    "rate_limited",
+    "ingress_validate_blocked",
+    "response_schema_drift",
+    "kill_switch_active",
+    "device_unenrolled",
+    "stale_policy_bundle",
+]
 
 
 @dataclass
@@ -29,6 +40,16 @@ class Trip:
     calls: list[CallRecord] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
     agent_action: str | None = None
+    device_id: str | None = None
+    org_id: str | None = None
+    agent_id: str | None = None
+    run_id: str | None = None
+    parent_run_id: str | None = None
+    environment: str | None = None
+    endpoint_host: str | None = None
+    policy_bundle_version: str | None = None
+    policy_rule_ids: list[str] = field(default_factory=list)
+    eval_trace: list[dict[str, Any]] = field(default_factory=list)
 
     def primary_agent_action(self) -> str | None:
         if self.agent_action:
@@ -87,6 +108,26 @@ class Trip:
         }
         if self.agent_action:
             payload["agentAction"] = self.agent_action
+        if self.device_id:
+            payload["deviceId"] = self.device_id
+        if self.org_id:
+            payload["orgId"] = self.org_id
+        if self.agent_id:
+            payload["agentId"] = self.agent_id
+        if self.run_id:
+            payload["runId"] = self.run_id
+        if self.parent_run_id:
+            payload["parentRunId"] = self.parent_run_id
+        if self.environment:
+            payload["environment"] = self.environment
+        if self.endpoint_host:
+            payload["endpointHost"] = self.endpoint_host
+        if self.policy_bundle_version:
+            payload["policyBundleVersion"] = self.policy_bundle_version
+        if self.policy_rule_ids:
+            payload["policyRuleIds"] = self.policy_rule_ids
+        if self.eval_trace:
+            payload["evalTrace"] = self.eval_trace
         return payload
 
 

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://driftguard.org/schemas/fuseguard/trip-log.v2.json",
+  "title": "FuseGuardTripLogV2",
+  "type": "object",
+  "required": ["tripId", "reason", "createdAt", "calls"],
+  "properties": {
+    "tripId": {
+      "type": "string",
+      "pattern": "^fg_[0-9a-f]{12}$"
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "loop_detected",
+        "budget_exceeded",
+        "contract_drift_blocked",
+        "policy_denied",
+        "rate_limited",
+        "ingress_validate_blocked",
+        "response_schema_drift",
+        "kill_switch_active",
+        "device_unenrolled",
+        "stale_policy_bundle"
+      ]
+    },
+    "createdAt": { "type": "string" },
+    "toolName": { "type": ["string", "null"] },
+    "watchId": { "type": ["string", "null"] },
+    "agentAction": { "type": "string" },
+    "deviceId": { "type": "string" },
+    "orgId": { "type": "string" },
+    "agentId": { "type": "string" },
+    "runId": { "type": "string" },
+    "parentRunId": { "type": "string" },
+    "environment": { "type": "string" },
+    "endpointHost": { "type": "string" },
+    "policyBundleVersion": { "type": "string" },
+    "policyRuleIds": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evalTrace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ruleId", "matched", "action"],
+        "properties": {
+          "ruleId": { "type": "string" },
+          "matched": { "type": "boolean" },
+          "action": { "type": "string" },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "calls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step", "tool", "argsHash"],
+        "properties": {
+          "step": { "type": "integer", "minimum": 1 },
+          "tool": { "type": "string", "minLength": 1 },
+          "argsHash": { "type": "string", "minLength": 8 },
+          "statusCode": { "type": ["integer", "null"] },
+          "errorClass": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "metadata": { "type": "object" }
+  }
+}

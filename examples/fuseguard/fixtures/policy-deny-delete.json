@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "bundleVersion": "1",
+  "features": {
+    "policy": { "enabled": true, "defaultMode": "enforce" }
+  },
+  "rules": [
+    {
+      "id": "deny-delete",
+      "action": "deny",
+      "match": { "toolPattern": "*delete*" }
+    }
+  ],
+  "assignments": [
+    { "priority": 10, "rules": ["deny-delete"], "match": {} }
+  ],
+  "profiles": {}
+}
