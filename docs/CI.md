@@ -100,6 +100,12 @@ driftguard lock --update
 driftguard check --lock driftguard-lock.json --fail-on suspicious
 ```
 
+### Builder conformance (partner CI)
+
+If you **ship** an MCP server, add invocation tests with your conformance harness **in addition to** catalog lockfile gates. DriftGuard does not replace `tools/call` probes — see [mcp-conformance-partners.md](./guides/mcp-conformance-partners.md).
+
+Copy [examples/workflows/mcp-conformance-stub.yml](../examples/workflows/mcp-conformance-stub.yml) for a GitHub Actions layout: commented partner harness job + active `mcp-lockfile` check.
+
 ---
 
 ## Layer 2 — Preview (free, hooks upgrade)

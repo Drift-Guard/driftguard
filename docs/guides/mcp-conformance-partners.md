@@ -77,3 +77,5 @@ A minimal hosted extension could sample `tools/call` on watch check with safe re
 - [agent-mcp.md](./agent-mcp.md) — offline-first tool order + CI + watch dual path
 - [gate-ladder.md](../policies/gate-ladder.md) — MockDrift, FuseGuard, ToolChange, SchemaSync
 - [mcp-lockfile-bridge.md](./mcp-lockfile-bridge.md) — `driftguard lock` / `check` (OSS)
+- [CI.md](../CI.md) — MCP lockfile action + hosted watch funnel
+- [examples/workflows/mcp-conformance-stub.yml](../../examples/workflows/mcp-conformance-stub.yml) — GitHub Actions stub pairing partner conformance with `mcp-lockfile`

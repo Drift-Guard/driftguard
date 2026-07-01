@@ -92,8 +92,17 @@ Prod:   register_watch (MCP) → alert when vendor drifts between your deploys
 
 ## Out of scope (v1)
 
-- Live `tools/call` conformance (see [mcp-conformance-partners.md](./mcp-conformance-partners.md)).
+- Live `tools/call` conformance (see [mcp-conformance-partners.md](./mcp-conformance-partners.md) and [examples/workflows/mcp-conformance-stub.yml](../../examples/workflows/mcp-conformance-stub.yml)).
 - Fuzzy tool-rename detection across unrelated names (future enhancement).
+
+## Related docs
+
+| Topic | Guide |
+|-------|--------|
+| CI funnel (lockfile + hosted watch) | [CI.md](../CI.md) § MCP lockfile + hosted watch |
+| Agent MCP tool order + dual path | [agent-mcp.md](./agent-mcp.md) |
+| Builder `tools/call` conformance (partner CI) | [mcp-conformance-partners.md](./mcp-conformance-partners.md) |
+| Copy-paste workflow (conformance stub + lockfile gate) | [examples/workflows/mcp-conformance-stub.yml](../../examples/workflows/mcp-conformance-stub.yml) |
 
 ## Definition of done
 
