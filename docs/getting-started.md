@@ -50,12 +50,12 @@ Guide detail: [mockdrift init + fixtures](./guides/mockdrift-init-fixtures.md) �
 **Recommended** — run the CLI via npx (Node.js 20+, no clone):
 
 ```bash
-npx @driftguard/driftguard@latest version
+npx @drift-guard/driftguard@latest version
 ```
 
 Pin `@0.3.3` or use `@latest`. See [npm org chase](./npm-org-chase.md) for publish status.
 
-> **Clone fallback** (contributors or until `@driftguard` is on npm):
+> **Clone fallback** (contributors or until `@drift-guard` is on npm):
 >
 > ```bash
 > git clone https://github.com/Drift-Guard/driftguard.git
@@ -72,7 +72,7 @@ Pin `@0.3.3` or use `@latest`. See [npm org chase](./npm-org-chase.md) for publi
 Compare two JSON payloads. Exit code `1` means at least one **breaking** change was found.
 
 ```bash
-npx @driftguard/driftguard@latest diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'
+npx @drift-guard/driftguard@latest diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'
 ```
 
 From a local clone: `npm run check -- diff …`
@@ -105,7 +105,7 @@ Add DriftGuard to Cursor, Claude Desktop, Windsurf, or Zed via stdio.
   "mcpServers": {
     "driftguard": {
       "command": "npx",
-      "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"],
+      "args": ["-y", "@drift-guard/driftguard@0.3.3", "mcp"],
       "env": {
         "DRIFTGUARD_API_KEY": ""
       }
@@ -207,7 +207,7 @@ Call **`hosted_info`** anytime to see which tools need an API key.
 
 **Full client path:**
 
-- [ ] `npx @driftguard/driftguard@latest version` (or clone + `npm ci && npm run build`)
+- [ ] `npx @drift-guard/driftguard@latest version` (or clone + `npm ci && npm run build`)
 - [ ] First `diff` with breaking vs additive output understood
 - [ ] MCP client connected; `compare_json` works in agent
 - [ ] `parse_mcp_config` run on project `mcp.json`

@@ -16,7 +16,7 @@ Copy [examples/gitlab-ci.yml](../../examples/gitlab-ci.yml) into your repo root.
 | Trial gate | `driftguard assert-coverage` | `DRIFTGUARD_TRIAL_SESSION` | Yes (1 endpoint) |
 | Pro gate | `driftguard assert-coverage` | `DRIFTGUARD_API_KEY` | Yes |
 
-**Pin:** `npx @driftguard/driftguard@0.3.3` — never `@latest` in production.
+**Pin:** `npx @drift-guard/driftguard@0.3.3` — never `@latest` in production.
 
 ---
 

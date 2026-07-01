@@ -21,8 +21,8 @@ const cliPkgPath = path.join(root, "packages/cli/package.json");
 if (fs.existsSync(cliPkgPath)) {
   const cliPkg = JSON.parse(fs.readFileSync(cliPkgPath, "utf8"));
   cliPkg.version = version;
-  if (cliPkg.dependencies?.["@driftguard/driftguard"]) {
-    cliPkg.dependencies["@driftguard/driftguard"] = `^${version}`;
+  if (cliPkg.dependencies?.["@drift-guard/driftguard"]) {
+    cliPkg.dependencies["@drift-guard/driftguard"] = `^${version}`;
   }
   fs.writeFileSync(cliPkgPath, JSON.stringify(cliPkg, null, 2) + "\n");
   console.log(`Synced packages/cli/package.json → ${version}`);

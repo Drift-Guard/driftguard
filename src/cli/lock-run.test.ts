@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
-import { parseLockfile } from "@driftguard/diff-core";
+import { parseLockfile } from "@drift-guard/diff-core";
 import { parseLockArgs, runLock, type LockRunDeps } from "./lock-run.js";
 
 describe("lock-run", () => {
@@ -38,7 +38,7 @@ describe("lock-run", () => {
     assert.equal(code, 0);
     const lockfile = parseLockfile(JSON.parse(writes[0]!));
     assert.equal(lockfile.lockfileVersion, 1);
-    assert.equal(lockfile.generator, "@driftguard/driftguard");
+    assert.equal(lockfile.generator, "@drift-guard/driftguard");
     assert.equal(lockfile.servers[0]?.transport, "streamable-http");
     assert.equal(lockfile.servers[0]?.tools[0]?.name, "search_products");
     rmSync(dir, { recursive: true, force: true });
@@ -80,7 +80,7 @@ describe("lock-run", () => {
     const out = join(dir, "driftguard-lock.json");
     const existing = {
       lockfileVersion: 1,
-      generator: "@driftguard/driftguard",
+      generator: "@drift-guard/driftguard",
       generatedAt: "2026-01-01T00:00:00.000Z",
       servers: [
         {

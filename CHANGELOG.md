@@ -11,7 +11,7 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 ### Added
 
 - **MCP lockfile:** `driftguard lock` / `driftguard check` for offline HTTP `tools/list` baselines; `mcp-lockfile` GitHub Action; diff-core lockfile normalizer and severity matrix tests.
-- **Automation ingress:** `validateAgainstProfile` in `@driftguard/diff-core`, `driftguard validate` CLI, MCP `validate_payload`, golden ingress fixtures, consumer profile JSON Schema.
+- **Automation ingress:** `validateAgainstProfile` in `@drift-guard/diff-core`, `driftguard validate` CLI, MCP `validate_payload`, golden ingress fixtures, consumer profile JSON Schema.
 - **Docs:** `docs/reference/validate-api.md`, `docs/guides/automation-ingress.md`, gate ladder L2.5 runtime ingress gate.
 - **Examples:** n8n `driftguard-ingress-gate.json` workflow, `ingress-validate.yml` and `openapi-compatibility-gate.yml` CI workflows.
 - CI: `scan-paths` on coverage actions — no manual `files-json` build step; starter workflow, GitLab guide, Marketplace checklist.
@@ -20,6 +20,16 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 ### Removed
 
 - Public roadmap page and `docs/ROADMAP.md` — semantic drift remains an upcoming **Pro/Team** feature until launch.
+
+## [0.3.4] - 2026-07-01
+
+### Changed
+
+- npm scope **`@drift-guard/*`** (org `drift-guard`) — replaces `@driftguard/*` in package names, docs, and `server.json`.
+
+### Added
+
+- First public npm publish: `@drift-guard/driftguard` and defensive alias `@drift-guard/cli`.
 
 ## [0.3.3] - 2026-05-30
 

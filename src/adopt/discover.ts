@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { listMcpJsonHttpServers, LockfileError } from "@driftguard/diff-core";
+import { listMcpJsonHttpServers, LockfileError } from "@drift-guard/diff-core";
 import type { ContractManifest } from "../manifest/validate.js";
 
 const SCAN_CANDIDATES = ["mcp.json", ".cursor/mcp.json", "package.json"] as const;

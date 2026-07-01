@@ -6,7 +6,7 @@ import {
   type ChangeSeverity,
   type DiffResult,
   type McpToolSnapshot,
-} from "@driftguard/diff-core";
+} from "@drift-guard/diff-core";
 import { VERSION } from "../mcp/constants.js";
 import { fetchMcpToolsList } from "../core/mcp-probe.js";
 import { BUNDLE_LOCKFILE_DEFAULT, isDeprecatedLockPath } from "../manifest/paths.js";

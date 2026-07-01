@@ -1,7 +1,7 @@
 {
-  "name": "@driftguard/cli",
-  "version": "0.3.3",
-  "description": "Alias install path for DriftGuard CLI — primary package is @driftguard/driftguard",
+  "name": "@drift-guard/cli",
+  "version": "0.3.4",
+  "description": "Alias install path for DriftGuard CLI — primary package is @drift-guard/driftguard",
   "type": "module",
   "license": "MIT",
   "publishConfig": {
@@ -25,7 +25,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@driftguard/driftguard": "^0.3.3"
+    "@drift-guard/driftguard": "^0.3.4"
   },
   "engines": {
     "node": ">=20"

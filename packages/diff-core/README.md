@@ -1,11 +1,11 @@
-# @driftguard/diff-core
+# @drift-guard/diff-core
 
 Canonical schema diff semantics for DriftGuard (ARCH-U01).
 
 **Consumers:** OSS CLI/MCP (`profile: cli`), cloud hosted checks (`profile: hosted`), golden contract tests, ToolChange lint alignment.
 
 ```typescript
-import { inferSchema, diffSchemas } from "@driftguard/diff-core";
+import { inferSchema, diffSchemas } from "@drift-guard/diff-core";
 
 const before = inferSchema(payload, "$", { profile: "hosted" });
 const after = inferSchema(nextPayload, "$", { profile: "hosted" });
@@ -16,7 +16,7 @@ Contract vectors: `contract/vectors.json` — both repos and ToolChange pytest m
 
 ## MGFA — single source of structural truth
 
-For governance programmes (e.g. Singapore MGFA Dimension 3), `@driftguard/diff-core` is the **canonical verdict layer** across:
+For governance programmes (e.g. Singapore MGFA Dimension 3), `@drift-guard/diff-core` is the **canonical verdict layer** across:
 
 | Consumer | Profile | Use |
 |----------|---------|-----|

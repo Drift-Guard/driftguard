@@ -9,12 +9,12 @@ Get DriftGuard running locally for **schema diff** and **MCP integration**. Cont
 **Recommended** — no clone required (Node.js 20+):
 
 ```bash
-npx @driftguard/driftguard@latest version
+npx @drift-guard/driftguard@latest version
 ```
 
 Pin a semver for reproducible CI (`@0.3.3`) or use `@latest` for convenience.
 
-> **Until `@driftguard` is published on npm:** build from source instead:
+> **Until `@drift-guard` is published on npm:** build from source instead:
 >
 > ```bash
 > git clone https://github.com/Drift-Guard/driftguard.git
@@ -25,7 +25,7 @@ Pin a semver for reproducible CI (`@0.3.3`) or use `@latest` for convenience.
 ## 2. Try local diff (CLI)
 
 ```bash
-npx @driftguard/driftguard@latest diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'
+npx @drift-guard/driftguard@latest diff '{"user":{"id":1}}' '{"user":{"id":1,"email":"a@b.com"}}'
 ```
 
 From a local clone, use `npm run check -- diff …` instead.
@@ -54,7 +54,7 @@ Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) into 
   "mcpServers": {
     "driftguard": {
       "command": "npx",
-      "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"],
+      "args": ["-y", "@drift-guard/driftguard@0.3.3", "mcp"],
       "env": {
         "DRIFTGUARD_API_KEY": ""
       }

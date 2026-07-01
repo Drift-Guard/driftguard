@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { parseLockfile, LockfileError } from "@driftguard/diff-core";
+import { parseLockfile, LockfileError } from "@drift-guard/diff-core";
 import { validateAgentsYamlText } from "../agents/validate.js";
 import { formatLintCode, DG_LOCK } from "../manifest/lint-codes.js";
 import { isDeprecatedLockPath } from "../manifest/paths.js";

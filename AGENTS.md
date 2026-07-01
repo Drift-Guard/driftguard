@@ -51,7 +51,7 @@ If scan fails with *Automatic Analysis is enabled*, disable it once: SonarCloud 
 ## Layout
 
 ```
-packages/diff-core/    # Canonical diff semantics (@driftguard/diff-core, ARCH-U01)
+packages/diff-core/    # Canonical diff semantics (@drift-guard/diff-core, ARCH-U01)
 src/core/diff.ts       # OSS adapter (cli profile) over diff-core
 src/cli/check.ts       # CLI entry (diff, mcp)
 src/mcp/server.ts      # MCP server — local + hosted proxy tools

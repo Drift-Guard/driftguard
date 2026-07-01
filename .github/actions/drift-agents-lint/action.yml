@@ -25,7 +25,7 @@ runs:
       run: |
         set -euo pipefail
         REPO_ROOT="$(cd "${{ github.action_path }}/../.." && pwd)"
-        if [ -f "$REPO_ROOT/package.json" ] && [ "$(node -p "require('$REPO_ROOT/package.json').name" 2>/dev/null || echo '')" = "@driftguard/driftguard" ]; then
+        if [ -f "$REPO_ROOT/package.json" ] && [ "$(node -p "require('$REPO_ROOT/package.json').name" 2>/dev/null || echo '')" = "@drift-guard/driftguard" ]; then
           echo "Linting from DriftGuard action source (${{ github.action_ref }})..."
           cd "$REPO_ROOT"
           npm ci

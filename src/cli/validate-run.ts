@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { validateAgainstProfile } from "../core/validate.js";
 import { parseJsonString } from "../mcp/tool-input.js";
-import type { ConsumerProfile } from "@driftguard/diff-core";
+import type { ConsumerProfile } from "@drift-guard/diff-core";
 
 function readFileArg(path: string, label: string): string {
   if (!path?.trim()) {

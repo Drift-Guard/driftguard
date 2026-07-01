@@ -15,11 +15,11 @@ mcp-publisher publish
 
 ## Client config template
 
-Ship [examples/mcp-client-config.json](../examples/mcp-client-config.json) with docs — agents and humans copy the npx stdio block into Cursor, Claude Desktop, Windsurf, or Zed. No absolute paths; pin semver in `args` (e.g. `@driftguard/driftguard@0.3.3`).
+Ship [examples/mcp-client-config.json](../examples/mcp-client-config.json) with docs — agents and humans copy the npx stdio block into Cursor, Claude Desktop, Windsurf, or Zed. No absolute paths; pin semver in `args` (e.g. `@drift-guard/driftguard@0.3.3`).
 
 ## npm org defense
 
-Scoped packages under `@driftguard/*` are publishable only by org members — see [npm-org-defense.md](./npm-org-defense.md) and [npm-org-chase.md](./npm-org-chase.md) for 2FA, token hygiene, and publish checklist (`@driftguard/driftguard` + `@driftguard/cli`).
+Scoped packages under `@drift-guard/*` are publishable only by org members — see [npm-org-defense.md](./npm-org-defense.md) and [npm-org-chase.md](./npm-org-chase.md) for 2FA, token hygiene, and publish checklist (`@drift-guard/driftguard` + `@drift-guard/cli`).
 
 Contributors editing this repo use `npm run mcp` after build — see [AGENTS.md](../AGENTS.md).
 

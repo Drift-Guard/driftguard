@@ -1,6 +1,6 @@
 # Lockfile bridge (`driftguard lock` / `check`)
 
-**Status:** Shipped in `@driftguard/driftguard` ≥0.3.3  
+**Status:** Shipped in `@drift-guard/driftguard` ≥0.3.3  
 **Goal:** Git-friendly MCP tool-schema baselines for CI without a hosted API key; optional hosted `register_watch` for post-deploy monitoring.
 
 ## Problem
@@ -24,7 +24,7 @@ Deterministic JSON committed to git. Compatible with the ecosystem pattern used 
 ```json
 {
   "lockfileVersion": 1,
-  "generator": "@driftguard/driftguard",
+  "generator": "@drift-guard/driftguard",
   "generatedAt": "2026-06-21T12:00:00.000Z",
   "servers": [
     {
@@ -46,13 +46,13 @@ Deterministic JSON committed to git. Compatible with the ecosystem pattern used 
 **Rules:**
 
 - `tools` sorted by `name` ascending.
-- `inputSchema` normalized via `stableStringify` from `@driftguard/diff-core`.
+- `inputSchema` normalized via `stableStringify` from `@drift-guard/diff-core`.
 - Stdio servers: entry records `command` + `args` + resolved env keys (names only, not values); lock requires local `tools/list` probe (offline `parse_mcp_config` cannot stdio today).
 - One file may contain multiple servers from `mcp.json`.
 
 ## Diff semantics
 
-Uses `diffMcpTools` from `@driftguard/diff-core`:
+Uses `diffMcpTools` from `@drift-guard/diff-core`:
 
 | Severity | Examples |
 |----------|----------|

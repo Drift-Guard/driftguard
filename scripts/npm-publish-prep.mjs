@@ -23,8 +23,8 @@ function checkScopedPackage(pkgPath, opts) {
   const pkg = readJson(pkgPath);
   const label = pkgPath;
 
-  if (!pkg.name?.startsWith("@driftguard/")) {
-    errors.push(`${label}: name must be scoped @driftguard/* (got ${pkg.name ?? "none"})`);
+  if (!pkg.name?.startsWith("@drift-guard/")) {
+    errors.push(`${label}: name must be scoped @drift-guard/* (got ${pkg.name ?? "none"})`);
   }
   if (pkg.publishConfig?.access !== "public") {
     errors.push(`${label}: publishConfig.access must be "public"`);
@@ -51,9 +51,9 @@ const cliPkg = checkScopedPackage("packages/cli/package.json", {
   files: ["packages/cli/bin/driftguard.js"],
 });
 
-if (cliPkg.dependencies?.["@driftguard/driftguard"] !== `^${rootPkg.version}`) {
+if (cliPkg.dependencies?.["@drift-guard/driftguard"] !== `^${rootPkg.version}`) {
   errors.push(
-    `packages/cli/package.json: @driftguard/driftguard dep must be ^${rootPkg.version}`,
+    `packages/cli/package.json: @drift-guard/driftguard dep must be ^${rootPkg.version}`,
   );
 }
 
@@ -74,6 +74,6 @@ if (errors.length) {
 }
 
 console.log(`npm publish prep OK — ready to tag v${rootPkg.version}`);
-console.log("  @driftguard/driftguard (primary)");
-console.log("  @driftguard/cli (alias)");
+console.log("  @drift-guard/driftguard (primary)");
+console.log("  @drift-guard/cli (alias)");
 console.log("\nNext: git tag v" + rootPkg.version + " && git push origin v" + rootPkg.version);

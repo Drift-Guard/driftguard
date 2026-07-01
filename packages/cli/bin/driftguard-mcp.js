@@ -2,4 +2,4 @@
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
-await import(require.resolve("@driftguard/driftguard/dist/mcp/server.js"));
+await import(require.resolve("@drift-guard/driftguard/dist/mcp/server.js"));

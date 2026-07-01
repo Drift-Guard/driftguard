@@ -28,7 +28,7 @@ lockfiles:
     join(bundle, "mcp/driftguard-lock.json"),
     JSON.stringify({
       lockfileVersion: 1,
-      generator: "@driftguard/driftguard",
+      generator: "@drift-guard/driftguard",
       generatedAt: new Date().toISOString(),
       servers: [
         {

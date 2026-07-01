@@ -1,5 +1,5 @@
 {
-  "name": "@driftguard/diff-core",
+  "name": "@drift-guard/diff-core",
   "version": "0.1.0",
   "description": "Canonical schema diff semantics for DriftGuard CLI, hosted checks, and contract tests",
   "type": "module",

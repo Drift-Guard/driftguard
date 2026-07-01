@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-11/server.schema.json",
   "name": "io.github.drift-guard/driftguard",
   "description": "Offline JSON/MCP schema diff and hosted API drift monitoring connector (driftguard.org).",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "repository": {
     "url": "https://github.com/Drift-Guard/driftguard",
     "source": "github"
@@ -10,8 +10,8 @@
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "@driftguard/driftguard",
-      "version": "0.3.3",
+      "identifier": "@drift-guard/driftguard",
+      "version": "0.3.4",
       "transport": {
         "type": "stdio"
       },
