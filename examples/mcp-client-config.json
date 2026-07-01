@@ -2,7 +2,7 @@
   "mcpServers": {
     "driftguard": {
       "command": "npx",
-      "args": ["-y", "@drift-guard/driftguard@0.3.3", "mcp"],
+      "args": ["-y", "@drift-guard/driftguard@0.3.4", "mcp"],
       "env": {
         "DRIFTGUARD_API_KEY": ""
       }
