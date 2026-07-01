@@ -22,7 +22,7 @@ Agent teams need the same breaking / warning taxonomy when **model output contra
 2. **v0 stub:** all routes return **501** `{ error, code: "not_implemented", phase: "mcp-l5" }` — never 404.
 3. **Profile source:** reuse ingress `ConsumerProfile` shapes (`profileKind`, `schema`, optional `envelope`) pinned in Git or stored per watch.
 4. **Check semantics (future):** sample harness endpoint or accept pushed snapshots; diff with `@drift-guard/diff-core` structural engine only (no NL semantic claims).
-5. **Plan gate (future):** Pro+ for scheduled checks; Team+ for webhook on suspicious output-contract drift.
+
 
 ## Planned API (not implemented)
 
@@ -43,4 +43,4 @@ Agent teams need the same breaking / warning taxonomy when **model output contra
 - [Agent output contracts](../guides/agent-output-contracts.md)
 - [Semantic drift boundary](../guides/semantic-drift-boundary.md)
 - [Automation ingress](../guides/automation-ingress.md)
-- Cloud: `docs/product/MCP-LOCKFILE-WORKSTREAM.md` § output contract watch (private backlog ID)
+
