@@ -1,0 +1,33 @@
+# MCP builder CI — partner conformance + DriftGuard lockfile
+#
+# Copy to `.github/workflows/mcp-conformance.yml` in your MCP server repo.
+# Guides: docs/guides/mcp-conformance-partners.md · docs/guides/mcp-lockfile-bridge.md
+
+name: MCP conformance (stub)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  # Uncomment after you adopt a conformance CLI — invocation tests complement catalog diff.
+  # See docs/guides/mcp-conformance-partners.md
+  #
+  # mcp-invocation-conformance:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Start your MCP server
+  #       run: npm run start:mcp &
+  #     - name: Run partner conformance harness (replace command)
+  #       run: mcp-conformance run --file tests/mcp-tools.json --server http://127.0.0.1:8000/mcp
+
+  mcp-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Drift-Guard/driftguard/.github/actions/mcp-lockfile@v0.3.3
+        with:
+          lockfile: driftguard-lock.json
+          fail-on: breaking
