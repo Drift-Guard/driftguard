@@ -10,6 +10,9 @@ Hosted monitoring (Pro/Team) is a separate service — see [OPEN_CORE.md](OPEN_C
 
 ### Added
 
+- **DISC-202:** `npm run check:server-json` and optional MCP Registry publish job on release tags.
+- **DIST-203:** Community MCP directory submission checklist in `docs/DISCOVERY.md`.
+- **ING-OSS-201:** Ingress golden corpus runs in `ci:local` via `packages/diff-core` tests.
 - **MCP lockfile:** `driftguard lock` / `driftguard check` for offline HTTP `tools/list` baselines; `mcp-lockfile` GitHub Action; diff-core lockfile normalizer and severity matrix tests.
 - **Automation ingress:** `validateAgainstProfile` in `@drift-guard/diff-core`, `driftguard validate` CLI, MCP `validate_payload`, golden ingress fixtures, consumer profile JSON Schema.
 - **Docs:** `docs/reference/validate-api.md`, `docs/guides/automation-ingress.md`, gate ladder L2.5 runtime ingress gate.

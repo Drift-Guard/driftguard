@@ -105,6 +105,12 @@ node --input-type=module -e "
   }
 "
 
+step "ING-OSS-201 — ingress golden corpus (diff-core)"
+npm test --prefix packages/diff-core
+
+step "DISC-202 — server.json parity"
+npm run check:server-json
+
 if [[ "$WITH_CHANGELOG" == "1" ]]; then
   step "CHANGELOG validation"
   GITHUB_EVENT_NAME=pull_request GITHUB_BASE_REF=main bash .github/scripts/validate-changelog.sh

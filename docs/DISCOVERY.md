@@ -6,12 +6,20 @@ How to list DriftGuard in MCP directories and help agents find the server.
 
 ## MCP Registry
 
-Metadata lives in [server.json](../server.json) at the repo root. Publish when npm package is available:
+Metadata lives in [server.json](../server.json) at the repo root. **npm publish is live** (`@drift-guard/driftguard@0.3.4+`).
+
+**On each semver tag** (after `publish-npm`):
+
+1. `npm run sync-version && npm run check:server-json`
+2. Set `MCP_REGISTRY_TOKEN` in GitHub repo secrets (one-time [mcp-publisher](https://modelcontextprotocol.io) auth)
+3. Release workflow job **Publish to MCP Registry** runs automatically, or locally:
 
 ```bash
-# Requires mcp-publisher CLI — see https://modelcontextprotocol.io
+npm run check:server-json
 mcp-publisher publish
 ```
+
+Registry install should match the npx template: `npx -y @drift-guard/driftguard@<version> mcp`.
 
 ## Client config template
 
@@ -74,12 +82,25 @@ Do not imply full monitoring is self-hostable from the public repo.
 
 ## Community directories
 
-When submitting to awesome-MCP lists or Glama/Smithery-style directories:
+When submitting to awesome-MCP lists or Glama/Smithery-style directories (**DIST-203**):
 
-- **Name:** DriftGuard
-- **Category:** Developer tools / API monitoring / Schema validation
-- **Transport:** stdio
-- **Offline capable:** yes (`compare_json`, `parse_mcp_config`)
-- **Hosted dependency:** optional for monitoring tools
+| Field | Value |
+|-------|--------|
+| **Name** | DriftGuard |
+| **Category** | Developer tools / API monitoring / Schema validation |
+| **Transport** | stdio (`npx -y @drift-guard/driftguard@0.3.4 mcp`) |
+| **Offline capable** | yes (`compare_json`, `parse_mcp_config`, `validate_payload`) |
+| **Hosted dependency** | optional for monitoring tools (`DRIFTGUARD_API_KEY`) |
+| **Registry** | [MCP Registry](https://registry.modelcontextprotocol.io) — `io.github.drift-guard/driftguard` after DISC-202 publish |
+| **GitHub** | https://github.com/Drift-Guard/driftguard |
+| **Trial** | https://driftguard.org/start |
+
+**Submission checklist**
+
+1. npm package live (`npm view @drift-guard/driftguard version`)
+2. MCP Registry listing published (`mcp-publisher publish` on tag)
+3. Copy [examples/mcp-client-config.json](../examples/mcp-client-config.json) install block
+4. Link trial + pricing — do not imply full monitoring is self-hostable
+5. Track submissions in cloud `docs/LAUNCH/distribution-registry.json` (private GTM)
 
 See [tiny-go-mcp-server docs/DISCOVERY.md](https://github.com/kioie/tiny-go-mcp-server/blob/main/docs/DISCOVERY.md) for a similar pattern.

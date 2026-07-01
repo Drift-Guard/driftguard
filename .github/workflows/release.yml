@@ -70,6 +70,7 @@ jobs:
       - run: npm run sync-version
       - run: npm run build
       - run: npm run check:npm-publish
+      - run: npm run check:server-json
       - name: Publish @drift-guard/driftguard
         run: npm publish --access public
         env:
@@ -79,3 +80,24 @@ jobs:
         working-directory: packages/cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-mcp-registry:
+    name: Publish to MCP Registry
+    needs: publish-npm
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run sync-version
+      - run: npm run check:server-json
+      - name: Install mcp-publisher
+        run: npm install -g @modelcontextprotocol/registry-cli
+      - name: mcp-publisher publish
+        run: mcp-publisher publish
+        env:
+          MCP_REGISTRY_TOKEN: ${{ secrets.MCP_REGISTRY_TOKEN }}
