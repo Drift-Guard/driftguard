@@ -132,7 +132,59 @@ def _evaluate(argv: list[str]) -> None:
     sys.exit(0 if result.verdict == "PASS" else 1)
 
 
+def _run_scenario(scenario_path: str) -> None:
+    """MD-CLI-201: run a mockdrift.assertion/v2 scenario file (fixture-backed)."""
+    import yaml
+
+    path = Path(scenario_path)
+    if not path.is_file():
+        print(f"scenario not found: {path}", file=sys.stderr)
+        sys.exit(2)
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        print("scenario must be a YAML mapping", file=sys.stderr)
+        sys.exit(2)
+
+    drift = data.get("drift") if isinstance(data.get("drift"), dict) else {}
+    source = drift.get("source") if isinstance(drift.get("source"), dict) else {}
+    fixture_path = source.get("path")
+    if not fixture_path:
+        print("scenario drift.source.path is required", file=sys.stderr)
+        sys.exit(2)
+
+    fixture_key = Path(str(fixture_path)).name
+    agent = data.get("agent") if isinstance(data.get("agent"), dict) else {}
+    entry = agent.get("entry") or f"mockdrift.scenario.{data.get('name', path.stem)}:run"
+
+    root = Path.cwd()
+    try:
+        config = load_config(root)
+        fixture_cfg = resolve_fixture_config(config, fixture_key)
+        load_fixture(fixture_cfg, defaults=config.defaults)
+    except MisconfigurationError as exc:
+        print(str(exc), file=sys.stderr)
+        sys.exit(2)
+
+    session = MockDriftSession.from_fixture(fixture_cfg.name, root=root)
+    session.entry = entry
+    session.runner = str(agent.get("runner") or "scenario")
+    session.assert_profiles = False
+    try:
+        result = session.run()
+    except MisconfigurationError as exc:
+        print(str(exc), file=sys.stderr)
+        sys.exit(2)
+
+    print(f"scenario: {data.get('name', path.stem)}")
+    _print_result(result)
+    sys.exit(0 if result.verdict == "PASS" else 1)
+
+
 def _run(argv: list[str]) -> None:
+    if argv and argv[0].endswith((".yaml", ".yml")) and not argv[0].startswith("-"):
+        _run_scenario(argv[0])
+        return
+
     parser = argparse.ArgumentParser(prog="mockdrift run", add_help=False)
     parser.add_argument("--pytest", nargs=argparse.REMAINDER, required=True)
     parser.add_argument("--simulate-drift", dest="simulate_drift", default=None)
@@ -198,7 +250,7 @@ def _usage() -> None:
         "Usage: mockdrift demo <fixture> | mockdrift init [options] | "
         "mockdrift catalog | mockdrift install <vendor/scenario> | "
         "mockdrift evaluate --report <sensor.json> | "
-        "mockdrift run --pytest [args] [--simulate-drift WATCH_ID] "
+        "mockdrift run <scenario.yaml> | mockdrift run --pytest [args] [--simulate-drift WATCH_ID] "
         "[--mockdrift-sensor-report PATH]",
         file=sys.stderr,
     )
