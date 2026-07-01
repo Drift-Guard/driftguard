@@ -24,7 +24,7 @@ DriftGuard runs as a **stdio** MCP server. Copy [examples/mcp-client-config.json
   "mcpServers": {
     "driftguard": {
       "command": "npx",
-      "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"]
+      "args": ["-y", "@drift-guard/driftguard@0.3.3", "mcp"]
     }
   }
 }

@@ -216,7 +216,7 @@ CI embed paths and version pinning: [CI.md](../CI.md).
 
 ## Diff rules
 
-Standard rules live in `@driftguard/diff-core` ([packages/diff-core](../../packages/diff-core/README.md)).
+Standard rules live in `@drift-guard/diff-core` ([packages/diff-core](../../packages/diff-core/README.md)).
 
 | Concept | Rule of thumb |
 |---------|---------------|

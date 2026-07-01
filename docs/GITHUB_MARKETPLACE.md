@@ -37,11 +37,11 @@ uses: Drift-Guard/driftguard/.github/actions/drift-coverage-preview@v0.3.3
 
 ### Before first Marketplace publish
 
-- [ ] **OSS-2:** Publish `@driftguard/driftguard` — tag `v*` with `NPM_TOKEN` secret (see `.github/workflows/release.yml`)
+- [ ] **OSS-2:** Publish `@drift-guard/driftguard` — tag `v*` with `NPM_TOKEN` secret (see `.github/workflows/release.yml`)
 - [ ] Create Marketplace listing from repo **Releases → Publish Action to Marketplace** (or github.com/marketplace/new)
 - [ ] Listing description: hook → preview → Pro gate funnel; link to `docs/CI.md`
 - [ ] Category: **Code quality** or **Monitoring**
-- [ ] Verify npm package `@driftguard/driftguard` publishes on every tag (release workflow `publish-npm` job; requires `NPM_TOKEN`)
+- [ ] Verify npm package `@drift-guard/driftguard` publishes on every tag (release workflow `publish-npm` job; requires `NPM_TOKEN`)
 - [ ] Add Marketplace badge to README after publish
 - [x] Pin all docs/examples to latest tag (`@v0.3.3`)
 - [ ] Optional: verified creator / org transfer if listing under company account
@@ -74,7 +74,7 @@ Marketplace listing should highlight this three-line preview step:
 
 ## GitLab
 
-Marketplace is GitHub-only. GitLab users use `npx @driftguard/driftguard@X.Y.Z` — see [GITLAB_CI.md](./GITLAB_CI.md) and `examples/gitlab-ci.yml`.
+Marketplace is GitHub-only. GitLab users use `npx @drift-guard/driftguard@X.Y.Z` — see [GITLAB_CI.md](./GITLAB_CI.md) and `examples/gitlab-ci.yml`.
 
 ---
 

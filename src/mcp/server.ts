@@ -141,7 +141,7 @@ server.tool(
     if (!payloadParsed.ok) return jsonResult({ error: payloadParsed.error }, true);
     const profileParsed = parseJsonString(profile, "profile");
     if (!profileParsed.ok) return jsonResult({ error: profileParsed.error }, true);
-    const result = validateAgainstProfile(payloadParsed.value, profileParsed.value as import("@driftguard/diff-core").ConsumerProfile, {
+    const result = validateAgainstProfile(payloadParsed.value, profileParsed.value as import("@drift-guard/diff-core").ConsumerProfile, {
       mode: mode ?? "block",
       profileMode,
     });

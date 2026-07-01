@@ -58,7 +58,7 @@ jobs:
           cache: npm
       - run: npm ci && npm run build
       - uses: ./.github/actions/setup-driftguard
-      - run: test "$(driftguard version)" = "0.3.3"
+      - run: test "$(driftguard version)" = "0.3.4"
       - name: drift-diff action fails on breaking change
         uses: ./.github/actions/drift-diff
         with:

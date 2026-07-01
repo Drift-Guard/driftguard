@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { parseLockfile, type McpLockfileV1 } from "@driftguard/diff-core";
+import { parseLockfile, type McpLockfileV1 } from "@drift-guard/diff-core";
 import type { HarnessLock } from "../harness/validate-lock.js";
 import { BUNDLE_LOCKFILE_DEFAULT, LEGACY_LOCKFILE_PATH } from "./paths.js";
 import { defaultLockfilePath, validateManifestYamlText } from "./validate.js";

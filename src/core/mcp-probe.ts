@@ -1,4 +1,4 @@
-import type { McpToolSnapshot } from "@driftguard/diff-core";
+import type { McpToolSnapshot } from "@drift-guard/diff-core";
 
 export class McpProbeError extends Error {
   readonly status?: number;

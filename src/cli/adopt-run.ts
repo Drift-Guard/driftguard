@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { listMcpJsonHttpServers } from "@driftguard/diff-core";
+import { listMcpJsonHttpServers } from "@drift-guard/diff-core";
 import {
   discoverRepoKind,
   discoverScanRoots,

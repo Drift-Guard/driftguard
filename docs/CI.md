@@ -2,7 +2,7 @@
 
 DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a version pin in your pipeline, get value immediately, then upgrade when you need full coverage gates.
 
-**Pin policy:** `uses: Drift-Guard/driftguard/...@v0.3.3` or `npx @driftguard/driftguard@0.3.3` — never `@main`.
+**Pin policy:** `uses: Drift-Guard/driftguard/...@v0.3.3` or `npx @drift-guard/driftguard@0.3.3` — never `@main`.
 
 **Simplest add:** copy [examples/workflows/driftguard-starter.yml](../examples/workflows/driftguard-starter.yml) to `.github/workflows/driftguard.yml` — no manual JSON scan step.
 
@@ -54,7 +54,7 @@ DriftGuard CI is designed as a **hook → trial → paid** funnel. Embed a versi
 ```
 
 ```bash
-npx @driftguard/driftguard@0.3.3 diff "$BEFORE" "$AFTER"
+npx @drift-guard/driftguard@0.3.3 diff "$BEFORE" "$AFTER"
 ```
 
 ---
@@ -188,7 +188,7 @@ Failures include `upgrade.console` URL to import missing watches without leaving
 | Mechanism | Example |
 |-----------|---------|
 | GitHub Action ref | `@v0.3.3` |
-| npx | `npx @driftguard/driftguard@0.3.3` |
+| npx | `npx @drift-guard/driftguard@0.3.3` |
 | CLI | `driftguard version --json` → `ci.actionRef`, `ci.npx` |
 | Client header | `X-DriftGuard-Client-Version` on hosted calls |
 

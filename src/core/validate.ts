@@ -1,15 +1,15 @@
 /**
  * OSS adapter — defaults profileMode to cli (ARCH-U01).
- * Canonical logic lives in @driftguard/diff-core.
+ * Canonical logic lives in @drift-guard/diff-core.
  */
 import {
   validateAgainstProfile as coreValidateAgainstProfile,
   type ConsumerProfile,
   type ValidateOptions,
   type ValidateResult,
-} from "@driftguard/diff-core";
+} from "@drift-guard/diff-core";
 
-export type { ConsumerProfile, ValidateError, ValidateOptions, ValidateResult } from "@driftguard/diff-core";
+export type { ConsumerProfile, ValidateError, ValidateOptions, ValidateResult } from "@drift-guard/diff-core";
 
 const DEFAULT_EXPLAIN_URL = "https://developers.driftguard.org/api/explain-drift";
 

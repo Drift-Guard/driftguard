@@ -204,7 +204,7 @@ Documented in [CI.md — API reference](../CI.md#api-reference-hosted). CLI: `co
 
 ### Semantic drift (Pro/Team)
 
-Hosted watches run **structural** diff first (`@driftguard/diff-core`), then an optional **semantic** classifier on Pro/Team plans. Semantic findings attach to the same drift events and incident lifecycle as structural changes — they are not a separate product surface.
+Hosted watches run **structural** diff first (`@drift-guard/diff-core`), then an optional **semantic** classifier on Pro/Team plans. Semantic findings attach to the same drift events and incident lifecycle as structural changes — they are not a separate product surface.
 
 | Layer | Detects | OSS? |
 |-------|---------|------|

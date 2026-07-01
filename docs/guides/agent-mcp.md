@@ -188,7 +188,7 @@ Trial: [driftguard.org/start](https://driftguard.org/start) · Pricing: [driftgu
   "mcpServers": {
     "driftguard": {
       "command": "npx",
-      "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"],
+      "args": ["-y", "@drift-guard/driftguard@0.3.3", "mcp"],
       "env": {
         "DRIFTGUARD_API_KEY": "dg_…"
       }

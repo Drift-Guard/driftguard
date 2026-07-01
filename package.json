@@ -1,6 +1,6 @@
 {
-  "name": "@driftguard/driftguard",
-  "version": "0.3.3",
+  "name": "@drift-guard/driftguard",
+  "version": "0.3.4",
   "publishConfig": {
     "access": "public"
   },
@@ -54,7 +54,7 @@
     "node": "22"
   },
   "dependencies": {
-    "@driftguard/diff-core": "file:packages/diff-core",
+    "@drift-guard/diff-core": "file:packages/diff-core",
     "@modelcontextprotocol/sdk": "^1.27.0",
     "yaml": "^2.9.0",
     "zod": "^3.24.2"

@@ -1,18 +1,18 @@
 # npm org defense
 
-How DriftGuard protects scoped package names under the `@driftguard` npm organization.
+How DriftGuard protects scoped package names under the `@drift-guard` npm organization.
 
 Org acquisition and publish checklist: [npm-org-chase.md](./npm-org-chase.md). Run `npm run check:npm-publish` before tagging.
 
 ## Why scoped packages
 
-Only members of the **`driftguard` npm org** can publish packages matching `@driftguard/*`. That namespace is the primary defense against squatters — unscoped names like `driftguard` can be claimed by anyone until transferred.
+Only members of the **`drift-guard` npm org** can publish packages matching `@drift-guard/*`.
 
 | Package | Role |
 |---------|------|
-| `@driftguard/driftguard` | **Primary** — CLI, MCP server, `server.json` registry identifier |
-| `@driftguard/cli` | **Defensive alias** — same bins, occupies `@driftguard/cli` under org control |
-| `@driftguard/diff-core` | Shared diff semantics (library) |
+| `@drift-guard/driftguard` | **Primary** — CLI, MCP server, `server.json` registry identifier |
+| `@drift-guard/cli` | **Defensive alias** — same bins, occupies `@drift-guard/cli` under org control |
+| `@drift-guard/diff-core` | Shared diff semantics (library) |
 
 ## Org hygiene
 
@@ -38,26 +38,26 @@ When DISC-001 merges to `main`:
 3. Verify both packages:
 
    ```bash
-   npm view @driftguard/driftguard version
-   npm view @driftguard/cli version
+   npm view @drift-guard/driftguard version
+   npm view @drift-guard/cli version
    ```
 
-Release workflow publishes **`@driftguard/driftguard` first**, then **`@driftguard/cli`**.
+Release workflow publishes **`@drift-guard/driftguard` first**, then **`@drift-guard/cli`**.
 
 ## Deprecate stale unscoped names
 
 After scoped packages are live, deprecate the old third-party unscoped CLI name (not owned by this org):
 
 ```bash
-npm deprecate driftguard-cli@0.1.1 "Use @driftguard/cli or @driftguard/driftguard — https://github.com/Drift-Guard/driftguard"
+npm deprecate driftguard-cli@0.1.1 "Use @drift-guard/cli or @drift-guard/driftguard — https://github.com/Drift-Guard/driftguard"
 ```
 
 (Requires npm credentials if you own that package; otherwise document the migration path only.)
 
 ## Unscoped `driftguard` — not claimed
 
-The unscoped npm name **`driftguard`** is currently published by [sjamcox](https://www.npmjs.com/package/driftguard) (unrelated package). **Do not** document or market an unscoped install path until a transfer is negotiated. Optional future: request transfer via npm support; until then, all official docs use `@driftguard/driftguard`.
+The unscoped npm name **`driftguard`** is currently published by [sjamcox](https://www.npmjs.com/package/driftguard) (unrelated package). **Do not** document or market an unscoped install path until a transfer is negotiated. Optional future: request transfer via npm support; until then, all official docs use `@drift-guard/driftguard`.
 
 ## MCP Registry
 
-After publish, update [server.json](../server.json) identifier (via `npm run sync-version`) and run `mcp-publisher publish`. Registry install args should use `@driftguard/driftguard@<version>` — see [DISCOVERY.md](./DISCOVERY.md).
+After publish, update [server.json](../server.json) identifier (via `npm run sync-version`) and run `mcp-publisher publish`. Registry install args should use `@drift-guard/driftguard@<version>` — see [DISCOVERY.md](./DISCOVERY.md).

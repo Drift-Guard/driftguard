@@ -1,6 +1,6 @@
 /**
  * OSS adapter — defaults inferSchema to CLI profile (ARCH-U01).
- * Canonical logic lives in @driftguard/diff-core.
+ * Canonical logic lives in @drift-guard/diff-core.
  */
 import {
   collectSchemaChanges as coreCollectSchemaChanges,
@@ -11,9 +11,9 @@ import {
   type InferSchemaOptions,
   type JsonSchema,
   type SchemaChange,
-} from "@driftguard/diff-core";
+} from "@drift-guard/diff-core";
 
-export type { ChangeSeverity, DiffResult, JsonSchema, SchemaChange } from "@driftguard/diff-core";
+export type { ChangeSeverity, DiffResult, JsonSchema, SchemaChange } from "@drift-guard/diff-core";
 
 export function inferSchema(
   value: unknown,

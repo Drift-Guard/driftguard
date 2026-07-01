@@ -8,7 +8,7 @@ import {
   serializeLockfile,
   toolsFromProbe,
   type McpToolSnapshot,
-} from "@driftguard/diff-core";
+} from "@drift-guard/diff-core";
 import { VERSION } from "../mcp/constants.js";
 import { fetchMcpToolsList } from "../core/mcp-probe.js";
 import { BUNDLE_LOCKFILE_DEFAULT, isDeprecatedLockPath } from "../manifest/paths.js";
@@ -128,7 +128,7 @@ export async function runLock(argv: string[], deps: LockRunDeps = defaultDeps): 
     }
 
     const lockfile = buildLockfile(servers, {
-      generator: "@driftguard/driftguard",
+      generator: "@drift-guard/driftguard",
       generatedAt: new Date().toISOString(),
     });
     deps.writeFile!(opts.outputPath, serializeLockfile(lockfile));

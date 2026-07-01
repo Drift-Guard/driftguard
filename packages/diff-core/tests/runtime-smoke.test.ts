@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { diffSchemas, inferSchema } from "@driftguard/diff-core";
+import { diffSchemas, inferSchema } from "@drift-guard/diff-core";
 
 describe("ARCH-U01 runtime package resolution", () => {
   it("resolves compiled dist via package name (CLI smoke path)", () => {

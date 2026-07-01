@@ -4,7 +4,7 @@ import { shouldFailCheck, runCheckLock, type CheckLockRunDeps } from "./check-lo
 
 const baseLock = {
   lockfileVersion: 1,
-  generator: "@driftguard/driftguard",
+  generator: "@drift-guard/driftguard",
   generatedAt: "2026-01-01T00:00:00.000Z",
   servers: [
     {

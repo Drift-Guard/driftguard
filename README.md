@@ -22,7 +22,7 @@ Many projects share the name **DriftGuard**. This repo ([Drift-Guard/driftguard]
 - **[getdriftguard](https://www.npmjs.com/package/driftguard-cli)** — API schema CLI under npm user `driftguard`; different vendor and scope.
 - **GitHub orgs / ML libs** — assorted `driftguard` repos (GitOps, Python ML, etc.); verify `Drift-Guard/driftguard` or driftguard.org before integrating.
 
-See [docs/DISCOVERY.md](docs/DISCOVERY.md) and [docs/npm-org-chase.md](docs/npm-org-chase.md) for the `@driftguard` scoped npm publish path.
+See [docs/DISCOVERY.md](docs/DISCOVERY.md) and [docs/npm-org-chase.md](docs/npm-org-chase.md) for the `@drift-guard` scoped npm publish path.
 
 ---
 
@@ -46,12 +46,12 @@ Use the OSS client to **try and integrate**. Upgrade when you need **always-on m
 ## Quick start
 
 ```bash
-npx @driftguard/driftguard@latest version
-npx @driftguard/driftguard@latest diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
+npx @drift-guard/driftguard@latest version
+npx @drift-guard/driftguard@latest diff '{"id":1,"email":"a@b.com"}' '{"id":1}'
 # exit 1 if breaking changes
 ```
 
-Until `@driftguard` is on npm, clone and build — see [docs/QUICKSTART.md](docs/QUICKSTART.md#1-install).
+Until `@drift-guard` is on npm, clone and build — see [docs/QUICKSTART.md](docs/QUICKSTART.md#1-install).
 
 ### CLI
 
@@ -81,7 +81,7 @@ See [docs/QUICKSTART.md](docs/QUICKSTART.md), [examples/mcp-client-config.json](
   "mcpServers": {
     "driftguard": {
       "command": "npx",
-      "args": ["-y", "@driftguard/driftguard@0.3.3", "mcp"]
+      "args": ["-y", "@drift-guard/driftguard@0.3.3", "mcp"]
     }
   }
 }

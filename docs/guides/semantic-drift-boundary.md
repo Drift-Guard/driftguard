@@ -21,7 +21,7 @@ Both layers feed the same incident lifecycle (`open` → `acknowledged` → `res
   Baseline snapshot
         │
         ▼
-  Structural diff (@driftguard/diff-core)
+  Structural diff (@drift-guard/diff-core)
         │  breaking · warning · info
         ▼
   Semantic classifier (hosted Pro/Team)

@@ -10,7 +10,7 @@ export class LockfileError extends Error {
 
 export const LOCKFILE_VERSION = 1 as const;
 export const DEFAULT_LOCKFILE_PATH = "driftguard-lock.json";
-export const LOCKFILE_GENERATOR = "@driftguard/driftguard";
+export const LOCKFILE_GENERATOR = "@drift-guard/driftguard";
 
 export interface McpLockTool {
   name: string;
